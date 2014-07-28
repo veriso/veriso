@@ -20,11 +20,13 @@
  *                                                                         *
  ***************************************************************************/
 """
-from PyQt4.QtCore import QSettings, QTranslator, qVersion, QCoreApplication
-from PyQt4.QtGui import QAction, QIcon
-# Initialize Qt resources from file resources.py
+from PyQt4.QtCore import *
+from PyQt4.QtGui import *
+from qgis.core import *
+from qgis.gui import *
+
 import resources_rc
-# Import the code for the dialog
+
 from veriso_dialog import VeriSODialog
 import os.path
 
@@ -33,18 +35,9 @@ class VeriSO:
     """QGIS Plugin Implementation."""
 
     def __init__(self, iface):
-        """Constructor.
-
-        :param iface: An interface instance that will be passed to this class
-            which provides the hook by which you can manipulate the QGIS
-            application at run time.
-        :type iface: QgsInterface
-        """
-        # Save reference to the QGIS interface
         self.iface = iface
-        # initialize plugin directory
         self.plugin_dir = os.path.dirname(__file__)
-        # initialize locale
+
         locale = QSettings().value('locale/userLocale')[0:2]
         locale_path = os.path.join(
             self.plugin_dir,
@@ -70,16 +63,6 @@ class VeriSO:
 
     # noinspection PyMethodMayBeStatic
     def tr(self, message):
-        """Get the translation for a string using Qt translation API.
-
-        We implement this ourselves since we do not inherit QObject.
-
-        :param message: String for translation.
-        :type message: str, QString
-
-        :returns: Translated version of message.
-        :rtype: QString
-        """
         # noinspection PyTypeChecker,PyArgumentList,PyCallByClass
         return QCoreApplication.translate('VeriSO', message)
 
@@ -158,8 +141,6 @@ class VeriSO:
         return action
 
     def initGui(self):
-        """Create the menu entries and toolbar icons inside the QGIS GUI."""
-
         icon_path = ':/plugins/veriso/icon.png'
         self.add_action(
             icon_path,
@@ -167,9 +148,34 @@ class VeriSO:
             callback=self.run,
             parent=self.iface.mainWindow())
 
+        # main toolbar
+        self.toolBar = self.iface.addToolBar("VeriSO")
+        self.toolBar.setObjectName("VeriSO.Main.ToolBar")
+        self.toolBar.setSizePolicy(QSizePolicy(QSizePolicy.Minimum, QSizePolicy.Minimum))        
 
+        # projects
+        self.menuBarProjects = QMenuBar()
+        self.menuBarProjects.setObjectName("VeriSO.Main.ProjectsMenuBar")                
+        self.menuBarProjects.setSizePolicy(QSizePolicy(QSizePolicy.Minimum, QSizePolicy.Preferred))
+        self.menuProjects = QMenu()
+        self.menuProjects.setTitle(QCoreApplication.translate( "VeriSO","Projects"))
+        self.menuBarProjects.addMenu(self.menuProjects)
+
+        # files
+        self.menuBarFile= QMenuBar()
+        self.menuBarFile.setObjectName("VeriSO.Main.FileMenuBar")        
+        self.menuBarFile.setSizePolicy(QSizePolicy(QSizePolicy.Minimum, QSizePolicy.Minimum))
+        self.menuFile = QMenu()
+        self.menuFile.setTitle(QCoreApplication.translate( "VeriSO","File"))
+
+        self.menuBarFile.addMenu(self.menuFile) 
+
+
+        # add menus to toolbar
+        self.toolBar.addWidget(self.menuBarProjects) 
+        self.toolBar.addWidget(self.menuBarFile)
+        
     def unload(self):
-        """Removes the plugin menu item and icon from QGIS GUI."""
         for action in self.actions:
             self.iface.removePluginMenu(
                 self.tr(u'&VeriSO'),
@@ -178,7 +184,6 @@ class VeriSO:
 
 
     def run(self):
-        """Run method that performs all the real work"""
         # show the dialog
         self.dlg.show()
         # Run the dialog event loop
