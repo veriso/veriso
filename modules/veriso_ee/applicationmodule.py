@@ -7,6 +7,7 @@ import os
 import json
 import time
 import sys
+import traceback
 
 from veriso.modules.veriso_ee.tools.utils import Utils
 
@@ -33,46 +34,59 @@ class ApplicationModule(QObject):
         menu = QMenu(menuBar)
         menu.setTitle(self.tr("Checks"))  
         
-        topics = Utils().getCheckTopics()
-        print topics
+        locale = QSettings().value('locale/userLocale')[0:2]
         
-#        topics = utils.getCheckTopics(self.iface)
-#        if topics:
-#            for topic in topics:
-#                checkfile = topics[topic]['file']
-#                singleCheckMenu = menu.addMenu(unicode(topic))                        
-#                checks = utils.getChecks(self.iface, checkfile)
-#                
-#                for check in checks:
-#                    checkName = unicode(check["name"])
-#                    if checkName == "separator":
-#                        singleCheckMenu.addSeparator()
-#                    else:
-#                        action = QAction(checkName, self.iface.mainWindow())
-#                        
-#                        try:
-#                            shortcut = check["shortcut"]
-#                            action.setShortcut(shortcut)
-#                        except:
-#                            pass
-#                            
-#                        singleCheckMenu.addAction(action)                                         
-#                        QObject.connect(action, SIGNAL( "triggered()"), lambda complexCheck=check: self.doShowComplexCheck(complexCheck))
-#
+        topics = Utils().getCheckTopics()
+        if topics:
+            for topic in topics:
+                checkfile = topics[topic]['file']
+                singleCheckMenu = menu.addMenu(unicode(topic))                        
+                checks = Utils().getChecks(checkfile)
+                
+                for check in checks:
+                    checkName = check["name"]
+                    
+                    # Prüfen ob multilingual.
+                    # Logik ähnlich wie in Utils().getCheckTopics() Methode.
+                    try: 
+                        keys = checkName.keys()
+                        try:
+                            checkName = unicode(checkName[locale])
+                            # Sprache gefunden.
+                        except:
+                            # Sprache nicht gefunden.
+                            checkName = unicode(checkName.values()[0])
+                    except:
+                        checkName = unicode(checkName)
+                    
+                    if checkName == "separator":
+                        singleCheckMenu.addSeparator()
+                    else:
+                        action = QAction(checkName, self.iface.mainWindow())
+                        
+                        try:
+                            shortcut = check["shortcut"]
+                            action.setShortcut(shortcut)
+                        except:
+                            pass
+                         
+                        singleCheckMenu.addAction(action)                                         
+                        QObject.connect(action, SIGNAL( "triggered()"), lambda complexCheck=check: self.doShowComplexCheck(complexCheck))
+
         menuBar.addMenu(menu)
         self.toolBar.insertWidget(self.beforeAction, menuBar)
 
-#    def doShowComplexCheck(self, check):
-#        try:
-#            module = str(check["file"])
-#            print module
-#            _temp = __import__(module, globals(), locals(), ['ComplexCheck'])
-#            c = _temp.ComplexCheck(self.iface)
-#            c.run()
-#        except Exception, e:
-#            print "Couldn't do it: %s" % e
-#            self.iface.messageBar().pushMessage("Error",  QCoreApplication.translate("QcadastreModule", str(e)), level=QgsMessageBar.CRITICAL)                                
-#
+    def doShowComplexCheck(self, check):
+        try:
+            module = str(check["file"])
+            _temp = __import__(module, globals(), locals(), ['ComplexCheck'])
+            c = _temp.ComplexCheck(self.iface)
+            c.run()
+        except Exception:
+            exc_type, exc_value, exc_traceback = sys.exc_info()
+            QMessageBox.critical(None, "VeriSO", str(traceback.format_exc(exc_traceback)))               
+            return
+
 #    def doInitBaselayerMenu(self):
 #        menuBar = QMenuBar(self.toolBar)
 #        menuBar.setObjectName("QcadastreModule.LoadBaselayerMenuBar")        
@@ -214,7 +228,7 @@ class ApplicationModule(QObject):
 
     def tr(self, message):
         # noinspection PyTypeChecker,PyArgumentList,PyCallByClass
-        return QCoreApplication.translate('VeriSOModule', message)
+        return QCoreApplication.translate('VeriSOModule.veriso_ee', message)
 
 
 #    def doSetDatabase(self, foo):

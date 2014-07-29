@@ -1,10 +1,12 @@
-{
-  "checks": [
-    {
-      "id": "fp3", 
-      "name": "Übersicht",
-      "group": "FixpunkteKategorie3", 
-      "file": "complexchecks.fp3"
-    }
-  ]
+{  
+   "checks":[  
+      {  
+         "id":"fp3",
+         "name":{  
+            "de":"Übersicht",
+            "fr":"Vue d'ensemble"
+         },
+         "file":"complexchecks.fp3"
+      }
+   ]
 }

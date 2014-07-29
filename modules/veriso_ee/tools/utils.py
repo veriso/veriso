@@ -19,15 +19,9 @@ class Utils():
         module_name = (settings.value("project/appmodule"))
         
         filename = QDir.convertSeparators(QDir.cleanPath(QgsApplication.qgisSettingsDirPath() + "/python/plugins/veriso/modules/"+module_name+"/checks/checks.json"))
-        print filename
-        
-#        if not filename:
-#            QMessageBox.critical(None, "VeriSO", self.tr("checks.json not found."))                                                    
-#            return        
-            
+           
         try:
             checks = json.load(open(filename), object_pairs_hook=collections.OrderedDict) 
-            print checks
         except Exception:
             exc_type, exc_value, exc_traceback = sys.exc_info()
             QMessageBox.critical(None, "VeriSO", Utils().tr("Failed to load checks.json. ") + str(traceback.format_exc(exc_traceback)))                                    
@@ -38,20 +32,18 @@ class Utils():
         try:
             topics = OrderedDict()
             for check in checks["checks"]:
-                print "*************"
-                print check
                 topic = check["topic"]
-                
-                print topic
                 
                 # Test, ob checks.json multilingual ist.
                 try:
                     if topics.has_key(topic):
                         continue
                     topics[topic] = check
+                    # Json ist NICHT multilingual.
                 except:
-                    print "MULTILINGUAL"
-                    # Falls eingestellte Sprache nicht vorhanden,
+                    # Json ist multilingual.
+                    
+                    # Falls eingestellte Sprache nicht vorhanden ist,
                     # wird eine (1) Sprache verwendet (in diesem Fall
                     # die erste.
                     try:
@@ -60,23 +52,44 @@ class Utils():
                         my_check["topic"] = my_topic
                         my_check["file"] = check["file"]
                         topics[my_topic] = my_check
-                        print "Sprache gefunden"
+                        # Sprache gefunden
                     except:
-                        print "Sprache nicht gefunden"
+                        # Sprache nicht gefunden
                         my_check = OrderedDict()
                         my_check["topic"] = topic.values()[0]
                         my_check["file"] = check["file"]
                         topics[my_check["topic"]] = my_check
-                    
-                
             return topics
         except Exception:
             exc_type, exc_value, exc_traceback = sys.exc_info()
             QMessageBox.critical(None, "VeriSO", Utils().tr("Error parsing json file. ") + str(traceback.format_exc(exc_traceback)))                                    
             return
-
+    
+    @staticmethod
+    def getChecks(checkfile):
+        settings = QSettings("CatAIS","VeriSO")
+        module_name = (settings.value("project/appmodule"))
+        
+        filename = QDir.convertSeparators(QDir.cleanPath(QgsApplication.qgisSettingsDirPath() + "/python/plugins/veriso/modules/"+module_name+"/checks/"+checkfile+".json"))
+   
+        try:
+            checks = json.load(open(filename), object_pairs_hook=collections.OrderedDict) 
+        except Exception:
+            exc_type, exc_value, exc_traceback = sys.exc_info()
+            QMessageBox.critical(None, "VeriSO", Utils().tr("Failed to load checks file. ") + str(traceback.format_exc(exc_traceback)))                                    
+            return
+    
+        try:
+            topic_checks = []
+            for check in checks["checks"]:
+                topic_checks.append(check)
+            return topic_checks
+        except Exception:
+            exc_type, exc_value, exc_traceback = sys.exc_info()
+            QMessageBox.critical(None, "VeriSO", Utils().tr("Error parsing json file. ") + str(traceback.format_exc(exc_traceback)))                                    
+            return
 
     def tr(self, message):
         # noinspection PyTypeChecker,PyArgumentList,PyCallByClass
-        return QCoreApplication.translate('VeriSOModule', message)
+        return QCoreApplication.translate('VeriSOModule.veriso_ee', message)
 

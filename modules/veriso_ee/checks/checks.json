@@ -1,18 +1,18 @@
-{
-  "checks": [
-    {
-      "topic": {
-	"de": "FixpunkteKategorie3",
-	"fr": "FixpunkteKategorie3_franz"
-	},
-      "file": "topic_fp3"
-    },
-    {
-      "topic": {
-	"de": "Gebaeudeadressen",
-	"fr": "Gebaeudeadressen_franz"
-	},
-      "file": "topic_gebaeudeadressen"
-    }
-  ]
+{  
+   "checks":[  
+      {  
+         "topic":{  
+            "de":"FixpunkteKategorie3",
+            "fr":"Points_fixesCategorie3"
+         },
+         "file":"topic_fp3"
+      },
+      {  
+         "topic":{  
+            "de":"Gebaeudeadressen",
+            "fr":"Adresses_des_batiments"
+         },
+         "file":"topic_gebaeudeadressen"
+      }
+   ]
 }
