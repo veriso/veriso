@@ -168,8 +168,13 @@ class VeriSO:
         self.menuFile = QMenu()
         self.menuFile.setTitle(self.tr("File"))
 
+        self.import_project = QAction(self.tr("Import project"), self.iface.mainWindow())
+        self.import_project.triggered.connect(self.doImportProject)
+        self.delete_project = QAction(self.tr("Delete project"), self.iface.mainWindow())    
+        self.delete_project.triggered.connect(self.doDeleteProject)
+        self.menuFile.addActions([self.import_project, self.delete_project])
         self.menuBarFile.addMenu(self.menuFile) 
-
+        
         # settings
         self.menuBarSettings = QMenuBar()
         self.menuBarSettings.setObjectName("VeriSO.Main.SettingsMenuBar")
@@ -189,6 +194,19 @@ class VeriSO:
         self.toolBar.addWidget(self.menuBarFile)
         self.toolBar.addWidget(self.menuBarSettings)
         
+    def doImportProject(self):
+        print "import"       
+        from base.file.doImportProject import ImportProjectDialog
+        self.import_dlg = ImportProjectDialog(self.iface.mainWindow())
+        ret = self.import_dlg.initGui()
+        print ret
+        if ret:
+            self.import_dlg.show()
+        
+        
+    def doDeleteProject(self):
+        print "delete"
+        
         
     def doOptions(self):
         print "fooo"
@@ -196,10 +214,36 @@ class VeriSO:
         self.options_dlg = OptionsDialog(self.iface.mainWindow())
         self.options_dlg.initGui()
         self.options_dlg.show()
-        QObject.connect(self.options_dlg, SIGNAL("projectsDatabaseHasChanged()"), self.doLoadProjectsDatabase)         
+        self.options_dlg.projectsDatabaseHasChanged.connect(self.doLoadProjectsDatabase)
         
     def doLoadProjectsDatabase(self):
         print "dodooododododo"
+#        from base.projects.doLoadProjectsDatabase import LoadProjectsDatabase
+#        d = LoadProjectsDatabase(self.iface.messageBar())
+#        projects = d.read()
+#        
+#        if projects != None:
+#            groupedProjects = {}
+#            for project in projects:
+#                moduleName = project["appmodulename"]
+#                try:
+#                    moduleList = groupedProjects[moduleName]
+#                except KeyError:
+#                    moduleList = []
+#                
+#                moduleList.append(project)
+#                groupedProjects[moduleName] = moduleList
+#            
+#            self.menuProjects.clear()
+#            for key in sorted(groupedProjects.iterkeys()):
+#                modules = groupedProjects[key]
+#                groupMenu = self.menuProjects.addMenu(QCoreApplication.translate("Qcadastre", unicode(key)))
+#                sortedProjectsList = sorted(modules, key=lambda k: k['displayname']) 
+#                for project in sortedProjectsList:
+#                    action = QAction(QCoreApplication.translate("QGeoApp", unicode(project["displayname"])), self.iface.mainWindow())
+#                    groupMenu.addAction(action)
+#                    QObject.connect(action, SIGNAL( "triggered()"), lambda activeProject=project: self.doLoadProject(activeProject))
+
 
     def unload(self):
         for action in self.actions:

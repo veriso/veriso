@@ -18,7 +18,6 @@ class OptionsDialog(QDialog, FORM_CLASS):
         super(OptionsDialog, self).__init__(parent)
         self.setupUi(self)
         self.iface = iface
-
         
         self.okButton = self.buttonBox.button(QDialogButtonBox.Ok)
         self.connect(self.okButton, SIGNAL("accepted()"), self.accept)
@@ -79,7 +78,6 @@ class OptionsDialog(QDialog, FORM_CLASS):
             
     def accept(self):
         self.settings.setValue("options/general/projectsdatabase", self.lineEditProjectsDatabase.text())
-#        self.emit(SIGNAL("projectsFileHasChanged()"))
         self.projectsDatabaseHasChanged.emit()
      
         self.settings.setValue("options/general/projectsrootdir", self.lineEditProjectsRootDir.text())
