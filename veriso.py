@@ -25,11 +25,12 @@ from PyQt4.QtGui import *
 from qgis.core import *
 from qgis.gui import *
 
+import os.path
+import sys
+import traceback
 import resources_rc
 
 from veriso_dialog import VeriSODialog
-import os.path
-
 
 class VeriSO:
     """QGIS Plugin Implementation."""
@@ -38,6 +39,8 @@ class VeriSO:
         self.iface = iface
         self.plugin_dir = os.path.dirname(__file__)
 
+        self.settings = QSettings("CatAIS","VeriSO")
+        
         locale = QSettings().value('locale/userLocale')[0:2]
         locale_path = os.path.join(
             self.plugin_dir,
@@ -65,7 +68,6 @@ class VeriSO:
     def tr(self, message):
         # noinspection PyTypeChecker,PyArgumentList,PyCallByClass
         return QCoreApplication.translate('VeriSO', message)
-
 
     def add_action(
         self,
@@ -187,32 +189,29 @@ class VeriSO:
         self.menuSettings.addActions([self.options])
         self.menuBarSettings.addMenu(self.menuSettings)        
         
-        
-        
         # add menus to toolbar
         self.toolBar.addWidget(self.menuBarProjects) 
         self.toolBar.addWidget(self.menuBarFile)
         self.toolBar.addWidget(self.menuBarSettings)
         
+        # initial load of project menu entries
+        self.doLoadProjectsDatabase()                
+        
     def doImportProject(self):
-        print "import"       
         from base.file.doImportProject import ImportProjectDialog
         self.import_dlg = ImportProjectDialog(self.iface.mainWindow())
         if self.import_dlg.initGui():
             self.import_dlg.show()
-#            QObject.connect(self.import_dlg, SIGNAL("projectsDatabaseHasChanged()"), self.doLoadProjectsDatabase)         
-        
-        
+            self.import_dlg.projectsDatabaseHasChanged.connect(self.doLoadProjectsDatabase)
+                
     def doDeleteProject(self):
-        print "delete"
         from base.file.doDeleteProject import DeleteProjectDialog
         self.delete_dlg = DeleteProjectDialog(self.iface.mainWindow())
         if self.delete_dlg.initGui():
             self.delete_dlg.show()
-#            QObject.connect(self.delete_dlg, SIGNAL("projectsDatabaseHasChanged()"), self.doLoadProjectsDatabase) 
-        
+            self.delete_dlg.projectsDatabaseHasChanged.connect(self.doLoadProjectsDatabase)
+                    
     def doOptions(self):
-        print "fooo"
         from base.settings.doOptions import OptionsDialog
         self.options_dlg = OptionsDialog(self.iface.mainWindow())
         self.options_dlg.initGui()
@@ -220,33 +219,61 @@ class VeriSO:
         self.options_dlg.projectsDatabaseHasChanged.connect(self.doLoadProjectsDatabase)
         
     def doLoadProjectsDatabase(self):
-        print "dodooododododo"
-#        from base.projects.doLoadProjectsDatabase import LoadProjectsDatabase
-#        d = LoadProjectsDatabase(self.iface.messageBar())
-#        projects = d.read()
-#        
-#        if projects != None:
-#            groupedProjects = {}
-#            for project in projects:
-#                moduleName = project["appmodulename"]
-#                try:
-#                    moduleList = groupedProjects[moduleName]
-#                except KeyError:
-#                    moduleList = []
-#                
-#                moduleList.append(project)
-#                groupedProjects[moduleName] = moduleList
-#            
-#            self.menuProjects.clear()
-#            for key in sorted(groupedProjects.iterkeys()):
-#                modules = groupedProjects[key]
-#                groupMenu = self.menuProjects.addMenu(QCoreApplication.translate("Qcadastre", unicode(key)))
-#                sortedProjectsList = sorted(modules, key=lambda k: k['displayname']) 
-#                for project in sortedProjectsList:
-#                    action = QAction(QCoreApplication.translate("QGeoApp", unicode(project["displayname"])), self.iface.mainWindow())
-#                    groupMenu.addAction(action)
-#                    QObject.connect(action, SIGNAL( "triggered()"), lambda activeProject=project: self.doLoadProject(activeProject))
+        from base.utils.doLoadProjectsDatabase import LoadProjectsDatabase
+        d = LoadProjectsDatabase()
+        projects = d.read()
+        
+        if projects != None:
+            groupedProjects = {}
+            for project in projects:
+                moduleName = project["appmodulename"]
+                try:
+                    moduleList = groupedProjects[moduleName]
+                except KeyError:
+                    moduleList = []
+                
+                moduleList.append(project)
+                groupedProjects[moduleName] = moduleList
+            
+            self.menuProjects.clear()
+            for key in sorted(groupedProjects.iterkeys()):
+                modules = groupedProjects[key]
+                groupMenu = self.menuProjects.addMenu(unicode(key))
+                sortedProjectsList = sorted(modules, key=lambda k: k['displayname']) 
+                for project in sortedProjectsList:
+                    action = QAction(unicode(project["displayname"]), self.iface.mainWindow())
+                    groupMenu.addAction(action)
+                    QObject.connect(action, SIGNAL( "triggered()"), lambda activeProject=project: self.doLoadProject(activeProject))
 
+
+    def doLoadProject(self, project):
+        self.settings.setValue("project/id", str(project["id"]))
+        self.settings.setValue("project/displayname", str(project["displayname"]))
+        self.settings.setValue("project/appmodule", str(project["appmodule"]))
+        self.settings.setValue("project/appmodulename", unicode(project["appmodulename"]))
+        self.settings.setValue("project/ilimodelname", str(project["ilimodelname"]))
+        self.settings.setValue("project/epsg", str(project["epsg"]))
+        self.settings.setValue("project/provider", str(project["provider"]))
+        self.settings.setValue("project/dbhost", str(project["dbhost"]))
+        self.settings.setValue("project/dbport", str(project["dbport"]))
+        self.settings.setValue("project/dbname", str(project["dbname"]))
+        self.settings.setValue("project/dbschema", str(project["dbschema"]))
+        self.settings.setValue("project/dbuser", str(project["dbuser"]))
+        self.settings.setValue("project/dbpwd", str(project["dbpwd"]))
+        self.settings.setValue("project/dbadmin", str(project["dbadmin"]))
+        self.settings.setValue("project/dbadminpwd", str(project["dbadminpwd"]))
+        self.settings.setValue("project/projectdir", str(project["projectdir"]))
+
+        moduleName = str(project["appmodule"]).lower()
+        print moduleName
+
+        try:
+            _temp = __import__("modules." + moduleName + ".applicationmodule", globals(), locals(), ['ApplicationModule'])
+            c = _temp.ApplicationModule(self.iface, self.toolBar)
+            c.initGui()
+        except Exception:
+            exc_type, exc_value, exc_traceback = sys.exc_info()
+            QMessageBox.critical(None, "VeriSO", self.tr("Error while loading application module: ") + str(traceback.format_exc(exc_traceback)))                                    
 
     def unload(self):
         for action in self.actions:
@@ -254,7 +281,7 @@ class VeriSO:
                 self.tr(u'&VeriSO'),
                 action)
             self.iface.removeToolBarIcon(action)
-
+        self.iface.mainWindow().removeToolBar(self.toolBar)
 
     def run(self):
         # show the dialog
