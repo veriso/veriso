@@ -158,7 +158,7 @@ class VeriSO:
         self.menuBarProjects.setObjectName("VeriSO.Main.ProjectsMenuBar")                
         self.menuBarProjects.setSizePolicy(QSizePolicy(QSizePolicy.Minimum, QSizePolicy.Preferred))
         self.menuProjects = QMenu()
-        self.menuProjects.setTitle(QCoreApplication.translate( "VeriSO","Projects"))
+        self.menuProjects.setTitle(self.tr("Projects"))
         self.menuBarProjects.addMenu(self.menuProjects)
 
         # files
@@ -166,15 +166,41 @@ class VeriSO:
         self.menuBarFile.setObjectName("VeriSO.Main.FileMenuBar")        
         self.menuBarFile.setSizePolicy(QSizePolicy(QSizePolicy.Minimum, QSizePolicy.Minimum))
         self.menuFile = QMenu()
-        self.menuFile.setTitle(QCoreApplication.translate( "VeriSO","File"))
+        self.menuFile.setTitle(self.tr("File"))
 
         self.menuBarFile.addMenu(self.menuFile) 
 
-
+        # settings
+        self.menuBarSettings = QMenuBar()
+        self.menuBarSettings.setObjectName("VeriSO.Main.SettingsMenuBar")
+        self.menuBarSettings.setSizePolicy(QSizePolicy(QSizePolicy.Minimum, QSizePolicy.Minimum))        
+        self.menuSettings = QMenu()
+        self.menuSettings.setTitle(self.tr("Settings"))
+        
+        self.options = QAction(self.tr("Options"), self.iface.mainWindow())
+        self.options.triggered.connect(self.doOptions)
+        self.menuSettings.addActions([self.options])
+        self.menuBarSettings.addMenu(self.menuSettings)        
+        
+        
+        
         # add menus to toolbar
         self.toolBar.addWidget(self.menuBarProjects) 
         self.toolBar.addWidget(self.menuBarFile)
+        self.toolBar.addWidget(self.menuBarSettings)
         
+        
+    def doOptions(self):
+        print "fooo"
+        from base.settings.doOptions import OptionsDialog
+        self.options_dlg = OptionsDialog(self.iface.mainWindow())
+        self.options_dlg.initGui()
+        self.options_dlg.show()
+        QObject.connect(self.options_dlg, SIGNAL("projectsDatabaseHasChanged()"), self.doLoadProjectsDatabase)         
+        
+    def doLoadProjectsDatabase(self):
+        print "dodooododododo"
+
     def unload(self):
         for action in self.actions:
             self.iface.removePluginMenu(
