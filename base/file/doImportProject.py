@@ -374,7 +374,7 @@ VALUES ('"+str(self.dbschema)+"', '"+str(self.dbschema)+"', '"+str(self.dbhost)+
                 return 
             
             db.close()
-            self.emit(SIGNAL("projectsDatabaseHasChanged()"))
+            self.projectsDatabaseHasChanged.emit()
             return True
         
         except Exception:

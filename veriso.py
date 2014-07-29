@@ -198,15 +198,18 @@ class VeriSO:
         print "import"       
         from base.file.doImportProject import ImportProjectDialog
         self.import_dlg = ImportProjectDialog(self.iface.mainWindow())
-        ret = self.import_dlg.initGui()
-        print ret
-        if ret:
+        if self.import_dlg.initGui():
             self.import_dlg.show()
+#            QObject.connect(self.import_dlg, SIGNAL("projectsDatabaseHasChanged()"), self.doLoadProjectsDatabase)         
         
         
     def doDeleteProject(self):
         print "delete"
-        
+        from base.file.doDeleteProject import DeleteProjectDialog
+        self.delete_dlg = DeleteProjectDialog(self.iface.mainWindow())
+        if self.delete_dlg.initGui():
+            self.delete_dlg.show()
+#            QObject.connect(self.delete_dlg, SIGNAL("projectsDatabaseHasChanged()"), self.doLoadProjectsDatabase) 
         
     def doOptions(self):
         print "fooo"
