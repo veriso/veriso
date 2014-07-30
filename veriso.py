@@ -28,6 +28,7 @@ from qgis.gui import *
 import os.path
 import sys
 import traceback
+import importlib
 import resources_rc
 
 from veriso_dialog import VeriSODialog
@@ -42,14 +43,14 @@ class VeriSO:
         self.settings = QSettings("CatAIS","VeriSO")
         
         locale = QSettings().value('locale/userLocale')[0:2]
-        locale_path = os.path.join(
+        self.locale_path = os.path.join(
             self.plugin_dir,
             'i18n',
             'veriso_{}.qm'.format(locale))
 
-        if os.path.exists(locale_path):
+        if os.path.exists(self.locale_path):
             self.translator = QTranslator()
-            self.translator.load(locale_path)
+            self.translator.load(self.locale_path)
 
             if qVersion() > '4.3.3':
                 QCoreApplication.installTranslator(self.translator)
@@ -193,7 +194,7 @@ class VeriSO:
         self.toolBar.addWidget(self.menuBarProjects) 
         self.toolBar.addWidget(self.menuBarFile)
         self.toolBar.addWidget(self.menuBarSettings)
-        
+    
         # initial load of project menu entries
         self.doLoadProjectsDatabase()                
         
@@ -268,9 +269,18 @@ class VeriSO:
         print moduleName
 
         try:
-            _temp = __import__("modules." + moduleName + ".applicationmodule", globals(), locals(), ['ApplicationModule'])
-            c = _temp.ApplicationModule(self.iface, self.toolBar)
-            c.initGui()
+#            _temp = __import__("modules." + moduleName + ".applicationmodule", globals(), locals(), ['ApplicationModule'])
+#            c = _temp.ApplicationModule(self.iface, self.toolBar, self.locale_path)
+#            c.initGui()
+
+                from modules.veriso_ee.applicationmodule import ApplicationModule
+                c = ApplicationModule(self.iface, self.toolBar, self.locale_path)
+                c.initGui()
+
+#            m = importlib.import_module("veriso.modules.veriso_ee.applicationmodule")
+#            c = getattr(m, 'ApplicationModule')
+#            appMod = c(self.iface, self.toolBar, self.locale_path)
+#            appMod.initGui()
         except Exception:
             exc_type, exc_value, exc_traceback = sys.exc_info()
             QMessageBox.critical(None, "VeriSO", self.tr("Error while loading application module: ") + str(traceback.format_exc(exc_traceback)))                                    

@@ -15,13 +15,22 @@ VeriSO
 
 ACHTUNG: wie genau workflow wenn neu übersetzen (also zusätzlich)?
 
+* Multilingual-Legenden: es wird "_fr" angehängt. Aber keine Fallbackebene. Dh. wenn im ComplexCheck die Legende mit Sprache angegeben wird, muss das QML auch vorhanden sein.
 
 LINGUIST:
+* Modulname als Kontext bei ApplicationModule und Modulname_ComplexCheckFile bei ComplexCheck
+
 * veriso.pro Datei erstellen
 * pylupdate4 veriso.pro:
  - im Verzeichnis i18/ sind *.ts Dateien.
 * linguist i18n/veriso_de.ts i18n/veriso_fr.ts
 * source: POSIX / target: german (any) resp. french (any) -> gibt gleich zwei felder für zwei sprachen... cool
 * Mit gelben Pfeilen (next item) zum nächsten.
+* die gelben Fragzeichen mit der Maus zu grünen Häckchen machen, wenn Übersetzung i.O. und fertig ist.
 * Save all..
 * File - Release All
+
+* Umlaute erscheinen übelst... 
+ - wenn man nichts macht, funktionierts noch. Und auch wenn man z.B. wiederum LFP3 Nachführung schreibt scheints zu funkionieren.
+
+* Nachführung scheint zu klappen. Einfach wieder gleich aufrufen.

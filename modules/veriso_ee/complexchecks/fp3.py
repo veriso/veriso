@@ -9,6 +9,14 @@ import traceback
 
 from veriso.base.utils.doLoadLayer import LoadLayer
 
+try:
+    _encoding = QApplication.UnicodeUTF8
+    def _translate(context, text, disambig):
+        return QApplication.translate(context, text, disambig, _encoding)
+except AttributeError:
+    def _translate(context, text, disambig):
+        return QApplication.translate(context, text, disambig)
+
 class ComplexCheck(QObject):
 
     def __init__(self, iface):
@@ -17,37 +25,53 @@ class ComplexCheck(QObject):
         self.root = QgsProject.instance().layerTreeRoot()        
         self.layerLoader = LoadLayer(self.iface)
 
+
+#        locale = QSettings().value('locale/userLocale')[0:2]
+#        locale_path = os.path.join(
+#            self.plugin_dir,
+#            'i18n',
+#            'veriso_{}.qm'.format(locale))
+#
+#        if os.path.exists(locale_path):
+#            self.translator = QTranslator()
+#            self.translator.load(locale_path)
+#
+#            if qVersion() > '4.3.3':
+#                QCoreApplication.installTranslator(self.translator)
+
     # Hier (also beim Laden des Layers in QGIS) machen die Umlaute extreme Probleme.
     # Das scheint eine Lösung zu sein. Im Gegensatz zu anderen "tr"-Methoden, ist sie
     # bisschen komplizierter.
     def tr(self, message):
         _encoding = QCoreApplication.UnicodeUTF8
-        return QCoreApplication.translate('VeriSOModule.veriso_ee.fp3', message.decode('utf-8'), encoding=_encoding)
+        return QCoreApplication.translate('VeriSO_EE_FP3', message.decode('utf-8'), encoding=_encoding)
 
     def run(self):        
         self.settings = QSettings("CatAIS","VeriSO")
         project_id = self.settings.value("project/id")
         epsg = self.settings.value("project/epsg")
         
+        locale = QSettings().value('locale/userLocale')[0:2] # Für Multilingual-Legenden.
+
         if not project_id:
-            self.iface.messageBar().pushMessage("Error",  self.tr("project_id not set"), level=QgsMessageBar.CRITICAL, duration=5)                                
+            self.iface.messageBar().pushMessage("Error",  _translate("VeriSO_EE_FP3", "project_id not set", None), level=QgsMessageBar.CRITICAL, duration=5)                                
             return
 
         QApplication.setOverrideCursor(Qt.WaitCursor)
         try:
-            group = self.tr("FixpunkteKategorie3")
+            group = _translate("VeriSO_EE_FP3", "FixpunkteKategorie3", None)
             group += " (" + str(project_id) + ")"
             
             layer = {}
             layer["type"] = "postgres"
-            layer["title"] = self.tr("Toleranzstufen") # Mit Linguist übersetzen. Deutsche Übersetzugn nicht unbedingt nötig, da dieser Text hier verwendet wird, falls die Übersetzung für eine bestimmte Sprache fehlt.
+            layer["title"] = _translate("VeriSO_EE_FP3", "Toleranzstufen", None) # Mit Linguist übersetzen. Deutsche Übersetzugn nicht unbedingt nötig, da dieser Text hier verwendet wird, falls die Übersetzung für eine bestimmte Sprache fehlt.
             layer["featuretype"] = "tseinteilung_toleranzstufe"
             layer["geom"] = "geometrie"
             layer["key"] = "ogc_fid"            
             layer["sql"] = ""
             layer["readonly"] = True
             layer["group"] = group
-            layer["style"] = "tseinteilung/toleranzstufe.qml"
+            layer["style"] = "tseinteilung/toleranzstufe_"+locale+".qml"
             
             # Die Sichtbarkeit des Layer und ob die Legende
             # und die Gruppe zusammengeklappt sein sollen:
@@ -59,7 +83,8 @@ class ComplexCheck(QObject):
             
             layer = {}
             layer["type"] = "postgres"
-            layer["title"] = self.tr("LFP3 Nachführung") # Mit Linguist übersetzen. -> Achtung: Testen ob Übersetzungen mit Umlauten funktionieren...
+#            layer["title"] = self.tr("LFP3 Nachführung") # Mit Linguist übersetzen. -> Achtung: Testen ob Übersetzungen mit Umlauten funktionieren...
+            layer["title"] = _translate("VeriSO_EE_FP3", "LFP3 Nachführung", None)
             layer["featuretype"] = "fixpunktekategorie3_lfp3nachfuehrung"
             layer["geom"] = "perimeter" # Falls layer["geom"] bei Tabellen/Layern mit einer Geomtriespalte weggelassen wird, wird die Tabelle als "geometryless" geladen.
             layer["key"] = "ogc_fid"            
@@ -71,7 +96,7 @@ class ComplexCheck(QObject):
             
             layer = {}
             layer["type"] = "postgres"
-            layer["title"] = self.tr("LFP3")
+            layer["title"] = _translate("VeriSO_EE_FP3", "LFP3", None)
             layer["featuretype"] = "fixpunktekategorie3_lfp3"
             layer["geom"] = "geometrie"
             layer["key"] = "ogc_fid"            
@@ -84,7 +109,7 @@ class ComplexCheck(QObject):
             
             layer = {}
             layer["type"] = "postgres"
-            layer["title"] = self.tr("LFP3 ausserhalb Gemeinde")
+            layer["title"] = _translate("VeriSO_EE_FP3", "LFP3 ausserhalb Gemeinde", None)
             layer["featuretype"] = "v_lfp3_ausserhalb_gemeinde"
             layer["geom"] = "geometrie"
             layer["key"] = "ogc_fid"            
@@ -97,7 +122,7 @@ class ComplexCheck(QObject):
 
             layer = {}
             layer["type"] = "postgres"
-            layer["title"] = self.tr("Gemeindegrenze")
+            layer["title"] = _translate("VeriSO_EE_FP3", "Gemeindegrenze", None)
             layer["featuretype"] = "gemeindegrenzen_gemeindegrenze"
             layer["geom"] = "geometrie"
             layer["key"] = "ogc_fid"            

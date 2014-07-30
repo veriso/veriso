@@ -11,8 +11,19 @@ import traceback
 
 from veriso.modules.veriso_ee.tools.utils import Utils
 
+# Die Übersetzung hat grosse Probleme gemacht. So 
+# funktionierts. Die einfache "self.tr(...)"-Geschichte
+# wollte wirklich nicht funktionieren...
+try:
+    _encoding = QApplication.UnicodeUTF8
+    def _translate(context, text, disambig):
+        return QApplication.translate(context, text, disambig, _encoding)
+except AttributeError:
+    def _translate(context, text, disambig):
+        return QApplication.translate(context, text, disambig)
+
 class ApplicationModule(QObject):
-    def __init__(self, iface, toolBar):
+    def __init__(self, iface, toolBar, locale_path):
         self.iface = iface
         self.canvas = self.iface.mapCanvas()
         self.toolBar = toolBar
@@ -32,7 +43,7 @@ class ApplicationModule(QObject):
         menuBar.setObjectName("VeriSOModule.LoadChecksMenuBar")        
         menuBar.setSizePolicy(QSizePolicy(QSizePolicy.Minimum, QSizePolicy.Minimum))
         menu = QMenu(menuBar)
-        menu.setTitle(self.tr("Checks"))  
+        menu.setTitle(_translate("VeriSO_EE", "Checks",  None))
         
         locale = QSettings().value('locale/userLocale')[0:2]
         
@@ -225,11 +236,6 @@ class ApplicationModule(QObject):
             
             if action.isSeparator():
                 settingsMenu.removeAction(action)
-
-    def tr(self, message):
-        # noinspection PyTypeChecker,PyArgumentList,PyCallByClass
-        return QCoreApplication.translate('VeriSOModule.veriso_ee', message)
-
 
 #    def doSetDatabase(self, foo):
 #        print "baaaar"
