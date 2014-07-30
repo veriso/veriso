@@ -45,7 +45,7 @@ class VeriSO:
         locale_path = os.path.join(
             self.plugin_dir,
             'i18n',
-            'VeriSO_{}.qm'.format(locale))
+            'veriso_{}.qm'.format(locale))
 
         if os.path.exists(locale_path):
             self.translator = QTranslator()

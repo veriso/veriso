@@ -13,19 +13,16 @@ import tempfile
 import time
 import traceback
 
+from Ui_deleteproject import Ui_DeleteProject
 from veriso.base.utils.doLoadProjectsDatabase import LoadProjectsDatabase
 
-FORM_CLASS, _ = uic.loadUiType(os.path.join(
-    os.path.dirname(__file__), 'Ui_deleteproject.ui'))
-
-class DeleteProjectDialog(QDialog, FORM_CLASS):
+class DeleteProjectDialog(QDialog, Ui_DeleteProject):
   
     projectsDatabaseHasChanged = pyqtSignal()
 
     def __init__(self, iface, parent=None):
-        super(DeleteProjectDialog, self).__init__(parent)
+        QDialog.__init__(self, parent)
         self.setupUi(self)
-        self.iface = iface
         
         self.okButton = self.buttonBox.button(QDialogButtonBox.Ok)
         self.okButton.setText("Delete")

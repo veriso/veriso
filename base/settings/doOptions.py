@@ -7,17 +7,15 @@ from qgis.gui import *
 
 import os
 
-FORM_CLASS, _ = uic.loadUiType(os.path.join(
-    os.path.dirname(__file__), 'Ui_options.ui'))
+from Ui_options import Ui_Options
 
-class OptionsDialog(QDialog, FORM_CLASS):
+class OptionsDialog(QDialog, Ui_Options):
     
     projectsDatabaseHasChanged = pyqtSignal()
   
     def __init__(self, iface, parent=None):
-        super(OptionsDialog, self).__init__(parent)
+        QDialog.__init__(self, parent)
         self.setupUi(self)
-        self.iface = iface
         
         self.okButton = self.buttonBox.button(QDialogButtonBox.Ok)
         self.connect(self.okButton, SIGNAL("accepted()"), self.accept)

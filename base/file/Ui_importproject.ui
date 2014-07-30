@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>ImportProjectDialog</class>
- <widget class="QDialog" name="ImportProjectDialog">
+ <class>ImportProject</class>
+ <widget class="QDialog" name="ImportProject">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -206,7 +206,7 @@
   <connection>
    <sender>buttonBox</sender>
    <signal>accepted()</signal>
-   <receiver>ImportProjectDialog</receiver>
+   <receiver>ImportProject</receiver>
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
@@ -222,7 +222,7 @@
   <connection>
    <sender>buttonBox</sender>
    <signal>rejected()</signal>
-   <receiver>ImportProjectDialog</receiver>
+   <receiver>ImportProject</receiver>
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">

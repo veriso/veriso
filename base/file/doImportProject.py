@@ -16,17 +16,15 @@ import shutil
 import codecs
 import traceback
 
-FORM_CLASS, _ = uic.loadUiType(os.path.join(
-    os.path.dirname(__file__), 'Ui_importproject.ui'))
+from Ui_importproject import Ui_ImportProject
 
-class ImportProjectDialog(QDialog, FORM_CLASS):
+class ImportProjectDialog(QDialog, Ui_ImportProject):
   
     projectsDatabaseHasChanged = pyqtSignal()
 
     def __init__(self, iface, parent=None):
-        super(ImportProjectDialog, self).__init__(parent)
+        QDialog.__init__(self, parent)
         self.setupUi(self)
-        self.iface = iface
 
         self.okButton = self.buttonBox.button(QDialogButtonBox.Ok)
         self.okButton.setText("Import")
