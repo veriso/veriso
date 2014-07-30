@@ -150,7 +150,7 @@ class ComplexCheck(QObject):
 
             vlayer_lokalisationsname = self.getVectorLayerByName(lokalisationsname)
             if not vlayer_lokalisationsname:
-                self.iface.messageBar().pushMessage("Error",  _translate("VeriSO_EE_Geb_LokTest", "Layer _LokalisationsName_ not found.", None), level=QgsMessageBar.CRITICAL)                    
+                self.iface.messageBar().pushMessage("Error",  _translate("VeriSO_EE_Geb_LokTest", "Layer _LokalisationsName_ not found.", None), level=QgsMessageBar.CRITICAL, duration=10)                    
                 QApplication.restoreOverrideCursor()   
                 return         
             
@@ -161,12 +161,12 @@ class ComplexCheck(QObject):
                 ids.append(feature.id())
 
             if vlayer_lokalisationsname.selectedFeatureCount() < 1:
-                self.iface.messageBar().pushMessage("Error",  _translate("VeriSO_EE_Geb_LokTest", "No _LokalisationsName_ selected.", None), level=QgsMessageBar.WARNING)                    
+                self.iface.messageBar().pushMessage("Error",  _translate("VeriSO_EE_Geb_LokTest", "No _LokalisationsName_ selected.", None), level=QgsMessageBar.WARNING, duration=10)                    
                 QApplication.restoreOverrideCursor()   
                 return         
                 
             if vlayer_lokalisationsname.selectedFeatureCount() > 1:
-                self.iface.messageBar().pushMessage("Error",  _translate("VeriSO_EE_Geb_LokTest", "Please select only one (1) _LokalisationsName_.", None), level=QgsMessageBar.WARNING)                                    
+                self.iface.messageBar().pushMessage("Error",  _translate("VeriSO_EE_Geb_LokTest", "Please select only one (1) _LokalisationsName_.", None), level=QgsMessageBar.WARNING, duration=10)                                    
                 QApplication.restoreOverrideCursor()   
                 return         
 
@@ -179,7 +179,7 @@ class ComplexCheck(QObject):
             text_idx = vlayer_lokalisationsname.fieldNameIndex("text")
             
             if benannte_idx == -1 or text_idx == -1:
-                self.iface.messageBar().pushMessage("Error",  _translate("VeriSO_EE_Geb_LokTest", "Field _benannte_ or _text_ not found.", None), level=QgsMessageBar.CRITICAL)                                                    
+                self.iface.messageBar().pushMessage("Error",  _translate("VeriSO_EE_Geb_LokTest", "Field _benannte_ or _text_ not found.", None), level=QgsMessageBar.CRITICAL, duration=10)                                                    
                 QApplication.restoreOverrideCursor()
                 return
 
@@ -242,7 +242,7 @@ class ComplexCheck(QObject):
                 art_idx = vlayer_lokalisation.fieldNameIndex("art_txt")
                 
                 if prinzip_idx == -1 or attributeprovisorisch_idx == -1 or offiziell_idx == -1 or status_idx == -1 or inaenderung_idx == -1 or art_idx == -1:
-                    self.iface.messageBar().pushMessage("Error",  _translate("VeriSO_EE_Geb_LokTest", "Field not found.", None), level=QgsMessageBar.CRITICAL)                                                                        
+                    self.iface.messageBar().pushMessage("Error",  _translate("VeriSO_EE_Geb_LokTest", "Field not found.", None), level=QgsMessageBar.CRITICAL, duration=10)                                                                        
                     QApplication.restoreOverrideCursor()
                     return
 
@@ -291,7 +291,7 @@ class ComplexCheck(QObject):
             try:
                 vlayer_lokalisationsname.setSelectedFeatures([ids[idx+1]])
             except IndexError:
-                self.iface.messageBar().pushMessage("Information",  _translate("VeriSO_EE_Geb_LokTest", "End of table.", None), level=QgsMessageBar.INFO)                                                                        
+                self.iface.messageBar().pushMessage("Information",  _translate("VeriSO_EE_Geb_LokTest", "End of table.", None), level=QgsMessageBar.INFO, duration=10)                                                                        
 
         except Exception, e:
             QApplication.restoreOverrideCursor()            

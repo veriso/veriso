@@ -12,11 +12,19 @@ import traceback
 import collections
 from collections import OrderedDict
 
+try:
+    _encoding = QApplication.UnicodeUTF8
+    def _translate(context, text, disambig):
+        return QApplication.translate(context, text, disambig, _encoding)
+except AttributeError:
+    def _translate(context, text, disambig):
+        return QApplication.translate(context, text, disambig)
+
 class Utils():
     @staticmethod
     def getCheckTopics():
         settings = QSettings("CatAIS","VeriSO")
-        module_name = (settings.value("project/appmodule"))
+        module_name = settings.value("project/appmodule")
         
         filename = QDir.convertSeparators(QDir.cleanPath(QgsApplication.qgisSettingsDirPath() + "/python/plugins/veriso/modules/"+module_name+"/checks/checks.json"))
            
@@ -24,7 +32,7 @@ class Utils():
             checks = json.load(open(filename), object_pairs_hook=collections.OrderedDict) 
         except Exception:
             exc_type, exc_value, exc_traceback = sys.exc_info()
-            QMessageBox.critical(None, "VeriSO", Utils().tr("Failed to load checks.json. ") + str(traceback.format_exc(exc_traceback)))                                    
+            QMessageBox.critical(None, "VeriSO",  _translate("VeriSO_EE_Utils", "Failed to load checks.json. ", None) + str(traceback.format_exc(exc_traceback)))                                    
             return
             
         locale = QSettings().value('locale/userLocale')[0:2]
@@ -62,13 +70,13 @@ class Utils():
             return topics
         except Exception:
             exc_type, exc_value, exc_traceback = sys.exc_info()
-            QMessageBox.critical(None, "VeriSO", Utils().tr("Error parsing json file. ") + str(traceback.format_exc(exc_traceback)))                                    
+            QMessageBox.critical(None, "VeriSO", _translate("VeriSO_EE_Utils", "Error parsing json file. ", None) + str(traceback.format_exc(exc_traceback)))                                    
             return
     
     @staticmethod
     def getChecks(checkfile):
         settings = QSettings("CatAIS","VeriSO")
-        module_name = (settings.value("project/appmodule"))
+        module_name = settings.value("project/appmodule")
         
         filename = QDir.convertSeparators(QDir.cleanPath(QgsApplication.qgisSettingsDirPath() + "/python/plugins/veriso/modules/"+module_name+"/checks/"+checkfile+".json"))
    
@@ -76,7 +84,7 @@ class Utils():
             checks = json.load(open(filename), object_pairs_hook=collections.OrderedDict) 
         except Exception:
             exc_type, exc_value, exc_traceback = sys.exc_info()
-            QMessageBox.critical(None, "VeriSO", Utils().tr("Failed to load checks file. ") + str(traceback.format_exc(exc_traceback)))                                    
+            QMessageBox.critical(None, "VeriSO", _translate("VeriSO_EE_Utils", "Failed to load checks file. ", None) + str(traceback.format_exc(exc_traceback)))                                                
             return
     
         try:
@@ -86,10 +94,58 @@ class Utils():
             return topic_checks
         except Exception:
             exc_type, exc_value, exc_traceback = sys.exc_info()
-            QMessageBox.critical(None, "VeriSO", Utils().tr("Error parsing json file. ") + str(traceback.format_exc(exc_traceback)))                                    
+            QMessageBox.critical(None, "VeriSO", _translate("VeriSO_EE_Utils", "Error parsing json file. ", None) + str(traceback.format_exc(exc_traceback)))                                                            
+            return
+            
+    @staticmethod
+    def getBaselayers():
+        settings = QSettings("CatAIS","VeriSO")
+        module_name = (settings.value("project/appmodule"))
+        
+        filename = QDir.convertSeparators(QDir.cleanPath(QgsApplication.qgisSettingsDirPath() + "/python/plugins/veriso/modules/"+module_name+"/baselayer/baselayer.json"))
+    
+        try:
+            baselayers = json.load(open(filename), object_pairs_hook=collections.OrderedDict) 
+            return baselayers
+        except Exception:
+            exc_type, exc_value, exc_traceback = sys.exc_info()
+            QMessageBox.critical(None, "VeriSO", _translate("VeriSO_EE_Utils", "Failed to load baselayer.json. ", None) + str(traceback.format_exc(exc_traceback)))                                                            
+            return
+    
+    @staticmethod
+    def getTopicsTables():
+        settings = QSettings("CatAIS","VeriSO")
+        module_name = settings.value("project/appmodule")
+        ili_model_name =  settings.value("project/ilimodelname")
+
+        filename = QDir.convertSeparators(QDir.cleanPath(QgsApplication.qgisSettingsDirPath() + "/python/plugins/veriso/modules/"+module_name+"/tables/"+ili_model_name.lower()+"/tables.json"))
+        
+        try:
+            topics_json = json.load(open(filename), object_pairs_hook=collections.OrderedDict) 
+        except Exception:
+            exc_type, exc_value, exc_traceback = sys.exc_info()
+            QMessageBox.critical(None, "VeriSO", _translate("VeriSO_EE_Utils", "Failed to load tables.json. ", None) + str(traceback.format_exc(exc_traceback)))                                                            
             return
 
-    def tr(self, message):
-        # noinspection PyTypeChecker,PyArgumentList,PyCallByClass
-        return QCoreApplication.translate('VeriSOModule.veriso_ee', message)
+        locale = QSettings().value('locale/userLocale')[0:2]
 
+        try:
+            topics = OrderedDict()
+            for topic in topics_json["topics"]:
+                topicName = topic["topic"]
+                try:
+                    keys =  topicName.keys()
+                    try:
+                        topicName = unicode(topicName[locale])
+                    except:
+                        topicName = unicode(topicName.values()[0])
+                except:
+                    topicName = unicode(topicName)
+                
+                topic["topic"] = topicName
+                topics[topicName] = topic
+            return topics
+        except Exception:
+            exc_type, exc_value, exc_traceback = sys.exc_info()
+            QMessageBox.critical(None, "VeriSO", _translate("VeriSO_EE_Utils", "FaError parsing json file. ", None) + str(traceback.format_exc(exc_traceback)))                                                            
+            return

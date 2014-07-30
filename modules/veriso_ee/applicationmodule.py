@@ -10,6 +10,7 @@ import sys
 import traceback
 
 from veriso.modules.veriso_ee.tools.utils import Utils
+from veriso.base.utils.doLoadLayer import LoadLayer
 
 # Die Übersetzung hat grosse Probleme gemacht. So 
 # funktionierts. Die einfache "self.tr(...)"-Geschichte
@@ -30,13 +31,14 @@ class ApplicationModule(QObject):
         
         self.settings = QSettings("CatAIS","VeriSO")
         self.epsg = self.settings.value("project/epsg")
-
+        self.provider = self.settings.value("project/provider")
+        
     def initGui(self):
         self.cleanGui()
         self.doInitChecksMenu()        
 #        self.doInitDefectsMenu()        
-#        self.doInitTopicsTablesMenu()
-#        self.doInitBaselayerMenu()
+        self.doInitTopicsTablesMenu()
+        self.doInitBaselayerMenu()
         
     def doInitChecksMenu(self):
         menuBar = QMenuBar(self.toolBar)
@@ -98,71 +100,105 @@ class ApplicationModule(QObject):
             QMessageBox.critical(None, "VeriSO", str(traceback.format_exc(exc_traceback)))               
             return
 
-#    def doInitBaselayerMenu(self):
-#        menuBar = QMenuBar(self.toolBar)
-#        menuBar.setObjectName("QcadastreModule.LoadBaselayerMenuBar")        
-#        menuBar.setSizePolicy(QSizePolicy(QSizePolicy.Minimum, QSizePolicy.Minimum))
-#        menu = QMenu(menuBar)
-#        menu.setTitle(QCoreApplication.translate( "QcadastreModule","Baselayer"))  
-#        
-#        baselayers = utils.getBaselayers(self.iface)
-#        
-#        for baselayer in baselayers["baselayer"]:
-#            action = QAction(QCoreApplication.translate("QcadastreModule", baselayer["title"] ), self.iface.mainWindow())
-#            menu.addAction(action)     
-#            QObject.connect(action, SIGNAL("triggered()" ), lambda layer=baselayer: self.doShowBaselayer(layer))    
-#
-#        menuBar.addMenu(menu)
-#        self.toolBar.insertWidget(self.beforeAction, menuBar)        
-#        
-#    def doShowBaselayer(self, layer):
-#        QApplication.setOverrideCursor(Qt.WaitCursor)
-#        try:
-#            utils.loadLayer(self.iface, layer) 
-#            self.updateCrsScale()        
-#        except Exception, e:
-#            QApplication.restoreOverrideCursor()            
-#            print "Couldn't do it: %s" % e            
-#            self.iface.messageBar().pushMessage("Error",  QCoreApplication.translate("QcadastreModule", str(e)), level=QgsMessageBar.CRITICAL, duration=5)                    
-#        QApplication.restoreOverrideCursor()        
-#
-#    def doInitTopicsTablesMenu(self):
-#        menuBar = QMenuBar(self.toolBar)
-#        menuBar.setObjectName("QcadastreModule.LoadTopicsTablesMenuBar")        
-#        menuBar.setSizePolicy(QSizePolicy(QSizePolicy.Minimum, QSizePolicy.Minimum))
-#        menu = QMenu(menuBar)
-#        menu.setTitle(QCoreApplication.translate( "QcadastreModule","Tables"))  
-#        
-#        topics = utils.getTopicsTables(self.iface)
-#                
-#        if topics:
-#            for topic in topics:
-#                topicMenu = menu.addMenu(unicode(topic))        
-#
-#                action = QAction(QCoreApplication.translate("QcadastreModule", "Load topic" ), self.iface.mainWindow())
-#                topicMenu.addAction(action)    
-#                topicMenu.addSeparator()      
-#                QObject.connect(action, SIGNAL( "triggered()" ), lambda topic=topic: self.doShowTopic(topics[topic]))                   
-#
-#                for table in topics[topic]["tables"]:
-#                    action = QAction(QCoreApplication.translate("QcadastreModule", table["title"] ), self.iface.mainWindow())
-#                    topicMenu.addAction(action)     
-#                    QObject.connect(action, SIGNAL("triggered()" ), lambda layer=table: self.doShowSingleTopicLayer(layer))    
-#
-#        menuBar.addMenu(menu)
-#        self.toolBar.insertWidget(self.beforeAction, menuBar)
-#        
-#    def doShowSingleTopicLayer(self, layer):
-#        layer["type"] = str(self.provider)
-#        utils.loadLayer(self.iface, layer) 
-#        self.updateCrsScale()
-#        
-#    def doShowTopic(self, topic):
-#        tables = topic["tables"]
-#    
-#        for table in tables[::-1]:
-#            self.doShowSingleTopicLayer(table)
-#        
+    def doInitBaselayerMenu(self):
+        menuBar = QMenuBar(self.toolBar)
+        menuBar.setObjectName("VeriSOModule.LoadBaselayerMenuBar")        
+        menuBar.setSizePolicy(QSizePolicy(QSizePolicy.Minimum, QSizePolicy.Minimum))
+        menu = QMenu(menuBar)
+        menu.setTitle(_translate("VeriSO_EE", "Baselayer",  None))  
+        
+        locale = QSettings().value('locale/userLocale')[0:2]        
+        
+        baselayers = Utils().getBaselayers()
+        
+        for baselayer in baselayers["baselayer"]:
+            baselayerTitle = baselayer["title"]
+            try: 
+                keys = baselayerTitle.keys()
+                try:
+                    baselayerTitle = unicode(baselayerTitle[locale])
+                    # Sprache gefunden.
+                except:
+                    # Sprache nicht gefunden.
+                    baselayerTitle = unicode(baselayerTitle.values()[0])
+            except:
+                baselayerTitle = unicode(baselayerTitle)
+                
+            baselayer["title"] = baselayerTitle
+            
+            action = QAction(baselayerTitle, self.iface.mainWindow())
+            menu.addAction(action)     
+            QObject.connect(action, SIGNAL("triggered()" ), lambda layer=baselayer: self.doShowBaselayer(layer))    
+
+        menuBar.addMenu(menu)
+        self.toolBar.insertWidget(self.beforeAction, menuBar)        
+        
+    def doShowBaselayer(self, layer):
+        QApplication.setOverrideCursor(Qt.WaitCursor)
+        try:
+            layerLoader = LoadLayer(self.iface)
+            layerLoader.load(layer)
+        except Exception:
+            QApplication.restoreOverrideCursor()            
+            exc_type, exc_value, exc_traceback = sys.exc_info()
+            self.iface.messageBar().pushMessage("Error",  str(traceback.format_exc(exc_traceback)), level=QgsMessageBar.CRITICAL, duration=10)                                
+            return
+        QApplication.restoreOverrideCursor()        
+
+    def doInitTopicsTablesMenu(self):
+        menuBar = QMenuBar(self.toolBar)
+        menuBar.setObjectName("VeriSOModule.LoadTopicsTablesMenuBar")        
+        menuBar.setSizePolicy(QSizePolicy(QSizePolicy.Minimum, QSizePolicy.Minimum))
+        menu = QMenu(menuBar)
+        menu.setTitle(_translate("VeriSO_EE", "Tables",  None))  
+        
+        locale = QSettings().value('locale/userLocale')[0:2]        
+        
+        topics = Utils().getTopicsTables()
+                
+        if topics:
+            for topic in topics:
+                topicMenu = menu.addMenu(unicode(topic))        
+                
+                # Wenn wir das hier machen, müssen wir es
+                # nur einmal machen.
+                for table in topics[topic]["tables"]:
+                    tableTitle = table["title"]
+                    try:
+                        keys = tableTitle.keys()
+                        try:
+                            tableTitle = unicode(tableTitle[locale])
+                        except:
+                            # Sprache nicht gefunden.
+                            tableTitle = unicode(tableTitle.values()[0])
+                    except:
+                        tableTitle = unicode(tableTitle)
+                        
+                    table["title"] = tableTitle
+
+                action = QAction(_translate("VeriSO_EE", "Load Topic",  None), self.iface.mainWindow())
+                topicMenu.addAction(action)    
+                topicMenu.addSeparator()      
+                QObject.connect(action, SIGNAL( "triggered()" ), lambda topic=topic: self.doShowTopic(topics[topic]))                   
+
+                for table in topics[topic]["tables"]:
+                    action = QAction(table["title"], self.iface.mainWindow())
+                    topicMenu.addAction(action)     
+                    QObject.connect(action, SIGNAL("triggered()" ), lambda layer=table: self.doShowSingleTopicLayer(layer))    
+
+        menuBar.addMenu(menu)
+        self.toolBar.insertWidget(self.beforeAction, menuBar)
+        
+    def doShowSingleTopicLayer(self, layer):
+        layer["type"] = str(self.provider)
+        layerLoader = LoadLayer(self.iface)
+        layerLoader.load(layer)
+
+    def doShowTopic(self, topic):
+        tables = topic["tables"]
+        for table in tables[::-1]:
+            self.doShowSingleTopicLayer(table)
+        
 #    def doInitDefectsMenu(self):
 #        menuBar = QMenuBar(self.toolBar)
 #        menuBar.setObjectName("QcadastreModule.LoadDefectsMenuBar")        
@@ -211,7 +247,7 @@ class ApplicationModule(QObject):
         for action in actions:
             try:
                 objectName = action.defaultWidget().objectName()
-                # Eelete existing module menus.
+                # Delete existing module menus.
                 if objectName[0:12] == "VeriSOModule":
                     self.toolBar.removeAction(action)
                 # Remember the action where we want to insert our new menu 

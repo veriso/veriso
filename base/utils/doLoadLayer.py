@@ -146,8 +146,8 @@ class LoadLayer(QObject):
                 return       
             else:
                 # QgsMapLayerRegistry.instance().addMapLayer(my_layer)    
-                QgsMapLayerRegistry.instance().addMapLayer(my_layer, False)        
                 if group: # Layer soll in eine bestimmte Gruppe hinzugefügt werden.
+                    QgsMapLayerRegistry.instance().addMapLayer(my_layer, False)        
                     my_group_node = self.root.findGroup(group)
                     if not my_group_node: # Gruppe noch nicht vorhanden.
                         my_group_node = self.root.addGroup(group)
@@ -176,9 +176,9 @@ class LoadLayer(QObject):
                     # "Direkt(er)"
                     my_layer_node = my_group_node.insertLayer(0, my_layer)
                     
-                else:  # layer_node suchen für nicht verschobenen Layer.
-                    QgsMapLayerRegistry.instance().addMapLayer(my_layer)                        
-                    my_layer_node = self.root.findLayer(my_layer.id())
+                else: 
+                    QgsMapLayerRegistry.instance().addMapLayer(my_layer, False)                        
+                    my_layer_node = self.root.addLayer(my_layer)
                     
                 my_layer_node.setVisible(Qt.Unchecked)
                     
