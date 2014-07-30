@@ -25,27 +25,6 @@ class ComplexCheck(QObject):
         self.root = QgsProject.instance().layerTreeRoot()        
         self.layerLoader = LoadLayer(self.iface)
 
-
-#        locale = QSettings().value('locale/userLocale')[0:2]
-#        locale_path = os.path.join(
-#            self.plugin_dir,
-#            'i18n',
-#            'veriso_{}.qm'.format(locale))
-#
-#        if os.path.exists(locale_path):
-#            self.translator = QTranslator()
-#            self.translator.load(locale_path)
-#
-#            if qVersion() > '4.3.3':
-#                QCoreApplication.installTranslator(self.translator)
-
-    # Hier (also beim Laden des Layers in QGIS) machen die Umlaute extreme Probleme.
-    # Das scheint eine Lösung zu sein. Im Gegensatz zu anderen "tr"-Methoden, ist sie
-    # bisschen komplizierter.
-    def tr(self, message):
-        _encoding = QCoreApplication.UnicodeUTF8
-        return QCoreApplication.translate('VeriSO_EE_FP3', message.decode('utf-8'), encoding=_encoding)
-
     def run(self):        
         self.settings = QSettings("CatAIS","VeriSO")
         project_id = self.settings.value("project/id")
