@@ -266,21 +266,10 @@ class VeriSO:
         self.settings.setValue("project/projectdir", str(project["projectdir"]))
 
         moduleName = str(project["appmodule"]).lower()
-        print moduleName
-
         try:
-#            _temp = __import__("modules." + moduleName + ".applicationmodule", globals(), locals(), ['ApplicationModule'])
-#            c = _temp.ApplicationModule(self.iface, self.toolBar, self.locale_path)
-#            c.initGui()
-
-                from modules.veriso_ee.applicationmodule import ApplicationModule
-                c = ApplicationModule(self.iface, self.toolBar, self.locale_path)
-                c.initGui()
-
-#            m = importlib.import_module("veriso.modules.veriso_ee.applicationmodule")
-#            c = getattr(m, 'ApplicationModule')
-#            appMod = c(self.iface, self.toolBar, self.locale_path)
-#            appMod.initGui()
+            _temp = __import__("modules." + moduleName + ".applicationmodule", globals(), locals(), ['ApplicationModule'])
+            c = _temp.ApplicationModule(self.iface, self.toolBar, self.locale_path)
+            c.initGui()
         except Exception:
             exc_type, exc_value, exc_traceback = sys.exc_info()
             QMessageBox.critical(None, "VeriSO", self.tr("Error while loading application module: ") + str(traceback.format_exc(exc_traceback)))                                    

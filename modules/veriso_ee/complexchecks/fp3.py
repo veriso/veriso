@@ -98,6 +98,18 @@ class ComplexCheck(QObject):
             layer["style"] = "fixpunkte/lfp3ausserhalb.qml"
             
             vlayer = self.layerLoader.load(layer)
+            
+            # So funktionieren WMS:
+            layer = {}
+            layer["type"] = "wms"
+            layer["title"] = _translate("VeriSO_EE_FP3", "LFP1 + LFP2 Schweiz", None)
+            layer["url"] = "http://wms.geo.admin.ch/"
+            layer["layers"] = "ch.swisstopo.fixpunkte-lfp1,ch.swisstopo.fixpunkte-lfp2"
+            layer["format"] = "image/png"          
+            layer["crs"] = "EPSG:" + str(epsg)
+            layer["group"] = group
+
+            vlayer = self.layerLoader.load(layer, False, True)
 
             layer = {}
             layer["type"] = "postgres"

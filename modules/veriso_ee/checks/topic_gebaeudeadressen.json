@@ -12,20 +12,17 @@
     {
       "id": "gebaeudeadressen_lokalisation", 
       "name": "Lokalisation",
-      "group": "Gebaeudeadressen", 
       "file": "complexchecks.gebaeudeadressen_lokalisation",
       "shortcut": "F12"
     },    
     {
       "id": "gebaeudeadressen_checklayer", 
       "name": "Checklayer",
-      "group": "Gebaeudeadressen", 
       "file": "complexchecks.gebaeudeadressen_checklayer"
     },    
     {
       "id": "gebaeudeadressen_basislayer", 
       "name": "Basislayer",
-      "group": "Gebaeudeadressen", 
       "file": "complexchecks.gebaeudeadressen_basislayer"
     }   
   ]

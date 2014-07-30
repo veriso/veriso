@@ -118,8 +118,18 @@ class LoadLayer(QObject):
                     style = layer["style"]
                 except:
                     style = ""
+                    
+                my_layers = layers.split(",")
+                my_styles = styles.split(",")
+                layer_string = ""
+                style_string = ""
+                for my_layer in my_layers:
+                    layer_string += "&layers=" + my_layer
+                    # So werden einfach leere Styles requested.
+                    # Korrekterweise wäre style=qml und wmsstyle = Style der vom WMS requested wird.
+                    style_string += "&styles="
             
-                uri = "IgnoreGetMapUrl=1&crs="+crs+"&layers="+layers+"&styles="+styles+"&format="+format+"&url="+url
+                uri = "IgnoreGetMapUrl=1&crs="+crs+layer_string+style_string+"&format="+format+"&url="+url
                 my_layer = QgsRasterLayer (uri, title, "wms", False)      
 
             else:
@@ -135,7 +145,8 @@ class LoadLayer(QObject):
                 self.iface.messageBar().pushMessage("Error",  self.tr("Layer is not valid"), level=QgsMessageBar.CRITICAL, duration=5)                                                            
                 return       
             else:
-                QgsMapLayerRegistry.instance().addMapLayer(my_layer)                
+                # QgsMapLayerRegistry.instance().addMapLayer(my_layer)    
+                QgsMapLayerRegistry.instance().addMapLayer(my_layer, False)        
                 if group: # Layer soll in eine bestimmte Gruppe hinzugefügt werden.
                     my_group_node = self.root.findGroup(group)
                     if not my_group_node: # Gruppe noch nicht vorhanden.
@@ -153,14 +164,23 @@ class LoadLayer(QObject):
                     #
                     # NEIN: Anscheinend ist es ein Problem wenn man dann layer_node.setVisible(Qt.Checked)
                     # macht. Dann funktionierts nicht mehr. -> Wieder zurückändern auf einfachere Methode.
-                    my_layer_node = self.root.findLayer(my_layer.id())
-                    cloned_layer = my_layer_node.clone()
-                    my_group_node.insertChildNode(0, cloned_layer)
-                    self.root.removeChildNode(my_layer_node)
-                    my_layer_node = self.root.findLayer(my_layer.id()) # Layer bekommt neuen layer_node.
+                    
+                    # "Umweg": Hat Probleme gemacht, falls ein Gruppe "active" war. Dann wurden der neue
+                    # Layer ebenfalls (zusätzlich) ihr hinzugefügt.
+#                    my_layer_node = self.root.findLayer(my_layer.id())
+#                    cloned_layer = my_layer_node.clone()
+#                    my_group_node.insertChildNode(0, cloned_layer)
+#                    self.root.removeChildNode(my_layer_node)
+#                    my_layer_node = self.root.findLayer(my_layer.id()) # Layer bekommt neuen layer_node.
+                    
+                    # "Direkt(er)"
+                    my_layer_node = my_group_node.insertLayer(0, my_layer)
                     
                 else:  # layer_node suchen für nicht verschobenen Layer.
+                    QgsMapLayerRegistry.instance().addMapLayer(my_layer)                        
                     my_layer_node = self.root.findLayer(my_layer.id())
+                    
+                my_layer_node.setVisible(Qt.Unchecked)
                     
                 if visible:
                     my_layer_node.setVisible(Qt.Checked)
