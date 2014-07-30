@@ -109,7 +109,7 @@ class ComplexCheck(QObject):
             gemgrelayer = self.layerLoader.load(layer)
 
             # Kartenausschnit verändern. 
-            # Bug? in QGIS: http://hub.qgis.org/issues/10980
+            # Bug (?) in QGIS: http://hub.qgis.org/issues/10980
             if gemgrelayer:
                 rect = gemgrelayer.extent()
                 rect.scale(5)
@@ -131,4 +131,6 @@ class ComplexCheck(QObject):
         # Scale-Unit waren eingestellt, falls
         # der erste geladene Layer OHNE
         # Geometrie war.
+        # Habe es mit LFP3Nachfuehrung 
+        # OHNE "geom" getestet.
         # Workaround war notwendig.
