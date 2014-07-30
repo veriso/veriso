@@ -49,10 +49,13 @@ class ComplexCheck(QObject):
             layer["group"] = group
             layer["style"] = "tseinteilung/toleranzstufe.qml"
             
-            # Fall man die Legend und/oder die Gruppe 
-            # zusammengeklappt haben will:
-            # self.layerLoader.load(layer, True, True)
-#            vlayer = self.layerLoader.load(layer)
+            # Die Sichtbarkeit des Layer und ob die Legende
+            # und die Gruppe zusammengeklappt sein sollen:
+            # self.layerLoader.load(layer, True, True, True)
+            # Legende = vorletztes True (default is False)
+            # Gruppe = letztes True (default is False)
+            # Sichtbarkeit des Layers = erstes True (default is True)
+            vlayer = self.layerLoader.load(layer)
             
             layer = {}
             layer["type"] = "postgres"
@@ -64,14 +67,8 @@ class ComplexCheck(QObject):
             layer["readonly"] = True            
             layer["group"] = group
             
-#            vlayer = self.layerLoader.load(layer, True)            
+            vlayer = self.layerLoader.load(layer, False, True)            
             
-            # Layer in Legende ausschalten.
-#            if vlayer:
-#                vlayer_node = self.root.findLayer(vlayer.id())
-#                if vlayer_node:
-#                    vlayer_node.setVisible(Qt.Unchecked)
-                    
             layer = {}
             layer["type"] = "postgres"
             layer["title"] = self.tr("LFP3")
@@ -83,7 +80,7 @@ class ComplexCheck(QObject):
             layer["group"] = group
             layer["style"] = "fixpunkte/lfp3.qml"
 
-#            vlayer = self.layerLoader.load(layer)
+            vlayer = self.layerLoader.load(layer)
             
             layer = {}
             layer["type"] = "postgres"
@@ -96,8 +93,8 @@ class ComplexCheck(QObject):
             layer["group"] = group
             layer["style"] = "fixpunkte/lfp3ausserhalb.qml"
             
-#            vlayer = self.layerLoader.load(layer)
-            
+            vlayer = self.layerLoader.load(layer)
+
             layer = {}
             layer["type"] = "postgres"
             layer["title"] = self.tr("Gemeindegrenze")
@@ -111,12 +108,17 @@ class ComplexCheck(QObject):
 
             gemgrelayer = self.layerLoader.load(layer)
 
+            # Kartenausschnit verändern. 
+            # Bug? in QGIS: http://hub.qgis.org/issues/10980
             if gemgrelayer:
                 rect = gemgrelayer.extent()
-#                rect.scale(1.2)
                 rect.scale(5)
                 self.iface.mapCanvas().setExtent(rect)        
                 self.iface.mapCanvas().refresh() 
+            # Bei gewissen Fragestellungen sicher sinnvoller
+            # auf den ganzen Kartenausschnitt zu zoomen:
+            # self.iface.mapCanvas().zoomToFullExtent()
+            
                 
         except Exception, e:
             QApplication.restoreOverrideCursor()            

@@ -13,7 +13,7 @@ class LoadLayer(QObject):
         self.canvas = self.iface.mapCanvas()
         self.root = QgsProject.instance().layerTreeRoot()
 
-    def load(self, layer, collapsed_legend = False, collapsed_group = False):
+    def load(self, layer, visible= True, collapsed_legend = False, collapsed_group = False):
         settings = QSettings("CatAIS","VeriSO")
         module_name = settings.value("project/appmodule")
         provider = settings.value("project/provider")
@@ -135,43 +135,39 @@ class LoadLayer(QObject):
                 self.iface.messageBar().pushMessage("Error",  self.tr("Layer is not valid"), level=QgsMessageBar.CRITICAL, duration=5)                                                            
                 return       
             else:
-#                QgsMapLayerRegistry.instance().addMapLayer(my_layer)
-
-#                QgsMapLayerRegistry.instance().addMapLayer(my_layer, False)
-#                my_layer_node = self.root.addLayer(my_layer)
-                
-#                rect = my_layer.extent()
-#                rect.scale(5)
-#                self.iface.mapCanvas().setExtent(rect)        
-#                self.iface.mapCanvas().refresh() 
-
-
-#                QgsMapLayerRegistry.instance().addMapLayer(my_layer, False)                
                 QgsMapLayerRegistry.instance().addMapLayer(my_layer)                
                 if group: # Layer soll in eine bestimmte Gruppe hinzugefügt werden.
                     my_group_node = self.root.findGroup(group)
                     if not my_group_node: # Gruppe noch nicht vorhanden.
                         my_group_node = self.root.addGroup(group)
-                    # my_layer_node = my_group_node.addLayer(my_layer) # Layer wird hinten angehängt.
-                    # my_layer_node = my_group_node.insertLayer(0, my_layer) # Layer wird an erster Position eingefügt.
-                    # Achtung: Das ist eher ein Workaround. Meines Erachtens hats noch einen Bug... Blabla noch erläutern. -> ...
-                    
-                    # Layer sind nicht per default eingeschaltet.
+                    # Achtung: Das ist eher ein Workaround. Meines Erachtens hats noch einen Bug. 
+                    # Mit QgsMapLayerRegistry.instance().addMapLayer(my_layer, False)  wird
+                    # ein Layer nocht nicht in die Legende gehängt. Anschliessend kann man ihn
+                    # mit my_layer_node = self.root.addLayer(my_layer) der Legende hinzufügen.
+                    # Das führt aber dazu, dass was mit dem MapCanvas nicht mehr stimmt, dh.
+                    # .setExtent() funktioniert nicht mehr richtig. Wir der Layer jedoch direkt
+                    # in die Legende gehängt, funktioniert .setExtent() tadellos. Jetzt wird halt
+                    # momentan der Layer direkt eingehängt und anschliessen die die gewünschte
+                    # Gruppe verschoben. 
+                    # Kleiner (positiver) Nebeneffekt: Der Layer ist defaultmässig ausgeschaltet.
+                    #
+                    # NEIN: Anscheinend ist es ein Problem wenn man dann layer_node.setVisible(Qt.Checked)
+                    # macht. Dann funktionierts nicht mehr. -> Wieder zurückändern auf einfachere Methode.
                     my_layer_node = self.root.findLayer(my_layer.id())
                     cloned_layer = my_layer_node.clone()
                     my_group_node.insertChildNode(0, cloned_layer)
                     self.root.removeChildNode(my_layer_node)
+                    my_layer_node = self.root.findLayer(my_layer.id()) # Layer bekommt neuen layer_node.
                     
-                else:  # Layer wird in Root-Gruppe hinzugefügt.
-                    my_layer_node = self.root.addLayer(my_layer)
+                else:  # layer_node suchen für nicht verschobenen Layer.
+                    my_layer_node = self.root.findLayer(my_layer.id())
+                    
+                if visible:
+                    my_layer_node.setVisible(Qt.Checked)
                     
                 if collapsed_legend:
-                    my_layer_node.setExpanded(False)
-                    
-                if collapsed_group:
-                    if group:
-                        my_group_node.setExpanded(False)
-        
+                    my_layer_node.setExpanded(False)       
+                   
             return my_layer
 
         except Exception:
