@@ -83,12 +83,10 @@ class ImportProjectDialog(QDialog, Ui_ImportProject):
                     return  
                     
                 sql = "SELECT schema_name FROM information_schema.schemata WHERE schema_name = '" + self.lineEditDbSchema.text() + "';"
-                print sql
                 
                 query = db.exec_(sql)
                 if query.isActive():
                     count = query.size()
-                    print count
                     if count > 0:
                         QMessageBox.warning(None, "VeriSO", self.tr("Project name already in use."))
                     else:

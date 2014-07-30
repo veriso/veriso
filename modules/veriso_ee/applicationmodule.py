@@ -36,7 +36,7 @@ class ApplicationModule(QObject):
     def initGui(self):
         self.cleanGui()
         self.doInitChecksMenu()        
-#        self.doInitDefectsMenu()        
+        self.doInitDefectsMenu()        
         self.doInitTopicsTablesMenu()
         self.doInitBaselayerMenu()
         
@@ -199,47 +199,34 @@ class ApplicationModule(QObject):
         for table in tables[::-1]:
             self.doShowSingleTopicLayer(table)
         
-#    def doInitDefectsMenu(self):
-#        menuBar = QMenuBar(self.toolBar)
-#        menuBar.setObjectName("QcadastreModule.LoadDefectsMenuBar")        
-#        menuBar.setSizePolicy(QSizePolicy(QSizePolicy.Minimum, QSizePolicy.Minimum))
-#        menu = QMenu(menuBar)
-#        menu.setTitle(QCoreApplication.translate( "QcadastreModule","Defects"))  
-#
-#        action = QAction(QCoreApplication.translate("QcadastreModule", "Load defects layer"), self.iface.mainWindow())
-#        QObject.connect(action, SIGNAL( "triggered()"), lambda foo="bar": self.doLoadDefects(foo))
-#        menu.addAction(action)     
-#        
-#        action = QAction(QCoreApplication.translate("QcadastreModule", "Export defects layer"), self.iface.mainWindow())
-#        QObject.connect(action, SIGNAL( "triggered()"), lambda foo="bar": self.doExportDefects(foo))
-#        menu.addAction(action)     
-#
-#        menuBar.addMenu(menu)
-#        self.toolBar.insertWidget(self.beforeAction, menuBar)
-#
-#    def doLoadDefects(self, bar):
-#        from tools.doLoadDefects import LoadDefects
-#        d = LoadDefects(self.iface)
-#        d.run()
-#
-#    def doExportDefects(self, foo):
-#        from tools.doExportDefects import ExportDefects        
-#        d = ExportDefects(self.iface)
-#        d.run()
-#
-#    def updateCrsScale(self):
-#        """
-#            Update the scale map units and the crs manually since there is a bug with geometryless tables.
-#        """
-#        try:
-#            self.canvas.setMapUnits(0)		
-#            srs = QgsCoordinateReferenceSystem()
-#            srs.createFromSrid(int(self.epsg))
-#            renderer = self.canvas.mapRenderer()
-#            renderer.setDestinationCrs(srs)
-#        except Exception, e:
-#            print "Couldn't do it: %s" % e            
-#            self.iface.messageBar().pushMessage("Error",  QCoreApplication.translate("QcadastreModule", str(e)), level=QgsMessageBar.CRITICAL, duration=5)                    
+    def doInitDefectsMenu(self):
+        menuBar = QMenuBar(self.toolBar)
+        menuBar.setObjectName("VeriSOModule.LoadDefectsMenuBar")        
+        menuBar.setSizePolicy(QSizePolicy(QSizePolicy.Minimum, QSizePolicy.Minimum))
+        menu = QMenu(menuBar)
+        menu.setTitle(_translate("VeriSO_EE", "Defects",  None))  
+
+        action = QAction(_translate("VeriSO_EE", "Load defects layer",  None), self.iface.mainWindow())
+        QObject.connect(action, SIGNAL( "triggered()"), lambda foo="bar": self.doLoadDefects(foo))
+        menu.addAction(action)     
+        
+        action = QAction(QCoreApplication.translate("QcadastreModule", "Export defects layer"), self.iface.mainWindow())
+        QObject.connect(action, SIGNAL( "triggered()"), lambda foo="bar": self.doExportDefects(foo))
+        menu.addAction(action)     
+
+        menuBar.addMenu(menu)
+        self.toolBar.insertWidget(self.beforeAction, menuBar)
+
+    def doLoadDefects(self, bar):
+        from tools.doLoadDefects import LoadDefects
+        d = LoadDefects(self.iface)
+        d.run()
+
+    def doExportDefects(self, foo):
+        from tools.doExportDefects import ExportDefects        
+        d = ExportDefects(self.iface)
+        d.run()
+
 
     def cleanGui(self):
         # Remove all the applications module specific menus.

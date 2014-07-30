@@ -13,9 +13,14 @@ VeriSO
 
 * svg in installationsverzeichnis kopieren... ist am einfachsten.
 
+
+* qgis tables json -> beispiel properties und java aufruf.
+
 ACHTUNG: wie genau workflow wenn neu übersetzen (also zusätzlich)?
 
 * Multilingual-Legenden: es wird "_fr" angehängt. Aber keine Fallbackebene. Dh. wenn im ComplexCheck die Legende mit Sprache angegeben wird, muss das QML auch vorhanden sein.
+
+* Erläutern wie mängel tabelle funktioniert und wie multilingual.
 
 LINGUIST:
 * Modulname als Kontext bei ApplicationModule und Modulname_ComplexCheckFile bei ComplexCheck

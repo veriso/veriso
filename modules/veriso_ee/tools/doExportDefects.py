@@ -6,36 +6,46 @@ from qgis.gui import *
 
 import time
 import os
+import sys
+import traceback
 
+try:
+    _encoding = QApplication.UnicodeUTF8
+    def _translate(context, text, disambig):
+        return QApplication.translate(context, text, disambig, _encoding)
+except AttributeError:
+    def _translate(context, text, disambig):
+        return QApplication.translate(context, text, disambig)
 
-class ExportDefects( QObject ):
+class ExportDefects(QObject):
     def __init__(self, iface):
         self.iface = iface
         
     def run(self):
         try:
             import xlwt as pycel
-        except:
-            self.iface.messageBar().pushMessage("Error",  QCoreApplication.translate("QcadastreModule", "Xlwt module not found."), level=QgsMessageBar.CRITICAL, duration=5)                                            
+        except Exception:
+            exc_type, exc_value, exc_traceback = sys.exc_info()
+            self.iface.messageBar().pushMessage("Error", str(traceback.format_exc(exc_traceback)), level=QgsMessageBar.CRITICAL, duration=10)                    
             return        
         
         try:        
-            settings = QSettings("CatAIS","Qcadastre")
-            module_name = (settings.value("project/appmodule"))
-            provider = (settings.value("project/provider"))
-            dbhost = (settings.value("project/dbhost"))
-            dbport = (settings.value("project/dbport"))
-            dbname = (settings.value("project/dbname"))
-            dbschema = (settings.value("project/dbschema"))
-            dbuser = (settings.value("project/dbuser"))
-            dbpwd = (settings.value("project/dbpwd"))
-            dbadmin = (settings.value("project/dbadmin"))
-            dbadminpwd = (settings.value("project/dbadminpwd"))
-            projectId = (settings.value("project/id"))
-            projectdir = (settings.value("project/projectdir"))
+            settings = QSettings("CatAIS","VeriSO")
+            module_name = settings.value("project/appmodule")
+            provider = settings.value("project/provider")
+            dbhost = settings.value("project/dbhost")
+            dbport = settings.value("project/dbport")
+            dbname = settings.value("project/dbname")
+            dbschema = settings.value("project/dbschema")
+            dbuser = settings.value("project/dbuser")
+            dbpwd = settings.value("project/dbpwd")
+            dbadmin = settings.value("project/dbadmin")
+            dbadminpwd = settings.value("project/dbadminpwd")
+            projectId = settings.value("project/id")
+            projectdir = settings.value("project/projectdir")
 
             if not dbhost or not dbport or not dbname or not dbschema or not dbuser or not dbpwd or not dbadmin or not dbadminpwd:
-                self.iface.messageBar().pushMessage("Error",  QCoreApplication.translate("QcadastreModule", "Missing database parameter. Cannot load layer."), level=QgsMessageBar.CRITICAL, duration=5)                    
+                self.iface.messageBar().pushMessage("Error",  _translate("VeriSO_EE_Defects", "Missing database parameter. Cannot load layer.", None), level=QgsMessageBar.CRITICAL, duration=10)                    
                 return
             
             uri = QgsDataSourceURI()        
@@ -49,15 +59,15 @@ class ExportDefects( QObject ):
             vlayer_lines = QgsVectorLayer(uri.uri(), "Maengel (Linien)", "postgres")
 
             if not vlayer_points.isValid():
-                self.iface.messageBar().pushMessage("Error",  QCoreApplication.translate("QcadastreModule", "Could not load defects layer."), level=QgsMessageBar.CRITICAL, duration=5)                                
+                self.iface.messageBar().pushMessage("Error",  _translate("VeriSO_EE_Defects", "Could not load defects layer.", None), level=QgsMessageBar.CRITICAL, duration=10)                    
                 return
             
             if not vlayer_lines.isValid():
-                self.iface.messageBar().pushMessage("Error",  QCoreApplication.translate("QcadastreModule", "Could not load defects layer."), level=QgsMessageBar.CRITICAL, duration=5)                                
+                self.iface.messageBar().pushMessage("Error",  _translate("VeriSO_EE_Defects", "Could not load defects layer.", None), level=QgsMessageBar.CRITICAL, duration=10)                                    
                 return        
             
             if vlayer_points.featureCount() == 0 and vlayer_lines.featureCount() == 0:
-                self.iface.messageBar().pushMessage("Information",  QCoreApplication.translate("QcadastreModule", "Defects layer are empty."), level=QgsMessageBar.INFO, duration=5)                                            
+                self.iface.messageBar().pushMessage("Information",  _translate("VeriSO_EE_Defects", "Defects layer are empty.", None), level=QgsMessageBar.INFO, duration=10)                                                    
                 return
 
             # create excel file
@@ -185,9 +195,8 @@ class ExportDefects( QObject ):
             file = QDir.convertSeparators(QDir.cleanPath(os.path.join(projectdir, "maengel.xls")))
             wb.save(file)
             
-            self.iface.messageBar().pushMessage("Information",  QCoreApplication.translate("QcadastreModule", "Defect(s) written: " + file), level=QgsMessageBar.INFO, duration=5)                                            
-        except Exception, e:
-            print "Couldn't do it: %s" % e
-            self.iface.messageBar().pushMessage("Error",  QCoreApplication.translate("QcadastreModule", str(e)), level=QgsMessageBar.CRITICAL, duration=5)                                
-            self.iface.messageBar().pushMessage("Error",  QCoreApplication.translate("QcadastreModule", "Defect(s) <b>not</b> written!<br>"), level=QgsMessageBar.CRITICAL, duration=5)                                
+            self.iface.messageBar().pushMessage("Information",  _translate("VeriSO_EE_Defects", "Defect(s) written: ", None) + str(file), level=QgsMessageBar.INFO, duration=10)                                                    
+        except Exception:
+            exc_type, exc_value, exc_traceback = sys.exc_info()
+            self.iface.messageBar().pushMessage("Error",  _translate("QcadastreModule", "Defect(s) <b>not</b> written!<br>. ", None) + str(traceback.format_exc(exc_traceback)), level=QgsMessageBar.CRITICAL, duration=10)                                
             return

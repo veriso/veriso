@@ -136,7 +136,7 @@ class ComplexCheck(QObject):
             # self.iface.mapCanvas().zoomToFullExtent()
             
                 
-        except Exception, e:
+        except Exception:
             QApplication.restoreOverrideCursor()            
             exc_type, exc_value, exc_traceback = sys.exc_info()
             self.iface.messageBar().pushMessage("Error", str(traceback.format_exc(exc_traceback)), level=QgsMessageBar.CRITICAL, duration=5)                    
