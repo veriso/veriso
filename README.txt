@@ -1,6 +1,8 @@
 VeriSO
 ======
 
+* Grundstruktur VerisO. andere Fachschalen möglich. z.B. nplanung oder auch erfassung. 
+
 * Einstellungen QGIS... (Plastique etc.)
 * Konventionen:
  - VeriSOModule.. dann weiter veriso_ee weiter fp3...
@@ -18,6 +20,7 @@ VeriSO
 
 ACHTUNG: wie genau workflow wenn neu übersetzen (also zusätzlich)?
 
+* erwähnen, dass v.a. kategorisierte Legenden (z.b. Vermarkungsart oder TS1) event. zsuätzlich gemacht werden müssen.
 * Multilingual-Legenden: es wird "_fr" angehängt. Aber keine Fallbackebene. Dh. wenn im ComplexCheck die Legende mit Sprache angegeben wird, muss das QML auch vorhanden sein.
 
 * Erläutern wie mängel tabelle funktioniert und wie multilingual.
