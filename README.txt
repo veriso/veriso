@@ -1,8 +1,6 @@
 VeriSO
 ======
 
-* Grundstruktur VerisO. andere Fachschalen möglich. z.B. nplanung oder auch erfassung. 
-
 * Einstellungen QGIS... (Plastique etc.)
 * Konventionen:
  - VeriSOModule.. dann weiter veriso_ee weiter fp3...
@@ -15,8 +13,6 @@ VeriSO
 
 * svg in installationsverzeichnis kopieren... ist am einfachsten.
 
-
-* qgis tables json -> beispiel properties und java aufruf.
 
 ACHTUNG: wie genau workflow wenn neu übersetzen (also zusätzlich)?
 
