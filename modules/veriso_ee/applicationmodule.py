@@ -210,7 +210,7 @@ class ApplicationModule(QObject):
         QObject.connect(action, SIGNAL( "triggered()"), lambda foo="bar": self.doLoadDefects(foo))
         menu.addAction(action)     
         
-        action = QAction(QCoreApplication.translate("QcadastreModule", "Export defects layer"), self.iface.mainWindow())
+        action = QAction(QCoreApplication.translate("VeriSO_EE", "Export defects layer"), self.iface.mainWindow())
         QObject.connect(action, SIGNAL( "triggered()"), lambda foo="bar": self.doExportDefects(foo))
         menu.addAction(action)     
 
