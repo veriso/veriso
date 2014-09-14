@@ -205,7 +205,6 @@ class ImportProjectDialog(QDialog, Ui_ImportProject):
         
         if self.projects_rootdir == "":
             QMessageBox.warning(None, "VeriSO", self.tr("No root directory for projects set."))                                                
-            self.bar.pushMessage("Warning",  QCoreApplication.translate("Qcadastre", "No root directory for projects set."), level=QgsMessageBar.WARNING)                                    
             return
             
         if self.projects_database.strip() == "":

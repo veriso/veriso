@@ -82,7 +82,7 @@ class ComplexCheck(QObject):
             layer["sql"] = ""
             layer["readonly"] = True            
             layer["group"] = group
-            layer["style"] = "fixpunkte/lfp3.qml"
+            layer["style"] = "fixpunkte/lfp3_"+locale+".qml"
 
             vlayer = self.layerLoader.load(layer)
             
