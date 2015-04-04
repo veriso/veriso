@@ -31,11 +31,7 @@ import traceback
 import importlib
 import resources_rc
 
-from veriso_dialog import VeriSODialog
-
 class VeriSO:
-    """QGIS Plugin Implementation."""
-
     def __init__(self, iface):
         self.iface = iface
         self.plugin_dir = os.path.dirname(__file__)
@@ -55,147 +51,74 @@ class VeriSO:
             if qVersion() > '4.3.3':
                 QCoreApplication.installTranslator(self.translator)
 
-        # Create the dialog (after translation) and keep reference
-        self.dlg = VeriSODialog()
-
-        # Declare instance attributes
-        self.actions = []
-        self.menu = self.tr(u'&VeriSO')
-        # TODO: We are going to let the user set this up in a future iteration
-        self.toolbar = self.iface.addToolBar(u'VeriSO')
-        self.toolbar.setObjectName(u'VeriSO')
-
     # noinspection PyMethodMayBeStatic
     def tr(self, message):
         # noinspection PyTypeChecker,PyArgumentList,PyCallByClass
         return QCoreApplication.translate('VeriSO', message)
 
-    def add_action(
-        self,
-        icon_path,
-        text,
-        callback,
-        enabled_flag=True,
-        add_to_menu=True,
-        add_to_toolbar=True,
-        status_tip=None,
-        whats_this=None,
-        parent=None):
-        """Add a toolbar icon to the InaSAFE toolbar.
-
-        :param icon_path: Path to the icon for this action. Can be a resource
-            path (e.g. ':/plugins/foo/bar.png') or a normal file system path.
-        :type icon_path: str
-
-        :param text: Text that should be shown in menu items for this action.
-        :type text: str
-
-        :param callback: Function to be called when the action is triggered.
-        :type callback: function
-
-        :param enabled_flag: A flag indicating if the action should be enabled
-            by default. Defaults to True.
-        :type enabled_flag: bool
-
-        :param add_to_menu: Flag indicating whether the action should also
-            be added to the menu. Defaults to True.
-        :type add_to_menu: bool
-
-        :param add_to_toolbar: Flag indicating whether the action should also
-            be added to the toolbar. Defaults to True.
-        :type add_to_toolbar: bool
-
-        :param status_tip: Optional text to show in a popup when mouse pointer
-            hovers over the action.
-        :type status_tip: str
-
-        :param parent: Parent widget for the new action. Defaults None.
-        :type parent: QWidget
-
-        :param whats_this: Optional text to show in the status bar when the
-            mouse pointer hovers over the action.
-
-        :returns: The action that was created. Note that the action is also
-            added to self.actions list.
-        :rtype: QAction
-        """
-
-        icon = QIcon(icon_path)
-        action = QAction(icon, text, parent)
-        action.triggered.connect(callback)
-        action.setEnabled(enabled_flag)
-
-        if status_tip is not None:
-            action.setStatusTip(status_tip)
-
-        if whats_this is not None:
-            action.setWhatsThis(whats_this)
-
-        if add_to_toolbar:
-            self.toolbar.addAction(action)
-
-        if add_to_menu:
-            self.iface.addPluginToMenu(
-                self.menu,
-                action)
-
-        self.actions.append(action)
-
-        return action
-
     def initGui(self):
         icon_path = ':/plugins/veriso/icon.png'
-        self.add_action(
-            icon_path,
-            text=self.tr(u'VeriSO'),
-            callback=self.run,
-            parent=self.iface.mainWindow())
+
+        # Qt offers some themes which you also can change in QGIS settins.
+        # Since the background color of the menu toolbar can be different than
+        # the background color of the button toolbars, the veriso toolbar 
+        # doesn't suit well. So we change it manually by finding out the 
+        # background color of one (e.g. file) toolbar and applying it 
+        # to the veriso toolbar.
+        # This approach works (well?) for xfce 4.12 and standard (gtk+) theme.
+        # We need to do this also in other methods when we add new menus :-(
+        background_color = self.iface.fileToolBar().palette().color(QPalette.Window).name()
+        background_color_pressed = self.iface.mainWindow().menuBar().palette().color(QPalette.Background).name()
+        border_color = self.iface.mainWindow().menuBar().palette().color(QPalette.Midlight).name() 
 
         # main toolbar
-        self.toolBar = self.iface.addToolBar("VeriSO")
-        self.toolBar.setObjectName("VeriSO.Main.ToolBar")
-        self.toolBar.setSizePolicy(QSizePolicy(QSizePolicy.Minimum, QSizePolicy.Minimum))        
+        self.toolbar = self.iface.addToolBar("VeriSO")
+        self.toolbar.setStyleSheet("background-color: " + background_color)
+        self.toolbar.setObjectName("VeriSO.Main.ToolBar")
+        self.toolbar.setSizePolicy(QSizePolicy(QSizePolicy.Minimum, QSizePolicy.Minimum))        
 
         # projects
-        self.menuBarProjects = QMenuBar()
-        self.menuBarProjects.setObjectName("VeriSO.Main.ProjectsMenuBar")                
-        self.menuBarProjects.setSizePolicy(QSizePolicy(QSizePolicy.Minimum, QSizePolicy.Preferred))
-        self.menuProjects = QMenu()
-        self.menuProjects.setTitle(self.tr("Projects"))
-        self.menuBarProjects.addMenu(self.menuProjects)
+        self.menubar_projects = QMenuBar()
+        self.menubar_projects.setStyleSheet("QMenuBar::item {background-color: " + background_color +";} QMenuBar::item::pressed {background-color: " + background_color_pressed + "; border-top: 1px solid " + border_color + "; border-left: 1px solid " + border_color + "; border-right: 1px solid " + border_color + ";}")        
+        self.menubar_projects.setObjectName("VeriSO.Main.ProjectsMenuBar")                
+        self.menubar_projects.setSizePolicy(QSizePolicy(QSizePolicy.Minimum, QSizePolicy.Preferred))
+        self.menu_projects = QMenu()
+        self.menu_projects.setTitle(self.tr("Projects"))
+        self.menubar_projects.addMenu(self.menu_projects)
 
         # files
-        self.menuBarFile= QMenuBar()
-        self.menuBarFile.setObjectName("VeriSO.Main.FileMenuBar")        
-        self.menuBarFile.setSizePolicy(QSizePolicy(QSizePolicy.Minimum, QSizePolicy.Minimum))
-        self.menuFile = QMenu()
-        self.menuFile.setTitle(self.tr("File"))
-
+        self.menubar_file= QMenuBar()
+        self.menubar_file.setStyleSheet("QMenuBar::item {background-color: " + background_color +";} QMenuBar::item::pressed {background-color: " + background_color_pressed + "; border-top: 1px solid " + border_color + "; border-left: 1px solid " + border_color + "; border-right: 1px solid " + border_color + ";}")
+        self.menubar_file.setObjectName("VeriSO.Main.FileMenuBar")        
+        self.menubar_file.setSizePolicy(QSizePolicy(QSizePolicy.Minimum, QSizePolicy.Minimum))
+        self.menu_file = QMenu()
+        self.menu_file.setTitle(self.tr("File"))
         self.import_project = QAction(self.tr("Import project"), self.iface.mainWindow())
         self.import_project.triggered.connect(self.doImportProject)
         self.delete_project = QAction(self.tr("Delete project"), self.iface.mainWindow())    
         self.delete_project.triggered.connect(self.doDeleteProject)
-        self.menuFile.addActions([self.import_project, self.delete_project])
-        self.menuBarFile.addMenu(self.menuFile) 
+        self.menu_file.addActions([self.import_project, self.delete_project])
+        self.menubar_file.addMenu(self.menu_file) 
         
         # settings
-        self.menuBarSettings = QMenuBar()
-        self.menuBarSettings.setObjectName("VeriSO.Main.SettingsMenuBar")
-        self.menuBarSettings.setSizePolicy(QSizePolicy(QSizePolicy.Minimum, QSizePolicy.Minimum))        
-        self.menuSettings = QMenu()
-        self.menuSettings.setTitle(self.tr("Settings"))
+        self.menubar_settings = QMenuBar()
+        self.menubar_settings.setStyleSheet("QMenuBar::item {background-color: " + background_color +";} QMenuBar::item::pressed {background-color: " + background_color_pressed + "; border-top: 1px solid " + border_color + "; border-left: 1px solid " + border_color + "; border-right: 1px solid " + border_color + ";}")        
+        self.menubar_settings.setObjectName("VeriSO.Main.SettingsMenuBar")
+        self.menubar_settings.setSizePolicy(QSizePolicy(QSizePolicy.Minimum, QSizePolicy.Minimum))        
+        self.menu_settings = QMenu()
+        self.menu_settings.setTitle(self.tr("Settings"))
         
         self.options = QAction(self.tr("Options"), self.iface.mainWindow())
         self.options.triggered.connect(self.doOptions)
-        self.menuSettings.addActions([self.options])
-        self.menuBarSettings.addMenu(self.menuSettings)        
+        self.menu_settings.addActions([self.options])
+        self.menubar_settings.addMenu(self.menu_settings)        
         
-        # add menus to toolbar
-        self.toolBar.addWidget(self.menuBarProjects) 
-        self.toolBar.addWidget(self.menuBarFile)
-        self.toolBar.addWidget(self.menuBarSettings)
+        # Add menus to toolbar.
+        self.toolbar.addWidget(self.menubar_projects) 
+        self.toolbar.addWidget(self.menubar_file)
+        self.toolbar.addWidget(self.menubar_settings)
     
-        # initial load of project menu entries
+        # Initial load of project menu entries.
         self.doLoadProjectsDatabase()                
         
     def doImportProject(self):
@@ -275,12 +198,12 @@ class VeriSO:
             QMessageBox.critical(None, "VeriSO", self.tr("Error while loading application module: ") + str(traceback.format_exc(exc_traceback)))                                    
 
     def unload(self):
-        for action in self.actions:
-            self.iface.removePluginMenu(
-                self.tr(u'&VeriSO'),
-                action)
-            self.iface.removeToolBarIcon(action)
-        self.iface.mainWindow().removeToolBar(self.toolBar)
+#        for action in self.actions:
+#            self.iface.removePluginMenu(
+#                self.tr(u'&VeriSO'),
+#                action)
+#            self.iface.removeToolBarIcon(action)
+        self.iface.mainWindow().removeToolBar(self.toolbar)
 
     def run(self):
         # show the dialog
