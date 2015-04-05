@@ -29,6 +29,9 @@
      <property name="title">
       <string>Import data </string>
      </property>
+     <property name="flat">
+      <bool>false</bool>
+     </property>
      <layout class="QGridLayout" name="gridLayout_2">
       <item row="0" column="0">
        <layout class="QGridLayout" name="gridLayout_4">
@@ -49,7 +52,7 @@
          </widget>
         </item>
         <item row="0" column="3">
-         <widget class="QPushButton" name="btnBrowsInputFile">
+         <widget class="QPushButton" name="btnBrowseInputFile">
           <property name="text">
            <string>Browse</string>
           </property>
@@ -147,7 +150,7 @@
         <item row="2" column="0">
          <widget class="QLabel" name="label_7">
           <property name="text">
-           <string>Ili model name: </string>
+           <string>Model name: </string>
           </property>
          </widget>
         </item>

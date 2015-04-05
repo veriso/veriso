@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'base/settings/Ui_options.ui'
 #
-# Created: Wed Jul 30 11:22:19 2014
+# Created: Sun Apr  5 12:29:22 2015
 #      by: PyQt4 UI code generator 4.10.4
 #
 # WARNING! All changes made in this file will be lost!
@@ -26,7 +26,7 @@ except AttributeError:
 class Ui_Options(object):
     def setupUi(self, Options):
         Options.setObjectName(_fromUtf8("Options"))
-        Options.resize(541, 387)
+        Options.resize(539, 387)
         sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -218,15 +218,15 @@ class Ui_Options(object):
         self.label.setText(_translate("Options", "Projects management: ", None))
         self.btnBrowseProjectsDatabase.setText(_translate("Options", "Browse", None))
         self.btnBrowseProjectsRootDir.setText(_translate("Options", "Browse", None))
-        self.label_11.setText(_translate("Options", "Projects root dir:", None))
+        self.label_11.setText(_translate("Options", "Projects root directory: ", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tabGeneral), _translate("Options", "General", None))
-        self.groupBox_3.setTitle(_translate("Options", "Import app", None))
+        self.groupBox_3.setTitle(_translate("Options", "Import application", None))
         self.label_8.setText(_translate("Options", "Jar file: ", None))
         self.btnBrowseImportJar.setText(_translate("Options", "Browse", None))
         self.groupBox_2.setTitle(_translate("Options", "VM arguments", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tabImport), _translate("Options", "Import", None))
         self.groupBox_5.setTitle(_translate("Options", "Import database", None))
-        self.lblDbAdminPwd.setText(_translate("Options", "Admin Password", None))
+        self.lblDbAdminPwd.setText(_translate("Options", "Admin password", None))
         self.lblDbAdmin.setText(_translate("Options", "Admin", None))
         self.lblDbPort.setText(_translate("Options", "Port", None))
         self.lblDbUserPwd.setText(_translate("Options", "Password", None))

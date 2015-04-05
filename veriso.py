@@ -51,15 +51,13 @@ class VeriSO:
             if qVersion() > '4.3.3':
                 QCoreApplication.installTranslator(self.translator)
 
-    # noinspection PyMethodMayBeStatic
     def tr(self, message):
-        # noinspection PyTypeChecker,PyArgumentList,PyCallByClass
         return QCoreApplication.translate('VeriSO', message)
 
     def initGui(self):
         icon_path = ':/plugins/veriso/icon.png'
 
-        # Qt offers some themes which you also can change in QGIS settins.
+        # Qt offers some themes which you also can change in QGIS settings.
         # Since the background color of the menu toolbar can be different than
         # the background color of the button toolbars, the veriso toolbar 
         # doesn't suit well. So we change it manually by finding out the 
@@ -94,7 +92,7 @@ class VeriSO:
         self.menu_file = QMenu()
         self.menu_file.setTitle(self.tr("File"))
         self.import_project = QAction(self.tr("Import project"), self.iface.mainWindow())
-        self.import_project.triggered.connect(self.doImportProject)
+        self.import_project.triggered.connect(self.do_import_project)
         self.delete_project = QAction(self.tr("Delete project"), self.iface.mainWindow())    
         self.delete_project.triggered.connect(self.doDeleteProject)
         self.menu_file.addActions([self.import_project, self.delete_project])
@@ -121,8 +119,8 @@ class VeriSO:
         # Initial load of project menu entries.
         self.doLoadProjectsDatabase()                
         
-    def doImportProject(self):
-        from base.file.doImportProject import ImportProjectDialog
+    def do_import_project(self):
+        from base.file.importproject import ImportProjectDialog
         self.import_dlg = ImportProjectDialog(self.iface.mainWindow())
         if self.import_dlg.initGui():
             self.import_dlg.show()
@@ -136,7 +134,7 @@ class VeriSO:
             self.delete_dlg.projectsDatabaseHasChanged.connect(self.doLoadProjectsDatabase)
                     
     def doOptions(self):
-        from base.settings.doOptions import OptionsDialog
+        from base.settings.options import OptionsDialog
         self.options_dlg = OptionsDialog(self.iface.mainWindow())
         self.options_dlg.initGui()
         self.options_dlg.show()

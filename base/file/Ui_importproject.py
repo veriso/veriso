@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'Ui_importproject.ui'
+# Form implementation generated from reading ui file 'base/file/Ui_importproject.ui'
 #
-# Created: Wed Jul 30 11:15:02 2014
+# Created: Sun Apr  5 17:01:56 2015
 #      by: PyQt4 UI code generator 4.10.4
 #
 # WARNING! All changes made in this file will be lost!
@@ -35,6 +35,7 @@ class Ui_ImportProject(object):
         self.buttonBox.setObjectName(_fromUtf8("buttonBox"))
         self.gridLayout.addWidget(self.buttonBox, 1, 0, 1, 1)
         self.groupBox = QtGui.QGroupBox(ImportProject)
+        self.groupBox.setFlat(False)
         self.groupBox.setObjectName(_fromUtf8("groupBox"))
         self.gridLayout_2 = QtGui.QGridLayout(self.groupBox)
         self.gridLayout_2.setObjectName(_fromUtf8("gridLayout_2"))
@@ -47,9 +48,9 @@ class Ui_ImportProject(object):
         self.label.setMinimumSize(QtCore.QSize(0, 27))
         self.label.setObjectName(_fromUtf8("label"))
         self.gridLayout_4.addWidget(self.label, 0, 0, 1, 1)
-        self.btnBrowsInputFile = QtGui.QPushButton(self.groupBox)
-        self.btnBrowsInputFile.setObjectName(_fromUtf8("btnBrowsInputFile"))
-        self.gridLayout_4.addWidget(self.btnBrowsInputFile, 0, 3, 1, 1)
+        self.btnBrowseInputFile = QtGui.QPushButton(self.groupBox)
+        self.btnBrowseInputFile.setObjectName(_fromUtf8("btnBrowseInputFile"))
+        self.gridLayout_4.addWidget(self.btnBrowseInputFile, 0, 3, 1, 1)
         self.lblProjectName = QtGui.QLabel(self.groupBox)
         self.lblProjectName.setMinimumSize(QtCore.QSize(0, 27))
         self.lblProjectName.setObjectName(_fromUtf8("lblProjectName"))
@@ -127,13 +128,13 @@ class Ui_ImportProject(object):
         ImportProject.setWindowTitle(_translate("ImportProject", "Import Project", None))
         self.groupBox.setTitle(_translate("ImportProject", "Import data ", None))
         self.label.setText(_translate("ImportProject", "Input file: ", None))
-        self.btnBrowsInputFile.setText(_translate("ImportProject", "Browse", None))
+        self.btnBrowseInputFile.setText(_translate("ImportProject", "Browse", None))
         self.lblProjectName.setText(_translate("ImportProject", "Project name: ", None))
         self.btnProjectName.setText(_translate("ImportProject", "Check", None))
         self.label_3.setText(_translate("ImportProject", "Date: ", None))
         self.label_5.setText(_translate("ImportProject", "Reference frame: ", None))
         self.label_6.setText(_translate("ImportProject", "Application module: ", None))
-        self.label_7.setText(_translate("ImportProject", "Ili model name: ", None))
+        self.label_7.setText(_translate("ImportProject", "Model name: ", None))
         self.label_4.setText(_translate("ImportProject", "Output:", None))
         self.label_2.setText(_translate("ImportProject", "Notes:", None))
 
