@@ -1,6 +1,7 @@
  # -*- coding: utf-8 -*-
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
+from PyQt4.QtSql import *
 from qgis.core import *
 from qgis.gui import *
 import os
@@ -8,6 +9,7 @@ import json
 import time
 import sys
 import traceback
+import collections
 
 from veriso.modules.veriso_ee.tools.utils import Utils
 from veriso.base.utils.doLoadLayer import LoadLayer
@@ -24,10 +26,10 @@ except AttributeError:
         return QApplication.translate(context, text, disambig)
 
 class ApplicationModule(QObject):
-    def __init__(self, iface, toolBar, locale_path):
+    def __init__(self, iface, toolbar, locale_path):
         self.iface = iface
         self.canvas = self.iface.mapCanvas()
-        self.toolBar = toolBar
+        self.toolbar = toolbar
         
         self.settings = QSettings("CatAIS","VeriSO")
         self.epsg = self.settings.value("project/epsg")
@@ -37,11 +39,11 @@ class ApplicationModule(QObject):
         self.cleanGui()
         self.doInitChecksMenu()        
         self.doInitDefectsMenu()        
-        self.doInitTopicsTablesMenu()
+        self.do_init_topics_tables_menu()
         self.doInitBaselayerMenu()
         
     def doInitChecksMenu(self):
-        menuBar = QMenuBar(self.toolBar)
+        menuBar = QMenuBar(self.toolbar)
         menuBar.setObjectName("VeriSOModule.LoadChecksMenuBar")        
         menuBar.setSizePolicy(QSizePolicy(QSizePolicy.Minimum, QSizePolicy.Minimum))
         menu = QMenu(menuBar)
@@ -87,7 +89,7 @@ class ApplicationModule(QObject):
                         QObject.connect(action, SIGNAL( "triggered()"), lambda complexCheck=check: self.doShowComplexCheck(complexCheck))
 
         menuBar.addMenu(menu)
-        self.toolBar.insertWidget(self.beforeAction, menuBar)
+        self.toolbar.insertWidget(self.beforeAction, menuBar)
 
     def doShowComplexCheck(self, check):
         try:
@@ -101,7 +103,7 @@ class ApplicationModule(QObject):
             return
 
     def doInitBaselayerMenu(self):
-        menuBar = QMenuBar(self.toolBar)
+        menuBar = QMenuBar(self.toolbar)
         menuBar.setObjectName("VeriSOModule.LoadBaselayerMenuBar")        
         menuBar.setSizePolicy(QSizePolicy(QSizePolicy.Minimum, QSizePolicy.Minimum))
         menu = QMenu(menuBar)
@@ -131,7 +133,7 @@ class ApplicationModule(QObject):
             QObject.connect(action, SIGNAL("triggered()" ), lambda layer=baselayer: self.doShowBaselayer(layer))    
 
         menuBar.addMenu(menu)
-        self.toolBar.insertWidget(self.beforeAction, menuBar)        
+        self.toolbar.insertWidget(self.beforeAction, menuBar)        
         
     def doShowBaselayer(self, layer):
         QApplication.setOverrideCursor(Qt.WaitCursor)
@@ -145,49 +147,154 @@ class ApplicationModule(QObject):
             return
         QApplication.restoreOverrideCursor()        
 
-    def doInitTopicsTablesMenu(self):
-        menuBar = QMenuBar(self.toolBar)
-        menuBar.setObjectName("VeriSOModule.LoadTopicsTablesMenuBar")        
-        menuBar.setSizePolicy(QSizePolicy(QSizePolicy.Minimum, QSizePolicy.Minimum))
-        menu = QMenu(menuBar)
-        menu.setTitle(_translate("VeriSO_EE", "Tables",  None))  
+    def do_init_topics_tables_menu(self):
+        menubar = QMenuBar(self.toolbar)
+        menubar.setObjectName("VeriSOModule.LoadTopicsTablesMenuBar")        
+        menubar.setSizePolicy(QSizePolicy(QSizePolicy.Minimum, QSizePolicy.Minimum))
+        menu = QMenu(menubar)
+        menu.setTitle(_translate("VeriSO_EE", "Tables", None))  
         
         locale = QSettings().value('locale/userLocale')[0:2]        
         
-        topics = Utils().getTopicsTables()
+        topics = self.get_topics_tables()
+        print topics
+        if not topics:
+            message = "Something went wrong catching the topics tables list from the database."
+            QMessageBox.critical(None, "VeriSO", self.tr(message))
+            return
+
+        for topic in topics:
+            print "********"
+            print topic
+            topic_menu = menu.addMenu(unicode(topic["topic"]))      
+            
+            i = 0
+            for table in topic["tables"]:
                 
-        if topics:
-            for topic in topics:
-                topicMenu = menu.addMenu(unicode(topic))        
+                print table
+                print topic["geometry_columns"][i]
+                print topic["class_names"][i]
+                i += 1
                 
-                # Wenn wir das hier machen, müssen wir es
-                # nur einmal machen.
-                for table in topics[topic]["tables"]:
-                    tableTitle = table["title"]
-                    try:
-                        keys = tableTitle.keys()
-                        try:
-                            tableTitle = unicode(tableTitle[locale])
-                        except:
-                            # Sprache nicht gefunden.
-                            tableTitle = unicode(tableTitle.values()[0])
-                    except:
-                        tableTitle = unicode(tableTitle)
-                        
-                    table["title"] = tableTitle
+                # At the moment there is no locale support here.
+                # Seems to be not very handy without mapping tables anyway...
+                
+                title = topic["class_names"][i]
+                
+        
+#        topics = Utils().getTopicsTables()
+#                
+#        if topics:
+#            for topic in topics:
+#                topicMenu = menu.addMenu(unicode(topic))        
+#                
+#                # Wenn wir das hier machen, müssen wir es
+#                # nur einmal machen.
+#                for table in topics[topic]["tables"]:
+#                    tableTitle = table["title"]
+#                    try:
+#                        keys = tableTitle.keys()
+#                        try:
+#                            tableTitle = unicode(tableTitle[locale])
+#                        except:
+#                            # Sprache nicht gefunden.
+#                            tableTitle = unicode(tableTitle.values()[0])
+#                    except:
+#                        tableTitle = unicode(tableTitle)
+#                        
+#                    table["title"] = tableTitle
+#
+#                action = QAction(_translate("VeriSO_EE", "Load Topic",  None), self.iface.mainWindow())
+#                topicMenu.addAction(action)    
+#                topicMenu.addSeparator()      
+#                QObject.connect(action, SIGNAL( "triggered()" ), lambda topic=topic: self.doShowTopic(topics[topic]))                   
+#
+#                for table in topics[topic]["tables"]:
+#                    action = QAction(table["title"], self.iface.mainWindow())
+#                    topicMenu.addAction(action)     
+#                    QObject.connect(action, SIGNAL("triggered()" ), lambda layer=table: self.doShowSingleTopicLayer(layer))    
 
-                action = QAction(_translate("VeriSO_EE", "Load Topic",  None), self.iface.mainWindow())
-                topicMenu.addAction(action)    
-                topicMenu.addSeparator()      
-                QObject.connect(action, SIGNAL( "triggered()" ), lambda topic=topic: self.doShowTopic(topics[topic]))                   
+        menubar.addMenu(menu)
+        self.toolbar.insertWidget(self.beforeAction, menubar)
+        
+    def get_topics_tables(self):
+        """Requests the topics and tables from the topic_tables database table.
+        This table was created in the postprocessing step.
+        
+        Returns:
+          False: If something went wrong when trying to get the list from the database. Otherwise a python dictionary.
+        """
+        try:            
+            db_host = self.settings.value("project/dbhost")
+            db_name = self.settings.value("project/dbname")
+            db_port = self.settings.value("project/dbport")
+            db_schema = self.settings.value("project/dbschema")
+            db_admin = self.settings.value("project/dbadmin")
+            db_admin_pwd = self.settings.value("project/dbadminpwd")
 
-                for table in topics[topic]["tables"]:
-                    action = QAction(table["title"], self.iface.mainWindow())
-                    topicMenu.addAction(action)     
-                    QObject.connect(action, SIGNAL("triggered()" ), lambda layer=table: self.doShowSingleTopicLayer(layer))    
+            db = QSqlDatabase.addDatabase("QPSQL")
+            db.setHostName(db_host)
+            db.setPort(int(db_port))
+            db.setDatabaseName(db_name)
+            db.setUserName(db_admin)
+            db.setPassword(db_admin_pwd)
+    
+            if not db.open():
+                message = "Could not open database: "
+                QgsMessageLog.logMessage(self.tr(message) + db.lastError().driverText(), "VeriSO", QgsMessageLog.CRITICAL)                                
+                return
+                
+            # I think libpg cannot deal with arrays from postgresql. So we return a comma sperated string.
+            # Everything is ordered alphanumerical. Not sure if we would know enough to sort by interlis model ordering?!
+            sql = "SELECT topic, array_to_string(array_agg(sql_name ORDER BY sql_name),',') as tables, "
+            sql += "array_to_string(array_agg(coalesce(f_geometry_column,'') ORDER BY sql_name),',') as geometry_columns ,"
+            sql += "array_to_string(array_agg(class_name ORDER BY sql_name),',') as class_names "
+            sql += "FROM " + db_schema + ".t_topic_tables GROUP BY topic ORDER BY topic;"
 
-        menuBar.addMenu(menu)
-        self.toolBar.insertWidget(self.beforeAction, menuBar)
+            query = db.exec_(sql)
+            
+            if not query.isActive():
+                message = "Error while reading from database."
+                QgsMessageLog.logMessage(self.tr(message), "VeriSO", QgsMessageLog.CRITICAL)            
+                QgsMessageLog.logMessage(str(QSqlQuery.lastError(query).text()), "VeriSO", QgsMessageLog.CRITICAL)      
+                return 
+            
+            topics = []  
+            record = query.record()
+            while query.next():
+                topic = {}
+                topic["topic"] = str(query.value(record.indexOf("topic")))
+                
+                tables = []
+                for table in str(query.value(record.indexOf("tables"))).split(","):
+                    tables.append(table)
+                topic["tables"] = tables
+                
+                geometry_columns = []
+                for geometry_column in str(query.value(record.indexOf("geometry_columns"))).split(","):
+                    geometry_columns.append(geometry_column)
+                topic["geometry_columns"] = geometry_columns
+                    
+                class_names = []
+                for class_name in str(query.value(record.indexOf("class_names"))).split(","):
+                    class_names.append(class_name)
+                topic["class_names"] = class_names
+                
+                topics.append(topic)
+                
+            db.close()
+            del db
+            
+            return topics
+            
+        except Exception, e:
+            message = "Something went wrong catching the topics tables list from the database."
+            QgsMessageLog.logMessage(self.tr(message), "VeriSO", QgsMessageLog.CRITICAL)                        
+            QgsMessageLog.logMessage(str(e), "VeriSO", QgsMessageLog.CRITICAL)     
+            return 
+
+        
+        
         
     def doShowSingleTopicLayer(self, layer):
         layer["type"] = str(self.provider)
@@ -200,7 +307,7 @@ class ApplicationModule(QObject):
             self.doShowSingleTopicLayer(table)
         
     def doInitDefectsMenu(self):
-        menuBar = QMenuBar(self.toolBar)
+        menuBar = QMenuBar(self.toolbar)
         menuBar.setObjectName("VeriSOModule.LoadDefectsMenuBar")        
         menuBar.setSizePolicy(QSizePolicy(QSizePolicy.Minimum, QSizePolicy.Minimum))
         menu = QMenu(menuBar)
@@ -215,7 +322,7 @@ class ApplicationModule(QObject):
         menu.addAction(action)     
 
         menuBar.addMenu(menu)
-        self.toolBar.insertWidget(self.beforeAction, menuBar)
+        self.toolbar.insertWidget(self.beforeAction, menuBar)
 
     def doLoadDefects(self, bar):
         from tools.doLoadDefects import LoadDefects
@@ -230,13 +337,13 @@ class ApplicationModule(QObject):
 
     def cleanGui(self):
         # Remove all the applications module specific menus.
-        actions = self.toolBar.actions()
+        actions = self.toolbar.actions()
         for action in actions:
             try:
                 objectName = action.defaultWidget().objectName()
                 # Delete existing module menus.
                 if objectName[0:12] == "VeriSOModule":
-                    self.toolBar.removeAction(action)
+                    self.toolbar.removeAction(action)
                 # Remember the action where we want to insert our new menu 
                 # (e.g. settings menu bar).
                 if objectName == "VeriSO.Main.SettingsMenuBar":

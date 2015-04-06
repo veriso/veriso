@@ -68,6 +68,7 @@ class LoadProjectsDatabase(QObject):
                 projects.append(project)
 
             db.close()
+            del db
 
         except Exception, e:
             message = "Error while reading projects database."

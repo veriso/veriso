@@ -65,19 +65,21 @@ class VeriSO:
         # to the veriso toolbar.
         # This approach works (well?) for xfce 4.12 and standard (gtk+) theme.
         # We need to do this also in other methods when we add new menus :-(
-        background_color = self.iface.fileToolBar().palette().color(QPalette.Window).name()
-        background_color_pressed = self.iface.mainWindow().menuBar().palette().color(QPalette.Background).name()
-        border_color = self.iface.mainWindow().menuBar().palette().color(QPalette.Midlight).name() 
+
+        # 20150406: Only change QToolBar background color. 
+        # Otherweise the later added menus will have white hover color and other quirks. 
+        # Strange: QToolBar stylesheet seems to need an border.
+        background_color = self.iface.mainWindow().menuBar().palette().color(QPalette.Background).name()
 
         # main toolbar
         self.toolbar = self.iface.addToolBar("VeriSO")
-        self.toolbar.setStyleSheet("background-color: " + background_color)
+        self.toolbar.setStyleSheet("QToolBar {background-color: "+background_color+"; border: 0px solid "+background_color+";}")
+        
         self.toolbar.setObjectName("VeriSO.Main.ToolBar")
         self.toolbar.setSizePolicy(QSizePolicy(QSizePolicy.Minimum, QSizePolicy.Minimum))        
 
         # projects
         self.menubar_projects = QMenuBar()
-        self.menubar_projects.setStyleSheet("QMenuBar::item {background-color: " + background_color +";} QMenuBar::item::pressed {background-color: " + background_color_pressed + "; border-top: 1px solid " + border_color + "; border-left: 1px solid " + border_color + "; border-right: 1px solid " + border_color + ";}")        
         self.menubar_projects.setObjectName("VeriSO.Main.ProjectsMenuBar")                
         self.menubar_projects.setSizePolicy(QSizePolicy(QSizePolicy.Minimum, QSizePolicy.Preferred))
         self.menu_projects = QMenu()
@@ -86,7 +88,6 @@ class VeriSO:
 
         # files
         self.menubar_file= QMenuBar()
-        self.menubar_file.setStyleSheet("QMenuBar::item {background-color: " + background_color +";} QMenuBar::item::pressed {background-color: " + background_color_pressed + "; border-top: 1px solid " + border_color + "; border-left: 1px solid " + border_color + "; border-right: 1px solid " + border_color + ";}")
         self.menubar_file.setObjectName("VeriSO.Main.FileMenuBar")        
         self.menubar_file.setSizePolicy(QSizePolicy(QSizePolicy.Minimum, QSizePolicy.Minimum))
         self.menu_file = QMenu()
@@ -100,7 +101,6 @@ class VeriSO:
         
         # settings
         self.menubar_settings = QMenuBar()
-        self.menubar_settings.setStyleSheet("QMenuBar::item {background-color: " + background_color +";} QMenuBar::item::pressed {background-color: " + background_color_pressed + "; border-top: 1px solid " + border_color + "; border-left: 1px solid " + border_color + "; border-right: 1px solid " + border_color + ";}")        
         self.menubar_settings.setObjectName("VeriSO.Main.SettingsMenuBar")
         self.menubar_settings.setSizePolicy(QSizePolicy(QSizePolicy.Minimum, QSizePolicy.Minimum))        
         self.menu_settings = QMenu()
@@ -166,7 +166,6 @@ class VeriSO:
                     action = QAction(unicode(project["displayname"]), self.iface.mainWindow())
                     group_menu.addAction(action)
                     QObject.connect(action, SIGNAL( "triggered()"), lambda active_project=project: self.do_load_project(active_project))
-
 
     def do_load_project(self, project):
         self.settings.setValue("project/id", str(project["id"]))
