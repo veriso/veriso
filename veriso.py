@@ -146,29 +146,29 @@ class VeriSO:
         projects = d.read()
         
         if projects != None:
-            groupedProjects = {}
+            grouped_projects = {}
             for project in projects:
-                moduleName = project["appmodulename"]
+                module_name = project["appmodulename"]
                 try:
-                    moduleList = groupedProjects[moduleName]
+                    module_list = grouped_projects[module_name]
                 except KeyError:
-                    moduleList = []
+                    module_list = []
                 
-                moduleList.append(project)
-                groupedProjects[moduleName] = moduleList
+                module_list.append(project)
+                grouped_projects[module_name] = module_list
             
-#            self.menuProjects.clear()
-#            for key in sorted(groupedProjects.iterkeys()):
-#                modules = groupedProjects[key]
-#                groupMenu = self.menuProjects.addMenu(unicode(key))
-#                sortedProjectsList = sorted(modules, key=lambda k: k['displayname']) 
-#                for project in sortedProjectsList:
-#                    action = QAction(unicode(project["displayname"]), self.iface.mainWindow())
-#                    groupMenu.addAction(action)
-#                    QObject.connect(action, SIGNAL( "triggered()"), lambda activeProject=project: self.doLoadProject(activeProject))
+            self.menu_projects.clear()
+            for key in sorted(grouped_projects.iterkeys()):
+                modules = grouped_projects[key]
+                group_menu = self.menu_projects.addMenu(unicode(key))
+                sorted_projects_list = sorted(modules, key=lambda k: k['displayname']) 
+                for project in sorted_projects_list:
+                    action = QAction(unicode(project["displayname"]), self.iface.mainWindow())
+                    group_menu.addAction(action)
+                    QObject.connect(action, SIGNAL( "triggered()"), lambda active_project=project: self.do_load_project(active_project))
 
 
-    def doLoadProject(self, project):
+    def do_load_project(self, project):
         self.settings.setValue("project/id", str(project["id"]))
         self.settings.setValue("project/displayname", str(project["displayname"]))
         self.settings.setValue("project/appmodule", str(project["appmodule"]))
@@ -186,14 +186,15 @@ class VeriSO:
         self.settings.setValue("project/dbadminpwd", str(project["dbadminpwd"]))
         self.settings.setValue("project/projectdir", str(project["projectdir"]))
 
-        moduleName = str(project["appmodule"]).lower()
+        module_name = str(project["appmodule"]).lower()
         try:
-            _temp = __import__("modules." + moduleName + ".applicationmodule", globals(), locals(), ['ApplicationModule'])
-            c = _temp.ApplicationModule(self.iface, self.toolBar, self.locale_path)
+            _temp = __import__("modules." + module_name + ".applicationmodule", globals(), locals(), ['ApplicationModule'])
+            c = _temp.ApplicationModule(self.iface, self.toolbar, self.locale_path)
             c.initGui()
-        except Exception:
-            exc_type, exc_value, exc_traceback = sys.exc_info()
-            QMessageBox.critical(None, "VeriSO", self.tr("Error while loading application module: ") + str(traceback.format_exc(exc_traceback)))                                    
+        except Exception, e:
+            message = "Error while loading application module: "
+            QMessageBox.critical(None, "VeriSO", self.tr("Error while loading application module: ") + str(e))                                    
+            QgsMessageLog.logMessage(str(e), "VeriSO", QgsMessageLog.CRITICAL)      
 
     def unload(self):
 #        for action in self.actions:
