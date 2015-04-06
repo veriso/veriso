@@ -14,11 +14,9 @@ class LoadProjectsDatabase(QObject):
 
     def read(self):                
         settings = QSettings("CatAIS","VeriSO")
-        filename = settings.value("options/general/projectsdatabase")
+        filename = settings.value("options/general/projects_database", "")
         
-        if filename == "" or filename is None:
-            # does not work on qgis startup...
-            #self.bar.pushMessage("Warning",  QCoreApplication.translate("Qcadastre", "No project database found.") + str(db.lastError().driverText()) , level=QgsMessageBar.WARNING, duration=5)                                        
+        if filename == "":
             return
             
         projects = []
@@ -28,17 +26,20 @@ class LoadProjectsDatabase(QObject):
             db.setDatabaseName(filename) 
 
             if  not db.open():
-                # does not work on qgis startup...                
-                #self.bar.pushMessage("Error",  QCoreApplication.translate("Qcadastre", "Could not open database.") + str(db.lastError().driverText()) , level=QgsMessageBar.CRITICAL, duration=5)                            
-                return 
+                # What happens on QGIS startup?
+                message = "Could not open projects database."
+                QgsMessageLog.logMessage(self.tr(message), "VeriSO", QgsMessageLog.CRITICAL)            
+                QgsMessageLog.logMessage(str(db.lastError().text()), "VeriSO", QgsMessageLog.CRITICAL)            
+                return  
 
             sql = "SELECT * FROM projects;"
 
             query = db.exec_(sql)
             
             if not query.isActive():
-                # does not work on qgis startup...                
-                #self.bar.pushMessage("Error",  QCoreApplication.translate("Qcadastre", "Error occured while fetching projects informations.") , level=QgsMessageBar.CRITICAL, duration=5)                            
+                message = "Error while reading from projects database."
+                QgsMessageLog.logMessage(self.tr(message), "VeriSO", QgsMessageLog.CRITICAL)            
+                QgsMessageLog.logMessage(str(QSqlQuery.lastError(query).text()), "VeriSO", QgsMessageLog.CRITICAL)      
                 return 
 
             record = query.record()
@@ -68,13 +69,13 @@ class LoadProjectsDatabase(QObject):
 
             db.close()
 
-        except Exception:
-            exc_type, exc_value, exc_traceback = sys.exc_info()
-            QMessageBox.critical(None, "VeriSO", self.tr("Error while reading projects database.") + str(traceback.format_exc(exc_traceback)))                                    
+        except Exception, e:
+            message = "Error while reading projects database."
+            QgsMessageLog.logMessage(self.tr(message), "VeriSO", QgsMessageLog.CRITICAL)            
+            QgsMessageLog.logMessage(str(e), "VeriSO", QgsMessageLog.CRITICAL)      
             return
 
         return projects
 
     def tr(self, message):
-        # noinspection PyTypeChecker,PyArgumentList,PyCallByClass
         return QCoreApplication.translate('VeriSO', message)

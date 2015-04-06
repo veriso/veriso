@@ -107,7 +107,7 @@ class VeriSO:
         self.menu_settings.setTitle(self.tr("Settings"))
         
         self.options = QAction(self.tr("Options"), self.iface.mainWindow())
-        self.options.triggered.connect(self.doOptions)
+        self.options.triggered.connect(self.do_options)
         self.menu_settings.addActions([self.options])
         self.menubar_settings.addMenu(self.menu_settings)        
         
@@ -117,31 +117,31 @@ class VeriSO:
         self.toolbar.addWidget(self.menubar_settings)
     
         # Initial load of project menu entries.
-        self.doLoadProjectsDatabase()                
+        self.do_load_projects_database()                
         
     def do_import_project(self):
         from base.file.importproject import ImportProjectDialog
         self.import_dlg = ImportProjectDialog(self.iface.mainWindow())
         if self.import_dlg.initGui():
             self.import_dlg.show()
-            self.import_dlg.projectsDatabaseHasChanged.connect(self.doLoadProjectsDatabase)
+            self.import_dlg.projectsDatabaseHasChanged.connect(self.do_load_projects_database)
                 
     def do_delete_project(self):
         from base.file.deleteproject import DeleteProjectDialog
         self.delete_dlg = DeleteProjectDialog(self.iface.mainWindow())
         if self.delete_dlg.initGui():
             self.delete_dlg.show()
-            self.delete_dlg.projectsDatabaseHasChanged.connect(self.doLoadProjectsDatabase)
+            self.delete_dlg.projectsDatabaseHasChanged.connect(self.do_load_projects_database)
                     
-    def doOptions(self):
+    def do_options(self):
         from base.settings.options import OptionsDialog
         self.options_dlg = OptionsDialog(self.iface.mainWindow())
         self.options_dlg.initGui()
         self.options_dlg.show()
-        self.options_dlg.projectsDatabaseHasChanged.connect(self.doLoadProjectsDatabase)
+        self.options_dlg.projectsDatabaseHasChanged.connect(self.do_load_projects_database)
         
-    def doLoadProjectsDatabase(self):
-        from base.utils.doLoadProjectsDatabase import LoadProjectsDatabase
+    def do_load_projects_database(self):
+        from base.utils.loadprojectsdatabase import LoadProjectsDatabase
         d = LoadProjectsDatabase()
         projects = d.read()
         
@@ -157,15 +157,15 @@ class VeriSO:
                 moduleList.append(project)
                 groupedProjects[moduleName] = moduleList
             
-            self.menuProjects.clear()
-            for key in sorted(groupedProjects.iterkeys()):
-                modules = groupedProjects[key]
-                groupMenu = self.menuProjects.addMenu(unicode(key))
-                sortedProjectsList = sorted(modules, key=lambda k: k['displayname']) 
-                for project in sortedProjectsList:
-                    action = QAction(unicode(project["displayname"]), self.iface.mainWindow())
-                    groupMenu.addAction(action)
-                    QObject.connect(action, SIGNAL( "triggered()"), lambda activeProject=project: self.doLoadProject(activeProject))
+#            self.menuProjects.clear()
+#            for key in sorted(groupedProjects.iterkeys()):
+#                modules = groupedProjects[key]
+#                groupMenu = self.menuProjects.addMenu(unicode(key))
+#                sortedProjectsList = sorted(modules, key=lambda k: k['displayname']) 
+#                for project in sortedProjectsList:
+#                    action = QAction(unicode(project["displayname"]), self.iface.mainWindow())
+#                    groupMenu.addAction(action)
+#                    QObject.connect(action, SIGNAL( "triggered()"), lambda activeProject=project: self.doLoadProject(activeProject))
 
 
     def doLoadProject(self, project):
