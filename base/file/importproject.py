@@ -77,7 +77,6 @@ class ImportProjectDialog(QDialog, Ui_ImportProject):
         if len(project_name) > 0:
             
             project_found = self.check_project_name(project_name)
-            print project_found
             
             if project_found == -1:
                 message = "An error occured while connecting the database."
@@ -93,6 +92,7 @@ class ImportProjectDialog(QDialog, Ui_ImportProject):
             elif project_found == 0:
                 message = "Project name is valid."
                 QMessageBox.information(None, "VeriSO", self.tr(message))
+                return True
 
     def check_project_name(self, project_name):
         """Makes a database request and checks if the given schema already exists.
@@ -109,14 +109,14 @@ class ImportProjectDialog(QDialog, Ui_ImportProject):
             db_name = self.settings.value("options/db/name")
             db_port = self.settings.value("options/db/port")
             db_admin = self.settings.value("options/db/admin")
-            db_adminpwd = self.settings.value("options/db/adminpwd")
+            db_admin_pwd = self.settings.value("options/db/adminpwd")
         
             db = QSqlDatabase.addDatabase("QPSQL", "db")
             db.setHostName(db_host)
             db.setPort(int(db_port))
             db.setDatabaseName(db_name)
             db.setUserName(db_admin)
-            db.setPassword(db_adminpwd)
+            db.setPassword(db_admin_pwd)
     
             if not db.open():
                 message = "Could not open database: "
@@ -202,6 +202,22 @@ class ImportProjectDialog(QDialog, Ui_ImportProject):
         self.settings.setValue("file/import/input_itf_path", self.lineEditInputFile.text())
         self.settings.setValue("file/import/ili", self.ili)
 
+        # Check if project name (db schema) already exists.
+        project_name =  self.lineEditDbSchema.text().strip()
+        if len(project_name) > 0:
+            project_found = self.check_project_name(project_name)
+            
+            if project_found == -1:
+                message = "An error occured while connecting the database."
+                QMessageBox.critical(None, "VeriSO", self.tr(message))
+                return
+            
+            elif project_found == 1:
+                message = "Project name already exists."
+                QMessageBox.warning(None, "VeriSO", self.tr(message))
+                QgsMessageLog.logMessage(self.tr(message), "VeriSO", QgsMessageLog.WARNING)             
+                return
+        
         # Gather all data/information for ili2pg arguments.
         self.itf = self.lineEditInputFile.text().strip()
         self.db_schema = self.lineEditDbSchema.text().strip()
@@ -321,11 +337,17 @@ class ImportProjectDialog(QDialog, Ui_ImportProject):
         arguments.append("EPSG")
         arguments.append("--defaultSrsCode")
         arguments.append(self.epsg)
+        # TODO: ili2pg has a lot of  options. At least some of them should be exposed to the user.
+        arguments.append("--t_id_Name")
+        arguments.append("ogc_fid")
+        arguments.append("--importTid")
+#        arguments.append("--createBasketCol")        
         arguments.append("--createGeomIdx")
         arguments.append("--createEnumTabs")
+        arguments.append("--createEnumTxtCol")
         arguments.append("--nameByTopic")
         arguments.append("--strokeArcs")
-        #arguments.append(self.itf)
+        arguments.append(self.itf)
         
         self.process = QProcess()
         self.connect(self.process, SIGNAL("readyReadStandardOutput()"), self.read_output)
@@ -343,6 +365,10 @@ class ImportProjectDialog(QDialog, Ui_ImportProject):
             QMessageBox.critical(None, "VeriSO", self.tr(message))                        
             QgsMessageLog.logMessage(str(e), "VeriSO", QgsMessageLog.CRITICAL)                 
 
+    def restore_cursor(self):
+        QApplication.restoreOverrideCursor()        
+        self.buttonBox.setEnabled(True)
+
     def read_output(self):
         self.textEditImportOutput.insertPlainText(str(self.process.readAllStandardOutput()))
         self.textEditImportOutput.ensureCursorVisible()        
@@ -350,10 +376,7 @@ class ImportProjectDialog(QDialog, Ui_ImportProject):
     def read_error(self):
         self.textEditImportOutput.insertPlainText(str(self.process.readAllStandardError()))        
 
-    def finish_import(self,  i):
-        QApplication.restoreOverrideCursor()        
-        self.buttonBox.setEnabled(True)
-        
+    def finish_import(self, i):
         # Check if import was successful.
         # This is the simplest method to find out if the import of the data
         # was successfull. 
@@ -361,45 +384,167 @@ class ImportProjectDialog(QDialog, Ui_ImportProject):
         # Works for:
         # - wrong interlis model
         # - 
+        # If schema exists it throws an compiler error?
         output = unicode(self.textEditImportOutput.toPlainText())
-        if not output.find("Info: ...import done"):
+        if output.find("Info: ...import done") < 0 or output.find("compiler failed") >= 0:
+            self.restore_cursor()                     
             message = "Import process not successfully finished."
             QMessageBox.critical(None, "VeriSO", self.tr(message))
-            #return
+            return
         
-        # Do the postprocessing.
-        sql_queries = self.get_postprocessing_stmts()
+        # Get the postprocessing queries that are stored in a sqlite database.
+        # Placeholder (e.g. $$DBSCHEMA, $$EPSG etc ) will be replaced.
+        sql_queries = self.get_postprocessing_queries()
         if not sql_queries:
+            self.restore_cursor()                     
             message = "Something went wrong while catching postprocessing queries from sqlite database."
             QMessageBox.critical(None, "VeriSO", self.tr(message))
-
-        print sql_queries
-        
-        return
-        
-        updated = self.updateProjectsDatabase()
+            return
+            
+        # Do the postprocessing in the postgresql database.
+        postprocessing_errors = self.postprocess_data(sql_queries)
+        if postprocessing_errors <> 0:
+            self.restore_cursor()         
+            message = "Something went wrong while postprocessing data."
+            QMessageBox.critical(None, "VeriSO", self.tr(message))
+            return
+            
+        # Update the projects database    
+        updated = self.update_projects_database()
         if not updated:
-            QMessageBox.critical(None, "VeriSO", self.tr("Import process not sucessfully finished. Could not update projects database."))                        
+            self.restore_cursor()         
+            message = "Something went wrong while updating projects database."
+            QMessageBox.critical(None, "VeriSO", self.tr(message))
             return
 
-        # Check if there are some errors/fatals in the output.
-        # Prüfung erst hier, da es einfacher ist den misslungenen Import zu löschen, wenn
-        # in der Projektedatenbank bereits ein Eintrag ist.
-        output = unicode(self.textEditImportOutput.toPlainText())
+        # Create the project directory in the root directory.
+        directory = self.create_project_directory()
+        if not directory:
+            self.restore_cursor()         
+            message = "Something went wrong while creating project directory."
+            QMessageBox.critical(None, "VeriSO", self.tr(message))
+            return
+
+        # When we reach here we can claim a successful import.
+        self.restore_cursor()        
+        message = "Import process finished."
+        QMessageBox.information(None, "VeriSO", self.tr(message))
+    
+    def create_project_directory(self):
+        """Creates a directory with the same name as the project (db schema) 
+        in the project root directory. This will be for exports, maps etc.
+        It emits a projects database changed signal.
         
+        Returns:
+          False: If the directory could not be created. Otherwise True.
+        """
+        try:
+            os.makedirs(os.path.join(str(self.projects_root_directory), str(self.db_schema)))
+            return True
+        except Exception, e:
+            QgsMessageLog.logMessage(str(e), "VeriSO", QgsMessageLog.CRITICAL)  
+            return
+            
+    def update_projects_database(self):
+        """Updates the sqlite projects database.
         
-        if output.find("FATAL") > 0 or output.find("ERROR") > 0 or output.strip() == "":
-            QMessageBox.critical(None, "VeriSO", self.tr("Import process not sucessfully finished."))                                    
-            return            
+        Returns:
+          False: When there an error occured. Otherswise True.
+        """
+        try:
+            # Create a new projects database if there is none (copy one from the templates).
+            if self.projects_database == "":
+                template = QDir.convertSeparators(QDir.cleanPath(QgsApplication.qgisSettingsDirPath() + "/python/plugins/veriso/templates/template_projects.db"))
+                self.projects_database = QDir.convertSeparators(QDir.cleanPath(self.projects_root_directory + "/projects.db"))
+                shutil.copyfile(template, self.projects_database)
+                self.settings.setValue("options/general/projects_database", self.projects_database)
+
+            db = QSqlDatabase.addDatabase("QSQLITE")
+            db.setDatabaseName(self.projects_database) 
+
+            if not db.open():
+                message = "Could not open projects database."
+                QgsMessageLog.logMessage(self.tr(message), "VeriSO", QgsMessageLog.CRITICAL)            
+                QgsMessageLog.logMessage(str(db.lastError().text()), "VeriSO", QgsMessageLog.CRITICAL)            
+                return  
+             
+            project_root_directory = QDir.convertSeparators(QDir.cleanPath(self.projects_root_directory + "/" + str(self.db_schema)))
+        
+            sql = "INSERT INTO projects (id, displayname, dbhost, dbname, dbport, dbschema, dbuser, dbpwd, dbadmin, dbadminpwd, provider, epsg, ilimodelname, appmodule, appmodulename, projectrootdir, projectdir, datadate, notes, itf) \
+VALUES ('"+str(self.db_schema)+"', '"+str(self.db_schema)+"', '"+str(self.db_host)+"', '"+str(self.db_name)+"', "+str(self.db_port)+", '"+str(self.db_schema)+"', '"+str(self.db_user)+"', '"+str(self.db_pwd)+"', \
+'"+str(self.db_admin)+"', '"+str(self.db_admin_pwd)+"', 'postgres'," + str(self.epsg) + " , '"+str(self.ili)+"', '"+str(self.app_module)+"','"+unicode(self.app_module_name)+"', '"+str(self.projects_root_directory)+"', '"+project_root_directory+"', '"+self.data_date+"', '"+self.notes+"', '"+self.itf+"');"
+
+            query = db.exec_(sql)
             
-        # Create project directory in projects root directory.
-        proj_dir = self.createProjectDir()
-        if proj_dir:
-            QMessageBox.information(None, "VeriSO", self.tr("Import process finished."))                                                
-        else:
-            QMessageBox.critical(None, "VeriSO", self.tr("Import process not sucessfully finished. Could not create project directory."))                                    
+            if not query.isActive():
+                message = "Error while updating projects database."
+                QgsMessageLog.logMessage(self.tr(message), "VeriSO", QgsMessageLog.CRITICAL)            
+                QgsMessageLog.logMessage(str(QSqlQuery.lastError(query).text()), "VeriSO", QgsMessageLog.CRITICAL)      
+                return 
             
-    def get_postprocessing_stmts(self):
+            db.close()
+    
+            self.projectsDatabaseHasChanged.emit()
+    
+            return True
+        
+        except Exception, e:
+            QgsMessageLog.logMessage(str(e), "VeriSO", QgsMessageLog.CRITICAL)  
+            return
+
+    def postprocess_data(self, queries):
+        """Does the postprocessing in the postgresql/postgis database.
+        
+        Returns:
+          -1: If the process fails (e.g. no db connection etc.). Otherwise number of errors occured while postprocessing.
+        """
+        try:            
+            db_host = self.settings.value("options/db/host")
+            db_name = self.settings.value("options/db/name")
+            db_port = self.settings.value("options/db/port")
+            db_admin = self.settings.value("options/db/admin")
+            db_admin_pwd = self.settings.value("options/db/adminpwd")
+        
+            db = QSqlDatabase.addDatabase("QPSQL", "db")
+            db.setHostName(db_host)
+            db.setPort(int(db_port))
+            db.setDatabaseName(db_name)
+            db.setUserName(db_admin)
+            db.setPassword(db_admin_pwd)
+    
+            if not db.open():
+                message = "Could not open database."
+                QgsMessageLog.logMessage(self.tr(message), "VeriSO", QgsMessageLog.CRITICAL)            
+                QgsMessageLog.logMessage(str(db.lastError().driverText()), "VeriSO", QgsMessageLog.CRITICAL)      
+                return
+                
+            errors = 0
+            self.textEditImportOutput.insertPlainText(str("\n \n"))            
+            for sql in queries:
+                self.textEditImportOutput.insertPlainText(str(sql) + str("\n \n"))
+                self.textEditImportOutput.ensureCursorVisible()                
+                
+                query = db.exec_(str(sql))
+                
+                if not query.isActive():
+                    errors += 1
+                    message = "Error while postprocessing data:"
+                    QgsMessageLog.logMessage(self.tr(message), "VeriSO", QgsMessageLog.CRITICAL)            
+                    QgsMessageLog.logMessage(str(QSqlQuery.lastError(query).text()), "VeriSO", QgsMessageLog.CRITICAL)      
+                
+            self.textEditImportOutput.insertPlainText("Info: ...postprocessing done")
+            self.textEditImportOutput.ensureCursorVisible()                
+
+            db.close
+            del db
+            
+            return errors
+            
+        except Exception, e:
+            QgsMessageLog.logMessage(str(e), "VeriSO", QgsMessageLog.CRITICAL)     
+            return -1
+
+    def get_postprocessing_queries(self):
         """Gets the SQL queries that are stored in the sqlite database for the postprocessing process which is done in postgis.
         
         Returns:
@@ -411,8 +556,9 @@ class ImportProjectDialog(QDialog, Ui_ImportProject):
             db.setDatabaseName(filename) 
 
             if not db.open():
-                message = "Could not open projects database."
-                QgsMessageLog.logMessage(str(message), "VeriSO", QgsMessageLog.CRITICAL)                 
+                message = "Could not open database."
+                QgsMessageLog.logMessage(self.tr(message), "VeriSO", QgsMessageLog.CRITICAL)            
+                QgsMessageLog.logMessage(str(db.lastError().driverText()), "VeriSO", QgsMessageLog.CRITICAL)                      
                 return
     
             sql = "SELECT * FROM postprocessing ORDER BY ogc_fid;"
@@ -420,7 +566,8 @@ class ImportProjectDialog(QDialog, Ui_ImportProject):
             
             if not query.isActive():
                 message = "Database query not active."
-                QgsMessageLog.logMessage(str(message), "VeriSO", QgsMessageLog.CRITICAL)                                 
+                QgsMessageLog.logMessage(str(message), "VeriSO", QgsMessageLog.CRITICAL)        
+                QgsMessageLog.logMessage(str(QSqlQuery.lastError(query).text()), "VeriSO", QgsMessageLog.CRITICAL)                      
                 return
                 
             queries = []
@@ -442,105 +589,6 @@ class ImportProjectDialog(QDialog, Ui_ImportProject):
         except Exception, e:
             QgsMessageLog.logMessage(str(e), "VeriSO", QgsMessageLog.CRITICAL)     
             return
-
-    def createProjectDir(self):
-        try:
-            os.makedirs(os.path.join(str(self.projects_rootdir), str(self.dbschema)))
-            return True
-        except:
-            return False
-
-    def writePropertiesFile(self):
-        tmpDir = tempfile.gettempdir()
-        tmpPropertiesFile = os.path.join(tmpDir, str(time.time()) + ".properties")
-    
-        try:
-            # "utf-8" macht momentan beim Java-Import Probleme! (Scheint aber mal funktioniert zu haben).
-            # Mit "iso-8859-1" funktionierts. Im Output-Fenster erscheint aber immer noch Kauderwelsch.
-            # Das Java-Properties-File muss angeblich immer iso-8859-1 sein....
-            f = codecs.open(tmpPropertiesFile, "w", "iso-8859-1")
-        
-            try:
-                f.write("dbhost = " + self.dbhost + "\n")
-                f.write("dbname = " + self.dbname + "\n")
-                f.write("dbschema = " + self.dbschema + "\n")
-                f.write("dbport = " + self.dbport + "\n")
-                f.write("dbuser = " + self.dbuser + "\n")
-                f.write("dbpwd = " + self.dbpwd + "\n")
-                f.write("dbadmin = " + self.dbadmin + "\n")
-                f.write("dbadminpwd = " + self.dbadminpwd + "\n")
-                f.write("\n")
-                f.write("epsg = " + self.epsg + "\n")
-                f.write("\n")
-                f.write("vacuum = true\n")
-                f.write("reindex = true\n")
-                f.write("\n")
-                f.write("importModelName = " + str(self.ili) + "\n")
-                f.write("importItfFile = " + unicode(self.itf) + "\n")
-                f.write("\n")
-                f.write("enumerationText = true\n")
-                f.write("renumberTid = true\n")
-                f.write("\n");
-                f.write("schemaOnly = false\n")
-                f.write("\n");
-                f.write("qgisFiles = false\n")
-                f.write("\n");
-                
-                filename = QDir.convertSeparators(QDir.cleanPath(QgsApplication.qgisSettingsDirPath() + "/python/plugins/veriso/modules/"+self.app_module+"/postprocessing/postprocessing.db"))                    
-                f.write("postprocessingDatabase = " + str(filename))
-                
-            except Exception:
-                exc_type, exc_value, exc_traceback = sys.exc_info()
-                QMessageBox.critical(None, "VeriSO", self.tr("Error while creating properties file.") + str(traceback.format_exc(exc_traceback)))                                    
-                return
-
-            finally:
-                f.close()
-                return tmpPropertiesFile
-        
-        except Exception:
-            exc_type, exc_value, exc_traceback = sys.exc_info()
-            QMessageBox.critical(None, "VeriSO", self.tr("Error while creating properties file.") + str(traceback.format_exc(exc_traceback)))                                    
-            return
-        
-        return
-
-    def updateProjectsDatabase(self):
-        db = QSqlDatabase.addDatabase("QSQLITE", "Projectdatabase")
-
-        try:
-            # Create a new projects database if there is none (copy one from the templates).
-            if self.projects_database.strip() == "":
-                srcdatabase = QDir.convertSeparators(QDir.cleanPath(QgsApplication.qgisSettingsDirPath() + "/python/plugins/veriso/templates/template_projects.db"))
-                self.projects_database = QDir.convertSeparators(QDir.cleanPath(self.projects_rootdir + "/projects.db"))
-                shutil.copyfile(srcdatabase, self.projects_database)
-                self.settings.setValue("options/general/projectsdatabase", self.projects_database)
-
-            db.setDatabaseName(self.projects_database) 
-
-            if not db.open():
-                QMessageBox.critical(None, "VeriSO", self.tr("Could not open projects database."))                                                    
-                return  
-             
-            projectrootdir = QDir.convertSeparators(QDir.cleanPath(self.projects_rootdir + "/" + str(self.dbschema)))
-        
-            sql = "INSERT INTO projects (id, displayname, dbhost, dbname, dbport, dbschema, dbuser, dbpwd, dbadmin, dbadminpwd, provider, epsg, ilimodelname, appmodule, appmodulename, projectrootdir, projectdir, datadate, notes, itf) \
-VALUES ('"+str(self.dbschema)+"', '"+str(self.dbschema)+"', '"+str(self.dbhost)+"', '"+str(self.dbname)+"', "+str(self.dbport)+", '"+str(self.dbschema)+"', '"+str(self.dbuser)+"', '"+str(self.dbpwd)+"', \
-'"+str(self.dbadmin)+"', '"+str(self.dbadminpwd)+"', 'postgres'," + str(self.epsg) + " , '"+str(self.ili)+"', '"+str(self.appmodule)+"','"+unicode(self.appmodule_name)+"', '"+str(self.projects_rootdir)+"', '"+projectrootdir+"', '"+self.datadate+"', '"+self.notes+"', '"+self.itf+"');"
-
-            query = db.exec_(sql)
-            
-            if query.isActive() == False:
-                QMessageBox.critical(None, "VeriSO", self.tr("Error while updating projects database."))                                    
-                return 
-            
-            db.close()
-            self.projectsDatabaseHasChanged.emit()
-            return True
-        
-        except Exception:
-            exc_type, exc_value, exc_traceback = sys.exc_info()
-            QMessageBox.critical(None, "VeriSO", self.tr("Error while updating projects database.") + str(traceback.format_exc(exc_traceback)))                                    
 
     def tr(self, message):
         return QCoreApplication.translate('VeriSO', message)

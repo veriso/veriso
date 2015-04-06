@@ -36,7 +36,11 @@
       <item row="0" column="0">
        <layout class="QGridLayout" name="gridLayout_4">
         <item row="0" column="2">
-         <widget class="QLineEdit" name="lineEditInputFile"/>
+         <widget class="QLineEdit" name="lineEditInputFile">
+          <property name="text">
+           <string/>
+          </property>
+         </widget>
         </item>
         <item row="0" column="0">
          <widget class="QLabel" name="label">

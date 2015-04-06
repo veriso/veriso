@@ -94,7 +94,7 @@ class VeriSO:
         self.import_project = QAction(self.tr("Import project"), self.iface.mainWindow())
         self.import_project.triggered.connect(self.do_import_project)
         self.delete_project = QAction(self.tr("Delete project"), self.iface.mainWindow())    
-        self.delete_project.triggered.connect(self.doDeleteProject)
+        self.delete_project.triggered.connect(self.do_delete_project)
         self.menu_file.addActions([self.import_project, self.delete_project])
         self.menubar_file.addMenu(self.menu_file) 
         
@@ -126,8 +126,8 @@ class VeriSO:
             self.import_dlg.show()
             self.import_dlg.projectsDatabaseHasChanged.connect(self.doLoadProjectsDatabase)
                 
-    def doDeleteProject(self):
-        from base.file.doDeleteProject import DeleteProjectDialog
+    def do_delete_project(self):
+        from base.file.deleteproject import DeleteProjectDialog
         self.delete_dlg = DeleteProjectDialog(self.iface.mainWindow())
         if self.delete_dlg.initGui():
             self.delete_dlg.show()

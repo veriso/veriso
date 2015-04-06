@@ -74,13 +74,13 @@ class OptionsDialog(QDialog, Ui_Options):
 
             
     def accept(self):
-        self.settings.setValue("options/general/projects_database", self.lineEditProjectsDatabase.text())
+        self.settings.setValue("options/general/projects_database", self.lineEditProjectsDatabase.text().strip())
         self.projectsDatabaseHasChanged.emit()
      
-        self.settings.setValue("options/general/projects_root_directory", self.lineEditProjectsRootDir.text())
+        self.settings.setValue("options/general/projects_root_directory", self.lineEditProjectsRootDir.text().strip())
 
-        self.settings.setValue("options/import/jar", self.lineEditImportJar.text())
-        self.settings.setValue("options/import/vm_arguments", self.plainTextEditImportVMArguments.toPlainText())
+        self.settings.setValue("options/import/jar", self.lineEditImportJar.text().strip())
+        self.settings.setValue("options/import/vm_arguments", self.plainTextEditImportVMArguments.toPlainText().strip())
 
         self.settings.setValue("options/db/host", self.lineEditDbHost.text())
         self.settings.setValue("options/db/name", self.lineEditDbDatabase.text())

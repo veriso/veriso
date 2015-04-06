@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'base/file/Ui_importproject.ui'
 #
-# Created: Sun Apr  5 17:01:56 2015
+# Created: Mon Apr  6 09:15:37 2015
 #      by: PyQt4 UI code generator 4.10.4
 #
 # WARNING! All changes made in this file will be lost!
@@ -42,6 +42,7 @@ class Ui_ImportProject(object):
         self.gridLayout_4 = QtGui.QGridLayout()
         self.gridLayout_4.setObjectName(_fromUtf8("gridLayout_4"))
         self.lineEditInputFile = QtGui.QLineEdit(self.groupBox)
+        self.lineEditInputFile.setText(_fromUtf8(""))
         self.lineEditInputFile.setObjectName(_fromUtf8("lineEditInputFile"))
         self.gridLayout_4.addWidget(self.lineEditInputFile, 0, 2, 1, 1)
         self.label = QtGui.QLabel(self.groupBox)
