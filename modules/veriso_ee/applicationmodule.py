@@ -159,7 +159,7 @@ class ApplicationModule(QObject):
         topics = self.get_topics_tables()
         print topics
         if not topics:
-            message = "Something went wrong catching the topics tables list from the database."
+            message = "Something went wrong catching the topics/tables list from the database."
             QMessageBox.critical(None, "VeriSO", self.tr(message))
             return
 
