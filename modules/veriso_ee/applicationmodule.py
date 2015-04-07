@@ -12,7 +12,7 @@ import traceback
 import collections
 
 from veriso.modules.veriso_ee.tools.utils import Utils
-from veriso.base.utils.doLoadLayer import LoadLayer
+from veriso.base.utils.loadlayer import LoadLayer
 
 # Die Übersetzung hat grosse Probleme gemacht. So 
 # funktionierts. Die einfache "self.tr(...)"-Geschichte
@@ -148,6 +148,13 @@ class ApplicationModule(QObject):
         QApplication.restoreOverrideCursor()        
 
     def do_init_topics_tables_menu(self):
+        """Creates the topics and tables loader menu.
+        Topics and tables are sorted alphanumerically. I'm not sure if ili2pg saves enough 
+        information in the database to find out the interlis model order.
+        
+        At the moment there is no locale support here.
+        Seems to be not very handy without mapping tables anyway...
+        """
         menubar = QMenuBar(self.toolbar)
         menubar.setObjectName("VeriSOModule.LoadTopicsTablesMenuBar")        
         menubar.setSizePolicy(QSizePolicy(QSizePolicy.Minimum, QSizePolicy.Minimum))
@@ -157,63 +164,47 @@ class ApplicationModule(QObject):
         locale = QSettings().value('locale/userLocale')[0:2]        
         
         topics = self.get_topics_tables()
-        print topics
         if not topics:
             message = "Something went wrong catching the topics/tables list from the database."
             QMessageBox.critical(None, "VeriSO", self.tr(message))
             return
 
         for topic in topics:
-            print "********"
-            print topic
             topic_menu = menu.addMenu(unicode(topic["topic"]))      
             
+            action = QAction(_translate("VeriSO_EE", "Load Topic",  None), self.iface.mainWindow())
+            topic_menu.addAction(action)    
+            topic_menu.addSeparator()      
+#                QObject.connect(action, SIGNAL( "triggered()" ), lambda topic=topic: self.doShowTopic(topics[topic]))                   
+        
+            # We want to write the geometry column name in brackets if the same table has two or
+            # more geometry columns. But first we need to find these tables
+            dd = {}
+            for table in topic["tables"]:
+                dd[table] = dd.get(table, 0) + 1
+                
             i = 0
             for table in topic["tables"]:
+                my_layer = {}
+                my_layer["type"] = "postgres"
+                my_layer["featuretype"] = table
+                my_layer["key"] = topic["primary_keys"][i]
+                my_layer["geom"] = topic["geometry_columns"][i]
+                my_layer["group"] = topic["topic"]
+                my_layer["title"] = topic["class_names"][i]
                 
-                print table
-                print topic["geometry_columns"][i]
-                print topic["class_names"][i]
-                i += 1
-                
-                # At the moment there is no locale support here.
-                # Seems to be not very handy without mapping tables anyway...
-                
-                title = topic["class_names"][i]
-                
-        
-#        topics = Utils().getTopicsTables()
-#                
-#        if topics:
-#            for topic in topics:
-#                topicMenu = menu.addMenu(unicode(topic))        
-#                
-#                # Wenn wir das hier machen, müssen wir es
-#                # nur einmal machen.
-#                for table in topics[topic]["tables"]:
-#                    tableTitle = table["title"]
-#                    try:
-#                        keys = tableTitle.keys()
-#                        try:
-#                            tableTitle = unicode(tableTitle[locale])
-#                        except:
-#                            # Sprache nicht gefunden.
-#                            tableTitle = unicode(tableTitle.values()[0])
-#                    except:
-#                        tableTitle = unicode(tableTitle)
-#                        
-#                    table["title"] = tableTitle
-#
-#                action = QAction(_translate("VeriSO_EE", "Load Topic",  None), self.iface.mainWindow())
-#                topicMenu.addAction(action)    
-#                topicMenu.addSeparator()      
-#                QObject.connect(action, SIGNAL( "triggered()" ), lambda topic=topic: self.doShowTopic(topics[topic]))                   
-#
-#                for table in topics[topic]["tables"]:
-#                    action = QAction(table["title"], self.iface.mainWindow())
-#                    topicMenu.addAction(action)     
-#                    QObject.connect(action, SIGNAL("triggered()" ), lambda layer=table: self.doShowSingleTopicLayer(layer))    
+                # If there is more than one geometry column in the table
+                # the name of the geometry columns is written in brackets
+                # following the name of the table.
+                if dd[table] > 1:
+                    my_layer["title"] =   my_layer["title"] + " (" + my_layer["geom"] + ")"
+ 
+                action = QAction(my_layer["title"], self.iface.mainWindow())
+                topic_menu.addAction(action)     
+                QObject.connect(action, SIGNAL("triggered()" ), lambda layer=my_layer: self.do_show_single_topic_layer(layer))    
 
+                i += 1
+ 
         menubar.addMenu(menu)
         self.toolbar.insertWidget(self.beforeAction, menubar)
         
@@ -247,9 +238,10 @@ class ApplicationModule(QObject):
             # I think libpg cannot deal with arrays from postgresql. So we return a comma sperated string.
             # Everything is ordered alphanumerical. Not sure if we would know enough to sort by interlis model ordering?!
             sql = "SELECT topic, array_to_string(array_agg(sql_name ORDER BY sql_name),',') as tables, "
-            sql += "array_to_string(array_agg(coalesce(f_geometry_column,'') ORDER BY sql_name),',') as geometry_columns ,"
-            sql += "array_to_string(array_agg(class_name ORDER BY sql_name),',') as class_names "
-            sql += "FROM " + db_schema + ".t_topic_tables GROUP BY topic ORDER BY topic;"
+            sql += "array_to_string(array_agg(coalesce(f_geometry_column,'') ORDER BY sql_name),',') as geometry_columns, "
+            sql += "array_to_string(array_agg(class_name ORDER BY sql_name),',') as class_names, "
+            sql += "array_to_string(array_agg(primary_key ORDER BY sql_name),',') as primary_keys "
+            sql += "FROM " + db_schema + ".t_topics_tables GROUP BY topic ORDER BY topic;"
 
             query = db.exec_(sql)
             
@@ -280,6 +272,11 @@ class ApplicationModule(QObject):
                     class_names.append(class_name)
                 topic["class_names"] = class_names
                 
+                primary_keys = []
+                for primary_key in str(query.value(record.indexOf("primary_keys"))).split(","):
+                    primary_keys.append(primary_key)
+                topic["primary_keys"] = primary_keys
+
                 topics.append(topic)
                 
             db.close()
@@ -293,13 +290,10 @@ class ApplicationModule(QObject):
             QgsMessageLog.logMessage(str(e), "VeriSO", QgsMessageLog.CRITICAL)     
             return 
 
-        
-        
-        
-    def doShowSingleTopicLayer(self, layer):
+    def do_show_single_topic_layer(self, layer):
         layer["type"] = str(self.provider)
-        layerLoader = LoadLayer(self.iface)
-        layerLoader.load(layer)
+        layer_loader = LoadLayer(self.iface)
+        layer_loader.load(layer)
 
     def doShowTopic(self, topic):
         tables = topic["tables"]
