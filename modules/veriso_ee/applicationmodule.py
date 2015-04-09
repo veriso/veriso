@@ -37,9 +37,11 @@ class ApplicationModule(QObject):
         self.module_name = self.settings.value("project/appmodule")        
         
     def initGui(self):
+        """Initialize all the additional menus.
+        """
         self.cleanGui()
         self.doInitChecksMenu()        
-        self.doInitDefectsMenu()        
+        self.do_init_defects_menu()        
         self.do_init_topics_tables_menu()
         self.do_init_baselayer_menu()
         
@@ -104,6 +106,13 @@ class ApplicationModule(QObject):
             return
 
     def do_init_baselayer_menu(self):
+        """Initialize baselayer menu:
+        
+        Adds the menu and reads all baselayers from the json file
+        and adds them into the menu.
+        
+        Language support is working!
+        """
         menubar = QMenuBar(self.toolbar)
         menubar.setObjectName("VeriSOModule.LoadBaselayerMenuBar")        
         menubar.setSizePolicy(QSizePolicy(QSizePolicy.Minimum, QSizePolicy.Minimum))
@@ -345,7 +354,7 @@ class ApplicationModule(QObject):
         for layer in layers:
             self.do_show_single_topic_layer(layer)
         
-    def doInitDefectsMenu(self):
+    def do_init_defects_menu(self):
         menubar = QMenuBar(self.toolbar)
         menubar.setObjectName("VeriSOModule.LoadDefectsMenuBar")        
         menubar.setSizePolicy(QSizePolicy(QSizePolicy.Minimum, QSizePolicy.Minimum))
@@ -353,7 +362,7 @@ class ApplicationModule(QObject):
         menu.setTitle(_translate("VeriSO_EE", "Defects",  None))  
 
         action = QAction(_translate("VeriSO_EE", "Load defects layer",  None), self.iface.mainWindow())
-        QObject.connect(action, SIGNAL( "triggered()"), lambda foo="bar": self.doLoadDefects(foo))
+        QObject.connect(action, SIGNAL( "triggered()"), lambda foo="bar": self.do_load_defects(foo))
         menu.addAction(action)     
         
         action = QAction(QCoreApplication.translate("VeriSO_EE", "Export defects layer"), self.iface.mainWindow())
@@ -363,8 +372,8 @@ class ApplicationModule(QObject):
         menubar.addMenu(menu)
         self.toolbar.insertWidget(self.beforeAction, menubar)
 
-    def doLoadDefects(self, bar):
-        from tools.doLoadDefects import LoadDefects
+    def do_load_defects(self, bar):
+        from tools.loaddefects import LoadDefects
         d = LoadDefects(self.iface)
         d.run()
 

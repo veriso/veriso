@@ -75,7 +75,7 @@ class LoadLayer(QObject):
                 key = str(layer["key"])            
             
                 try:
-                    readonly = (layer["read_only"])
+                    readonly = (layer["readonly"])
                 except:
                     readonly = True
                     
@@ -122,6 +122,8 @@ class LoadLayer(QObject):
                 if readonly:
                     uri.setConnection(db_host, db_port, db_name, db_user, db_pwd)
                 else:
+                    print "***************"
+                    print db_admin_pwd
                     uri.setConnection(db_host, db_port, db_name, db_admin, db_admin_pwd)
                 
                 uri.setDataSource(db_schema, featuretype, geom,  sql, key)
