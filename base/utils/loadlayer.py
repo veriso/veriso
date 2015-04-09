@@ -17,38 +17,72 @@ class LoadLayer(QObject):
         settings = QSettings("CatAIS","VeriSO")
         module_name = settings.value("project/appmodule")
         provider = settings.value("project/provider")
-        dbhost = settings.value("project/dbhost")
-        dbport = settings.value("project/dbport")
-        dbname = settings.value("project/dbname")
-        dbschema = settings.value("project/dbschema")
-        dbuser = settings.value("project/dbuser")
-        dbpwd = settings.value("project/dbpwd")
-        dbadmin = settings.value("project/dbadmin")
-        dbadminpwd = settings.value("project/dbadminpwd")
+        db_host = settings.value("project/dbhost")
+        db_port = settings.value("project/dbport")
+        db_name = settings.value("project/dbname")
+        db_schema = settings.value("project/dbschema")
+        db_user = settings.value("project/dbuser")
+        db_pwd = settings.value("project/dbpwd")
+        db_admin = settings.value("project/dbadmin")
+        db_admin_pwd = settings.value("project/dbadminpwd")
         epsg = settings.value("project/epsg")
-        
-        if not dbhost or not dbport or not dbname or not dbschema or not dbuser or not dbpwd or not dbadmin or not dbadminpwd:
-            self.iface.messageBar().pushMessage("Error",  self.tr("Missing database parameter. Cannot load layer."), level=QgsMessageBar.CRITICAL, duration=5)                    
+
+        if not db_schema:
+            self.iface.messageBar().pushMessage("Error",  self.tr("Missing database schema parameter."), level=QgsMessageBar.CRITICAL, duration=5)                                
             return
             
-        if not module_name or not provider:
-            self.iface.messageBar().pushMessage("Error",  self.tr("Missing parameter. Cannot load layer."), level=QgsMessageBar.CRITICAL, duration=5)                    
+        if not db_host:
+            self.iface.messageBar().pushMessage("Error",  self.tr("Missing database host parameter."), level=QgsMessageBar.CRITICAL, duration=5)                                
+            return
+        
+        if not db_name:
+            self.iface.messageBar().pushMessage("Error",  self.tr("Missing database name parameter."), level=QgsMessageBar.CRITICAL, duration=5)                                
+            return
+
+        if not db_port:
+            self.iface.messageBar().pushMessage("Error",  self.tr("Missing database port parameter."), level=QgsMessageBar.CRITICAL, duration=5)                                
+            return
+            
+        if not db_user:
+            self.iface.messageBar().pushMessage("Error",  self.tr("Missing database user parameter."), level=QgsMessageBar.CRITICAL, duration=5)                                
+            return
+
+        if not db_pwd:
+            self.iface.messageBar().pushMessage("Error",  self.tr("Missing database user password parameter."), level=QgsMessageBar.CRITICAL, duration=5)                                
+            return
+
+        if not db_admin:
+            self.iface.messageBar().pushMessage("Error",  self.tr("Missing database administrator parameter."), level=QgsMessageBar.CRITICAL, duration=5)                                
+            return
+            
+        if not db_admin_pwd:
+            self.iface.messageBar().pushMessage("Error",  self.tr("Missing database administrator password parameter."), level=QgsMessageBar.CRITICAL, duration=5)                                
+            return
+            
+        if not provider:
+            self.iface.messageBar().pushMessage("Error",  self.tr("Missing provider parameter. Cannot load layer."), level=QgsMessageBar.CRITICAL, duration=5)                    
+            return        
+        
+        if not module_name:
+            self.iface.messageBar().pushMessage("Error",  self.tr("Missing module name parameter. Cannot load layer."), level=QgsMessageBar.CRITICAL, duration=5)                    
             return        
         
         try:
             # Postgres
             if layer["type"] == "postgres":
-                feature_type = str(layer["featuretype"])
+                featuretype = str(layer["featuretype"])
                 title = layer["title"]
                 key = str(layer["key"])            
             
                 try:
-                    readonly = (layer["readonly"])
+                    readonly = (layer["read_only"])
                 except:
                     readonly = True
                     
                 try:
                     geom = str(layer["geom"])
+                    if geom == "":
+                        geom = None
                 except:
                     geom = None
                     
@@ -72,23 +106,25 @@ class LoadLayer(QObject):
                     params = layer["params"]
                     module_name = params["appmodule"]
                     provider = params["provider"]
-                    dbhost = params["dbhost"]
-                    dbport = params["dbport"]
-                    dbname = params["dbname"]
-                    dbschema = params["dbschema"]
-                    dbuser = params["dbuser"]
-                    dbpwd = params["dbpwd"]
-                    dbadmin = params["dbadmin"]
-                    dbadminpwd = params["dbadminpwd"]
+                    db_host = params["dbhost"]
+                    db_port = params["dbport"]
+                    db_name = params["dbname"]
+                    db_schema = params["dbschema"]
+                    db_user = params["dbuser"]
+                    db_pwd = params["dbpwd"]
+                    db_admin = params["dbadmin"]
+                    db_admin_pwd = params["dbadminpwd"]
                 except:
-                    pass                    
+                    pass                   
 
                 uri = QgsDataSourceURI()
+                
                 if readonly:
-                    uri.setConnection(dbhost, dbport, dbname, dbuser, dbpwd)
+                    uri.setConnection(db_host, db_port, db_name, db_user, db_pwd)
                 else:
-                    uri.setConnection(dbhost, dbport, dbname, dbadmin, dbadminpwd)
-                uri.setDataSource(dbschema, feature_type, geom, sql, key)
+                    uri.setConnection(db_host, db_port, db_name, db_admin, db_admin_pwd)
+                
+                uri.setDataSource(db_schema, featuretype, geom,  sql, key)
 
                 my_layer = QgsVectorLayer(uri.uri(), title, provider)
 
@@ -142,7 +178,7 @@ class LoadLayer(QObject):
                 my_layer.loadNamedStyle(qml)
                 
             if not my_layer.isValid():                
-                self.iface.messageBar().pushMessage("Error",  self.tr("Layer is not valid"), level=QgsMessageBar.CRITICAL, duration=5)                                                            
+                self.iface.messageBar().pushMessage("Error",  str(title) + self.tr(" is not valid layer."), level=QgsMessageBar.CRITICAL, duration=5)                                                            
                 return       
             else:
                 # QgsMapLayerRegistry.instance().addMapLayer(my_layer)    
@@ -153,12 +189,12 @@ class LoadLayer(QObject):
                         my_group_node = self.root.addGroup(group)
                     # Achtung: Das ist eher ein Workaround. Meines Erachtens hats noch einen Bug. 
                     # Mit QgsMapLayerRegistry.instance().addMapLayer(my_layer, False)  wird
-                    # ein Layer nocht nicht in die Legende gehängt. Anschliessend kann man ihn
+                    # ein Layer noch nicht in die Legende gehängt. Anschliessend kann man ihn
                     # mit my_layer_node = self.root.addLayer(my_layer) der Legende hinzufügen.
                     # Das führt aber dazu, dass was mit dem MapCanvas nicht mehr stimmt, dh.
                     # .setExtent() funktioniert nicht mehr richtig. Wir der Layer jedoch direkt
                     # in die Legende gehängt, funktioniert .setExtent() tadellos. Jetzt wird halt
-                    # momentan der Layer direkt eingehängt und anschliessen die die gewünschte
+                    # momentan der Layer direkt eingehängt und anschliessend in die gewünschte
                     # Gruppe verschoben. 
                     # Kleiner (positiver) Nebeneffekt: Der Layer ist defaultmässig ausgeschaltet.
                     #
@@ -190,13 +226,11 @@ class LoadLayer(QObject):
                    
             return my_layer
 
-        except Exception:
-            exc_type, exc_value, exc_traceback = sys.exc_info()
-            self.iface.messageBar().pushMessage("Error",  str(traceback.format_exc(exc_traceback)), level=QgsMessageBar.CRITICAL, duration=5)                                
+        except Exception, e:
+            self.iface.messageBar().pushMessage("Error",  str(e), level=QgsMessageBar.CRITICAL, duration=5)    
+            QgsMessageLog.logMessage(self.tr(e), "VeriSO", QgsMessageLog.CRITICAL)            
             return
 
-
-        
     def tr(self, message):
         return QCoreApplication.translate('VeriSO', message)
         

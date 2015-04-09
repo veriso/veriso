@@ -175,7 +175,7 @@ class ApplicationModule(QObject):
             action = QAction(_translate("VeriSO_EE", "Load Topic",  None), self.iface.mainWindow())
             topic_menu.addAction(action)    
             topic_menu.addSeparator()      
-#                QObject.connect(action, SIGNAL( "triggered()" ), lambda topic=topic: self.doShowTopic(topics[topic]))                   
+            QObject.connect(action, SIGNAL( "triggered()" ), lambda topic=topic: self.do_show_topic(topic))                   
         
             # We want to write the geometry column name in brackets if the same table has two or
             # more geometry columns. But first we need to find these tables
@@ -207,6 +207,40 @@ class ApplicationModule(QObject):
  
         menubar.addMenu(menu)
         self.toolbar.insertWidget(self.beforeAction, menubar)
+        
+    def get_layers_from_topic(self, topic):
+        """Converts the layer information into a dictionary from
+        a topic list.
+        
+        Adds the geometry column name if there are more than
+        one geometry column in a layer.
+        
+        Returns: Dictionary with all the necessary data.
+        """
+        dd = {}
+        for table in topic["tables"]:
+            dd[table] = dd.get(table, 0) + 1
+
+        i = 0
+        layers = []
+        for table in topic["tables"]:
+            my_layer = {}
+            my_layer["type"] = "postgres"
+            my_layer["featuretype"] = table
+            my_layer["key"] = topic["primary_keys"][i]
+            my_layer["geom"] = topic["geometry_columns"][i]
+            my_layer["group"] = topic["topic"]
+            my_layer["title"] = topic["class_names"][i]
+            i += 1
+            # If there is more than one geometry column in the table
+            # the name of the geometry columns is written in brackets
+            # following the name of the table.
+            if dd[table] > 1:
+                my_layer["title"] =   my_layer["title"] + " (" + my_layer["geom"] + ")"
+
+            layers.append(my_layer)
+            
+        return layers
         
     def get_topics_tables(self):
         """Requests the topics and tables from the topic_tables database table.
@@ -295,10 +329,10 @@ class ApplicationModule(QObject):
         layer_loader = LoadLayer(self.iface)
         layer_loader.load(layer)
 
-    def doShowTopic(self, topic):
-        tables = topic["tables"]
-        for table in tables[::-1]:
-            self.doShowSingleTopicLayer(table)
+    def do_show_topic(self, topic):
+        layers = self.get_layers_from_topic(topic)
+        for layer in layers:
+            self.do_show_single_topic_layer(layer)
         
     def doInitDefectsMenu(self):
         menuBar = QMenuBar(self.toolbar)
