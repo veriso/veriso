@@ -6,8 +6,8 @@
             "de":"Orthofoto (RGB)",
             "fr":"Orthophoto (RGB)"
          },                  
-         "url":"http://www.catais.org/wms/orthofoto",
-         "layers":"Orthofoto_RGB",
+         "url":"http://www.catais.org/wms/orthofoto_aktuell",
+         "layers":"ch.so.agi.orthofoto",
          "format":"image/jpeg"
       },
       {  
@@ -16,17 +16,27 @@
             "de":"Orthofoto (CIR)",
             "fr":"Orthophoto (CIR)"
          },                  
-         "url":"http://www.catais.org/wms/orthofoto",
-         "layers":"Orthofoto_CIR",
+         "url":"http://www.catais.org/wms/orthofoto_aktuell",
+         "layers":"ch.so.agi.orthofoto.cir",
          "format":"image/jpeg"
       },
+      {  
+         "type":"wms",
+         "title":{  
+            "de":"Orthofoto (NDVI)",
+            "fr":"Orthophoto (NDVI)"
+         },                  
+         "url":"http://www.catais.org/wms/orthofoto_aktuell",
+         "layers":"ch.so.agi.orthofoto.ndvi",
+         "format":"image/jpeg"
+      },      
       {  
          "type":"wms",
          "title":{  
             "de":"Plan für das Grundbuch (farbig)",
             "fr":"Plan du registre foncier (coloré)"
          },         
-         "url":"http://www.catais.org/wms/grundbuchplan",
+         "url":"http://www.catais.org/wms/grundbuchplan-nf",
          "layers":"Amtliche Vermessung (farbig)",
          "format":"image/jpeg"
       },
@@ -90,7 +100,7 @@
       },
       {  
          "type":"postgres",
-         "title":"PostgreSQL Test (Temporaer)",
+         "title":"PostgreSQL Test (NOT WORKING / Temporaer)",
          "params":{  
             "dbhost":"localhost",
             "dbport":5432,

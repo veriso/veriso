@@ -31,9 +31,6 @@ class ImportProjectDialog(QDialog, Ui_ImportProject):
         
         self.settings = QSettings("CatAIS","VeriSO")
         self.input_itf_path = QFileInfo(self.settings.value("file/import/input_itf_path")).absolutePath()
-        
-        # This is a "shortcut" for all the settings from the options dialog (especially the database parameters).
-        self.my_settings = Settings()
 
     def initGui(self):
         """Initialize the dialog:
@@ -359,8 +356,7 @@ class ImportProjectDialog(QDialog, Ui_ImportProject):
         try:
             self.process.start("java", arguments)
         except Exception, e:
-            QApplication.restoreOverrideCursor()
-            self.buttonBox.setEnabled(True)  
+            self.restore_cursor()
             message = "Could not start import process."
             QMessageBox.critical(None, "VeriSO", self.tr(message))                        
             QgsMessageLog.logMessage(str(e), "VeriSO", QgsMessageLog.CRITICAL)                 

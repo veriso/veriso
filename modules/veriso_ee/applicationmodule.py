@@ -34,19 +34,20 @@ class ApplicationModule(QObject):
         self.settings = QSettings("CatAIS","VeriSO")
         self.epsg = self.settings.value("project/epsg")
         self.provider = self.settings.value("project/provider")
+        self.module_name = self.settings.value("project/appmodule")        
         
     def initGui(self):
         self.cleanGui()
         self.doInitChecksMenu()        
         self.doInitDefectsMenu()        
         self.do_init_topics_tables_menu()
-        self.doInitBaselayerMenu()
+        self.do_init_baselayer_menu()
         
     def doInitChecksMenu(self):
-        menuBar = QMenuBar(self.toolbar)
-        menuBar.setObjectName("VeriSOModule.LoadChecksMenuBar")        
-        menuBar.setSizePolicy(QSizePolicy(QSizePolicy.Minimum, QSizePolicy.Minimum))
-        menu = QMenu(menuBar)
+        menubar = QMenuBar(self.toolbar)
+        menubar.setObjectName("VeriSOModule.LoadChecksMenuBar")        
+        menubar.setSizePolicy(QSizePolicy(QSizePolicy.Minimum, QSizePolicy.Minimum))
+        menu = QMenu(menubar)
         menu.setTitle(_translate("VeriSO_EE", "Checks",  None))
         
         locale = QSettings().value('locale/userLocale')[0:2]
@@ -88,8 +89,8 @@ class ApplicationModule(QObject):
                         singleCheckMenu.addAction(action)                                         
                         QObject.connect(action, SIGNAL( "triggered()"), lambda complexCheck=check: self.doShowComplexCheck(complexCheck))
 
-        menuBar.addMenu(menu)
-        self.toolbar.insertWidget(self.beforeAction, menuBar)
+        menubar.addMenu(menu)
+        self.toolbar.insertWidget(self.beforeAction, menubar)
 
     def doShowComplexCheck(self, check):
         try:
@@ -102,50 +103,72 @@ class ApplicationModule(QObject):
             QMessageBox.critical(None, "VeriSO", str(traceback.format_exc(exc_traceback)))               
             return
 
-    def doInitBaselayerMenu(self):
-        menuBar = QMenuBar(self.toolbar)
-        menuBar.setObjectName("VeriSOModule.LoadBaselayerMenuBar")        
-        menuBar.setSizePolicy(QSizePolicy(QSizePolicy.Minimum, QSizePolicy.Minimum))
-        menu = QMenu(menuBar)
+    def do_init_baselayer_menu(self):
+        menubar = QMenuBar(self.toolbar)
+        menubar.setObjectName("VeriSOModule.LoadBaselayerMenuBar")        
+        menubar.setSizePolicy(QSizePolicy(QSizePolicy.Minimum, QSizePolicy.Minimum))
+        menu = QMenu(menubar)
         menu.setTitle(_translate("VeriSO_EE", "Baselayer",  None))  
         
         locale = QSettings().value('locale/userLocale')[0:2]        
         
-        baselayers = Utils().getBaselayers()
-        
-        for baselayer in baselayers["baselayer"]:
-            baselayerTitle = baselayer["title"]
-            try: 
-                keys = baselayerTitle.keys()
-                try:
-                    baselayerTitle = unicode(baselayerTitle[locale])
-                    # Sprache gefunden.
-                except:
-                    # Sprache nicht gefunden.
-                    baselayerTitle = unicode(baselayerTitle.values()[0])
-            except:
-                baselayerTitle = unicode(baselayerTitle)
-                
-            baselayer["title"] = baselayerTitle
-            
-            action = QAction(baselayerTitle, self.iface.mainWindow())
-            menu.addAction(action)     
-            QObject.connect(action, SIGNAL("triggered()" ), lambda layer=baselayer: self.doShowBaselayer(layer))    
+        baselayers = self.get_baselayers()
+        if not baselayers:
+            message = "Could not load baselayer definitions file."
+            self.iface.messageBar().pushMessage("Error",   _translate("VeriSO_EE", message, None), level=QgsMessageBar.CRITICAL, duration=10)       
 
-        menuBar.addMenu(menu)
-        self.toolbar.insertWidget(self.beforeAction, menuBar)        
+        for baselayer in baselayers["baselayer"]:
+            baselayer_title = baselayer["title"]
+            try: 
+                keys = baselayer_title.keys()
+                try:
+                    baselayer_title = unicode(baselayer_title[locale])
+                    # language found
+                except:
+                    # language *not* found
+                    baselayer_title = unicode(baselayer_title.values()[0])
+            except:
+                baselayer_title = unicode(baselayer_title)
+                
+            baselayer["title"] = baselayer_title
+            
+            action = QAction(baselayer_title, self.iface.mainWindow())
+            menu.addAction(action)     
+            QObject.connect(action, SIGNAL("triggered()" ), lambda layer=baselayer: self.do_show_baselayer(layer))    
+
+        menubar.addMenu(menu)
+        self.toolbar.insertWidget(self.beforeAction, menubar)        
         
-    def doShowBaselayer(self, layer):
+    def do_show_baselayer(self, layer):
+        """Load a baselayer into map canvas.
+        
+        Uses an universal 'load layer' method.
+        """
         QApplication.setOverrideCursor(Qt.WaitCursor)
         try:
-            layerLoader = LoadLayer(self.iface)
-            layerLoader.load(layer)
-        except Exception:
-            QApplication.restoreOverrideCursor()            
-            exc_type, exc_value, exc_traceback = sys.exc_info()
-            self.iface.messageBar().pushMessage("Error",  str(traceback.format_exc(exc_traceback)), level=QgsMessageBar.CRITICAL, duration=10)                                
+            layer_loader = LoadLayer(self.iface) 
+            layer_loader.load(layer, True, True) # Do not show legend for baselayers -> collapse legend.
+        except Exception, e:
+            QApplication.restoreOverrideCursor()
+            QgsMessageLog.logMessage(str(e), "VeriSO", QgsMessageLog.CRITICAL)
             return
-        QApplication.restoreOverrideCursor()        
+            
+        QApplication.restoreOverrideCursor()
+
+    def get_baselayers(self):
+        """Reads all baselayer definitions from a json file.
+        
+        Returns
+          A list of dictionaries with all baselayer definitions. Otherwise False.
+        """
+        filename = QDir.convertSeparators(QDir.cleanPath(QgsApplication.qgisSettingsDirPath() + "/python/plugins/veriso/modules/" + self.module_name + "/baselayer/baselayer.json"))
+    
+        try:
+            baselayers = json.load(open(filename), object_pairs_hook=collections.OrderedDict) 
+            return baselayers
+        except Exception, e:
+            QgsMessageLog.logMessage(str(e), "VeriSO", QgsMessageLog.CRITICAL)
+            return
 
     def do_init_topics_tables_menu(self):
         """Creates the topics and tables loader menu.
@@ -177,33 +200,11 @@ class ApplicationModule(QObject):
             topic_menu.addSeparator()      
             QObject.connect(action, SIGNAL( "triggered()" ), lambda topic=topic: self.do_show_topic(topic))                   
         
-            # We want to write the geometry column name in brackets if the same table has two or
-            # more geometry columns. But first we need to find these tables
-            dd = {}
-            for table in topic["tables"]:
-                dd[table] = dd.get(table, 0) + 1
-                
-            i = 0
-            for table in topic["tables"]:
-                my_layer = {}
-                my_layer["type"] = "postgres"
-                my_layer["featuretype"] = table
-                my_layer["key"] = topic["primary_keys"][i]
-                my_layer["geom"] = topic["geometry_columns"][i]
-                my_layer["group"] = topic["topic"]
-                my_layer["title"] = topic["class_names"][i]
-                
-                # If there is more than one geometry column in the table
-                # the name of the geometry columns is written in brackets
-                # following the name of the table.
-                if dd[table] > 1:
-                    my_layer["title"] =   my_layer["title"] + " (" + my_layer["geom"] + ")"
- 
+            layers = self.get_layers_from_topic(topic)        
+            for my_layer in layers:
                 action = QAction(my_layer["title"], self.iface.mainWindow())
                 topic_menu.addAction(action)     
                 QObject.connect(action, SIGNAL("triggered()" ), lambda layer=my_layer: self.do_show_single_topic_layer(layer))    
-
-                i += 1
  
         menubar.addMenu(menu)
         self.toolbar.insertWidget(self.beforeAction, menubar)
@@ -325,20 +326,30 @@ class ApplicationModule(QObject):
             return 
 
     def do_show_single_topic_layer(self, layer):
+        """Loads an interlis table from the database
+        into the map canvas.
+        
+        Uses an universal 'load layer' method.
+        """
         layer["type"] = str(self.provider)
         layer_loader = LoadLayer(self.iface)
         layer_loader.load(layer)
 
     def do_show_topic(self, topic):
+        """Loads all interlis tables of a topic (from
+        the database) into the map canvas.
+        
+        Uses an universal 'load layer' method.        
+        """
         layers = self.get_layers_from_topic(topic)
         for layer in layers:
             self.do_show_single_topic_layer(layer)
         
     def doInitDefectsMenu(self):
-        menuBar = QMenuBar(self.toolbar)
-        menuBar.setObjectName("VeriSOModule.LoadDefectsMenuBar")        
-        menuBar.setSizePolicy(QSizePolicy(QSizePolicy.Minimum, QSizePolicy.Minimum))
-        menu = QMenu(menuBar)
+        menubar = QMenuBar(self.toolbar)
+        menubar.setObjectName("VeriSOModule.LoadDefectsMenuBar")        
+        menubar.setSizePolicy(QSizePolicy(QSizePolicy.Minimum, QSizePolicy.Minimum))
+        menu = QMenu(menubar)
         menu.setTitle(_translate("VeriSO_EE", "Defects",  None))  
 
         action = QAction(_translate("VeriSO_EE", "Load defects layer",  None), self.iface.mainWindow())
@@ -349,8 +360,8 @@ class ApplicationModule(QObject):
         QObject.connect(action, SIGNAL( "triggered()"), lambda foo="bar": self.doExportDefects(foo))
         menu.addAction(action)     
 
-        menuBar.addMenu(menu)
-        self.toolbar.insertWidget(self.beforeAction, menuBar)
+        menubar.addMenu(menu)
+        self.toolbar.insertWidget(self.beforeAction, menubar)
 
     def doLoadDefects(self, bar):
         from tools.doLoadDefects import LoadDefects
@@ -411,10 +422,10 @@ class ApplicationModule(QObject):
 
 
 #    def doInitDefectsLoader(self):
-#        menuBar = QMenuBar(self.toolBar)
-#        menuBar.setObjectName("QGeoAppModule.QVeriso.LoadDefectsMenuBar")        
-#        menuBar.setSizePolicy(QSizePolicy(QSizePolicy.Minimum, QSizePolicy.Minimum))
-#        menu = QMenu(menuBar)
+#        menubar = QMenuBar(self.toolBar)
+#        menubar.setObjectName("QGeoAppModule.QVeriso.LoadDefectsMenuBar")        
+#        menubar.setSizePolicy(QSizePolicy(QSizePolicy.Minimum, QSizePolicy.Minimum))
+#        menu = QMenu(menubar)
 #        menu.setTitle(QCoreApplication.translate( "QGeoAppModule.QVeriso","Defects"))  
 #
 #        action = QAction(QCoreApplication.translate("QGeoAppModule.QVeriso", "Load defects layer"), self.iface.mainWindow())
@@ -425,8 +436,8 @@ class ApplicationModule(QObject):
 #        QObject.connect(action, SIGNAL( "triggered()"), lambda foo="bar": self.doExportDefects(foo))
 #        menu.addAction(action)     
 #
-#        menuBar.addMenu(menu)
-#        self.toolBar.insertWidget(self.beforeAction, menuBar)
+#        menubar.addMenu(menu)
+#        self.toolBar.insertWidget(self.beforeAction, menubar)
 #
 #
 #    def doLoadDefects(self, foo):
@@ -440,10 +451,10 @@ class ApplicationModule(QObject):
 #
 #
 #    def doInitChecksLoader(self):
-#        menuBar = QMenuBar(self.toolBar)
-#        menuBar.setObjectName("QGeoAppModule.QVeriso.LoadChecksMenuBar")        
-#        menuBar.setSizePolicy(QSizePolicy(QSizePolicy.Minimum, QSizePolicy.Minimum))
-#        menu = QMenu(menuBar)
+#        menubar = QMenuBar(self.toolBar)
+#        menubar.setObjectName("QGeoAppModule.QVeriso.LoadChecksMenuBar")        
+#        menubar.setSizePolicy(QSizePolicy(QSizePolicy.Minimum, QSizePolicy.Minimum))
+#        menu = QMenu(menubar)
 #        menu.setTitle(QCoreApplication.translate( "QGeoAppModule.QVeriso","Checks"))  
 #        
 #        # load checklist
@@ -476,8 +487,8 @@ class ApplicationModule(QObject):
 #            print "No checks defined."
 #            #messagebox
 #            
-#        menuBar.addMenu(menu)
-#        self.toolBar.insertWidget(self.beforeAction, menuBar)
+#        menubar.addMenu(menu)
+#        self.toolBar.insertWidget(self.beforeAction, menubar)
 #        
 #    
 #    def doShowSimpleCheck(self, check):
@@ -502,10 +513,10 @@ class ApplicationModule(QObject):
 #
 #
 #    def doInitBaseLayerLoader(self):
-#        menuBar = QMenuBar(self.toolBar)
-#        menuBar.setObjectName("QGeoAppModule.QVeriso.LoadBaseLayersMenuBar")        
-#        menuBar.setSizePolicy(QSizePolicy(QSizePolicy.Minimum, QSizePolicy.Minimum))
-#        menu = QMenu(menuBar)
+#        menubar = QMenuBar(self.toolBar)
+#        menubar.setObjectName("QGeoAppModule.QVeriso.LoadBaseLayersMenuBar")        
+#        menubar.setSizePolicy(QSizePolicy(QSizePolicy.Minimum, QSizePolicy.Minimum))
+#        menu = QMenu(menubar)
 #        menu.setTitle(QCoreApplication.translate( "QGeoAppModule.QVeriso","Baselayer"))        
 #
 #        #add the baselayers
@@ -519,8 +530,8 @@ class ApplicationModule(QObject):
 #            print "no baselayers found"
 #            #messagebox
 #
-#        menuBar.addMenu(menu)
-#        self.toolBar.insertWidget(self.beforeAction, menuBar)
+#        menubar.addMenu(menu)
+#        self.toolBar.insertWidget(self.beforeAction, menubar)
 #
 #
 #    def doShowBaseLayer(self, layer):
@@ -536,10 +547,10 @@ class ApplicationModule(QObject):
 #
 #
 #    def doInitTopicsTableLoader(self):
-#        menuBar = QMenuBar(self.toolBar)
-#        menuBar.setObjectName("QGeoAppModule.QVeriso.LoadTopicsTablesMenuBar")        
-#        menuBar.setSizePolicy(QSizePolicy(QSizePolicy.Minimum, QSizePolicy.Minimum))
-#        menu = QMenu(menuBar)
+#        menubar = QMenuBar(self.toolBar)
+#        menubar.setObjectName("QGeoAppModule.QVeriso.LoadTopicsTablesMenuBar")        
+#        menubar.setSizePolicy(QSizePolicy(QSizePolicy.Minimum, QSizePolicy.Minimum))
+#        menu = QMenu(menubar)
 #        menu.setTitle(QCoreApplication.translate( "QGeoAppModule.QVeriso","Data"))        
 #
 #        # add the topic menus
@@ -559,8 +570,8 @@ class ApplicationModule(QObject):
 #            print "No topics found."
 #            #messagebox
 #
-#        menuBar.addMenu(menu)
-#        self.toolBar.insertWidget(self.beforeAction, menuBar)
+#        menubar.addMenu(menu)
+#        self.toolBar.insertWidget(self.beforeAction, menubar)
 #
 #
 #    def doShowTopic(self, topic):
