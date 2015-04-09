@@ -29,7 +29,15 @@
          "url":"http://www.catais.org/wms/orthofoto_aktuell",
          "layers":"ch.so.agi.orthofoto.ndvi",
          "format":"image/jpeg"
-      },      
+      },  
+      {  
+         "type":"wmts",
+         "title": "DTM-Relief (2014) - WMTS Beispiel",               
+         "url":"http://www.catais.org/mapcache/",
+         "layers":"ch.so.agi.hoehen.dtm.relief.2014",
+         "tilematrixset": "ch.so.agi.hoehen.dtm.relief.2014-wmsc-10",
+         "format":"image/png"
+      },            
       {  
          "type":"wms",
          "title":{  

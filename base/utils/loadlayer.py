@@ -128,12 +128,20 @@ class LoadLayer(QObject):
 
                 my_layer = QgsVectorLayer(uri.uri(), title, provider)
 
-            #WMS
-            elif layer["type"] == "wms":
+            #WMS / WMTS
+            # WMTS is a bit ugly since we need to know the tileMatrixSet:
+            # Load layer manually in QGIS once an look for the tileMatrixSet
+            # in the layer properties.
+            elif layer["type"] == "wms" or layer["type"] == "wmts":
                 url = layer["url"]
                 title = layer["title"]
                 layers = layer["layers"]
                 format = layer["format"]
+                
+                try:
+                    tilematrixset = layer["tilematrixset"]
+                except:
+                    tilematrixset = None
                 
                 try:
                     crs = layer["crs"]
@@ -165,7 +173,11 @@ class LoadLayer(QObject):
                     # Korrekterweise wäre style=qml und wmsstyle = Style der vom WMS requested wird.
                     style_string += "&styles="
             
-                uri = "IgnoreGetMapUrl=1&crs="+crs+layer_string+style_string+"&format="+format+"&url="+url
+                if layer["type"] == "wms":
+                    uri = "IgnoreGetMapUrl=1&crs="+crs+layer_string+style_string+"&format="+format+"&url="+url
+                else:
+                    uri = "crs="+crs+layer_string+style_string+"&format="+format+"&tileMatrixSet="+tilematrixset+"&url="+url
+                    
                 my_layer = QgsRasterLayer (uri, title, "wms", False)      
 
             else:
