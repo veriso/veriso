@@ -122,15 +122,13 @@ class LoadLayer(QObject):
                 if readonly:
                     uri.setConnection(db_host, db_port, db_name, db_user, db_pwd)
                 else:
-                    print "***************"
-                    print db_admin_pwd
                     uri.setConnection(db_host, db_port, db_name, db_admin, db_admin_pwd)
                 
                 uri.setDataSource(db_schema, featuretype, geom,  sql, key)
 
                 my_layer = QgsVectorLayer(uri.uri(), title, provider)
 
-            #WMS / WMTS
+            # WMS / WMTS:
             # WMTS is a bit ugly since we need to know the tileMatrixSet:
             # Load layer manually in QGIS once an look for the tileMatrixSet
             # in the layer properties.

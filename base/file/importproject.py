@@ -393,7 +393,7 @@ class ImportProjectDialog(QDialog, Ui_ImportProject):
         sql_queries = self.get_postprocessing_queries()
         if not sql_queries:
             self.restore_cursor()                     
-            message = "Something went wrong while catching postprocessing queries from sqlite database."
+            message = "Something went wrong while catching postprocessing queries from sqlite database. You need to delete the database schema manually."
             QMessageBox.critical(None, "VeriSO", self.tr(message))
             return
             
@@ -401,7 +401,7 @@ class ImportProjectDialog(QDialog, Ui_ImportProject):
         postprocessing_errors = self.postprocess_data(sql_queries)
         if postprocessing_errors <> 0:
             self.restore_cursor()         
-            message = "Something went wrong while postprocessing data."
+            message = "Something went wrong while postprocessing data. You need to delete the database schema manually."
             QMessageBox.critical(None, "VeriSO", self.tr(message))
             return
             
@@ -409,7 +409,7 @@ class ImportProjectDialog(QDialog, Ui_ImportProject):
         updated = self.update_projects_database()
         if not updated:
             self.restore_cursor()         
-            message = "Something went wrong while updating projects database."
+            message = "Something went wrong while updating projects database. You need to delete the database schema manually."
             QMessageBox.critical(None, "VeriSO", self.tr(message))
             return
 
@@ -543,6 +543,8 @@ VALUES ('"+str(self.db_schema)+"', '"+str(self.db_schema)+"', '"+str(self.db_hos
     def get_postprocessing_queries(self):
         """Gets the SQL queries that are stored in the sqlite database for the postprocessing process which is done in postgis.
         
+        Language support: Everything that is not french or italian will be german.
+        
         Returns:
           False: If the queries could not be fetched from the sqlite database. Otherwise a list with the SQL queries.
         """
@@ -556,8 +558,18 @@ VALUES ('"+str(self.db_schema)+"', '"+str(self.db_schema)+"', '"+str(self.db_hos
                 QgsMessageLog.logMessage(self.tr(message), "VeriSO", QgsMessageLog.CRITICAL)            
                 QgsMessageLog.logMessage(str(db.lastError().driverText()), "VeriSO", QgsMessageLog.CRITICAL)                      
                 return
-    
-            sql = "SELECT * FROM postprocessing ORDER BY ogc_fid;"
+                
+            
+            locale = QSettings().value('locale/userLocale')[0:2]
+            if locale == "fr":
+                lang = locale
+            elif locale == "it":
+                lang = locale
+            else:
+                lang = "de"
+
+            sql = "SELECT * FROM postprocessing WHERE (lang = '" + lang + "' OR lang IS NULL) AND apply = 1 ORDER BY 'order', ogc_fid;"
+            print sql
             query = db.exec_(sql)
             
             if not query.isActive():
