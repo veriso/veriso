@@ -355,6 +355,12 @@ class ApplicationModule(QObject):
             self.do_show_single_topic_layer(layer)
         
     def do_init_defects_menu(self):
+        """Inititializes the defects menu:
+        - load defects
+        - export defects
+        
+        Export defects usese some external python excel library.
+        """
         menubar = QMenuBar(self.toolbar)
         menubar.setObjectName("VeriSOModule.LoadDefectsMenuBar")        
         menubar.setSizePolicy(QSizePolicy(QSizePolicy.Minimum, QSizePolicy.Minimum))
@@ -366,7 +372,7 @@ class ApplicationModule(QObject):
         menu.addAction(action)     
         
         action = QAction(QCoreApplication.translate("VeriSO_EE", "Export defects layer"), self.iface.mainWindow())
-        QObject.connect(action, SIGNAL( "triggered()"), lambda foo="bar": self.doExportDefects(foo))
+        QObject.connect(action, SIGNAL( "triggered()"), lambda foo="bar": self.do_export_defects(foo))
         menu.addAction(action)     
 
         menubar.addMenu(menu)
@@ -377,11 +383,10 @@ class ApplicationModule(QObject):
         d = LoadDefects(self.iface)
         d.run()
 
-    def doExportDefects(self, foo):
-        from tools.doExportDefects import ExportDefects        
+    def do_export_defects(self, bar):
+        from tools.exportdefects import ExportDefects        
         d = ExportDefects(self.iface)
         d.run()
-
 
     def cleanGui(self):
         # Remove all the applications module specific menus.

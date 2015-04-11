@@ -37,37 +37,6 @@ class LoadDefects(QObject):
                     
             group = _translate("VeriSO_EE_Defects", "Mängel", None)
             group += " (" + str(self.project_id) + ")"                    
-                    
-#            layer = {}
-#            layer["type"] = "postgres"
-#            layer["title"] = _translate("VeriSO_EE_Defects", "Informationsebenen", None)
-#            layer["featuretype"] = "t_maengel_topics"
-#            layer["key"] = "ogc_fid"            
-#            layer["sql"] = ""
-#            layer["readonly"] = True
-#            layer["group"] = group
-#
-#            vlayer_topics = self.layerLoader.load(layer)
-#            
-#            # We could also use the enumeration widget. 
-#            # But in this case there is no chance to have
-#            # language support.
-#            # We then have to create the enum type with
-#            # the specific language during import.
-#            
-#            # ACHTUNG: oder sprachenspalte spalte in postprocessing: je nachdem was eingestellt ist gilt.
-#            
-#            # Es wird versucht die Namen der Informationsebenen
-#            # der gewünschten Sprache zu finden. Gibt es sie nicht,
-#            # wird das Attribut "topic_name" verwendet. Das MUSS
-#            # vorhanden sein. (Gibts sonst eh keinen Sinn.)
-#            # Does not really work if column exists but is empty...
-#            locale = QSettings().value('locale/userLocale')[0:2]                    
-#            key_idx = vlayer_topics.fieldNameIndex("topic_name_" + str(locale))
-#            if key_idx < 0:
-#                topic_name = "topic_name"
-#            else:
-#                topic_name = "topic_name_" + str(locale)
 
             layer = {}
             layer["type"] = "postgres"
