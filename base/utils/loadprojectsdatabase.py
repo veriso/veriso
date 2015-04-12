@@ -50,7 +50,7 @@ class LoadProjectsDatabase(QObject):
                 project["dbhost"] = str(query.value(record.indexOf("dbhost")))
                 project["dbname"] = str(query.value(record.indexOf("dbname")))
                 project["dbport"] = str(query.value(record.indexOf("dbport")))
-                project["dbschema"] = str(query.value(record.indexOf("dbschema")))                
+                project["dbschema"] = str(query.value(record.indexOf("dbschema")))
                 project["dbuser"] = str(query.value(record.indexOf("dbuser")))
                 project["dbpwd"] = str(query.value(record.indexOf("dbpwd")))
                 project["dbadmin"] = str(query.value(record.indexOf("dbadmin")))

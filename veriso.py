@@ -193,7 +193,12 @@ class VeriSO:
         except Exception, e:
             message = "Error while loading application module: "
             QMessageBox.critical(None, "VeriSO", self.tr("Error while loading application module: ") + str(e))                                    
-            QgsMessageLog.logMessage(str(e), "VeriSO", QgsMessageLog.CRITICAL)      
+            QgsMessageLog.logMessage(str(e), "VeriSO", QgsMessageLog.CRITICAL)     
+            
+            # temporary
+            exc_type, exc_value, exc_traceback = sys.exc_info()
+            QMessageBox.critical(None, "VeriSO", str(traceback.format_exc(exc_traceback)))               
+            
 
     def unload(self):
 #        for action in self.actions:

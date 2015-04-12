@@ -10,13 +10,13 @@ import time
 import sys
 import traceback
 import collections
+from collections import OrderedDict
 
-from veriso.modules.veriso_ee.tools.utils import Utils
 from veriso.base.utils.loadlayer import LoadLayer
 
-# Die Übersetzung hat grosse Probleme gemacht. So 
-# funktionierts. Die einfache "self.tr(...)"-Geschichte
-# wollte wirklich nicht funktionieren...
+# Translation was a pain in the a...
+# Umlaute from files etc.
+# This seems to work.
 try:
     _encoding = QApplication.UnicodeUTF8
     def _translate(context, text, disambig):
@@ -39,13 +39,15 @@ class ApplicationModule(QObject):
     def initGui(self):
         """Initialize all the additional menus.
         """
-        self.cleanGui()
-        self.doInitChecksMenu()        
+        self.clean_gui()
+        self.do_init_checks_menu()        
         self.do_init_defects_menu()        
         self.do_init_topics_tables_menu()
         self.do_init_baselayer_menu()
         
-    def doInitChecksMenu(self):
+    def do_init_checks_menu(self):
+        """Initialize checks menu.
+        """        
         menubar = QMenuBar(self.toolbar)
         menubar.setObjectName("VeriSOModule.LoadChecksMenuBar")        
         menubar.setSizePolicy(QSizePolicy(QSizePolicy.Minimum, QSizePolicy.Minimum))
@@ -53,48 +55,133 @@ class ApplicationModule(QObject):
         menu.setTitle(_translate("VeriSO_EE", "Checks",  None))
         
         locale = QSettings().value('locale/userLocale')[0:2]
-        
-        topics = Utils().getCheckTopics()
-        if topics:
-            for topic in topics:
-                checkfile = topics[topic]['file']
-                singleCheckMenu = menu.addMenu(unicode(topic))                        
-                checks = Utils().getChecks(checkfile)
+
+        check_topics = self.get_check_topics()
+        if not check_topics:
+            message = "Something went wrong reading check topics from json file."
+            self.iface.messageBar().pushMessage("Error",   _translate("VeriSO_EE", message, None), level=QgsMessageBar.CRITICAL, duration=10)   
+            return
+
+        for check_topic in check_topics:
+            checkfile = check_topics[check_topic]['file']
+            single_check_menu = menu.addMenu(unicode(check_topic))         
+            
+            checks = self.get_checks_from_check_topic(checkfile)
+            if not checks:
+                message = "Something went wrong reading check topics from json file."
+                self.iface.messageBar().pushMessage("Error",   _translate("VeriSO_EE", message, None), level=QgsMessageBar.CRITICAL, duration=10)   
+                return
+
+            for check in checks:
+                check_name = check["name"]
                 
-                for check in checks:
-                    checkName = check["name"]
-                    
-                    # Prüfen ob multilingual.
-                    # Logik ähnlich wie in Utils().getCheckTopics() Methode.
-                    try: 
-                        keys = checkName.keys()
-                        try:
-                            checkName = unicode(checkName[locale])
-                            # Sprache gefunden.
-                        except:
-                            # Sprache nicht gefunden.
-                            checkName = unicode(checkName.values()[0])
+              # Same multilingual strategy as in get_check_topics().  
+                try: 
+                    keys = check_name.keys()
+                    try:
+                        check_name = unicode(check_name[locale])
+                        # language found
                     except:
-                        checkName = unicode(checkName)
+                        # language *not* found
+                        check_name = unicode(check_name.values()[0])
+                except:
+                    check_name = unicode(check_name)
+
+                if check_name == "separator":
+                    single_check_menu.addSeparator()
+                else:
+                    action = QAction(check_name, self.iface.mainWindow())
                     
-                    if checkName == "separator":
-                        singleCheckMenu.addSeparator()
-                    else:
-                        action = QAction(checkName, self.iface.mainWindow())
-                        
-                        try:
-                            shortcut = check["shortcut"]
-                            action.setShortcut(shortcut)
-                        except:
-                            pass
-                         
-                        singleCheckMenu.addAction(action)                                         
-                        QObject.connect(action, SIGNAL( "triggered()"), lambda complexCheck=check: self.doShowComplexCheck(complexCheck))
+                    try:
+                        shortcut = check["shortcut"]
+                        action.setShortcut(shortcut)
+                    except:
+                        pass
+
+                    single_check_menu.addAction(action)                                         
+                    QObject.connect(action, SIGNAL( "triggered()"), lambda complex_check=check: self.do_show_complex_check(complex_check))
 
         menubar.addMenu(menu)
         self.toolbar.insertWidget(self.beforeAction, menubar)
 
-    def doShowComplexCheck(self, check):
+    def get_checks_from_check_topic(self, checkfile):
+        """Reads all checks from a from a checkfile 
+        (= all checks for a specific topic)
+        
+        Returns:
+          A list with all checks. False if an error occured.
+        """
+        filename = QDir.convertSeparators(QDir.cleanPath(QgsApplication.qgisSettingsDirPath() + "/python/plugins/veriso/modules/"+self.module_name+"/checks/"+checkfile+".json"))
+   
+        try:
+            checks = json.load(open(filename), object_pairs_hook=collections.OrderedDict) 
+        except Exception, e:
+            QgsMessageLog.logMessage(str(e), "VeriSO_EE", QgsMessageLog.CRITICAL)
+            return
+    
+        try:
+            topic_checks = []
+            for check in checks["checks"]:
+                topic_checks.append(check)
+            return topic_checks
+        except Exception, e:
+            QgsMessageLog.logMessage(str(e), "VeriSO_EE", QgsMessageLog.CRITICAL)
+            return
+
+    def get_check_topics(self):
+        """Get all check topics (aka groups).
+        
+        Different languages are support. See the json file how to deal with it.
+        
+        Returns:
+          A ordererd dictionary with the topic name and corresponding check files (python). False if something went wrong.
+        """
+        filename = QDir.convertSeparators(QDir.cleanPath(QgsApplication.qgisSettingsDirPath() + "/python/plugins/veriso/modules/"+self.module_name+"/checks/checks.json"))
+
+        try:
+            checks = json.load(open(filename), object_pairs_hook=collections.OrderedDict) 
+        except Exception, e:
+            QgsMessageLog.logMessage(str(e), "VeriSO_EE", QgsMessageLog.CRITICAL)
+            return
+            
+        locale = QSettings().value('locale/userLocale')[0:2]
+
+        try:
+            topics = OrderedDict()
+            for check in checks["checks"]:
+                topic = check["topic"]
+                
+                # Check, if json file is multilingual.
+                try:
+                    if topics.has_key(topic):
+                        continue
+                    topics[topic] = check
+                    # Json is *not* multilingual.
+                except:
+                    # Json is multilingual.
+                    
+                    # If the language set in QGIS is not available in the
+                    # jsons file, one (1) language will be chosen (in this
+                    # case the first one).
+                    try:
+                        my_topic = topic[locale]
+                        my_check = OrderedDict()
+                        my_check["topic"] = my_topic
+                        my_check["file"] = check["file"]
+                        topics[my_topic] = my_check
+                        # language found
+                    except:
+                        # language *not* found
+                        my_check = OrderedDict()
+                        my_check["topic"] = topic.values()[0]
+                        my_check["file"] = check["file"]
+                        topics[my_check["topic"]] = my_check
+            return topics
+        except Exception, e:
+            QgsMessageLog.logMessage(str(e), "VeriSO_EE", QgsMessageLog.CRITICAL)
+            return
+
+    def do_show_complex_check(self, check):
         try:
             module = str(check["file"])
             _temp = __import__(module, globals(), locals(), ['ComplexCheck'])
@@ -102,7 +189,7 @@ class ApplicationModule(QObject):
             c.run()
         except Exception:
             exc_type, exc_value, exc_traceback = sys.exc_info()
-            QMessageBox.critical(None, "VeriSO", str(traceback.format_exc(exc_traceback)))               
+            QMessageBox.critical(None, "VeriSO_EE", str(traceback.format_exc(exc_traceback)))               
             return
 
     def do_init_baselayer_menu(self):
@@ -124,7 +211,8 @@ class ApplicationModule(QObject):
         baselayers = self.get_baselayers()
         if not baselayers:
             message = "Could not load baselayer definitions file."
-            self.iface.messageBar().pushMessage("Error",   _translate("VeriSO_EE", message, None), level=QgsMessageBar.CRITICAL, duration=10)       
+            self.iface.messageBar().pushMessage("Error",   _translate("VeriSO_EE", message, None), level=QgsMessageBar.CRITICAL, duration=10)   
+            return
 
         for baselayer in baselayers["baselayer"]:
             baselayer_title = baselayer["title"]
@@ -159,7 +247,7 @@ class ApplicationModule(QObject):
             layer_loader.load(layer, True, True) # Do not show legend for baselayers -> collapse legend.
         except Exception, e:
             QApplication.restoreOverrideCursor()
-            QgsMessageLog.logMessage(str(e), "VeriSO", QgsMessageLog.CRITICAL)
+            QgsMessageLog.logMessage(str(e), "VeriSO_EE", QgsMessageLog.CRITICAL)
             return
             
         QApplication.restoreOverrideCursor()
@@ -176,7 +264,7 @@ class ApplicationModule(QObject):
             baselayers = json.load(open(filename), object_pairs_hook=collections.OrderedDict) 
             return baselayers
         except Exception, e:
-            QgsMessageLog.logMessage(str(e), "VeriSO", QgsMessageLog.CRITICAL)
+            QgsMessageLog.logMessage(str(e), "VeriSO_EE", QgsMessageLog.CRITICAL)
             return
 
     def do_init_topics_tables_menu(self):
@@ -198,7 +286,7 @@ class ApplicationModule(QObject):
         topics = self.get_topics_tables()
         if not topics:
             message = "Something went wrong catching the topics/tables list from the database."
-            QMessageBox.critical(None, "VeriSO", self.tr(message))
+            QMessageBox.critical(None, "VeriSO_EE", self.tr(message))
             return
 
         for topic in topics:
@@ -276,7 +364,7 @@ class ApplicationModule(QObject):
     
             if not db.open():
                 message = "Could not open database: "
-                QgsMessageLog.logMessage(self.tr(message) + db.lastError().driverText(), "VeriSO", QgsMessageLog.CRITICAL)                                
+                QgsMessageLog.logMessage(self.tr(message) + db.lastError().driverText(), "VeriSO_EE", QgsMessageLog.CRITICAL)                                
                 return
                 
             # I think libpg cannot deal with arrays from postgresql. So we return a comma sperated string.
@@ -291,8 +379,8 @@ class ApplicationModule(QObject):
             
             if not query.isActive():
                 message = "Error while reading from database."
-                QgsMessageLog.logMessage(self.tr(message), "VeriSO", QgsMessageLog.CRITICAL)            
-                QgsMessageLog.logMessage(str(QSqlQuery.lastError(query).text()), "VeriSO", QgsMessageLog.CRITICAL)      
+                QgsMessageLog.logMessage(self.tr(message), "VeriSO_EE", QgsMessageLog.CRITICAL)            
+                QgsMessageLog.logMessage(str(QSqlQuery.lastError(query).text()), "VeriSO_EE", QgsMessageLog.CRITICAL)      
                 return 
             
             topics = []  
@@ -330,8 +418,8 @@ class ApplicationModule(QObject):
             
         except Exception, e:
             message = "Something went wrong catching the topics tables list from the database."
-            QgsMessageLog.logMessage(self.tr(message), "VeriSO", QgsMessageLog.CRITICAL)                        
-            QgsMessageLog.logMessage(str(e), "VeriSO", QgsMessageLog.CRITICAL)     
+            QgsMessageLog.logMessage(self.tr(message), "VeriSO_EE", QgsMessageLog.CRITICAL)                        
+            QgsMessageLog.logMessage(str(e), "VeriSO_EE", QgsMessageLog.CRITICAL)     
             return 
 
     def do_show_single_topic_layer(self, layer):
@@ -388,7 +476,7 @@ class ApplicationModule(QObject):
         d = ExportDefects(self.iface)
         d.run()
 
-    def cleanGui(self):
+    def clean_gui(self):
         # Remove all the applications module specific menus.
         actions = self.toolbar.actions()
         for action in actions:
