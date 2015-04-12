@@ -108,141 +108,103 @@ class ExportDefects(QObject):
             # Create excel file.
             filename = QDir.convertSeparators(QDir.cleanPath(os.path.join(project_dir, "maengel.xlsx")))     
             workbook = xlsxwriter.Workbook(filename)
-            worksheet_points = workbook.add_worksheet(u'Mängelliste (Punkte)')
+            fmt_bold = workbook.add_format({'bold': True})
+            fmt_italic = workbook.add_format({'italic': True})
+            
+            # Create the worksheet for the points defects.
+            worksheet_points = workbook.add_worksheet( _translate("VeriSO_EE_Defects", u'Mängelliste (Punkte)', None))
+            worksheet_points.set_paper(9)
+            worksheet_points.set_portrait()
+            
+            # Write project name into worksheet.
+            worksheet_points.write(0, 0,  _translate("VeriSO_EE_Defects", "Operat: ", None), fmt_bold)
+            worksheet_points.write(0, 1,  project_id, fmt_bold)
+            
+            # Write defects. Loop through field to write header.
+            # Then loop through features.
+            provider = vlayer_points.dataProvider()
+            attrs = provider.fields()
 
-            worksheet_points.write('A1', 'Hello world')
+#            types = []            
+            for i in range(len(attrs)):
+                worksheet_points.write(4, i, str(attrs.at(i).name()), fmt_italic)
+#                types.append(attrs.at(i).type())
 
+            worksheet_points.write(4, i+1, _translate("VeriSO_EE_Defects", "Y-Koordinate", None), fmt_italic)
+            worksheet_points.write(4, i+2, _translate("VeriSO_EE_Defects", "X-Koordinate", None), fmt_italic)            
+
+            iter = vlayer_points.getFeatures()
+            j = 0
+
+            for feat in iter:
+                geom = feat.geometry()
+                point = geom.asPoint()            
+                attrs = feat.attributes()
+                k = 0
+                
+                # Types are not needed anymore?
+                # "write" uses appropriate method (write_datetime etc) for
+                # specific python type.
+                # But, possible bug in QGIS: "datum" is mapped to QString.
+                # It is a timestamp in the database.
+                for attr in attrs:
+                    if attr: # Unsupported type <class 'PyQt4.QtCore.QPyNullVariant'> in write()                    
+                        worksheet_points.write(5+j, k, attr)
+                    k += 1
+                    
+                # TODO: better use formats instead of rounding.                    
+                worksheet_points.write(5+j, k, round(point.x(), 3))
+                worksheet_points.write(5+j, k+1, round(point.y(), 3))
+                j += 1 
+
+            # Create the worksheet for the line defects.
+            worksheet_lines = workbook.add_worksheet( _translate("VeriSO_EE_Defects", u'Mängelliste (Linien)', None))
+            worksheet_lines.set_paper(9)
+            worksheet_lines.set_portrait()
+            
+            # Write project name into worksheet.
+            worksheet_lines.write(0, 0,  _translate("VeriSO_EE_Defects", "Operat: ", None), fmt_bold)
+            worksheet_lines.write(0, 1,  project_id, fmt_bold)
+            
+            # Write defects. Loop through field to write header.
+            # Then loop through features.
+            provider = vlayer_lines.dataProvider()
+            attrs = provider.fields()
+
+#            types = []
+            for i in range(len(attrs)):
+                worksheet_lines.write(4, i, str(attrs.at(i).name()), fmt_italic)
+#                types.append(attrs.at(i).type())
+
+            worksheet_lines.write(4, i+1, _translate("VeriSO_EE_Defects", "Y-Koordinate", None), fmt_italic)
+            worksheet_lines.write(4, i+2, _translate("VeriSO_EE_Defects", "X-Koordinate", None), fmt_italic)            
+            worksheet_lines.write(4, i+3, _translate("VeriSO_EE_Defects", u"Länge [hm]", None), fmt_italic)            
+
+            iter = vlayer_lines.getFeatures()
+            j = 0
+
+            for feat in iter:
+                geom = feat.geometry()
+                point = geom.vertexAt(0)
+                attrs = feat.attributes()
+                k = 0
+                
+                for attr in attrs:
+                    if attr: # Unsupported type <class 'PyQt4.QtCore.QPyNullVariant'> in write()
+                        worksheet_lines.write(5+j, k, attr)
+                    k += 1
+              
+                worksheet_lines.write(5+j, k, round(point.x(), 3))
+                worksheet_lines.write(5+j, k+1, round(point.y(), 3))
+                worksheet_lines.write(5+j, k+2, round(geom.length(), 2))
+                j += 1      
+            
+            # Close excel file.
             workbook.close()
             
-            
-            
-            # create excel file
-#            wb = pycel.Workbook(encoding='utf-8')
-#            wb.country_code = 41
-#            
-#            style1 = pycel.easyxf('font: bold on;');
-#            style2 = pycel.easyxf('font: italic on;');
-#            
-#            ws = wb.add_sheet(u'Mängelliste (Punkte)')
-#            ws.paper_size_code = 8
-#            ws.print_centered_vert = False
-#            ws.print_centered_horz = False
-#            ws.top_margin = 1.0
-#            ws.left_margin = 1.0 
-#            ws.bottom_margin = 1.0
-#            ws.portrait = True
-#            
-#            ws.write(0, 0,  str("Operat: "), style1 )
-#            ws.write(0, 1,  project_id)        
-#
-#
-#            provider = vlayer_points.dataProvider()
-#            attrs = provider.fields()
-#            types = []
-#            
-#            for i in range(len(attrs)):
-#                ws.write(4, i, str(attrs.at(i).name()), style2)
-#                types.append(attrs.at(i).type())
-#
-#            ws.write(4, i+1, "Y-Koordinate", style2)
-#            ws.write(4, i+2, "X-Koordinate", style2)            
-#
-#            iter = vlayer_points.getFeatures()
-#            j = 0
-#
-#            for feat in iter:
-#                geom = feat.geometry()
-#                point = geom.asPoint()            
-#                attrs = feat.attributes()
-#                k = 0
-#                
-#                for attr in attrs:
-#                    type = types[k]
-#                    
-#                    if type == QVariant.Int or type == QVariant.LongLong:
-#                        value = int(attr)
-#                    elif type == QVariant.Double:
-#                        value = double(attr)
-#                    elif type == QVariant.String:
-#                        value = unicode(attr)
-#                    elif type == QVariant.Date or type == QVariant.DateTime:
-#                        value = attr.toString("dd.MM.yy")
-#                    else:
-#                        value = "unknown attribute type"
-#                        
-#                    ws.write(5+j, k, value)
-#
-#                    k += 1
-#                    
-#                ws.write(5+j, k, round(point.x(), 3))
-#                ws.write(5+j, k+1, round(point.y(), 3))
-#                    
-#                j += 1                
-#                
-#
-#            ws_line = wb.add_sheet(u'Mängelliste (Linien)')
-#            ws_line.paper_size_code = 8
-#            ws_line.print_centered_vert = False
-#            ws_line.print_centered_horz = False
-#            ws_line.top_margin = 1.0
-#            ws_line.left_margin = 1.0 
-#            ws_line.bottom_margin = 1.0
-#            ws_line.portrait = True
-#            
-#            ws_line.write(0, 0,  str("Operat: "), style1 )
-#            ws_line.write(0, 1,  project_id)        
-#
-#
-#            provider = vlayer_lines.dataProvider()
-#            attrs = provider.fields()
-#            types = []
-#            
-#            for i in range(len(attrs)):
-#                ws_line.write(4, i, str(attrs.at(i).name()), style2)
-#                types.append(attrs.at(i).type())
-#
-#            ws_line.write(4, i+1, "Y-Koordinate", style2)
-#            ws_line.write(4, i+2, "X-Koordinate", style2)            
-#            ws_line.write(4, i+3, u"Länge [hm]", style2)  
-#
-#            iter = vlayer_lines.getFeatures()
-#            j = 0
-#
-#            for feat in iter:
-#                geom = feat.geometry()
-#                point = geom.vertexAt(0)
-#                attrs = feat.attributes()
-#                k = 0
-#                
-#                for attr in attrs:
-#                    type = types[k]
-#                    
-#                    if type == QVariant.Int or type == QVariant.LongLong:
-#                        value = int(attr)
-#                    elif type == QVariant.Double:
-#                        value = double(attr)
-#                    elif type == QVariant.String:
-#                        value = unicode(attr)
-#                    elif type == QVariant.Date or type == QVariant.DateTime:
-#                        value = attr.toString("dd.MM.yy")
-#                    else:
-#                        value = "unknown attribute type"
-#                        
-#                    ws_line.write(5+j, k, value)
-#
-#                    k += 1
-#                    
-#                ws_line.write(5+j, k, round(point.x(), 3))
-#                ws_line.write(5+j, k+1, round(point.y(), 3))
-#                ws_line.write(5+j, k+2, round(geom.length(), 2))
-#
-#                j += 1      
-#
-#            file = QDir.convertSeparators(QDir.cleanPath(os.path.join(project_dir, "maengel.xls")))
-#            wb.save(file)
-            
-            self.iface.messageBar().pushMessage("Information",  _translate("VeriSO_EE_Defects", "Defect(s) written: ", None) + str(file), level=QgsMessageBar.INFO, duration=10)                                                    
-        except Exception:
-            exc_type, exc_value, exc_traceback = sys.exc_info()
-            self.iface.messageBar().pushMessage("Error",  _translate("QcadastreModule", "Defect(s) <b>not</b> written!<br>. ", None) + str(traceback.format_exc(exc_traceback)), level=QgsMessageBar.CRITICAL, duration=10)                                
+            self.iface.messageBar().pushMessage("Information",  _translate("VeriSO_EE_Defects", "Defect(s) written: ", None) + str(filename), level=QgsMessageBar.INFO, duration=10)                                                    
+        except Exception, e:
+            message = "Error while writing defects file."
+            self.iface.messageBar().pushMessage("Error",  _translate("VeriSO_EE_Defects", message, None), level=QgsMessageBar.CRITICAL, duration=10)       
+            QgsMessageLog.logMessage(str(e), "VeriSO", QgsMessageLog.CRITICAL)                  
             return
