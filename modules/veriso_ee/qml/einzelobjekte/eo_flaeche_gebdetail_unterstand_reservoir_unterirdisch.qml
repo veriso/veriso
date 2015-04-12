@@ -1,14 +1,34 @@
 <!DOCTYPE qgis PUBLIC 'http://mrcc.com/qgis.dtd' 'SYSTEM'>
-<qgis version="2.5.0-Master" minimumScale="0" maximumScale="1e+08" simplifyDrawingHints="1" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+<qgis version="2.9.0-Master" minimumScale="-4.65661e-10" maximumScale="1e+08" simplifyDrawingHints="1" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+  <edittypes>
+    <edittype widgetv2type="TextEdit" name="ogc_fid">
+      <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+    </edittype>
+    <edittype widgetv2type="TextEdit" name="t_ili_tid">
+      <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+    </edittype>
+    <edittype widgetv2type="TextEdit" name="flaechenelement_von">
+      <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+    </edittype>
+    <edittype widgetv2type="TextEdit" name="art">
+      <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+    </edittype>
+    <edittype widgetv2type="TextEdit" name="art_txt">
+      <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+    </edittype>
+    <edittype widgetv2type="TextEdit" name="eo_ogc_fid">
+      <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+    </edittype>
+  </edittypes>
   <renderer-v2 symbollevels="0" type="RuleRenderer">
-    <rules>
-      <rule filter=" &quot;art_txt&quot; LIKE  'unterirdisches_Gebaeude%' " symbol="0" label="unterirdisches_Gebaeude"/>
-      <rule filter=" &quot;art_txt&quot; LIKE 'uebriger_Gebaeudeteil%'" symbol="1" label="uebriger_Gebaeudeteil"/>
-      <rule filter=" &quot;art_txt&quot; LIKE 'Reservoir%'" symbol="2" label="Reservoir"/>
-      <rule filter=" &quot;art_txt&quot; LIKE 'Unterstand%'" symbol="3" label="Unterstand"/>
+    <rules key="{d9576c56-e5a4-4cac-ae9e-ff7622a9a793}">
+      <rule filter=" &quot;art_txt&quot; LIKE  'unterirdisches_Gebaeude%' " key="{c3df919b-85eb-46d2-a7c1-f74b60154e22}" symbol="0" label="unterirdisches_Gebaeude"/>
+      <rule filter=" &quot;art_txt&quot; LIKE 'uebriger_Gebaeudeteil%'" key="{bc4cfbee-83ca-4a4c-9aec-e7b5240c2fc4}" symbol="1" label="uebriger_Gebaeudeteil"/>
+      <rule filter=" &quot;art_txt&quot; LIKE 'Reservoir%'" key="{0b4f681a-a721-47c6-a794-febbf652ed63}" symbol="2" label="Reservoir"/>
+      <rule filter=" &quot;art_txt&quot; LIKE 'Unterstand%'" key="{3657e76f-f34d-4f56-8cb6-85a299135adc}" symbol="3" label="Unterstand"/>
     </rules>
     <symbols>
-      <symbol alpha="1" type="fill" name="0">
+      <symbol alpha="1" clip_to_extent="1" type="fill" name="0">
         <layer pass="0" class="PointPatternFill" locked="0">
           <prop k="displacement_x" v="1"/>
           <prop k="displacement_x_map_unit_scale" v="0,0"/>
@@ -24,16 +44,24 @@
           <prop k="distance_y_unit" v="MM"/>
           <prop k="outline_width_map_unit_scale" v="0,0"/>
           <prop k="outline_width_unit" v="MM"/>
-          <symbol alpha="1" type="marker" name="@0@0">
+          <effect enabled="0" type="effectStack">
+            <effect type="drawSource">
+              <prop k="blend_mode" v="0"/>
+              <prop k="draw_mode" v="2"/>
+              <prop k="enabled" v="1"/>
+              <prop k="transparency" v="0"/>
+            </effect>
+          </effect>
+          <symbol alpha="1" clip_to_extent="1" type="marker" name="@0@0">
             <layer pass="0" class="SimpleMarker" locked="0">
               <prop k="angle" v="0"/>
               <prop k="color" v="255,191,191,255"/>
-              <prop k="color_border" v="0,0,0,0"/>
               <prop k="horizontal_anchor_point" v="1"/>
               <prop k="name" v="circle"/>
               <prop k="offset" v="0,0"/>
               <prop k="offset_map_unit_scale" v="0,0"/>
               <prop k="offset_unit" v="MM"/>
+              <prop k="outline_color" v="0,0,0,0"/>
               <prop k="outline_style" v="solid"/>
               <prop k="outline_width" v="0"/>
               <prop k="outline_width_map_unit_scale" v="0,0"/>
@@ -43,47 +71,71 @@
               <prop k="size_map_unit_scale" v="0,0"/>
               <prop k="size_unit" v="MM"/>
               <prop k="vertical_anchor_point" v="1"/>
+              <effect enabled="0" type="effectStack">
+                <effect type="drawSource">
+                  <prop k="blend_mode" v="0"/>
+                  <prop k="draw_mode" v="2"/>
+                  <prop k="enabled" v="1"/>
+                  <prop k="transparency" v="0"/>
+                </effect>
+              </effect>
             </layer>
           </symbol>
         </layer>
         <layer pass="0" class="SimpleLine" locked="0">
           <prop k="capstyle" v="flat"/>
-          <prop k="color" v="0,0,0,255"/>
           <prop k="customdash" v="0.5;0.5"/>
           <prop k="customdash_map_unit_scale" v="0,0"/>
           <prop k="customdash_unit" v="MM"/>
           <prop k="draw_inside_polygon" v="0"/>
           <prop k="joinstyle" v="bevel"/>
+          <prop k="line_color" v="0,0,0,255"/>
+          <prop k="line_style" v="solid"/>
+          <prop k="line_width" v="0.26"/>
+          <prop k="line_width_unit" v="MM"/>
           <prop k="offset" v="0"/>
           <prop k="offset_map_unit_scale" v="0,0"/>
           <prop k="offset_unit" v="MM"/>
-          <prop k="penstyle" v="solid"/>
           <prop k="use_custom_dash" v="1"/>
-          <prop k="width" v="0.26"/>
           <prop k="width_map_unit_scale" v="0,0"/>
-          <prop k="width_unit" v="MM"/>
+          <effect enabled="0" type="effectStack">
+            <effect type="drawSource">
+              <prop k="blend_mode" v="0"/>
+              <prop k="draw_mode" v="2"/>
+              <prop k="enabled" v="1"/>
+              <prop k="transparency" v="0"/>
+            </effect>
+          </effect>
         </layer>
       </symbol>
-      <symbol alpha="1" type="fill" name="1">
+      <symbol alpha="1" clip_to_extent="1" type="fill" name="1">
         <layer pass="0" class="SimpleLine" locked="0">
           <prop k="capstyle" v="flat"/>
-          <prop k="color" v="0,0,0,255"/>
           <prop k="customdash" v="1;1"/>
           <prop k="customdash_map_unit_scale" v="0,0"/>
           <prop k="customdash_unit" v="MM"/>
           <prop k="draw_inside_polygon" v="0"/>
           <prop k="joinstyle" v="bevel"/>
+          <prop k="line_color" v="0,0,0,255"/>
+          <prop k="line_style" v="solid"/>
+          <prop k="line_width" v="0.26"/>
+          <prop k="line_width_unit" v="MM"/>
           <prop k="offset" v="0"/>
           <prop k="offset_map_unit_scale" v="0,0"/>
           <prop k="offset_unit" v="MM"/>
-          <prop k="penstyle" v="solid"/>
           <prop k="use_custom_dash" v="1"/>
-          <prop k="width" v="0.26"/>
           <prop k="width_map_unit_scale" v="0,0"/>
-          <prop k="width_unit" v="MM"/>
+          <effect enabled="0" type="effectStack">
+            <effect type="drawSource">
+              <prop k="blend_mode" v="0"/>
+              <prop k="draw_mode" v="2"/>
+              <prop k="enabled" v="1"/>
+              <prop k="transparency" v="0"/>
+            </effect>
+          </effect>
         </layer>
       </symbol>
-      <symbol alpha="1" type="fill" name="2">
+      <symbol alpha="1" clip_to_extent="1" type="fill" name="2">
         <layer pass="0" class="PointPatternFill" locked="0">
           <prop k="displacement_x" v="1"/>
           <prop k="displacement_x_map_unit_scale" v="0,0"/>
@@ -99,16 +151,24 @@
           <prop k="distance_y_unit" v="MM"/>
           <prop k="outline_width_map_unit_scale" v="0,0"/>
           <prop k="outline_width_unit" v="MM"/>
-          <symbol alpha="1" type="marker" name="@2@0">
+          <effect enabled="0" type="effectStack">
+            <effect type="drawSource">
+              <prop k="blend_mode" v="0"/>
+              <prop k="draw_mode" v="2"/>
+              <prop k="enabled" v="1"/>
+              <prop k="transparency" v="0"/>
+            </effect>
+          </effect>
+          <symbol alpha="1" clip_to_extent="1" type="marker" name="@2@0">
             <layer pass="0" class="SimpleMarker" locked="0">
               <prop k="angle" v="0"/>
               <prop k="color" v="0,0,255,255"/>
-              <prop k="color_border" v="0,0,0,0"/>
               <prop k="horizontal_anchor_point" v="1"/>
               <prop k="name" v="circle"/>
               <prop k="offset" v="0,0"/>
               <prop k="offset_map_unit_scale" v="0,0"/>
               <prop k="offset_unit" v="MM"/>
+              <prop k="outline_color" v="0,0,0,0"/>
               <prop k="outline_style" v="solid"/>
               <prop k="outline_width" v="0"/>
               <prop k="outline_width_map_unit_scale" v="0,0"/>
@@ -118,81 +178,129 @@
               <prop k="size_map_unit_scale" v="0,0"/>
               <prop k="size_unit" v="MM"/>
               <prop k="vertical_anchor_point" v="1"/>
+              <effect enabled="0" type="effectStack">
+                <effect type="drawSource">
+                  <prop k="blend_mode" v="0"/>
+                  <prop k="draw_mode" v="2"/>
+                  <prop k="enabled" v="1"/>
+                  <prop k="transparency" v="0"/>
+                </effect>
+              </effect>
             </layer>
           </symbol>
         </layer>
         <layer pass="0" class="SimpleLine" locked="0">
           <prop k="capstyle" v="flat"/>
-          <prop k="color" v="0,0,0,255"/>
           <prop k="customdash" v="0.5;0.5"/>
           <prop k="customdash_map_unit_scale" v="0,0"/>
           <prop k="customdash_unit" v="MM"/>
           <prop k="draw_inside_polygon" v="0"/>
           <prop k="joinstyle" v="bevel"/>
+          <prop k="line_color" v="0,0,0,255"/>
+          <prop k="line_style" v="solid"/>
+          <prop k="line_width" v="0.26"/>
+          <prop k="line_width_unit" v="MM"/>
           <prop k="offset" v="0"/>
           <prop k="offset_map_unit_scale" v="0,0"/>
           <prop k="offset_unit" v="MM"/>
-          <prop k="penstyle" v="solid"/>
           <prop k="use_custom_dash" v="1"/>
-          <prop k="width" v="0.26"/>
           <prop k="width_map_unit_scale" v="0,0"/>
-          <prop k="width_unit" v="MM"/>
+          <effect enabled="0" type="effectStack">
+            <effect type="drawSource">
+              <prop k="blend_mode" v="0"/>
+              <prop k="draw_mode" v="2"/>
+              <prop k="enabled" v="1"/>
+              <prop k="transparency" v="0"/>
+            </effect>
+          </effect>
         </layer>
       </symbol>
-      <symbol alpha="1" type="fill" name="3">
+      <symbol alpha="1" clip_to_extent="1" type="fill" name="3">
         <layer pass="0" class="LinePatternFill" locked="0">
+          <prop k="angle" v="45"/>
           <prop k="color" v="0,0,0,255"/>
           <prop k="distance" v="1.5"/>
           <prop k="distance_map_unit_scale" v="0,0"/>
           <prop k="distance_unit" v="MM"/>
+          <prop k="line_width" v="0.26"/>
           <prop k="line_width_map_unit_scale" v="0,0"/>
           <prop k="line_width_unit" v="MM"/>
-          <prop k="lineangle" v="45"/>
-          <prop k="linewidth" v="0.26"/>
           <prop k="offset" v="0"/>
           <prop k="offset_map_unit_scale" v="0,0"/>
           <prop k="offset_unit" v="MM"/>
           <prop k="outline_width_map_unit_scale" v="0,0"/>
           <prop k="outline_width_unit" v="MM"/>
-          <symbol alpha="1" type="line" name="@3@0">
+          <effect enabled="0" type="effectStack">
+            <effect type="drawSource">
+              <prop k="blend_mode" v="0"/>
+              <prop k="draw_mode" v="2"/>
+              <prop k="enabled" v="1"/>
+              <prop k="transparency" v="0"/>
+            </effect>
+          </effect>
+          <symbol alpha="1" clip_to_extent="1" type="line" name="@3@0">
             <layer pass="0" class="SimpleLine" locked="0">
               <prop k="capstyle" v="square"/>
-              <prop k="color" v="0,0,0,255"/>
               <prop k="customdash" v="1;1"/>
               <prop k="customdash_map_unit_scale" v="0,0"/>
               <prop k="customdash_unit" v="MM"/>
               <prop k="draw_inside_polygon" v="0"/>
               <prop k="joinstyle" v="bevel"/>
+              <prop k="line_color" v="0,0,0,255"/>
+              <prop k="line_style" v="solid"/>
+              <prop k="line_width" v="0.26"/>
+              <prop k="line_width_unit" v="MM"/>
               <prop k="offset" v="0"/>
               <prop k="offset_map_unit_scale" v="0,0"/>
               <prop k="offset_unit" v="MM"/>
-              <prop k="penstyle" v="solid"/>
               <prop k="use_custom_dash" v="1"/>
-              <prop k="width" v="0.26"/>
               <prop k="width_map_unit_scale" v="0,0"/>
-              <prop k="width_unit" v="MM"/>
+              <effect enabled="0" type="effectStack">
+                <effect type="drawSource">
+                  <prop k="blend_mode" v="0"/>
+                  <prop k="draw_mode" v="2"/>
+                  <prop k="enabled" v="1"/>
+                  <prop k="transparency" v="0"/>
+                </effect>
+              </effect>
             </layer>
           </symbol>
         </layer>
         <layer pass="0" class="SimpleLine" locked="0">
           <prop k="capstyle" v="flat"/>
-          <prop k="color" v="0,0,0,255"/>
           <prop k="customdash" v="0.5;0.5"/>
           <prop k="customdash_map_unit_scale" v="0,0"/>
           <prop k="customdash_unit" v="MM"/>
           <prop k="draw_inside_polygon" v="0"/>
           <prop k="joinstyle" v="bevel"/>
+          <prop k="line_color" v="0,0,0,255"/>
+          <prop k="line_style" v="solid"/>
+          <prop k="line_width" v="0.26"/>
+          <prop k="line_width_unit" v="MM"/>
           <prop k="offset" v="0"/>
           <prop k="offset_map_unit_scale" v="0,0"/>
           <prop k="offset_unit" v="MM"/>
-          <prop k="penstyle" v="solid"/>
           <prop k="use_custom_dash" v="1"/>
-          <prop k="width" v="0.26"/>
           <prop k="width_map_unit_scale" v="0,0"/>
-          <prop k="width_unit" v="MM"/>
+          <effect enabled="0" type="effectStack">
+            <effect type="drawSource">
+              <prop k="blend_mode" v="0"/>
+              <prop k="draw_mode" v="2"/>
+              <prop k="enabled" v="1"/>
+              <prop k="transparency" v="0"/>
+            </effect>
+          </effect>
         </layer>
       </symbol>
     </symbols>
+    <effect enabled="0" type="effectStack">
+      <effect type="drawSource">
+        <prop k="blend_mode" v="0"/>
+        <prop k="draw_mode" v="2"/>
+        <prop k="enabled" v="1"/>
+        <prop k="transparency" v="0"/>
+      </effect>
+    </effect>
   </renderer-v2>
   <customproperties>
     <property key="labeling" value="pal"/>
@@ -362,8 +470,12 @@
     <multilineenabled fieldname="" on=""/>
     <selectedonly on=""/>
   </labelattributes>
+  <SingleCategoryDiagramRenderer diagramType="Pie">
+    <DiagramCategory penColor="#000000" labelPlacementMethod="XHeight" penWidth="0" diagramOrientation="Up" minimumSize="0" barWidth="5" penAlpha="255" maxScaleDenominator="-1" font="Droid Sans,10,-1,5,50,0,0,0,0,0" backgroundColor="#ffffff" transparency="0" width="30" scaleDependency="Area" backgroundAlpha="255" angleOffset="1440" enabled="0" height="30" sizeType="MM" minScaleDenominator="-1"/>
+  </SingleCategoryDiagramRenderer>
+  <DiagramLayerSettings yPosColumn="-1" linePlacementFlags="1" placement="0" dist="0" xPosColumn="-1" priority="0" obstacle="0" showAll="1"/>
   <editform></editform>
-  <editforminit></editforminit>
+  <editforminit/>
   <featformsuppress>0</featformsuppress>
   <annotationform></annotationform>
   <editorlayout>generatedlayout</editorlayout>

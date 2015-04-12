@@ -7,7 +7,7 @@ from qgis.gui import *
 import sys
 import traceback
 
-from veriso.base.utils.doLoadLayer import LoadLayer
+from veriso.base.utils.loadlayer import LoadLayer
 
 try:
     _encoding = QApplication.UnicodeUTF8
@@ -23,7 +23,7 @@ class ComplexCheck(QObject):
         self.iface = iface
         
         self.root = QgsProject.instance().layerTreeRoot()        
-        self.layerLoader = LoadLayer(self.iface)
+        self.layer_loader = LoadLayer(self.iface)
 
     def run(self):        
         self.settings = QSettings("CatAIS","VeriSO")
@@ -52,7 +52,7 @@ class ComplexCheck(QObject):
             layer["group"] = group
             layer["style"] = "gebaeudeadressen/spinnennetz_blau.qml"
             
-            vlayer = self.layerLoader.load(layer, False)
+            vlayer = self.layer_loader.load(layer, False)
                 
             layer = {}
             layer["type"] = "postgres"
@@ -65,7 +65,7 @@ class ComplexCheck(QObject):
             layer["group"] = group
             layer["style"] = "gebaeudeadressen/shortestline_linie.qml"
             
-            vlayer = self.layerLoader.load(layer)
+            vlayer = self.layer_loader.load(layer)
             
             layer = {}
             layer["type"] = "postgres"
@@ -77,7 +77,7 @@ class ComplexCheck(QObject):
             layer["group"] = group
             layer["style"] = "gebaeudeadressen/shortestline_hausnummerpos.qml"
  
-            vlayer = self.layerLoader.load(layer)
+            vlayer = self.layer_loader.load(layer)
             
             layer = {}
             layer["type"] = "postgres"
@@ -89,7 +89,7 @@ class ComplexCheck(QObject):
             layer["group"] = group
             layer["style"] = "gebaeudeadressen/gebaeude_12m2_ohne_eingang.qml"
             
-            vlayer = self.layerLoader.load(layer)
+            vlayer = self.layer_loader.load(layer)
             
         except Exception, e:
             QApplication.restoreOverrideCursor()            

@@ -1,17 +1,73 @@
 <!DOCTYPE qgis PUBLIC 'http://mrcc.com/qgis.dtd' 'SYSTEM'>
-<qgis version="2.5.0-Master" minimumScale="-4.65661e-10" maximumScale="1e+08" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="5000" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="1">
+<qgis version="2.9.0-Master" minimumScale="0" maximumScale="1e+08" simplifyDrawingHints="0" minLabelScale="0" maxLabelScale="5000" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="1">
+  <edittypes>
+    <edittype widgetv2type="TextEdit" name="ogc_fid">
+      <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+    </edittype>
+    <edittype widgetv2type="TextEdit" name="t_ili_tid">
+      <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+    </edittype>
+    <edittype widgetv2type="TextEdit" name="lokalisationsnamepos_von">
+      <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+    </edittype>
+    <edittype widgetv2type="TextEdit" name="anfindex">
+      <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+    </edittype>
+    <edittype widgetv2type="TextEdit" name="endindex">
+      <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+    </edittype>
+    <edittype widgetv2type="TextEdit" name="ori">
+      <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+    </edittype>
+    <edittype widgetv2type="TextEdit" name="hali">
+      <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+    </edittype>
+    <edittype widgetv2type="TextEdit" name="hali_txt">
+      <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+    </edittype>
+    <edittype widgetv2type="TextEdit" name="vali">
+      <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+    </edittype>
+    <edittype widgetv2type="TextEdit" name="vali_txt">
+      <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+    </edittype>
+    <edittype widgetv2type="TextEdit" name="groesse">
+      <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+    </edittype>
+    <edittype widgetv2type="TextEdit" name="groesse_txt">
+      <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+    </edittype>
+    <edittype widgetv2type="TextEdit" name="hilfslinie">
+      <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+    </edittype>
+    <edittype widgetv2type="TextEdit" name="y">
+      <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+    </edittype>
+    <edittype widgetv2type="TextEdit" name="x">
+      <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+    </edittype>
+    <edittype widgetv2type="TextEdit" name="rot">
+      <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+    </edittype>
+    <edittype widgetv2type="TextEdit" name="benannte">
+      <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+    </edittype>
+    <edittype widgetv2type="TextEdit" name="atext">
+      <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+    </edittype>
+  </edittypes>
   <renderer-v2 symbollevels="0" type="singleSymbol">
     <symbols>
-      <symbol alpha="1" type="marker" name="0">
+      <symbol alpha="1" clip_to_extent="1" type="marker" name="0">
         <layer pass="0" class="SimpleMarker" locked="0">
           <prop k="angle" v="0"/>
           <prop k="color" v="255,0,0,255"/>
-          <prop k="color_border" v="0,0,0,255"/>
           <prop k="horizontal_anchor_point" v="1"/>
           <prop k="name" v="circle"/>
           <prop k="offset" v="0,0"/>
           <prop k="offset_map_unit_scale" v="0,0"/>
           <prop k="offset_unit" v="MM"/>
+          <prop k="outline_color" v="0,0,0,255"/>
           <prop k="outline_style" v="solid"/>
           <prop k="outline_width" v="0"/>
           <prop k="outline_width_map_unit_scale" v="0,0"/>
@@ -21,11 +77,27 @@
           <prop k="size_map_unit_scale" v="0,0"/>
           <prop k="size_unit" v="MM"/>
           <prop k="vertical_anchor_point" v="1"/>
+          <effect enabled="0" type="effectStack">
+            <effect type="drawSource">
+              <prop k="blend_mode" v="0"/>
+              <prop k="draw_mode" v="2"/>
+              <prop k="enabled" v="1"/>
+              <prop k="transparency" v="0"/>
+            </effect>
+          </effect>
         </layer>
       </symbol>
     </symbols>
     <rotation/>
     <sizescale scalemethod="area"/>
+    <effect enabled="0" type="effectStack">
+      <effect type="drawSource">
+        <prop k="blend_mode" v="0"/>
+        <prop k="draw_mode" v="2"/>
+        <prop k="enabled" v="1"/>
+        <prop k="transparency" v="0"/>
+      </effect>
+    </effect>
   </renderer-v2>
   <customproperties>
     <property key="labeling" value="pal"/>
@@ -77,7 +149,7 @@
     <property key="labeling/fontWeight" value="50"/>
     <property key="labeling/fontWordSpacing" value="0"/>
     <property key="labeling/formatNumbers" value="false"/>
-    <property key="labeling/isExpression" value="false"/>
+    <property key="labeling/isExpression" value="true"/>
     <property key="labeling/labelOffsetInMapUnits" value="true"/>
     <property key="labeling/labelOffsetMapUnitMaxScale" value="0"/>
     <property key="labeling/labelOffsetMapUnitMinScale" value="0"/>
@@ -181,9 +253,8 @@
   <layerTransparency>0</layerTransparency>
   <displayfield>lokalisationsnamepos_von</displayfield>
   <label>0</label>
-  <labelfield>text</labelfield>
   <labelattributes>
-    <label fieldname="text" text="Label"/>
+    <label fieldname="" text="Label"/>
     <family fieldname="" name="Droid Sans"/>
     <size fieldname="" units="pt" value="11"/>
     <bold fieldname="" on="0"/>
@@ -202,8 +273,12 @@
     <multilineenabled fieldname="" on=""/>
     <selectedonly on=""/>
   </labelattributes>
+  <SingleCategoryDiagramRenderer diagramType="Pie">
+    <DiagramCategory penColor="#000000" labelPlacementMethod="XHeight" penWidth="0" diagramOrientation="Up" minimumSize="0" barWidth="5" penAlpha="255" maxScaleDenominator="-1" font="Droid Sans,10,-1,5,50,0,0,0,0,0" backgroundColor="#ffffff" transparency="0" width="30" scaleDependency="Area" backgroundAlpha="255" angleOffset="1440" enabled="0" height="30" sizeType="MM" minScaleDenominator="-1"/>
+  </SingleCategoryDiagramRenderer>
+  <DiagramLayerSettings yPosColumn="-1" linePlacementFlags="1" placement="0" dist="0" xPosColumn="-1" priority="0" obstacle="0" showAll="1"/>
   <editform></editform>
-  <editforminit></editforminit>
+  <editforminit/>
   <featformsuppress>0</featformsuppress>
   <annotationform></annotationform>
   <editorlayout>generatedlayout</editorlayout>

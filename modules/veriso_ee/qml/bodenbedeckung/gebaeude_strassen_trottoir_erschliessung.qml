@@ -1,74 +1,137 @@
 <!DOCTYPE qgis PUBLIC 'http://mrcc.com/qgis.dtd' 'SYSTEM'>
-<qgis version="2.5.0-Master" minimumScale="-4.65661e-10" maximumScale="1e+08" simplifyDrawingHints="1" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+<qgis version="2.9.0-Master" minimumScale="0" maximumScale="1e+08" simplifyDrawingHints="1" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+  <edittypes>
+    <edittype widgetv2type="TextEdit" name="ogc_fid">
+      <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+    </edittype>
+    <edittype widgetv2type="TextEdit" name="t_ili_tid">
+      <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+    </edittype>
+    <edittype widgetv2type="TextEdit" name="entstehung">
+      <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+    </edittype>
+    <edittype widgetv2type="TextEdit" name="qualitaet">
+      <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+    </edittype>
+    <edittype widgetv2type="TextEdit" name="qualitaet_txt">
+      <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+    </edittype>
+    <edittype widgetv2type="TextEdit" name="art">
+      <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+    </edittype>
+    <edittype widgetv2type="TextEdit" name="art_txt">
+      <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+    </edittype>
+  </edittypes>
   <renderer-v2 symbollevels="0" type="RuleRenderer">
-    <rules>
-      <rule filter=" &quot;art_txt&quot; LIKE  'Gebaeude%' " symbol="0" label="Gebaeude"/>
-      <rule filter=" &quot;art_txt&quot;  LIKE  'befestigt.Strasse_Weg%' " symbol="1" label="befestigt.Strasse_Weg"/>
-      <rule filter=" &quot;art_txt&quot;  LIKE  'befestigt.Trottoir%' " symbol="2" label="befestigt.Trottoir"/>
-      <rule filter=" &quot;art_txt&quot; LIKE 'befestigt.uebrige_befestigte%' " symbol="3" label="befestigt.uebrige_befestigte"/>
+    <rules key="{b421613e-2f16-4d2f-ab0f-91353d52185a}">
+      <rule filter=" &quot;art_txt&quot; LIKE  'Gebaeude%' " key="{f28bd6b2-3788-4605-b57f-6161b18bb128}" symbol="0" label="Gebaeude"/>
+      <rule filter=" &quot;art_txt&quot;  LIKE  'befestigt.Strasse_Weg%' " key="{741b980b-e028-462a-af50-397edae2a775}" symbol="1" label="befestigt.Strasse_Weg"/>
+      <rule filter=" &quot;art_txt&quot;  LIKE  'befestigt.Trottoir%' " key="{78651d9c-2a02-4684-a850-b6c7bac0ffe9}" symbol="2" label="befestigt.Trottoir"/>
+      <rule filter=" &quot;art_txt&quot; LIKE 'befestigt.uebrige_befestigte%' " key="{48f92811-279b-47a4-b093-c9d6391ed2e8}" symbol="3" label="befestigt.uebrige_befestigte"/>
     </rules>
     <symbols>
-      <symbol alpha="1" type="fill" name="0">
+      <symbol alpha="1" clip_to_extent="1" type="fill" name="0">
         <layer pass="0" class="SimpleFill" locked="0">
           <prop k="border_width_map_unit_scale" v="0,0"/>
-          <prop k="border_width_unit" v="MM"/>
           <prop k="color" v="255,191,191,255"/>
-          <prop k="color_border" v="0,0,0,255"/>
           <prop k="joinstyle" v="bevel"/>
           <prop k="offset" v="0,0"/>
           <prop k="offset_map_unit_scale" v="0,0"/>
           <prop k="offset_unit" v="MM"/>
+          <prop k="outline_color" v="0,0,0,255"/>
+          <prop k="outline_style" v="solid"/>
+          <prop k="outline_width" v="0.26"/>
+          <prop k="outline_width_unit" v="MM"/>
           <prop k="style" v="solid"/>
-          <prop k="style_border" v="solid"/>
-          <prop k="width_border" v="0.26"/>
+          <effect enabled="0" type="effectStack">
+            <effect type="drawSource">
+              <prop k="blend_mode" v="0"/>
+              <prop k="draw_mode" v="2"/>
+              <prop k="enabled" v="1"/>
+              <prop k="transparency" v="0"/>
+            </effect>
+          </effect>
         </layer>
       </symbol>
-      <symbol alpha="1" type="fill" name="1">
+      <symbol alpha="1" clip_to_extent="1" type="fill" name="1">
         <layer pass="0" class="SimpleFill" locked="0">
           <prop k="border_width_map_unit_scale" v="0,0"/>
-          <prop k="border_width_unit" v="MM"/>
           <prop k="color" v="191,191,191,255"/>
-          <prop k="color_border" v="0,0,0,255"/>
           <prop k="joinstyle" v="bevel"/>
           <prop k="offset" v="0,0"/>
           <prop k="offset_map_unit_scale" v="0,0"/>
           <prop k="offset_unit" v="MM"/>
+          <prop k="outline_color" v="0,0,0,255"/>
+          <prop k="outline_style" v="solid"/>
+          <prop k="outline_width" v="0.26"/>
+          <prop k="outline_width_unit" v="MM"/>
           <prop k="style" v="solid"/>
-          <prop k="style_border" v="solid"/>
-          <prop k="width_border" v="0.26"/>
+          <effect enabled="0" type="effectStack">
+            <effect type="drawSource">
+              <prop k="blend_mode" v="0"/>
+              <prop k="draw_mode" v="2"/>
+              <prop k="enabled" v="1"/>
+              <prop k="transparency" v="0"/>
+            </effect>
+          </effect>
         </layer>
       </symbol>
-      <symbol alpha="1" type="fill" name="2">
+      <symbol alpha="1" clip_to_extent="1" type="fill" name="2">
         <layer pass="0" class="SimpleFill" locked="0">
           <prop k="border_width_map_unit_scale" v="0,0"/>
-          <prop k="border_width_unit" v="MM"/>
           <prop k="color" v="224,224,224,255"/>
-          <prop k="color_border" v="0,0,0,255"/>
           <prop k="joinstyle" v="bevel"/>
           <prop k="offset" v="0,0"/>
           <prop k="offset_map_unit_scale" v="0,0"/>
           <prop k="offset_unit" v="MM"/>
+          <prop k="outline_color" v="0,0,0,255"/>
+          <prop k="outline_style" v="solid"/>
+          <prop k="outline_width" v="0.26"/>
+          <prop k="outline_width_unit" v="MM"/>
           <prop k="style" v="solid"/>
-          <prop k="style_border" v="solid"/>
-          <prop k="width_border" v="0.26"/>
+          <effect enabled="0" type="effectStack">
+            <effect type="drawSource">
+              <prop k="blend_mode" v="0"/>
+              <prop k="draw_mode" v="2"/>
+              <prop k="enabled" v="1"/>
+              <prop k="transparency" v="0"/>
+            </effect>
+          </effect>
         </layer>
       </symbol>
-      <symbol alpha="1" type="fill" name="3">
+      <symbol alpha="1" clip_to_extent="1" type="fill" name="3">
         <layer pass="0" class="SimpleFill" locked="0">
           <prop k="border_width_map_unit_scale" v="0,0"/>
-          <prop k="border_width_unit" v="MM"/>
           <prop k="color" v="224,224,224,255"/>
-          <prop k="color_border" v="0,0,0,255"/>
           <prop k="joinstyle" v="bevel"/>
           <prop k="offset" v="0,0"/>
           <prop k="offset_map_unit_scale" v="0,0"/>
           <prop k="offset_unit" v="MM"/>
+          <prop k="outline_color" v="0,0,0,255"/>
+          <prop k="outline_style" v="solid"/>
+          <prop k="outline_width" v="0.26"/>
+          <prop k="outline_width_unit" v="MM"/>
           <prop k="style" v="solid"/>
-          <prop k="style_border" v="solid"/>
-          <prop k="width_border" v="0.26"/>
+          <effect enabled="0" type="effectStack">
+            <effect type="drawSource">
+              <prop k="blend_mode" v="0"/>
+              <prop k="draw_mode" v="2"/>
+              <prop k="enabled" v="1"/>
+              <prop k="transparency" v="0"/>
+            </effect>
+          </effect>
         </layer>
       </symbol>
     </symbols>
+    <effect enabled="0" type="effectStack">
+      <effect type="drawSource">
+        <prop k="blend_mode" v="0"/>
+        <prop k="draw_mode" v="2"/>
+        <prop k="enabled" v="1"/>
+        <prop k="transparency" v="0"/>
+      </effect>
+    </effect>
   </renderer-v2>
   <customproperties>
     <property key="labeling" value="pal"/>
@@ -238,8 +301,12 @@
     <multilineenabled fieldname="" on=""/>
     <selectedonly on=""/>
   </labelattributes>
+  <SingleCategoryDiagramRenderer diagramType="Pie">
+    <DiagramCategory penColor="#000000" labelPlacementMethod="XHeight" penWidth="0" diagramOrientation="Up" minimumSize="0" barWidth="5" penAlpha="255" maxScaleDenominator="-1" font="Droid Sans,10,-1,5,50,0,0,0,0,0" backgroundColor="#ffffff" transparency="0" width="30" scaleDependency="Area" backgroundAlpha="255" angleOffset="1440" enabled="0" height="30" sizeType="MM" minScaleDenominator="-1"/>
+  </SingleCategoryDiagramRenderer>
+  <DiagramLayerSettings yPosColumn="-1" linePlacementFlags="1" placement="0" dist="0" xPosColumn="-1" priority="0" obstacle="0" showAll="1"/>
   <editform></editform>
-  <editforminit></editforminit>
+  <editforminit/>
   <featformsuppress>0</featformsuppress>
   <annotationform></annotationform>
   <editorlayout>generatedlayout</editorlayout>

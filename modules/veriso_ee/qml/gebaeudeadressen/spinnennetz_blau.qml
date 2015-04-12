@@ -1,29 +1,56 @@
 <!DOCTYPE qgis PUBLIC 'http://mrcc.com/qgis.dtd' 'SYSTEM'>
-<qgis version="2.5.0-Master" minimumScale="-4.65661e-10" maximumScale="1e+08" simplifyDrawingHints="1" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+<qgis version="2.9.0-Master" minimumScale="0" maximumScale="1e+08" simplifyDrawingHints="1" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+  <edittypes>
+    <edittype widgetv2type="TextEdit" name="ogc_fid">
+      <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+    </edittype>
+    <edittype widgetv2type="TextEdit" name="t_ili_tid">
+      <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+    </edittype>
+    <edittype widgetv2type="TextEdit" name="hausnummer">
+      <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+    </edittype>
+  </edittypes>
   <renderer-v2 symbollevels="0" type="singleSymbol">
     <symbols>
-      <symbol alpha="1" type="line" name="0">
+      <symbol alpha="1" clip_to_extent="1" type="line" name="0">
         <layer pass="0" class="SimpleLine" locked="0">
           <prop k="capstyle" v="square"/>
-          <prop k="color" v="0,0,192,255"/>
           <prop k="customdash" v="5;2"/>
           <prop k="customdash_map_unit_scale" v="0,0"/>
           <prop k="customdash_unit" v="MM"/>
           <prop k="draw_inside_polygon" v="0"/>
           <prop k="joinstyle" v="bevel"/>
+          <prop k="line_color" v="0,0,192,255"/>
+          <prop k="line_style" v="solid"/>
+          <prop k="line_width" v="0.3"/>
+          <prop k="line_width_unit" v="MM"/>
           <prop k="offset" v="0"/>
           <prop k="offset_map_unit_scale" v="0,0"/>
           <prop k="offset_unit" v="MM"/>
-          <prop k="penstyle" v="solid"/>
           <prop k="use_custom_dash" v="0"/>
-          <prop k="width" v="0.3"/>
           <prop k="width_map_unit_scale" v="0,0"/>
-          <prop k="width_unit" v="MM"/>
+          <effect enabled="0" type="effectStack">
+            <effect type="drawSource">
+              <prop k="blend_mode" v="0"/>
+              <prop k="draw_mode" v="2"/>
+              <prop k="enabled" v="1"/>
+              <prop k="transparency" v="0"/>
+            </effect>
+          </effect>
         </layer>
       </symbol>
     </symbols>
     <rotation/>
     <sizescale scalemethod="area"/>
+    <effect enabled="0" type="effectStack">
+      <effect type="drawSource">
+        <prop k="blend_mode" v="0"/>
+        <prop k="draw_mode" v="2"/>
+        <prop k="enabled" v="1"/>
+        <prop k="transparency" v="0"/>
+      </effect>
+    </effect>
   </renderer-v2>
   <customproperties>
     <property key="labeling" value="pal"/>
@@ -53,7 +80,7 @@
     <property key="labeling/distMapUnitMinScale" value="0"/>
     <property key="labeling/enabled" value="false"/>
     <property key="labeling/fieldName" value=""/>
-    <property key="labeling/fontBold" value="false"/>
+    <property key="labeling/fontBold" value="true"/>
     <property key="labeling/fontCapitals" value="0"/>
     <property key="labeling/fontFamily" value="Ubuntu"/>
     <property key="labeling/fontItalic" value="false"/>
@@ -67,7 +94,7 @@
     <property key="labeling/fontSizeMapUnitMinScale" value="0"/>
     <property key="labeling/fontStrikeout" value="false"/>
     <property key="labeling/fontUnderline" value="false"/>
-    <property key="labeling/fontWeight" value="50"/>
+    <property key="labeling/fontWeight" value="63"/>
     <property key="labeling/fontWordSpacing" value="0"/>
     <property key="labeling/formatNumbers" value="false"/>
     <property key="labeling/isExpression" value="true"/>
@@ -193,8 +220,12 @@
     <multilineenabled fieldname="" on=""/>
     <selectedonly on=""/>
   </labelattributes>
+  <SingleCategoryDiagramRenderer diagramType="Pie">
+    <DiagramCategory penColor="#000000" labelPlacementMethod="XHeight" penWidth="0" diagramOrientation="Up" minimumSize="0" barWidth="5" penAlpha="255" maxScaleDenominator="-1" font="Droid Sans,10,-1,5,50,0,0,0,0,0" backgroundColor="#ffffff" transparency="0" width="30" scaleDependency="Area" backgroundAlpha="255" angleOffset="1440" enabled="0" height="30" sizeType="MM" minScaleDenominator="-1"/>
+  </SingleCategoryDiagramRenderer>
+  <DiagramLayerSettings yPosColumn="-1" linePlacementFlags="1" placement="0" dist="0" xPosColumn="-1" priority="0" obstacle="0" showAll="1"/>
   <editform></editform>
-  <editforminit></editforminit>
+  <editforminit/>
   <featformsuppress>0</featformsuppress>
   <annotationform></annotationform>
   <editorlayout>generatedlayout</editorlayout>

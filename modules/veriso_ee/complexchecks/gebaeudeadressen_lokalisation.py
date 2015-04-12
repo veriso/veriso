@@ -7,7 +7,7 @@ from qgis.gui import *
 import sys
 import traceback
 
-from veriso.base.utils.doLoadLayer import LoadLayer
+from veriso.base.utils.loadlayer import LoadLayer
 
 try:
     _encoding = QApplication.UnicodeUTF8
@@ -24,7 +24,7 @@ class ComplexCheck(QObject):
         self.canvas = self.iface.mapCanvas()
         
         self.root = QgsProject.instance().layerTreeRoot()        
-        self.layerLoader = LoadLayer(self.iface)
+        self.layer_loader = LoadLayer(self.iface)
 
     def run(self):        
         self.settings = QSettings("CatAIS","VeriSO")
@@ -42,6 +42,10 @@ class ComplexCheck(QObject):
             group = _translate("VeriSO_EE_Geb_LokTest", "Gebaeudeadressen - Lokalisationstest", None)
             group += " (" + str(project_id) + ")"
             
+            
+            # TODO: Check "tid" vs. t_ili_tid... in queries. Do not import i_ili_tid?
+            
+            
             # Layernamen hier definieren:
             lokalisation = _translate("VeriSO_EE_Geb_LokTest", "Lokalisation Lokalisationstest", None) 
             strassenstueck_geometrie = _translate("VeriSO_EE_Geb_LokTest", "Strassenstueck (geometrie) Lokalisationstest", None)  
@@ -52,7 +56,7 @@ class ComplexCheck(QObject):
             hausnummerpos = _translate("VeriSO_EE_Geb_LokTest", "HausnummerPos Lokalisationstest", None)  
             lokalisationsname = _translate("VeriSO_EE_Geb_LokTest", "LokalisationsName", None)  
             
-            vlayer_lokalisation = self.getVectorLayerByName(lokalisation)
+            vlayer_lokalisation = self.get_vector_layer_by_name(lokalisation)
             if not vlayer_lokalisation:
                 layer = {}
                 layer["type"] = "postgres"
@@ -62,9 +66,9 @@ class ComplexCheck(QObject):
                 layer["sql"] = "tid = '-1'"
                 layer["readonly"] = True
                 layer["group"] = group
-                vlayer_lokalisation = self.layerLoader.load(layer)
+                vlayer_lokalisation = self.layer_loader.load(layer)
 
-            vlayer_strassenstueck_geometrie = self.getVectorLayerByName(strassenstueck_geometrie)
+            vlayer_strassenstueck_geometrie = self.get_vector_layer_by_name(strassenstueck_geometrie)
             if not vlayer_strassenstueck_geometrie:
                 layer = {}
                 layer["type"] = "postgres"
@@ -76,9 +80,9 @@ class ComplexCheck(QObject):
                 layer["readonly"] = True                
                 layer["group"] = group
                 layer["style"] = "gebaeudeadressen/strassenachsen_rot.qml"
-                vlayer_strassenstueck_geometrie = self.layerLoader.load(layer)
+                vlayer_strassenstueck_geometrie = self.layer_loader.load(layer)
 
-            vlayer_strassenstueck_anfangspunkt = self.getVectorLayerByName(strassenstueck_anfangspunkt)
+            vlayer_strassenstueck_anfangspunkt = self.get_vector_layer_by_name(strassenstueck_anfangspunkt)
             if not vlayer_strassenstueck_anfangspunkt:
                 layer = {}
                 layer["type"] = "postgres"
@@ -90,9 +94,9 @@ class ComplexCheck(QObject):
                 layer["readonly"] = True                
                 layer["group"] = group
                 layer["style"] = "gebaeudeadressen/anfangspunkt_rot.qml"
-                vlayer_strassenstueck_anfangspunkt = self.layerLoader.load(layer)
+                vlayer_strassenstueck_anfangspunkt = self.layer_loader.load(layer)
 
-            vlayer_benanntesgebiet = self.getVectorLayerByName(benanntesgebiet)
+            vlayer_benanntesgebiet = self.get_vector_layer_by_name(benanntesgebiet)
             if not vlayer_benanntesgebiet:
                 layer = {}
                 layer["type"] = "postgres"
@@ -104,9 +108,9 @@ class ComplexCheck(QObject):
                 layer["readonly"] = True                
                 layer["group"] = group
                 layer["style"] = "gebaeudeadressen/benanntesgebiet_rot.qml"
-                vlayer_benanntesgebiet = self.layerLoader.load(layer)
+                vlayer_benanntesgebiet = self.layer_loader.load(layer)
 
-            vlayer_gebaeudeeingang = self.getVectorLayerByName(gebaeudeeingang)
+            vlayer_gebaeudeeingang = self.get_vector_layer_by_name(gebaeudeeingang)
             if not vlayer_gebaeudeeingang:
                 layer = {}
                 layer["type"] = "postgres"
@@ -118,9 +122,9 @@ class ComplexCheck(QObject):
                 layer["readonly"] = True                
                 layer["group"] = group
                 layer["style"] = "gebaeudeadressen/gebaeudeeingang_rot.qml"
-                vlayer_gebaeudeeingang = self.layerLoader.load(layer)
+                vlayer_gebaeudeeingang = self.layer_loader.load(layer)
 
-            vlayer_shortestline = self.getVectorLayerByName(shortestline)
+            vlayer_shortestline = self.get_vector_layer_by_name(shortestline)
             if not vlayer_shortestline:
                 layer = {}
                 layer["type"] = "postgres"
@@ -132,9 +136,9 @@ class ComplexCheck(QObject):
                 layer["readonly"] = True                
                 layer["group"] = group
                 layer["style"] = "gebaeudeadressen/shortestline_linie_rot.qml"
-                vlayer_shortestline = self.layerLoader.load(layer)
+                vlayer_shortestline = self.layer_loader.load(layer)
 
-            vlayer_hausnummerpos = self.getVectorLayerByName(hausnummerpos)
+            vlayer_hausnummerpos = self.get_vector_layer_by_name(hausnummerpos)
             if not vlayer_hausnummerpos:
                 layer = {}
                 layer["type"] = "postgres"
@@ -146,9 +150,9 @@ class ComplexCheck(QObject):
                 layer["readonly"] = True                
                 layer["group"] = group
                 layer["style"] = "gebaeudeadressen/hausnummerpos_rot.qml"
-                vlayer_hausnummerpos = self.layerLoader.load(layer)
+                vlayer_hausnummerpos = self.layer_loader.load(layer)
 
-            vlayer_lokalisationsname = self.getVectorLayerByName(lokalisationsname)
+            vlayer_lokalisationsname = self.get_vector_layer_by_name(lokalisationsname)
             if not vlayer_lokalisationsname:
                 self.iface.messageBar().pushMessage("Error",  _translate("VeriSO_EE_Geb_LokTest", "Layer _LokalisationsName_ not found.", None), level=QgsMessageBar.CRITICAL, duration=10)                    
                 QApplication.restoreOverrideCursor()   
@@ -176,7 +180,7 @@ class ComplexCheck(QObject):
             idx = ids.index(id)
             
             benannte_idx = vlayer_lokalisationsname.fieldNameIndex("benannte")
-            text_idx = vlayer_lokalisationsname.fieldNameIndex("text")
+            text_idx = vlayer_lokalisationsname.fieldNameIndex("atext")
             
             if benannte_idx == -1 or text_idx == -1:
                 self.iface.messageBar().pushMessage("Error",  _translate("VeriSO_EE_Geb_LokTest", "Field _benannte_ or _text_ not found.", None), level=QgsMessageBar.CRITICAL, duration=10)                                                    
@@ -190,7 +194,7 @@ class ComplexCheck(QObject):
             vlayer_strassenstueck_anfangspunkt.setSubsetString("(strassenstueck_von = '"+benannte+"')")
             vlayer_benanntesgebiet.setSubsetString("(benanntesgebiet_von = '"+benannte+"')")
             vlayer_gebaeudeeingang.setSubsetString("(gebaeudeeingang_von = '"+benannte+"')")
-            vlayer_lokalisation.setSubsetString("(tid = '"+benannte+"')")
+            vlayer_lokalisation.setSubsetString("(ogc_fid = '"+benannte+"')")
             vlayer_shortestline.setSubsetString("(lok_tid = '"+benannte+"')")
             vlayer_hausnummerpos.setSubsetString("(lok_tid = '"+benannte+"')")
 
@@ -302,7 +306,7 @@ class ComplexCheck(QObject):
 
     # Return QgsVectorLayer from a layer name ( as string )
     # (c) Carson Farmer / fTools
-    def getVectorLayerByName(self, myName):
+    def get_vector_layer_by_name(self, myName):
         layermap = QgsMapLayerRegistry.instance().mapLayers()
         for name, layer in layermap.iteritems():
             if layer.type() == QgsMapLayer.VectorLayer and layer.name() == myName:

@@ -7,7 +7,7 @@ from qgis.gui import *
 import sys
 import traceback
 
-from veriso.base.utils.doLoadLayer import LoadLayer
+from veriso.base.utils.loadlayer import LoadLayer
 
 try:
     _encoding = QApplication.UnicodeUTF8
@@ -23,7 +23,7 @@ class ComplexCheck(QObject):
         self.iface = iface
         
         self.root = QgsProject.instance().layerTreeRoot()        
-        self.layerLoader = LoadLayer(self.iface)
+        self.layer_loader = LoadLayer(self.iface)
 
     def run(self):        
         self.settings = QSettings("CatAIS","VeriSO")
@@ -46,22 +46,18 @@ class ComplexCheck(QObject):
             layer["title"] = _translate("VeriSO_EE_Geb_Basis", "Bodenbedeckung", None) 
             layer["featuretype"] = "bodenbedeckung_boflaeche"
             layer["geom"] = "geometrie"
-            layer["key"] = "ogc_fid"            
-            # Mit 'LIKE' anstelle von 'IN' oder '==' können kantonale Erweiterungen der Arten abgefangen werden.
-            # Klassiker: Kt. Solothurn hat uebrig_befestigte circa 10-fach unterteilt. Mit 'LIKE' werden die trotzdem
-            # geladen, auch wenn sie nicht alle einzeln aufgelistet werden.
+            layer["key"] = "ogc_fid"
+            # Use 'LIKE' instead of 'IN' or '='. Now you can model extensions like different kinds of 'uebrige_befestigte'.
             layer["sql"] = "art_txt LIKE 'Gebaeude%' OR art_txt LIKE 'befestigt.Strasse_Weg%' OR art_txt LIKE 'befestigt.Trottoir%' OR art_txt LIKE 'befestigt.uebrige_befestigte%'"
             layer["readonly"] = True
             layer["group"] = group
             layer["style"] = "bodenbedeckung/gebaeude_strassen_trottoir_erschliessung.qml"
             
-            # Die Sichtbarkeit des Layer und ob die Legende
-            # und die Gruppe zusammengeklappt sein sollen:
-            # self.layerLoader.load(layer, True, True, True)
-            # Legende = vorletztes True (default is False)
-            # Gruppe = letztes True (default is False)
-            # Sichtbarkeit des Layers = erstes True (default is True)
-            vlayer = self.layerLoader.load(layer)
+            # Visibility and if legend and/or groupd should be collapsed can
+            # be set with parameters in the self.layer_loader.load()
+            # method:
+            # load(layer, visibility=True, collapsed_legend=False, collapsed_group=False)
+            vlayer = self.layer_loader.load(layer)
             
             layer = {}
             layer["type"] = "postgres"
@@ -74,7 +70,7 @@ class ComplexCheck(QObject):
             layer["group"] = group
             layer["style"] = "einzelobjekte/eo_flaeche_gebdetail_unterstand_reservoir_unterirdisch.qml"
 
-            vlayer = self.layerLoader.load(layer)
+            vlayer = self.layer_loader.load(layer)
 
             layer = {}
             layer["type"] = "postgres"
@@ -87,19 +83,19 @@ class ComplexCheck(QObject):
             layer["group"] = group
             layer["style"] = "einzelobjekte/eo_linie_gebdetail.qml"
 
-            vlayer = self.layerLoader.load(layer)
+            vlayer = self.layer_loader.load(layer)
 
             layer = {}
             layer["type"] = "postgres"
             layer["title"] = _translate("VeriSO_EE_Geb_Basis", "GEB.Nachführung", None)
             layer["featuretype"] = "gebaeudeadressen_gebnachfuehrung"
-            # layer["geom"] = "perimeter" # Wird als geometryless Table geladen.  
+            # layer["geom"] = "perimeter" # Will be loaded as geometryless layer.
             layer["key"] = "ogc_fid"            
             layer["sql"] = ""
             layer["readonly"] = True            
             layer["group"] = group
 
-            vlayer = self.layerLoader.load(layer)
+            vlayer = self.layer_loader.load(layer)
 
             layer = {}
             layer["type"] = "postgres"
@@ -112,7 +108,7 @@ class ComplexCheck(QObject):
             layer["group"] = group
             layer["style"] = "gebaeudeadressen/benanntesgebiet_gruen.qml"
 
-            vlayer = self.layerLoader.load(layer)
+            vlayer = self.layer_loader.load(layer)
 
             layer = {}
             layer["type"] = "postgres"
@@ -124,7 +120,7 @@ class ComplexCheck(QObject):
             layer["group"] = group
             layer["style"] = "gebaeudeadressen/strassenachsen_gruen.qml"
 
-            vlayer = self.layerLoader.load(layer)
+            vlayer = self.layer_loader.load(layer)
 
             layer = {}
             layer["type"] = "postgres"
@@ -136,7 +132,7 @@ class ComplexCheck(QObject):
             layer["group"] = group
             layer["style"] = "gebaeudeadressen/anfangspunkt_gruen.qml"
 
-            vlayer = self.layerLoader.load(layer)
+            vlayer = self.layer_loader.load(layer)
 
             layer = {}
             layer["type"] = "postgres"
@@ -148,7 +144,7 @@ class ComplexCheck(QObject):
             layer["group"] = group
             layer["style"] = "gebaeudeadressen/gebaeudeeingang_blaues_viereck_mit_label.qml"
 
-            vlayer = self.layerLoader.load(layer)
+            vlayer = self.layer_loader.load(layer)
 
             layer = {}
             layer["type"] = "postgres"
@@ -160,7 +156,7 @@ class ComplexCheck(QObject):
             layer["group"] = group
             layer["style"] = "gebaeudeadressen/hausnummerpos.qml"
 
-            vlayer = self.layerLoader.load(layer)
+            vlayer = self.layer_loader.load(layer)
 
             layer = {}
             layer["type"] = "postgres"
@@ -170,19 +166,19 @@ class ComplexCheck(QObject):
             layer["sql"] = ""
             layer["group"] = group
             
-            vlayer = self.layerLoader.load(layer)
+            vlayer = self.layer_loader.load(layer)
             
             layer = {}
             layer["type"] = "postgres"
             layer["title"] =  _translate("VeriSO_EE_Geb_Basis", "LokalisationsNamePos", None)
-            layer["featuretype"] = "v_gebaeudeadressen_lokalisationsnamepos"
+            layer["featuretype"] = "t_gebaeudeadressen_lokalisationsnamepos" 
             layer["geom"] = "pos"
             layer["key"] = "ogc_fid"            
             layer["sql"] = ""
             layer["group"] = group
             layer["style"] = "gebaeudeadressen/lokalisationsnamepos.qml"
 
-            vlayer = self.layerLoader.load(layer)
+            vlayer = self.layer_loader.load(layer)
 
             layer = {}
             layer["type"] = "postgres"
@@ -195,7 +191,7 @@ class ComplexCheck(QObject):
             layer["group"] = group
             layer["style"] = "gemeindegrenze/gemgre_strichliert.qml"
 
-            gemgrelayer = self.layerLoader.load(layer)
+            gemgrelayer = self.layer_loader.load(layer)
 
             if gemgrelayer:
                 rect = gemgrelayer.extent()
