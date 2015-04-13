@@ -265,7 +265,6 @@ class ComplexCheck(QObject):
             for i in range (len(items)):
                 try:
                     name =  items[i].data(0)
-                    print name
                     if str(name) == "LokalisationsInfo":
                         text_item = items[i]
                         text_item_found = True
@@ -287,7 +286,6 @@ class ComplexCheck(QObject):
             text_item.setDocument(text_document)
             
             # This is a workaround: first ever position is not correct.
-            # Workaround: das erste Mal passt die Position nicht...???
             text_item.setMapPosition(QgsPoint(x+10*self.canvas.mapUnitsPerPixel(), y-10*self.canvas.mapUnitsPerPixel()))        
             text_item.update()               
 
