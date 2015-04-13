@@ -45,8 +45,7 @@ class ComplexCheck(QObject):
             
             # TODO: Check "tid" vs. t_ili_tid... in queries. Do not import i_ili_tid?
             
-            
-            # Layernamen hier definieren:
+            # define layer names here
             lokalisation = _translate("VeriSO_EE_Geb_LokTest", "Lokalisation Lokalisationstest", None) 
             strassenstueck_geometrie = _translate("VeriSO_EE_Geb_LokTest", "Strassenstueck (geometrie) Lokalisationstest", None)  
             strassenstueck_anfangspunkt = _translate("VeriSO_EE_Geb_LokTest", "Strassenstueck (anfangspunkt) Lokalisationstest", None)  
@@ -63,7 +62,7 @@ class ComplexCheck(QObject):
                 layer["title"] = lokalisation
                 layer["featuretype"] = "gebaeudeadressen_lokalisation"
                 layer["key"] = "ogc_fid"            
-                layer["sql"] = "tid = '-1'"
+                layer["sql"] = "ogc_fid = -1"
                 layer["readonly"] = True
                 layer["group"] = group
                 vlayer_lokalisation = self.layer_loader.load(layer)
@@ -76,7 +75,7 @@ class ComplexCheck(QObject):
                 layer["featuretype"] = "gebaeudeadressen_strassenstueck"
                 layer["geom"] = "geometrie"
                 layer["key"] = "ogc_fid"            
-                layer["sql"] = "strassenstueck_von = '-1'"
+                layer["sql"] = "strassenstueck_von = -1"
                 layer["readonly"] = True                
                 layer["group"] = group
                 layer["style"] = "gebaeudeadressen/strassenachsen_rot.qml"
@@ -90,7 +89,7 @@ class ComplexCheck(QObject):
                 layer["featuretype"] = "gebaeudeadressen_strassenstueck"
                 layer["geom"] = "anfangspunkt"
                 layer["key"] = "ogc_fid"            
-                layer["sql"] = "strassenstueck_von = '-1'"
+                layer["sql"] = "strassenstueck_von = -1"
                 layer["readonly"] = True                
                 layer["group"] = group
                 layer["style"] = "gebaeudeadressen/anfangspunkt_rot.qml"
@@ -104,7 +103,7 @@ class ComplexCheck(QObject):
                 layer["featuretype"] = "gebaeudeadressen_benanntesgebiet"
                 layer["geom"] = "flaeche"
                 layer["key"] = "ogc_fid"            
-                layer["sql"] = "benanntesgebiet_von = '-1'"
+                layer["sql"] = "benanntesgebiet_von = -1"
                 layer["readonly"] = True                
                 layer["group"] = group
                 layer["style"] = "gebaeudeadressen/benanntesgebiet_rot.qml"
@@ -118,7 +117,7 @@ class ComplexCheck(QObject):
                 layer["featuretype"] = "gebaeudeadressen_gebaeudeeingang"
                 layer["geom"] = "lage"
                 layer["key"] = "ogc_fid"            
-                layer["sql"] = "gebaeudeeingang_von = '-1'"
+                layer["sql"] = "gebaeudeeingang_von = -1"
                 layer["readonly"] = True                
                 layer["group"] = group
                 layer["style"] = "gebaeudeadressen/gebaeudeeingang_rot.qml"
@@ -132,7 +131,7 @@ class ComplexCheck(QObject):
                 layer["featuretype"] = "t_shortestline_hausnummerpos"
                 layer["geom"] = "the_geom"
                 layer["key"] = "ogc_fid"            
-                layer["sql"] = "lok_tid = '-1'"
+                layer["sql"] = "lok_tid = -1"
                 layer["readonly"] = True                
                 layer["group"] = group
                 layer["style"] = "gebaeudeadressen/shortestline_linie_rot.qml"
@@ -146,7 +145,7 @@ class ComplexCheck(QObject):
                 layer["featuretype"] = "v_gebaeudeadressen_hausnummerpos"
                 layer["geom"] = "pos"
                 layer["key"] = "ogc_fid"            
-                layer["sql"] = "lok_tid = '-1'"
+                layer["sql"] = "lok_tid = -1"
                 layer["readonly"] = True                
                 layer["group"] = group
                 layer["style"] = "gebaeudeadressen/hausnummerpos_rot.qml"
@@ -190,13 +189,13 @@ class ComplexCheck(QObject):
             benannte =  feat.attributes()[benannte_idx]
             lokalisationsname = feat.attributes()[text_idx]
         
-            vlayer_strassenstueck_geometrie.setSubsetString("(strassenstueck_von = '"+benannte+"')")
-            vlayer_strassenstueck_anfangspunkt.setSubsetString("(strassenstueck_von = '"+benannte+"')")
-            vlayer_benanntesgebiet.setSubsetString("(benanntesgebiet_von = '"+benannte+"')")
-            vlayer_gebaeudeeingang.setSubsetString("(gebaeudeeingang_von = '"+benannte+"')")
-            vlayer_lokalisation.setSubsetString("(ogc_fid = '"+benannte+"')")
-            vlayer_shortestline.setSubsetString("(lok_tid = '"+benannte+"')")
-            vlayer_hausnummerpos.setSubsetString("(lok_tid = '"+benannte+"')")
+            vlayer_strassenstueck_geometrie.setSubsetString("(strassenstueck_von = "+str(benannte)+")")
+            vlayer_strassenstueck_anfangspunkt.setSubsetString("(strassenstueck_von = "+str(benannte)+")")
+            vlayer_benanntesgebiet.setSubsetString("(benanntesgebiet_von = "+str(benannte)+")")
+            vlayer_gebaeudeeingang.setSubsetString("(gebaeudeeingang_von = "+str(benannte)+")")
+            vlayer_lokalisation.setSubsetString("(ogc_fid = "+str(benannte)+")")
+            vlayer_shortestline.setSubsetString("(lok_tid = "+str(benannte)+")")
+            vlayer_hausnummerpos.setSubsetString("(lok_tid = "+str(benannte)+")")
 
             if vlayer_strassenstueck_geometrie.featureCount() > 0:
                 xMin = vlayer_strassenstueck_geometrie.extent().xMinimum()
@@ -266,7 +265,8 @@ class ComplexCheck(QObject):
             for i in range (len(items)):
                 try:
                     name =  items[i].data(0)
-                    if name.toString() == "LokalisationsInfo":
+                    print name
+                    if str(name) == "LokalisationsInfo":
                         text_item = items[i]
                         text_item_found = True
                 except Exception, e:
@@ -280,12 +280,13 @@ class ComplexCheck(QObject):
             text_item.setMapPositionFixed(False)
             text_item.setFrameBorderWidth(0.0)   
             text_item.setFrameColor(QColor(250, 250, 250, 255))
-            text_item.setFrameBackgroundColor(QColor(250, 250, 250, 255))
+            text_item.setFrameBackgroundColor(QColor(250, 250, 250, 123))
             text_item.setFrameSize(QSizeF(250,150))
             text_document = QTextDocument()
-            text_document.setHtml("<table style='font-size:12px;'><tr><td>Lok.Name: </td><td>"+lokalisationsname+"</td></tr><tr><td>TID: </td><td>"+benannte+"</td></tr> <tr><td>Num.prinzip: </td><td>"+prinzip+"</td></tr> <tr><td>Attr. prov.: </td><td>"+attributeprovisorisch+"</td></tr> <tr><td>ist offiziell: </td><td>"+offiziell+"</td></tr> <tr><td>Status: </td><td>"+status+"</td></tr> <tr><td>in Aenderung: </td><td>"+inaenderung+"</td></tr> <tr><td>Art: </td><td>"+art+"</td></tr>  </table>")
+            text_document.setHtml("<table style='font-size:12px;'><tr><td>Lok.Name: </td><td>"+lokalisationsname+"</td></tr><tr><td>TID: </td><td>"+str(benannte)+"</td></tr> <tr><td>Num.prinzip: </td><td>"+str(prinzip)+"</td></tr> <tr><td>Attr. prov.: </td><td>"+str(attributeprovisorisch)+"</td></tr> <tr><td>ist offiziell: </td><td>"+str(offiziell)+"</td></tr> <tr><td>Status: </td><td>"+str(status)+"</td></tr> <tr><td>in Aenderung: </td><td>"+str(inaenderung)+"</td></tr> <tr><td>Art: </td><td>"+str(art)+"</td></tr>  </table>")
             text_item.setDocument(text_document)
-                        
+            
+            # This is a workaround: first ever position is not correct.
             # Workaround: das erste Mal passt die Position nicht...???
             text_item.setMapPosition(QgsPoint(x+10*self.canvas.mapUnitsPerPixel(), y-10*self.canvas.mapUnitsPerPixel()))        
             text_item.update()               
@@ -301,6 +302,7 @@ class ComplexCheck(QObject):
             QApplication.restoreOverrideCursor()            
             exc_type, exc_value, exc_traceback = sys.exc_info()
             self.iface.messageBar().pushMessage("Error", str(traceback.format_exc(exc_traceback)), level=QgsMessageBar.CRITICAL, duration=5)                    
+        QApplication.restoreOverrideCursor()      
         QApplication.restoreOverrideCursor()      
 
 
