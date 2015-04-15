@@ -195,7 +195,7 @@ class VeriSO:
             QMessageBox.critical(None, "VeriSO", self.tr("Error while loading application module: ") + str(e))                                    
             QgsMessageLog.logMessage(str(e), "VeriSO", QgsMessageLog.CRITICAL)     
             
-            # temporary
+            # temporary?
             exc_type, exc_value, exc_traceback = sys.exc_info()
             QMessageBox.critical(None, "VeriSO", str(traceback.format_exc(exc_traceback)))               
             

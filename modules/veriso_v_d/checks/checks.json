@@ -1,0 +1,11 @@
+{  
+   "checks":[  
+      {  
+         "topic":{  
+            "de":"FixpunkteKategorie1_2",
+            "fr":"Points_fixesCategorie1_2"
+         },
+         "file":"topic_fp1_2"
+      }
+   ]
+}

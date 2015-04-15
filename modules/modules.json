@@ -1,7 +1,7 @@
 {
     "modules": [
         {
-            "dirname": "veriso_vd",
+            "dirname": "veriso_v_d",
             "displayname": "VeriSO (V+D)",
             "ilimodels": [
                {
@@ -37,27 +37,6 @@
                   "ilimodel": "DM01AVBE11LV95D", 
                   "referenceframe": "LV95",            
                   "epsg": "2056"
-               }
-            ]
-        },
-        {
-            "dirname": "veriso_dm01",
-            "displayname": "VeriSO (DM.01)",
-            "ilimodels": [
-               {
-                  "ilimodel": "DM01AVCH24LV95D", 
-                  "referenceframe": "LV95",            
-                  "epsg": "2056"
-               },
-               {
-                  "ilimodel": "DM01AVCH24D", 
-                  "referenceframe": "LV03",            
-                  "epsg": "21781"
-               },
-               {
-                  "ilimodel": "DM01AVSO24", 
-                  "referenceframe": "LV03",            
-                  "epsg": "21781"
                }
             ]
         }

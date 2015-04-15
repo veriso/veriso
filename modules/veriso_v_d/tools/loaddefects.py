@@ -26,7 +26,7 @@ class LoadDefects(QObject):
         self.canvas = self.iface.mapCanvas()
         
         self.root = QgsProject.instance().layerTreeRoot()        
-        self.layerLoader = LoadLayer(self.iface)        
+        self.layer_loader = LoadLayer(self.iface)        
 
     def run(self):       
         try:
@@ -34,12 +34,12 @@ class LoadDefects(QObject):
             self.project_id = self.settings.value("project/id")
             self.epsg = self.settings.value("project/epsg")
                     
-            group = _translate("VeriSO_EE_Defects", "Mängel", None)
+            group = _translate("VeriSO_V+D_Defects", "Mängel", None)
             group += " (" + str(self.project_id) + ")"                    
 
             layer = {}
             layer["type"] = "postgres"
-            layer["title"] = _translate("VeriSO_EE_Defects", "Mängelliste (Punkte)", None)
+            layer["title"] = _translate("VeriSO_V+D_Defects", "Mängelliste (Punkte)", None)
             layer["featuretype"] = "t_maengel_punkt"
             layer["geom"] = "the_geom"
             layer["key"] = "ogc_fid"
@@ -48,7 +48,7 @@ class LoadDefects(QObject):
             layer["group"] = group
             layer["style"] = "maengel/maengel_punkt.qml"
         
-            vlayer = self.layerLoader.load(layer)
+            vlayer = self.layer_loader.load(layer)
             if vlayer:
                 vlayer.setEditorLayout(QgsVectorLayer.GeneratedLayout)
                 
@@ -57,8 +57,8 @@ class LoadDefects(QObject):
                 bemerkung_idx = vlayer.fieldNameIndex("bemerkung")                
                 datum_idx = vlayer.fieldNameIndex("datum")
             
-                vlayer.addAttributeAlias(topic_idx, _translate("VeriSO_EE_Defects", "Topic:", None))
-                vlayer.addAttributeAlias(bemerkung_idx, _translate("VeriSO_EE_Defects", "Bemerkung:", None))
+                vlayer.addAttributeAlias(topic_idx, _translate("VeriSO_V+D_Defects", "Topic:", None))
+                vlayer.addAttributeAlias(bemerkung_idx, _translate("VeriSO_V+D_Defects", "Bemerkung:", None))
                 
                 vlayer.setEditorWidgetV2(ogc_fid_idx, "Hidden")
                 vlayer.setEditorWidgetV2(topic_idx, "Enumeration")
@@ -68,7 +68,7 @@ class LoadDefects(QObject):
                 
             layer = {}
             layer["type"] = "postgres"
-            layer["title"] = _translate("VeriSO_EE_Defects", "Mängelliste (Linien)", None)
+            layer["title"] = _translate("VeriSO_V+D_Defects", "Mängelliste (Linien)", None)
             layer["featuretype"] = "t_maengel_linie"
             layer["geom"] = "the_geom"
             layer["key"] = "ogc_fid"
@@ -77,7 +77,7 @@ class LoadDefects(QObject):
             layer["group"] = group
             layer["style"] = "maengel/maengel_linie.qml"
 
-            vlayer = self.layerLoader.load(layer)
+            vlayer = self.layer_loader.load(layer)
             if vlayer:
                 vlayer.setEditorLayout(QgsVectorLayer.GeneratedLayout)
                 
@@ -86,8 +86,8 @@ class LoadDefects(QObject):
                 bemerkung_idx = vlayer.fieldNameIndex("bemerkung")                
                 datum_idx = vlayer.fieldNameIndex("datum")
             
-                vlayer.addAttributeAlias(topic_idx, _translate("VeriSO_EE_Defects", "Topic:", None))
-                vlayer.addAttributeAlias(bemerkung_idx, _translate("VeriSO_EE_Defects", "Bemerkung:", None))
+                vlayer.addAttributeAlias(topic_idx, _translate("VeriSO_V+D_Defects", "Topic:", None))
+                vlayer.addAttributeAlias(bemerkung_idx, _translate("VeriSO_V+D_Defects", "Bemerkung:", None))
       
                 vlayer.setEditorWidgetV2(ogc_fid_idx, "Hidden")
                 vlayer.setEditorWidgetV2(topic_idx, "Enumeration")

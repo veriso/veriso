@@ -189,8 +189,9 @@ class LoadLayer(QObject):
                 qml = QDir.convertSeparators(QDir.cleanPath(qml_path))
                 my_layer.loadNamedStyle(qml)
                 
-            if not my_layer.isValid():                
-                self.iface.messageBar().pushMessage("Error",  str(title) + self.tr(" is not valid layer."), level=QgsMessageBar.CRITICAL, duration=5)                                                            
+            if not my_layer.isValid(): 
+                # str(title) throws some ascii out of range error...
+                self.iface.messageBar().pushMessage("Error",  title + self.tr(" is not valid layer."), level=QgsMessageBar.CRITICAL, duration=5)
                 return       
             else:
                 # QgsMapLayerRegistry.instance().addMapLayer(my_layer)    
@@ -240,9 +241,9 @@ class LoadLayer(QObject):
 
         except Exception, e:
             self.iface.messageBar().pushMessage("Error",  str(e), level=QgsMessageBar.CRITICAL, duration=5)    
-            QgsMessageLog.logMessage(self.tr(e), "VeriSO", QgsMessageLog.CRITICAL)            
+            QgsMessageLog.logMessage(str(e), "VeriSO", QgsMessageLog.CRITICAL)            
             return
 
     def tr(self, message):
-        return QCoreApplication.translate('VeriSO', message)
+        return QApplication.translate('VeriSO', message, None)
         
