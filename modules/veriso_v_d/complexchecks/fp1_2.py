@@ -43,75 +43,60 @@ class ComplexCheck(QObject):
             locale = "de"
 
         if not project_id:
-            self.iface.messageBar().pushMessage("Error",  _translate("VeriSO_EE_FP3", "project_id not set", None), level=QgsMessageBar.CRITICAL, duration=5)                                
+            self.iface.messageBar().pushMessage("Error",  _translate("VeriSO_EE_FP1+2", "project_id not set", None), level=QgsMessageBar.CRITICAL, duration=5)                                
             return
 
         QApplication.setOverrideCursor(Qt.WaitCursor)
         try:
-            group = _translate("VeriSO_EE_FP3", "FixpunkteKategorie3", None)
+            group = _translate("VeriSO_EE_FP1+2", "FixpunkteKategorie1+2", None)
             group += " (" + str(project_id) + ")"
             
             layer = {}
             layer["type"] = "postgres"
-            layer["title"] = _translate("VeriSO_EE_FP3", "Toleranzstufen", None) # Translate with Qt Linguist. German translation not necessary since this text will be used when language is missing.
-            layer["featuretype"] = "tseinteilung_toleranzstufe"
-            layer["geom"] = "geometrie"
-            layer["key"] = "ogc_fid"            
-            layer["sql"] = ""
-            layer["readonly"] = True
-            layer["group"] = group
-            layer["style"] = "tseinteilung/toleranzstufe_"+locale+".qml"
-            
-            # Visibility and if legend and/or groupd should be collapsed can
-            # be set with parameters in the self.layer_loader.load()
-            # method:
-            # load(layer, visibility=True, collapsed_legend=False, collapsed_group=False)
-            vlayer = self.layer_loader.load(layer)
-            
-            layer = {}
-            layer["type"] = "postgres"
-            layer["title"] = _translate("VeriSO_EE_FP3", "LFP3 Nachführung", None)
-            layer["featuretype"] = "fixpunktekategorie3_lfp3nachfuehrung"
+            layer["title"] = _translate("VeriSO_EE_FP1+2", "LFP2 Nachführung", None)
+            layer["featuretype"] = "fixpunktekategorie2_lfp2nachfuehrung"
             layer["geom"] = "perimeter" # If no geometry attribute is set, the layer will be loaded as geoemtryless.
             layer["key"] = "ogc_fid"            
             layer["sql"] = ""
             layer["readonly"] = True            
             layer["group"] = group
             
-            vlayer = self.layer_loader.load(layer, False, True)            
+            # Visibility and if legend and/or groupd should be collapsed can
+            # be set with parameters in the self.layer_loader.load()
+            # method:
+            # load(layer, visibility=True, collapsed_legend=False, collapsed_group=False)
+            vlayer_lfp2_nf = self.layer_loader.load(layer, False, True)            
             
             layer = {}
             layer["type"] = "postgres"
-            layer["title"] = _translate("VeriSO_EE_FP3", "LFP3", None)
-            layer["featuretype"] = "fixpunktekategorie3_lfp3"
+            layer["title"] = _translate("VeriSO_EE_FP1+2", "LFP2", None)
+            layer["featuretype"] = "fixpunktekategorie2_lfp2"
             layer["geom"] = "geometrie"
             layer["key"] = "ogc_fid"            
             layer["sql"] = ""
             layer["readonly"] = True            
             layer["group"] = group
-            layer["style"] = "fixpunkte/lfp3_"+locale+".qml"
-
-            vlayer = self.layer_loader.load(layer)
+            layer["style"] = "fixpunkte/lfp2_"+locale+".qml"
+    
+            vlayer_lfp2 = self.layer_loader.load(layer)
             
-            layer = {}
-            layer["type"] = "postgres"
-            layer["title"] = _translate("VeriSO_EE_FP3", "LFP3 ausserhalb Gemeinde", None)
-            layer["featuretype"] = "t_lfp3_ausserhalb_gemeinde"
-            layer["geom"] = "geometrie"
-            layer["key"] = "ogc_fid"            
-            layer["sql"] = ""
-            layer["readonly"] = True            
-            layer["group"] = group
-            layer["style"] = "fixpunkte/lfp3ausserhalb.qml"
-            
-            vlayer = self.layer_loader.load(layer)
+            # Join two layers (lfp2 and lfp2nachfuehrung)
+            lfp2_field = "entstehung"
+            lfp2_nf_field = "ogc_fid"
+            join_obj = QgsVectorJoinInfo()
+            join_obj.joinLayerId = vlayer_lfp2_nf.id()
+            join_obj.joinFieldName = lfp2_nf_field
+            join_obj.targetFieldName = lfp2_field
+            join_obj.memoryCache = True
+            join_obj.prefix = "lfp2_nf_"
+            vlayer_lfp2.addJoin(join_obj)
             
             # This is how WMS layer work.
             layer = {}
             layer["type"] = "wms"
-            layer["title"] = _translate("VeriSO_EE_FP3", "LFP1 + LFP2 Schweiz", None)
+            layer["title"] = _translate("VeriSO_EE_FP1+2", "LFP2 Schweiz", None)
             layer["url"] = "http://wms.geo.admin.ch/"
-            layer["layers"] = "ch.swisstopo.fixpunkte-lfp1,ch.swisstopo.fixpunkte-lfp2"
+            layer["layers"] = "ch.swisstopo.fixpunkte-lfp2"
             layer["format"] = "image/png"          
             layer["crs"] = "EPSG:" + str(epsg)
             layer["group"] = group
@@ -120,7 +105,7 @@ class ComplexCheck(QObject):
 
             layer = {}
             layer["type"] = "postgres"
-            layer["title"] = _translate("VeriSO_EE_FP3", "Gemeindegrenze", None)
+            layer["title"] = _translate("VeriSO_EE_FP1+2", "Gemeindegrenze", None)
             layer["featuretype"] = "gemeindegrenzen_gemeindegrenze"
             layer["geom"] = "geometrie"
             layer["key"] = "ogc_fid"            
