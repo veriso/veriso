@@ -2,10 +2,17 @@
    "checks":[  
       {  
          "topic":{  
-            "de":"FixpunkteKategorie1_2",
-            "fr":"Points_fixesCategorie1_2"
+            "de":"FixpunkteKategorie1+2",
+            "fr":"Points_fixesCategorie1+2"
          },
          "file":"topic_fp1_2"
-      }
+      },
+      {  
+         "topic":{  
+            "de":"FixpunkteKategorie3",
+            "fr":"Points_fixesCategorie3"
+         },
+         "file":"topic_fp3"
+      }   
    ]
 }

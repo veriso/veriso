@@ -205,7 +205,7 @@ class LoadLayer(QObject):
                     # ein Layer noch nicht in die Legende gehängt. Anschliessend kann man ihn
                     # mit my_layer_node = self.root.addLayer(my_layer) der Legende hinzufügen.
                     # Das führt aber dazu, dass was mit dem MapCanvas nicht mehr stimmt, dh.
-                    # .setExtent() funktioniert nicht mehr richtig. Wir der Layer jedoch direkt
+                    # .setExtent() funktioniert nicht mehr richtig. Wird der Layer jedoch direkt
                     # in die Legende gehängt, funktioniert .setExtent() tadellos. Jetzt wird halt
                     # momentan der Layer direkt eingehängt und anschliessend in die gewünschte
                     # Gruppe verschoben. 
@@ -216,8 +216,11 @@ class LoadLayer(QObject):
                     
                     # "Umweg": Hat Probleme gemacht, falls ein Gruppe "active" war. Dann wurden der neue
                     # Layer ebenfalls (zusätzlich) ihr hinzugefügt.
+#                    print my_layer.id()
 #                    my_layer_node = self.root.findLayer(my_layer.id())
+#                    print my_layer_node
 #                    cloned_layer = my_layer_node.clone()
+#                    print cloned_layer
 #                    my_group_node.insertChildNode(0, cloned_layer)
 #                    self.root.removeChildNode(my_layer_node)
 #                    my_layer_node = self.root.findLayer(my_layer.id()) # Layer bekommt neuen layer_node.

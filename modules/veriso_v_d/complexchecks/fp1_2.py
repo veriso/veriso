@@ -43,17 +43,17 @@ class ComplexCheck(QObject):
             locale = "de"
 
         if not project_id:
-            self.iface.messageBar().pushMessage("Error",  _translate("VeriSO_EE_FP1+2", "project_id not set", None), level=QgsMessageBar.CRITICAL, duration=5)                                
+            self.iface.messageBar().pushMessage("Error",  _translate("VeriSO_V+D_FP1+2", "project_id not set", None), level=QgsMessageBar.CRITICAL, duration=5)                                
             return
 
         QApplication.setOverrideCursor(Qt.WaitCursor)
         try:
-            group = _translate("VeriSO_EE_FP1+2", "FixpunkteKategorie1+2", None)
+            group = _translate("VeriSO_V+D_FP1+2", "FixpunkteKategorie1+2", None)
             group += " (" + str(project_id) + ")"
             
             layer = {}
             layer["type"] = "postgres"
-            layer["title"] = _translate("VeriSO_EE_FP1+2", "LFP2 Nachführung", None)
+            layer["title"] = _translate("VeriSO_V+D_FP1+2", "LFP2 Nachführung", None)
             layer["featuretype"] = "fixpunktekategorie2_lfp2nachfuehrung"
             layer["geom"] = "perimeter" # If no geometry attribute is set, the layer will be loaded as geoemtryless.
             layer["key"] = "ogc_fid"            
@@ -69,7 +69,7 @@ class ComplexCheck(QObject):
             
             layer = {}
             layer["type"] = "postgres"
-            layer["title"] = _translate("VeriSO_EE_FP1+2", "LFP2", None)
+            layer["title"] = _translate("VeriSO_V+D_FP1+2", "LFP2", None)
             layer["featuretype"] = "fixpunktekategorie2_lfp2"
             layer["geom"] = "geometrie"
             layer["key"] = "ogc_fid"            
@@ -94,7 +94,7 @@ class ComplexCheck(QObject):
             # This is how WMS layer work.
             layer = {}
             layer["type"] = "wms"
-            layer["title"] = _translate("VeriSO_EE_FP1+2", "LFP2 Schweiz", None)
+            layer["title"] = _translate("VeriSO_V+D_FP1+2", "LFP2 Schweiz", None)
             layer["url"] = "http://wms.geo.admin.ch/"
             layer["layers"] = "ch.swisstopo.fixpunkte-lfp2"
             layer["format"] = "image/png"          
@@ -105,7 +105,7 @@ class ComplexCheck(QObject):
 
             layer = {}
             layer["type"] = "postgres"
-            layer["title"] = _translate("VeriSO_EE_FP1+2", "Gemeindegrenze", None)
+            layer["title"] = _translate("VeriSO_V+D_FP1+2", "Gemeindegrenze", None)
             layer["featuretype"] = "gemeindegrenzen_gemeindegrenze"
             layer["geom"] = "geometrie"
             layer["key"] = "ogc_fid"            
