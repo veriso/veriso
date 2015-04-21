@@ -29,6 +29,7 @@ class ComplexCheck(QObject):
         self.settings = QSettings("CatAIS","VeriSO")
         project_id = self.settings.value("project/id")
         epsg = self.settings.value("project/epsg")
+        self.project_dir = settings.value("project/projectdir")        
         
         locale = QSettings().value('locale/userLocale')[0:2] # this is for multilingual legends
         
@@ -116,6 +117,17 @@ class ComplexCheck(QObject):
             layer["style"] = "fixpunkte/lfp3ausserhalb.qml"
             
             vlayer = self.layer_loader.load(layer)
+            
+            layer = {}
+            layer["type"] = "postgres"
+            layer["title"] = _translate("VeriSO_V+D_FP3", "LFP3 pro TS", None)
+            layer["featuretype"] = "t_lfp3_pro_ts"
+            layer["key"] = "ogc_fid"            
+            layer["sql"] = ""
+            layer["readonly"] = True            
+            layer["group"] = group
+            
+            vlayer_lfp3_pro_ts = self.layer_loader.load(layer)            
         
             layer = {}
             layer["type"] = "postgres"
@@ -129,7 +141,7 @@ class ComplexCheck(QObject):
             layer["style"] = "gemeindegrenze/gemgre_strichliert.qml"
 
             gemgrelayer = self.layer_loader.load(layer)
- 
+            
             # Change map extent.
             # Bug (?) in QGIS: http://hub.qgis.org/issues/10980
             # Closed for the lack of feedback. Upsi...
@@ -152,9 +164,70 @@ class ComplexCheck(QObject):
             # to zoom to maximal extent:
             # self.iface.mapCanvas().zoomToFullExtent()
             
-                
+            self.export_lfp3_pro_ts(vlayer_lfp3_pro_ts)
+        
+        
         except Exception:
             QApplication.restoreOverrideCursor()            
             exc_type, exc_value, exc_traceback = sys.exc_info()
             self.iface.messageBar().pushMessage("Error", str(traceback.format_exc(exc_traceback)), level=QgsMessageBar.CRITICAL, duration=5)                    
         QApplication.restoreOverrideCursor()
+
+
+    def export_lfp3_pro_ts(self, vlayer):
+        try:
+            import xlsxwriter
+        except Exception, e:
+            self.iface.messageBar().pushMessage("Error", str(e), level=QgsMessageBar.CRITICAL, duration=10)                    
+            return        
+
+        # Create excel file.
+        filename = QDir.convertSeparators(QDir.cleanPath(os.path.join(self.project_dir, "lfp3_pro_ts.xlsx")))     
+        workbook = xlsxwriter.Workbook(filename)
+        fmt_bold = workbook.add_format({'bold': True})
+        fmt_italic = workbook.add_format({'italic': True})
+        fmt_header = workbook.add_format()
+        fmt_header.set_bg_color('gray')
+        fmt_sum = workbook.add_format({'bold': True, 'font-color': 'blue'})
+
+        # Create the worksheet for the points defects.
+        worksheet = workbook.add_worksheet( _translate("VeriSO_V+D_FP3", u'LFP3 pro TS', None))
+        worksheet.set_paper(9)
+        worksheet.set_portrait()
+
+        # Write project name into worksheet.
+        worksheet.write(0, 0,  _translate("VeriSO_V+D_FP3", "Operat: ", None), fmt_bold)
+        worksheet.write(0, 1,  project_id, fmt_bold)
+        
+        # Write headers.
+        worksheet.write(4, 0,  _translate("VeriSO_V+D_FP3", "Toleranzstufe", None), fmt_header)
+        worksheet.write(4, 1,  _translate("VeriSO_V+D_FP3", "Fläche TS [ha]", None), fmt_header)
+        worksheet.write(4, 2,  _translate("VeriSO_V+D_FP3", "Ist-Anzahl LFP3", None), fmt_header)
+        worksheet.write(4, 3,  _translate("VeriSO_V+D_FP3", "Soll-Anzahl LFP3", None), fmt_header)
+        worksheet.write(4, 4,  _translate("VeriSO_V+D_FP3", "Ist-Soll LFP3", None), fmt_header)
+
+        # Loop through features and add them to worksheet.
+        iter = vlayer.getFeatures()
+        j = 0
+
+        ts_idx = vlayer.fieldNameIndex("toleranzstufe")
+        area_idx = vlayer.fieldNameIndex("flaeche")
+        current_idx = vlayer.fieldNameIndex("ist_anzahl")
+        soll_idx = vlayer.fieldNameIndex("soll_anzahl")
+
+        for feature in iter:
+            ts = feature.attributes()[ts_idx]
+            area = feature.attributes()[area_idx]
+            current = feature.attributes()[current_idx]
+            target = feature.attributes()[target_idx]
+            
+            worksheet.write(5+j, 0, ts, fmt_bold)
+            worksheet.write(5+j, 1, area)
+            worksheet.write(5+j, 2, current)
+            worksheet.write(5+j, 3, target)
+            worksheet.write(5+j, 4, (current - target))
+            
+            j += 1 
+            
+        
+        # do not forget sum/total
