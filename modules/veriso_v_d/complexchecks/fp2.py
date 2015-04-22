@@ -43,17 +43,19 @@ class ComplexCheck(QObject):
             locale = "de"
 
         if not project_id:
-            self.iface.messageBar().pushMessage("Error",  _translate("VeriSO_V+D_FP1+2", "project_id not set", None), level=QgsMessageBar.CRITICAL, duration=5)                                
+            self.iface.messageBar().pushMessage("Error",  _translate("VeriSO_V+D_FP2", "project_id not set", None), level=QgsMessageBar.CRITICAL, duration=5)                                
             return
 
         QApplication.setOverrideCursor(Qt.WaitCursor)
         try:
-            group = _translate("VeriSO_V+D_FP1+2", "FixpunkteKategorie1+2", None)
+            group = _translate("VeriSO_V+D_FP2", "FixpunkteKategorie2", None)
             group += " (" + str(project_id) + ")"
             
+            # Lagefixpunkte 2
+             
             layer = {}
             layer["type"] = "postgres"
-            layer["title"] = _translate("VeriSO_V+D_FP1+2", "LFP2 Nachführung", None)
+            layer["title"] = _translate("VeriSO_V+D_FP2", "LFP2 Nachführung", None)
             layer["featuretype"] = "fixpunktekategorie2_lfp2nachfuehrung"
             layer["geom"] = "perimeter" # If no geometry attribute is set, the layer will be loaded as geoemtryless.
             layer["key"] = "ogc_fid"            
@@ -69,14 +71,14 @@ class ComplexCheck(QObject):
             
             layer = {}
             layer["type"] = "postgres"
-            layer["title"] = _translate("VeriSO_V+D_FP1+2", "LFP2", None)
+            layer["title"] = _translate("VeriSO_V+D_FP2", "LFP2", None)
             layer["featuretype"] = "fixpunktekategorie2_lfp2"
             layer["geom"] = "geometrie"
             layer["key"] = "ogc_fid"            
             layer["sql"] = ""
             layer["readonly"] = True            
             layer["group"] = group
-            layer["style"] = "fixpunkte/lfp2_"+locale+".qml"
+            layer["style"] = "fixpunkte/lfp2.qml"
     
             vlayer_lfp2 = self.layer_loader.load(layer)
             
@@ -94,7 +96,7 @@ class ComplexCheck(QObject):
             # This is how WMS layer work.
             layer = {}
             layer["type"] = "wms"
-            layer["title"] = _translate("VeriSO_V+D_FP1+2", "LFP2 Schweiz", None)
+            layer["title"] = _translate("VeriSO_V+D_FP2", "LFP2 Schweiz (WMS)", None)
             layer["url"] = "http://wms.geo.admin.ch/"
             layer["layers"] = "ch.swisstopo.fixpunkte-lfp2"
             layer["format"] = "image/png"          
@@ -102,10 +104,59 @@ class ComplexCheck(QObject):
             layer["group"] = group
 
             vlayer = self.layer_loader.load(layer, False, True)
-
+            
+            # Höhenfixpunkte 2
             layer = {}
             layer["type"] = "postgres"
-            layer["title"] = _translate("VeriSO_V+D_FP1+2", "Gemeindegrenze", None)
+            layer["title"] = _translate("VeriSO_V+D_FP2", "HFP2 Nachführung", None)
+            layer["featuretype"] = "fixpunktekategorie2_hfp2nachfuehrung"
+            layer["geom"] = "perimeter"
+            layer["key"] = "ogc_fid"            
+            layer["sql"] = ""
+            layer["readonly"] = True            
+            layer["group"] = group
+            
+            vlayer_hfp2_nf = self.layer_loader.load(layer, False, True)            
+            
+            layer = {}
+            layer["type"] = "postgres"
+            layer["title"] = _translate("VeriSO_V+D_FP2", "HFP2", None)
+            layer["featuretype"] = "fixpunktekategorie2_hfp2"
+            layer["geom"] = "geometrie"
+            layer["key"] = "ogc_fid"            
+            layer["sql"] = ""
+            layer["readonly"] = True            
+            layer["group"] = group
+            layer["style"] = "fixpunkte/hfp2.qml"
+    
+            vlayer_hfp2 = self.layer_loader.load(layer)
+
+            # Join two layers (hfp2 and hfp2nachfuehrung)
+            hfp2_field = "entstehung"
+            hfp2_nf_field = "ogc_fid"
+            join_obj = QgsVectorJoinInfo()
+            join_obj.joinLayerId = vlayer_hfp2_nf.id()
+            join_obj.joinFieldName = hfp2_nf_field
+            join_obj.targetFieldName = hfp2_field
+            join_obj.memoryCache = True
+            join_obj.prefix = "hfp2_nf_"
+            vlayer_hfp2.addJoin(join_obj)
+
+            layer = {}
+            layer["type"] = "wms"
+            layer["title"] = _translate("VeriSO_V+D_FP2", "HFP2 Schweiz (WMS)", None)
+            layer["url"] = "http://wms.geo.admin.ch/"
+            layer["layers"] = "ch.swisstopo.fixpunkte-hfp2"
+            layer["format"] = "image/png"          
+            layer["crs"] = "EPSG:" + str(epsg)
+            layer["group"] = group
+
+            vlayer = self.layer_loader.load(layer, False, True)
+
+            # Business as usual: Gemeindegrenzen
+            layer = {}
+            layer["type"] = "postgres"
+            layer["title"] = _translate("VeriSO_V+D_FP2", "Gemeindegrenze", None)
             layer["featuretype"] = "gemeindegrenzen_gemeindegrenze"
             layer["geom"] = "geometrie"
             layer["key"] = "ogc_fid"            
