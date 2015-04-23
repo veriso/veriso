@@ -1,12 +1,12 @@
 {  
    "checks":[  
       {  
-         "id":"fp2",
+         "id":"bb",
          "name":{  
             "de":"Übersicht",
             "fr":"Vue d'ensemble"
          },
-         "file":"complexchecks.fp2"
+         "file":"complexchecks.bb"
       }
    ]
 }

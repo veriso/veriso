@@ -2,6 +2,12 @@
    "checks":[  
       {  
          "topic":{  
+            "de":"FixpunkteKategorie1",
+            "fr":"Points_fixesCategorie1"
+         },
+         "file":"topic_fp1"
+      },      {  
+         "topic":{  
             "de":"FixpunkteKategorie2",
             "fr":"Points_fixesCategorie2"
          },
@@ -13,6 +19,13 @@
             "fr":"Points_fixesCategorie3"
          },
          "file":"topic_fp3"
-      }   
+      },
+      {  
+         "topic":{  
+            "de":"Bodenbedeckung",
+            "fr":"Couverture_du_sol"
+         },
+         "file":"topic_bb"
+      }      
    ]
 }
