@@ -335,10 +335,9 @@ class ImportProjectDialog(QDialog, Ui_ImportProject):
         arguments.append("--defaultSrsCode")
         arguments.append(self.epsg)
         # TODO: ili2pg has a lot of  options. At least some of them should be exposed to the user.
-        arguments.append("--t_id_Name")
-        arguments.append("ogc_fid")
-        arguments.append("--importTid")
-#        arguments.append("--createBasketCol")        
+#        arguments.append("--t_id_Name")
+#        arguments.append("ogc_fid")
+#        arguments.append("--importTid")
         arguments.append("--createGeomIdx")
         arguments.append("--createEnumTabs")
         arguments.append("--createEnumTxtCol")

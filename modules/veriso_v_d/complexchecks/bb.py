@@ -53,15 +53,18 @@ class ComplexCheck(QObject):
             
             layer = {}
             layer["type"] = "postgres"
-            layer["title"] = _translate("VeriSO_V+D_BB", "BoFlaeche", None) # Translate with Qt Linguist. German translation not necessary since this text will be used when language is missing.
+            layer["title"] = _translate("VeriSO_V+D_BB", "BoFlaeche", None) 
             layer["featuretype"] = "bodenbedeckung_boflaeche"
             layer["geom"] = "geometrie"
             layer["key"] = "ogc_fid"            
             layer["sql"] = ""
             layer["readonly"] = True
             layer["group"] = group
-            layer["style"] = "bodenbedeckung/bb_farbig.qml"
+            layer["style"] = "bodenbedeckung/boflaeche_color.qml"
             vlayer = self.layer_loader.load(layer, True)
+            
+            # hier bb/eo und so bissl
+            # dann checklayer gruppe
             
 #            layer = {}
 #            layer["type"] = "postgres"
