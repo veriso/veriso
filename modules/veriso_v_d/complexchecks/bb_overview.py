@@ -53,7 +53,7 @@ class ComplexCheck(QObject):
             
             layer = {}
             layer["type"] = "postgres"
-            layer["title"] = _translate("VeriSO_V+D_BB", "BoFlaeche", None) 
+            layer["title"] = _translate("VeriSO_V+D_BB", "BB.BoFlaeche", None) 
             layer["featuretype"] = "bodenbedeckung_boflaeche"
             layer["geom"] = "geometrie"
             layer["key"] = "ogc_fid"            
@@ -61,70 +61,69 @@ class ComplexCheck(QObject):
             layer["readonly"] = True
             layer["group"] = group
             layer["style"] = "bodenbedeckung/boflaeche_color.qml"
-            vlayer = self.layer_loader.load(layer, True)
+            vlayer = self.layer_loader.load(layer, True, True)
             
-            # hier bb/eo und so bissl
-            # dann checklayer gruppe
+            layer = {}
+            layer["type"] = "postgres"
+            layer["title"] = _translate("VeriSO_V+D_BB", "BB.ProjBoFlaeche", None) 
+            layer["featuretype"] = "bodenbedeckung_projboflaeche"
+            layer["geom"] = "geometrie"
+            layer["key"] = "ogc_fid"            
+            layer["sql"] = ""
+            layer["readonly"] = True
+            layer["group"] = group
+            layer["style"] = "bodenbedeckung/projboflaeche_color.qml"
+            vlayer = self.layer_loader.load(layer, True, True)            
             
-#            layer = {}
-#            layer["type"] = "postgres"
-#            layer["title"] = _translate("VeriSO_V+D_BB", "LFP3 Nachführung", None)
-#            layer["featuretype"] = "fixpunktekategorie3_lfp3nachfuehrung"
-#            layer["geom"] = "perimeter" # If no geometry attribute is set, the layer will be loaded as geoemtryless.
-#            layer["key"] = "ogc_fid"            
-#            layer["sql"] = ""
-#            layer["readonly"] = True            
-#            layer["group"] = group
-#            
-#            vlayer_lfp3_nf = self.layer_loader.load(layer, False, True)            
-#            
-#            layer = {}
-#            layer["type"] = "postgres"
-#            layer["title"] = _translate("VeriSO_V+D_BB", "LFP3", None)
-#            layer["featuretype"] = "fixpunktekategorie3_lfp3"
-#            layer["geom"] = "geometrie"
-#            layer["key"] = "ogc_fid"            
-#            layer["sql"] = ""
-#            layer["readonly"] = True            
-#            layer["group"] = group
-#            layer["style"] = "fixpunkte/lfp3_"+locale+".qml"
-#
-#            vlayer_lfp3 = self.layer_loader.load(layer)
-#            
-#            # Join two layers (lfp3 and lfp3nachfuehrung)
-#            lfp3_field = "entstehung"
-#            lfp3_nf_field = "ogc_fid"
-#            join_obj = QgsVectorJoinInfo()
-#            join_obj.joinLayerId = vlayer_lfp3_nf.id()
-#            join_obj.joinFieldName = lfp3_nf_field
-#            join_obj.targetFieldName = lfp3_field
-#            join_obj.memoryCache = True
-#            join_obj.prefix = "lfp3_nf_"
-#            vlayer_lfp3.addJoin(join_obj)
-#    
-#            layer = {}
-#            layer["type"] = "postgres"
-#            layer["title"] = _translate("VeriSO_V+D_BB", "LFP3 ausserhalb Gemeinde", None)
-#            layer["featuretype"] = "t_lfp3_ausserhalb_gemeinde"
-#            layer["geom"] = "geometrie"
-#            layer["key"] = "ogc_fid"            
-#            layer["sql"] = ""
-#            layer["readonly"] = True            
-#            layer["group"] = group
-#            layer["style"] = "fixpunkte/lfp3ausserhalb.qml"
-#            
-#            vlayer = self.layer_loader.load(layer)
-#            
-#            layer = {}
-#            layer["type"] = "postgres"
-#            layer["title"] = _translate("VeriSO_V+D_BB", "LFP3 pro TS", None)
-#            layer["featuretype"] = "t_lfp3_pro_ts"
-#            layer["key"] = "ogc_fid"            
-#            layer["sql"] = ""
-#            layer["readonly"] = True            
-#            layer["group"] = group
-#            
-#            vlayer_lfp3_pro_ts = self.layer_loader.load(layer)            
+            layer = {}
+            layer["type"] = "postgres"
+            layer["title"] = _translate("VeriSO_V+D_BB", "EO.Flaechenelemente", None) 
+            layer["featuretype"] = "v_einzelobjekte_flaechenelement"
+            layer["geom"] = "geometrie"
+            layer["key"] = "ogc_fid"            
+            layer["sql"] = ""
+            layer["readonly"] = True
+            layer["group"] = group
+            layer["style"] = "einzelobjekte/eo_flaeche_color.qml"
+            vlayer = self.layer_loader.load(layer, True, True)            
+            
+            layer = {}
+            layer["type"] = "postgres"
+            layer["title"] = _translate("VeriSO_V+D_BB", "EO.Linienelemente", None) 
+            layer["featuretype"] = "v_einzelobjekte_linienelement"
+            layer["geom"] = "geometrie"
+            layer["key"] = "ogc_fid"            
+            layer["sql"] = ""
+            layer["readonly"] = True
+            layer["group"] = group
+            layer["style"] = "einzelobjekte/eo_linie_color.qml"
+            vlayer = self.layer_loader.load(layer, True, True)            
+            
+            layer = {}
+            layer["type"] = "postgres"
+            layer["title"] = _translate("VeriSO_V+D_BB", "EO.Punktelemente", None) 
+            layer["featuretype"] = "v_einzelobjekte_punktelement"
+            layer["geom"] = "geometrie"
+            layer["key"] = "ogc_fid"            
+            layer["sql"] = ""
+            layer["readonly"] = True
+            layer["group"] = group
+            layer["style"] = "einzelobjekte/eo_punkte_color.qml"
+            vlayer = self.layer_loader.load(layer, True, True)            
+            
+            layer = {}
+            layer["type"] = "postgres"
+            layer["title"] = _translate("VeriSO_V+D_BB", "BB.Symbole", None) 
+            layer["featuretype"] = "v_bodenbedeckung_boflaechesymbol"
+            layer["geom"] = "pos"
+            layer["key"] = "ogc_fid"            
+            layer["sql"] = ""
+            layer["readonly"] = True
+            layer["group"] = group
+            layer["style"] = "bodenbedeckung/bb_symbole.qml"
+            vlayer = self.layer_loader.load(layer, True, True)                   
+            
+            # export some statistics here.
         
             layer = {}
             layer["type"] = "postgres"
@@ -140,12 +139,8 @@ class ComplexCheck(QObject):
             gemgrelayer = self.layer_loader.load(layer)
             if gemgrelayer:
                 rect = gemgrelayer.extent()
-                rect.scale(5)
                 self.iface.mapCanvas().setExtent(rect)        
                 self.iface.mapCanvas().refresh() 
-            # Sometimes it does make much more sense
-            # to zoom to maximal extent:
-            # self.iface.mapCanvas().zoomToFullExtent()
             
 #            self.export_lfp3_pro_ts(vlayer_lfp3_pro_ts)
         

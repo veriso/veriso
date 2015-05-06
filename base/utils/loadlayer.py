@@ -238,7 +238,10 @@ class LoadLayer(QObject):
                     my_layer_node.setVisible(Qt.Checked)
                     
                 if collapsed_legend:
-                    my_layer_node.setExpanded(False)       
+                    my_layer_node.setExpanded(False)
+                else:
+                    my_layer_node.setExpanded(True)
+
                    
             return my_layer
 
