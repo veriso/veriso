@@ -19,51 +19,51 @@
     <edittype widgetv2type="TextEdit" name="art">
       <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
     </edittype>
-    <edittype widgetv2type="TextEdit" name="art_txt">
+    <edittype widgetv2type="TextEdit" name="art">
       <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
     </edittype>
   </edittypes>
   <renderer-v2 symbollevels="0" type="RuleRenderer">
     <rules key="{63628c0b-c6f4-4ec6-8add-84844b1dcb44}">
       <rule filter="ELSE" key="{353c4404-7a40-4f33-a5a0-788a73ae328a}" symbol="0" label="default"/>
-      <rule filter="art_txt = 'Gebaeude'" key="{36dd1592-94b8-4cc6-8769-936a1cc06fbf}" symbol="1" label="Gebaeude"/>
-      <rule filter="art_txt = 'Gewaesser.Schilfguertel'" key="{368a511d-84a1-47e4-bc41-5ae11d7735bf}" symbol="2" label="Gewaesser.Schilfguertel"/>
-      <rule filter="art_txt = 'Gewaesser.fliessendes'" key="{af9869cd-8acb-49e5-b0ec-b3388d5976cd}" symbol="3" label="Gewaesser.fliessendes"/>
-      <rule filter="art_txt = 'Gewaesser.stehendes'" key="{371643ad-b222-4eb7-b6e4-527b3d79282b}" symbol="4" label="Gewaesser.stehendes"/>
-      <rule filter="art_txt = 'befestigt.Bahn'" key="{408357c2-7c00-4cda-9170-59f02c08bd64}" symbol="5" label="befestigt.Bahn"/>
-      <rule filter="art_txt = 'befestigt.Flugplatz'" key="{7bbc3e3b-79f6-442f-a5b3-6ff3643a202c}" symbol="6" label="befestigt.Flugplatz"/>
-      <rule filter="art_txt = 'befestigt.Strasse_Weg'" key="{c189b791-3ecb-4cbe-96de-941f6c69b401}" symbol="7" label="befestigt.Strasse_Weg"/>
-      <rule filter="art_txt = 'befestigt.Trottoir'" key="{2c16d38e-d889-437a-aa15-aedc443409df}" symbol="8" label="befestigt.Trottoir"/>
-      <rule filter="art_txt = 'befestigt.Verkehrsinsel'" key="{6490773d-994c-422d-a002-fb87553470ca}" symbol="9" label="befestigt.Verkehrsinsel"/>
-      <rule filter="art_txt = 'befestigt.Wasserbecken'" key="{4683db93-ae78-4a6b-adcf-21634c21bed7}" symbol="10" label="befestigt.Wasserbecken"/>
-      <rule filter="art_txt = 'befestigt.uebrige_befestigte.Boeschungsbauwerk'" key="{e65d4910-c3a7-4083-a8d3-6eb85979cd46}" symbol="11" label="befestigt.uebrige_befestigte.Boeschungsbauwerk"/>
-      <rule filter="art_txt = 'befestigt.uebrige_befestigte.Gebaeudeerschliessung'" key="{ff2f1c3e-716a-4451-8ec2-827aea4d6748}" symbol="12" label="befestigt.uebrige_befestigte.Gebaeudeerschliessung"/>
-      <rule filter="art_txt = 'befestigt.uebrige_befestigte.Lagerplatz'" key="{79e43e31-b528-4fe5-9f84-c8ce9e5cf204}" symbol="13" label="befestigt.uebrige_befestigte.Lagerplatz"/>
-      <rule filter="art_txt = 'befestigt.uebrige_befestigte.Parkplatz'" key="{e6017c06-d208-493e-8775-55743d68cb76}" symbol="14" label="befestigt.uebrige_befestigte.Parkplatz"/>
-      <rule filter="art_txt = 'befestigt.uebrige_befestigte.Sportanlage_befestigt'" key="{80cb87f5-103f-4227-a909-99228b2a6d45}" symbol="15" label="befestigt.uebrige_befestigte.Sportanlage_befestigt"/>
-      <rule filter="art_txt = 'befestigt.uebrige_befestigte.uebrige_befestigte'" key="{0c23083d-7cf2-470f-b0cb-61116034de0e}" symbol="16" label="befestigt.uebrige_befestigte.uebrige_befestigte"/>
-      <rule filter="art_txt = 'bestockt.geschlossener_Wald'" key="{f265cd68-41f2-4c8c-9777-1a9df8b76d33}" symbol="17" label="bestockt.geschlossener_Wald"/>
-      <rule filter="art_txt = 'bestockt.uebrige_bestockte.Hecke'" key="{cdcaea5d-9622-4416-bbdb-f89e5a8bdbd6}" symbol="18" label="bestockt.uebrige_bestockte.Hecke"/>
-      <rule filter="art_txt = 'bestockt.uebrige_bestockte.Parkanlage_bestockt'" key="{b145fa1d-f57e-4648-905f-a91546d74966}" symbol="19" label="bestockt.uebrige_bestockte.Parkanlage_bestockt"/>
-      <rule filter="art_txt = 'bestockt.uebrige_bestockte.uebrige_bestockte'" key="{54a19205-9f32-4ff0-9fbd-5577da0142b6}" symbol="20" label="bestockt.uebrige_bestockte.uebrige_bestockte"/>
-      <rule filter="art_txt LIKE 'humusiert.Acker_Wiese_Weide%'" key="{3a64cd06-18d1-45e8-bce2-45ca3006fed4}" symbol="21" label="humusiert.Acker_Wiese_Weide"/>
-      <rule checkstate="0" filter="art_txt = 'humusiert.Acker_Wiese_Weide.Weide'" key="{edf4d5a4-9fc4-487b-a105-03a47d19a92a}" symbol="22" label="humusiert.Acker_Wiese_Weide.Weide"/>
-      <rule filter="art_txt = 'humusiert.Gartenanlage.Friedhof'" key="{ee1c99dd-8f41-4307-900c-9cb3fa2f042e}" symbol="23" label="humusiert.Gartenanlage.Friedhof"/>
-      <rule filter="art_txt = 'humusiert.Gartenanlage.Gartenanlage'" key="{9c1dada8-c1e9-4773-bc38-a23f5f2c516a}" symbol="24" label="humusiert.Gartenanlage.Gartenanlage"/>
-      <rule filter="art_txt = 'humusiert.Gartenanlage.Parkanlage_humusiert'" key="{dbb9bc19-9e18-461a-b922-0fc2941e1f6b}" symbol="25" label="humusiert.Gartenanlage.Parkanlage_humusiert"/>
-      <rule filter="art_txt = 'humusiert.Gartenanlage.Sportanlage_humusiert'" key="{645e72e8-8020-462e-ab34-88e97242b1a3}" symbol="26" label="humusiert.Gartenanlage.Sportanlage_humusiert"/>
-      <rule filter="art_txt = 'humusiert.Hoch_Flachmoor'" key="{26776fae-45c7-40b8-9fa6-b8fc25adf450}" symbol="27" label="humusiert.Hoch_Flachmoor"/>
-      <rule filter="art_txt = 'humusiert.Intensivkultur.Reben'" key="{698bbe6d-8744-441f-86f7-01ab0ff7ef82}" symbol="28" label="humusiert.Intensivkultur.Reben"/>
-      <rule filter="art_txt = 'humusiert.Intensivkultur.uebrige_Intensivkultur.Obstkultur'" key="{c5644ae4-2c9c-499b-8e38-fcaf053da455}" symbol="29" label="humusiert.Intensivkultur.uebrige_Intensivkultur.Obstkultur"/>
-      <rule filter="art_txt = 'humusiert.Intensivkultur.uebrige_Intensivkultur.uebrige_Intensivkultur'" key="{3930089b-2742-4c02-abfc-c624454e6d91}" symbol="30" label="humusiert.Intensivkultur.uebrige_Intensivkultur.uebrige_Intensivkultur"/>
-      <rule filter="art_txt = 'humusiert.uebrige_humusierte'" key="{51d764bd-73c0-4ae4-bb37-9e7067fbdff0}" symbol="31" label="humusiert.uebrige_humusierte"/>
-      <rule filter="art_txt = 'vegetationslos.Abbau_Deponie.Deponie'" key="{337f5f4c-ae91-4f62-a931-4d766e80bd15}" symbol="32" label="vegetationslos.Abbau_Deponie.Deponie"/>
-      <rule filter="art_txt = 'vegetationslos.Abbau_Deponie.Kiesgrube'" key="{f9398e3c-0b3c-48a4-bc3f-90f88050f25e}" symbol="33" label="vegetationslos.Abbau_Deponie.Kiesgrube"/>
-      <rule filter="art_txt = 'vegetationslos.Abbau_Deponie.Steinbruch'" key="{4ac29144-cd3d-45f2-b732-f16688589488}" symbol="34" label="vegetationslos.Abbau_Deponie.Steinbruch"/>
-      <rule filter="art_txt = 'vegetationslos.Abbau_Deponie.uebriger_Abbau'" key="{72ab0110-5ca6-4a57-904f-e8a2bc4dd4a6}" symbol="35" label="vegetationslos.Abbau_Deponie.uebriger_Abbau"/>
-      <rule filter="art_txt = 'vegetationslos.Fels'" key="{61c753e5-44d0-4a82-b051-1616aeaeccfc}" symbol="36" label="vegetationslos.Fels"/>
-      <rule filter="art_txt = 'vegetationslos.Geroell_Sand'" key="{31a428eb-fdc6-4c0e-b71a-db6d06ab4d18}" symbol="37" label="vegetationslos.Geroell_Sand"/>
-      <rule filter="art_txt = 'vegetationslos.uebrige_vegetationslose'" key="{c0f37ff1-843d-4eb7-9466-f9dc5981daf4}" symbol="38" label="vegetationslos.uebrige_vegetationslose"/>
+      <rule filter="art = 'Gebaeude'" key="{36dd1592-94b8-4cc6-8769-936a1cc06fbf}" symbol="1" label="Gebaeude"/>
+      <rule filter="art = 'Gewaesser.Schilfguertel'" key="{368a511d-84a1-47e4-bc41-5ae11d7735bf}" symbol="2" label="Gewaesser.Schilfguertel"/>
+      <rule filter="art = 'Gewaesser.fliessendes'" key="{af9869cd-8acb-49e5-b0ec-b3388d5976cd}" symbol="3" label="Gewaesser.fliessendes"/>
+      <rule filter="art = 'Gewaesser.stehendes'" key="{371643ad-b222-4eb7-b6e4-527b3d79282b}" symbol="4" label="Gewaesser.stehendes"/>
+      <rule filter="art = 'befestigt.Bahn'" key="{408357c2-7c00-4cda-9170-59f02c08bd64}" symbol="5" label="befestigt.Bahn"/>
+      <rule filter="art = 'befestigt.Flugplatz'" key="{7bbc3e3b-79f6-442f-a5b3-6ff3643a202c}" symbol="6" label="befestigt.Flugplatz"/>
+      <rule filter="art = 'befestigt.Strasse_Weg'" key="{c189b791-3ecb-4cbe-96de-941f6c69b401}" symbol="7" label="befestigt.Strasse_Weg"/>
+      <rule filter="art = 'befestigt.Trottoir'" key="{2c16d38e-d889-437a-aa15-aedc443409df}" symbol="8" label="befestigt.Trottoir"/>
+      <rule filter="art = 'befestigt.Verkehrsinsel'" key="{6490773d-994c-422d-a002-fb87553470ca}" symbol="9" label="befestigt.Verkehrsinsel"/>
+      <rule filter="art = 'befestigt.Wasserbecken'" key="{4683db93-ae78-4a6b-adcf-21634c21bed7}" symbol="10" label="befestigt.Wasserbecken"/>
+      <rule filter="art = 'befestigt.uebrige_befestigte.Boeschungsbauwerk'" key="{e65d4910-c3a7-4083-a8d3-6eb85979cd46}" symbol="11" label="befestigt.uebrige_befestigte.Boeschungsbauwerk"/>
+      <rule filter="art = 'befestigt.uebrige_befestigte.Gebaeudeerschliessung'" key="{ff2f1c3e-716a-4451-8ec2-827aea4d6748}" symbol="12" label="befestigt.uebrige_befestigte.Gebaeudeerschliessung"/>
+      <rule filter="art = 'befestigt.uebrige_befestigte.Lagerplatz'" key="{79e43e31-b528-4fe5-9f84-c8ce9e5cf204}" symbol="13" label="befestigt.uebrige_befestigte.Lagerplatz"/>
+      <rule filter="art = 'befestigt.uebrige_befestigte.Parkplatz'" key="{e6017c06-d208-493e-8775-55743d68cb76}" symbol="14" label="befestigt.uebrige_befestigte.Parkplatz"/>
+      <rule filter="art = 'befestigt.uebrige_befestigte.Sportanlage_befestigt'" key="{80cb87f5-103f-4227-a909-99228b2a6d45}" symbol="15" label="befestigt.uebrige_befestigte.Sportanlage_befestigt"/>
+      <rule filter="art = 'befestigt.uebrige_befestigte.uebrige_befestigte'" key="{0c23083d-7cf2-470f-b0cb-61116034de0e}" symbol="16" label="befestigt.uebrige_befestigte.uebrige_befestigte"/>
+      <rule filter="art = 'bestockt.geschlossener_Wald'" key="{f265cd68-41f2-4c8c-9777-1a9df8b76d33}" symbol="17" label="bestockt.geschlossener_Wald"/>
+      <rule filter="art = 'bestockt.uebrige_bestockte.Hecke'" key="{cdcaea5d-9622-4416-bbdb-f89e5a8bdbd6}" symbol="18" label="bestockt.uebrige_bestockte.Hecke"/>
+      <rule filter="art = 'bestockt.uebrige_bestockte.Parkanlage_bestockt'" key="{b145fa1d-f57e-4648-905f-a91546d74966}" symbol="19" label="bestockt.uebrige_bestockte.Parkanlage_bestockt"/>
+      <rule filter="art = 'bestockt.uebrige_bestockte.uebrige_bestockte'" key="{54a19205-9f32-4ff0-9fbd-5577da0142b6}" symbol="20" label="bestockt.uebrige_bestockte.uebrige_bestockte"/>
+      <rule filter="art LIKE 'humusiert.Acker_Wiese_Weide%'" key="{3a64cd06-18d1-45e8-bce2-45ca3006fed4}" symbol="21" label="humusiert.Acker_Wiese_Weide"/>
+      <rule checkstate="0" filter="art = 'humusiert.Acker_Wiese_Weide.Weide'" key="{edf4d5a4-9fc4-487b-a105-03a47d19a92a}" symbol="22" label="humusiert.Acker_Wiese_Weide.Weide"/>
+      <rule filter="art = 'humusiert.Gartenanlage.Friedhof'" key="{ee1c99dd-8f41-4307-900c-9cb3fa2f042e}" symbol="23" label="humusiert.Gartenanlage.Friedhof"/>
+      <rule filter="art = 'humusiert.Gartenanlage.Gartenanlage'" key="{9c1dada8-c1e9-4773-bc38-a23f5f2c516a}" symbol="24" label="humusiert.Gartenanlage.Gartenanlage"/>
+      <rule filter="art = 'humusiert.Gartenanlage.Parkanlage_humusiert'" key="{dbb9bc19-9e18-461a-b922-0fc2941e1f6b}" symbol="25" label="humusiert.Gartenanlage.Parkanlage_humusiert"/>
+      <rule filter="art = 'humusiert.Gartenanlage.Sportanlage_humusiert'" key="{645e72e8-8020-462e-ab34-88e97242b1a3}" symbol="26" label="humusiert.Gartenanlage.Sportanlage_humusiert"/>
+      <rule filter="art = 'humusiert.Hoch_Flachmoor'" key="{26776fae-45c7-40b8-9fa6-b8fc25adf450}" symbol="27" label="humusiert.Hoch_Flachmoor"/>
+      <rule filter="art = 'humusiert.Intensivkultur.Reben'" key="{698bbe6d-8744-441f-86f7-01ab0ff7ef82}" symbol="28" label="humusiert.Intensivkultur.Reben"/>
+      <rule filter="art = 'humusiert.Intensivkultur.uebrige_Intensivkultur.Obstkultur'" key="{c5644ae4-2c9c-499b-8e38-fcaf053da455}" symbol="29" label="humusiert.Intensivkultur.uebrige_Intensivkultur.Obstkultur"/>
+      <rule filter="art = 'humusiert.Intensivkultur.uebrige_Intensivkultur.uebrige_Intensivkultur'" key="{3930089b-2742-4c02-abfc-c624454e6d91}" symbol="30" label="humusiert.Intensivkultur.uebrige_Intensivkultur.uebrige_Intensivkultur"/>
+      <rule filter="art = 'humusiert.uebrige_humusierte'" key="{51d764bd-73c0-4ae4-bb37-9e7067fbdff0}" symbol="31" label="humusiert.uebrige_humusierte"/>
+      <rule filter="art = 'vegetationslos.Abbau_Deponie.Deponie'" key="{337f5f4c-ae91-4f62-a931-4d766e80bd15}" symbol="32" label="vegetationslos.Abbau_Deponie.Deponie"/>
+      <rule filter="art = 'vegetationslos.Abbau_Deponie.Kiesgrube'" key="{f9398e3c-0b3c-48a4-bc3f-90f88050f25e}" symbol="33" label="vegetationslos.Abbau_Deponie.Kiesgrube"/>
+      <rule filter="art = 'vegetationslos.Abbau_Deponie.Steinbruch'" key="{4ac29144-cd3d-45f2-b732-f16688589488}" symbol="34" label="vegetationslos.Abbau_Deponie.Steinbruch"/>
+      <rule filter="art = 'vegetationslos.Abbau_Deponie.uebriger_Abbau'" key="{72ab0110-5ca6-4a57-904f-e8a2bc4dd4a6}" symbol="35" label="vegetationslos.Abbau_Deponie.uebriger_Abbau"/>
+      <rule filter="art = 'vegetationslos.Fels'" key="{61c753e5-44d0-4a82-b051-1616aeaeccfc}" symbol="36" label="vegetationslos.Fels"/>
+      <rule filter="art = 'vegetationslos.Geroell_Sand'" key="{31a428eb-fdc6-4c0e-b71a-db6d06ab4d18}" symbol="37" label="vegetationslos.Geroell_Sand"/>
+      <rule filter="art = 'vegetationslos.uebrige_vegetationslose'" key="{c0f37ff1-843d-4eb7-9466-f9dc5981daf4}" symbol="38" label="vegetationslos.uebrige_vegetationslose"/>
     </rules>
     <symbols>
       <symbol alpha="1" clip_to_extent="1" type="fill" name="0">

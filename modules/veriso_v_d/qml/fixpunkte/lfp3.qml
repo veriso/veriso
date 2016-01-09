@@ -40,7 +40,7 @@
     <edittype widgetv2type="TextEdit" name="punktzeichen">
       <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
     </edittype>
-    <edittype widgetv2type="TextEdit" name="punktzeichen_txt">
+    <edittype widgetv2type="TextEdit" name="punktzeichen">
       <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
     </edittype>
     <edittype widgetv2type="TextEdit" name="protokoll">
@@ -52,13 +52,13 @@
   </edittypes>
   <renderer-v2 symbollevels="0" type="RuleRenderer">
     <rules key="{45fea099-d9d9-4bcd-8112-ffb984b08e4c}">
-      <rule filter=" &quot;punktzeichen_txt&quot;  =  'Stein' " key="{6ebc32f3-d6eb-45fc-935a-718878a6d51c}" symbol="0" label="Stein"/>
-      <rule filter=" &quot;punktzeichen_txt&quot;  = 'Kunststoffzeichen'" key="{65939149-7514-41b4-9179-3a7550323fda}" symbol="1" label="Kunststoffzeichen"/>
-      <rule filter=" &quot;punktzeichen_txt&quot;  =  'Bolzen' " key="{b61d556b-5a74-4cc2-8486-ba491da8b8f3}" symbol="2" label="Bolzen"/>
-      <rule filter=" &quot;punktzeichen_txt&quot;  =  'Rohr' " key="{3a29755c-9d17-49cb-87b0-7fde469de9a1}" symbol="3" label="Rohr"/>
-      <rule filter=" &quot;punktzeichen_txt&quot;  = 'Pfahl'" key="{8a8c340c-06d5-494e-a0b9-983f9c912dcb}" symbol="4" label="Pfahl"/>
-      <rule filter=" &quot;punktzeichen_txt&quot; =   'Kreuz' " key="{dd227937-d4bb-4132-b136-f653703ff74c}" symbol="5" label="Kreuz"/>
-      <rule filter=" &quot;punktzeichen_txt&quot; NOT IN ('Bolzen' , 'Kreuz' , 'Rohr' , 'Stein' )" key="{c897b48c-6202-42c2-8bc2-18f3b0880773}" symbol="6" label="andere "/>
+      <rule filter=" &quot;punktzeichen&quot;  =  'Stein' " key="{6ebc32f3-d6eb-45fc-935a-718878a6d51c}" symbol="0" label="Stein"/>
+      <rule filter=" &quot;punktzeichen&quot;  = 'Kunststoffzeichen'" key="{65939149-7514-41b4-9179-3a7550323fda}" symbol="1" label="Kunststoffzeichen"/>
+      <rule filter=" &quot;punktzeichen&quot;  =  'Bolzen' " key="{b61d556b-5a74-4cc2-8486-ba491da8b8f3}" symbol="2" label="Bolzen"/>
+      <rule filter=" &quot;punktzeichen&quot;  =  'Rohr' " key="{3a29755c-9d17-49cb-87b0-7fde469de9a1}" symbol="3" label="Rohr"/>
+      <rule filter=" &quot;punktzeichen&quot;  = 'Pfahl'" key="{8a8c340c-06d5-494e-a0b9-983f9c912dcb}" symbol="4" label="Pfahl"/>
+      <rule filter=" &quot;punktzeichen&quot; =   'Kreuz' " key="{dd227937-d4bb-4132-b136-f653703ff74c}" symbol="5" label="Kreuz"/>
+      <rule filter=" &quot;punktzeichen&quot; NOT IN ('Bolzen' , 'Kreuz' , 'Rohr' , 'Stein' )" key="{c897b48c-6202-42c2-8bc2-18f3b0880773}" symbol="6" label="andere "/>
     </rules>
     <symbols>
       <symbol alpha="1" clip_to_extent="1" type="marker" name="0">

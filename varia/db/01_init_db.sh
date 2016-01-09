@@ -5,7 +5,7 @@ ADMINPWD="ziegler12"
 USER="mspublic"
 USERPWD="mspublic"
 
-DB_NAME="xanadu"
+DB_NAME="veriso_nplso"
 PG_VERSION="9.3"
 
 echo "Create database user"

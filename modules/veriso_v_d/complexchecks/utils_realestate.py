@@ -69,7 +69,7 @@ class ComplexCheck(QObject):
             layer["featuretype"] = "v_liegenschaften_grundstueckpos"
             layer["geom"] = "pos"
             layer["key"] = "ogc_fid"            
-            layer["sql"] = "art_txt = 'Liegenschaft'"
+            layer["sql"] = "art = 'Liegenschaft'"
             layer["readonly"] = True
             layer["group"] = group
             layer["style"] = "grundstuecke/grundstueckpos.qml"

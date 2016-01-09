@@ -19,11 +19,11 @@
     <edittype widgetv2type="TextEdit" name="art">
       <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
     </edittype>
-    <edittype widgetv2type="TextEdit" name="art_txt">
+    <edittype widgetv2type="TextEdit" name="art">
       <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
     </edittype>
   </edittypes>
-  <renderer-v2 attr="art_txt" symbollevels="0" type="categorizedSymbol">
+  <renderer-v2 attr="art" symbollevels="0" type="categorizedSymbol">
     <categories>
       <category render="true" symbol="0" value="TS1" label="TS1"/>
       <category render="true" symbol="1" value="TS2" label="TS2"/>

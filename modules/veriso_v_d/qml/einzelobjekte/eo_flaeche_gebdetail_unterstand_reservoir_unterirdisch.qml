@@ -13,7 +13,7 @@
     <edittype widgetv2type="TextEdit" name="art">
       <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
     </edittype>
-    <edittype widgetv2type="TextEdit" name="art_txt">
+    <edittype widgetv2type="TextEdit" name="art">
       <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
     </edittype>
     <edittype widgetv2type="TextEdit" name="eo_ogc_fid">
@@ -22,10 +22,10 @@
   </edittypes>
   <renderer-v2 symbollevels="0" type="RuleRenderer">
     <rules key="{d9576c56-e5a4-4cac-ae9e-ff7622a9a793}">
-      <rule filter=" &quot;art_txt&quot; LIKE  'unterirdisches_Gebaeude%' " key="{c3df919b-85eb-46d2-a7c1-f74b60154e22}" symbol="0" label="unterirdisches_Gebaeude"/>
-      <rule filter=" &quot;art_txt&quot; LIKE 'uebriger_Gebaeudeteil%'" key="{bc4cfbee-83ca-4a4c-9aec-e7b5240c2fc4}" symbol="1" label="uebriger_Gebaeudeteil"/>
-      <rule filter=" &quot;art_txt&quot; LIKE 'Reservoir%'" key="{0b4f681a-a721-47c6-a794-febbf652ed63}" symbol="2" label="Reservoir"/>
-      <rule filter=" &quot;art_txt&quot; LIKE 'Unterstand%'" key="{3657e76f-f34d-4f56-8cb6-85a299135adc}" symbol="3" label="Unterstand"/>
+      <rule filter=" &quot;art&quot; LIKE  'unterirdisches_Gebaeude%' " key="{c3df919b-85eb-46d2-a7c1-f74b60154e22}" symbol="0" label="unterirdisches_Gebaeude"/>
+      <rule filter=" &quot;art&quot; LIKE 'uebriger_Gebaeudeteil%'" key="{bc4cfbee-83ca-4a4c-9aec-e7b5240c2fc4}" symbol="1" label="uebriger_Gebaeudeteil"/>
+      <rule filter=" &quot;art&quot; LIKE 'Reservoir%'" key="{0b4f681a-a721-47c6-a794-febbf652ed63}" symbol="2" label="Reservoir"/>
+      <rule filter=" &quot;art&quot; LIKE 'Unterstand%'" key="{3657e76f-f34d-4f56-8cb6-85a299135adc}" symbol="3" label="Unterstand"/>
     </rules>
     <symbols>
       <symbol alpha="1" clip_to_extent="1" type="fill" name="0">

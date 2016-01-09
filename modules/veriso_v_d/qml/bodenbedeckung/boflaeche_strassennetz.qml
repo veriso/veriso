@@ -19,13 +19,13 @@
     <edittype widgetv2type="TextEdit" name="art">
       <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
     </edittype>
-    <edittype widgetv2type="TextEdit" name="art_txt">
+    <edittype widgetv2type="TextEdit" name="art">
       <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
     </edittype>
   </edittypes>
   <renderer-v2 symbollevels="0" type="RuleRenderer">
     <rules key="{ab7c3af6-c241-4500-9367-10b2760b886c}">
-      <rule filter=" &quot;art_txt&quot;  IN  ('befestigt.Strasse_Weg',  'befestigt.Trottoir')" key="{847bf0d5-8f5d-4e06-be2a-33e5cf34d0b8}" symbol="0" label="Strasse_Weg / Trottoir"/>
+      <rule filter=" &quot;art&quot;  IN  ('befestigt.Strasse_Weg',  'befestigt.Trottoir')" key="{847bf0d5-8f5d-4e06-be2a-33e5cf34d0b8}" symbol="0" label="Strasse_Weg / Trottoir"/>
       <rule scalemaxdenom="10000" key="{0071eb75-31d4-4d16-b1fe-5298751d2c4a}" symbol="1" scalemindenom="1" label="default"/>
     </rules>
     <symbols>

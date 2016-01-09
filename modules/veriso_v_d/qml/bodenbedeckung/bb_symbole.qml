@@ -16,15 +16,15 @@
     <edittype widgetv2type="TextEdit" name="art">
       <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
     </edittype>
-    <edittype widgetv2type="TextEdit" name="art_txt">
+    <edittype widgetv2type="TextEdit" name="art">
       <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
     </edittype>
   </edittypes>
   <renderer-v2 symbollevels="0" type="RuleRenderer">
     <rules key="{49ab1de5-372e-41f3-b37c-89c117ae73fa}">
-      <rule filter="art_txt = 'befestigt.Wasserbecken'" key="{7584b93c-3775-4f1e-a8ed-c0928953bf57}" symbol="0" label="befestigt.Wasserbecken"/>
-      <rule filter="art_txt = 'Gewaesser.fliessendes'" key="{9cd6177b-eabd-46e7-b754-8f310ea97ea9}" symbol="1" label="Gewaesser.fliessendes"/>
-      <rule filter="art_txt = 'Gewaesser.stehendes'" key="{50c516f1-8d40-4984-9019-424686e1bef8}" symbol="2" label="Gewaesser.stehendes"/>
+      <rule filter="art = 'befestigt.Wasserbecken'" key="{7584b93c-3775-4f1e-a8ed-c0928953bf57}" symbol="0" label="befestigt.Wasserbecken"/>
+      <rule filter="art = 'Gewaesser.fliessendes'" key="{9cd6177b-eabd-46e7-b754-8f310ea97ea9}" symbol="1" label="Gewaesser.fliessendes"/>
+      <rule filter="art = 'Gewaesser.stehendes'" key="{50c516f1-8d40-4984-9019-424686e1bef8}" symbol="2" label="Gewaesser.stehendes"/>
       <rule filter="ELSE" key="{746d50de-7975-4aed-93bf-9494231f13ef}" symbol="3"/>
     </rules>
     <symbols>

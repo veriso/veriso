@@ -13,37 +13,37 @@
     <edittype widgetv2type="TextEdit" name="art">
       <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
     </edittype>
-    <edittype widgetv2type="TextEdit" name="art_txt">
+    <edittype widgetv2type="TextEdit" name="art">
       <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
     </edittype>
   </edittypes>
   <renderer-v2 symbollevels="0" type="RuleRenderer">
     <rules key="{db903e74-1e31-459d-8035-0b74152d5183}">
-      <rule filter="art_txt = 'Aussichtsturm'" key="{c7c5605b-ec52-448d-b5f6-fbfd3f909a9d}" symbol="0" label="Aussichtsturm"/>
-      <rule filter="art_txt = 'Bahnsteig'" key="{c790f51f-17ce-4a5d-b600-6d001fa1803e}" symbol="1" label="Bahnsteig"/>
-      <rule filter="art_txt = 'Bruecke_Passerelle'" key="{46f48590-2da0-4623-920b-62844639a2f2}" symbol="2" label="Bruecke_Passerelle"/>
-      <rule filter="art_txt = 'Brunnen'" key="{bb0c7f50-a6d5-4abd-b272-ce4c7c5937e4}" symbol="3" label="Brunnen"/>
-      <rule filter="art_txt = 'Denkmal'" key="{a3de8b74-f12e-467d-8980-ee35e2890e83}" symbol="4" label="Denkmal"/>
-      <rule filter="art_txt = 'eingedoltes_oeffentliches_Gewaesser'" key="{38359459-b977-4f2a-9fd3-f44ff8495c50}" symbol="5" label="eingedoltes_oeffentliches_Gewaesser"/>
-      <rule filter="art_txt = 'Hochkamin'" key="{6a8aa04f-6eb7-4eb9-89b8-954bdbd8090a}" symbol="6" label="Hochkamin"/>
-      <rule filter="art_txt = 'Hochspannungsfreileitung'" key="{310366e1-009a-4d11-afec-731a16bf9768}" symbol="7" label="Hochspannungsfreileitung"/>
-      <rule filter="art_txt = 'Landungssteg'" key="{d4bcb195-e24b-4109-ab4d-8b86295f79c6}" symbol="8" label="Landungssteg"/>
-      <rule filter="art_txt = 'massiver_Sockel'" key="{5ae0a7f9-cbbc-44ec-894b-deca2a40415d}" symbol="9" label="massiver_Sockel"/>
-      <rule filter="art_txt LIKE 'Mast_Antenne%'" key="{7702b34c-108d-4bad-9380-23be529005a1}" symbol="10" label="Mast_Antenne"/>
-      <rule filter="art_txt LIKE 'Mauer%'" key="{35de89fb-2d0e-44a6-befd-07bc8b980a70}" symbol="11" label="Mauer"/>
-      <rule filter="art_txt = 'Pfeiler'" key="{4fc8118d-1178-4f84-b50d-06d3d7db2657}" symbol="12" label="Pfeiler"/>
-      <rule filter="art_txt = 'Reservoir'" key="{9d85a36f-13be-42b3-8f9c-310d6713651b}" symbol="13" label="Reservoir"/>
-      <rule filter="art_txt = 'Ruine_archaeologisches_Objekt'" key="{a50ad196-4289-4ef1-8900-ad9b5b046dc1}" symbol="14" label="Ruine_archaeologisches_Objekt"/>
-      <rule filter="art_txt LIKE 'schmaler_Weg%'" key="{f4e07b37-8f56-4da8-84f5-a739b4dd253a}" symbol="15" label="schmaler_Weg"/>
-      <rule filter="art_txt = 'Schwelle'" key="{5ef9f50f-1bd4-4d28-adde-bf643a87c218}" symbol="16" label="Schwelle"/>
-      <rule filter="art_txt = 'Silo_Turm_Gasometer'" key="{19c0de42-0dfe-4412-a4f8-fe710076cf76}" symbol="17" label="Silo_Turm_Gasometer"/>
-      <rule filter="art_txt = 'Tunnel_Unterfuehrung_Galerie'" key="{dd285878-4301-4eaf-a5df-f962abd7eab7}" symbol="18" label="Tunnel_Unterfuehrung_Galerie"/>
-      <rule filter="art_txt = 'uebriger_Gebaeudeteil'" key="{59b3efd2-ab6a-4db1-be78-a9be532a0a5a}" symbol="19" label="uebriger_Gebaeudeteil"/>
-      <rule filter="art_txt = 'Uferverbauung'" key="{d423c187-67bc-4858-b900-f025cc6e4f24}" symbol="20" label="Uferverbauung"/>
-      <rule filter="art_txt = 'unterirdisches_Gebaeude'" key="{e94ea6cc-6309-41b4-ba82-9fd821d83394}" symbol="21" label="unterirdisches_Gebaeude"/>
-      <rule filter="art_txt = 'Unterstand'" key="{6f585c99-db71-4c0e-aa96-f0e88f83a8d7}" symbol="22" label="Unterstand"/>
-      <rule filter="art_txt = 'weitere'" key="{a3607165-7051-40f7-a481-1f24908c00d4}" symbol="23" label="weitere"/>
-      <rule filter="art_txt = 'wichtige_Treppe'" key="{600e8506-8e76-465d-90d2-d349acf3082f}" symbol="24" label="wichtige_Treppe"/>
+      <rule filter="art = 'Aussichtsturm'" key="{c7c5605b-ec52-448d-b5f6-fbfd3f909a9d}" symbol="0" label="Aussichtsturm"/>
+      <rule filter="art = 'Bahnsteig'" key="{c790f51f-17ce-4a5d-b600-6d001fa1803e}" symbol="1" label="Bahnsteig"/>
+      <rule filter="art = 'Bruecke_Passerelle'" key="{46f48590-2da0-4623-920b-62844639a2f2}" symbol="2" label="Bruecke_Passerelle"/>
+      <rule filter="art = 'Brunnen'" key="{bb0c7f50-a6d5-4abd-b272-ce4c7c5937e4}" symbol="3" label="Brunnen"/>
+      <rule filter="art = 'Denkmal'" key="{a3de8b74-f12e-467d-8980-ee35e2890e83}" symbol="4" label="Denkmal"/>
+      <rule filter="art = 'eingedoltes_oeffentliches_Gewaesser'" key="{38359459-b977-4f2a-9fd3-f44ff8495c50}" symbol="5" label="eingedoltes_oeffentliches_Gewaesser"/>
+      <rule filter="art = 'Hochkamin'" key="{6a8aa04f-6eb7-4eb9-89b8-954bdbd8090a}" symbol="6" label="Hochkamin"/>
+      <rule filter="art = 'Hochspannungsfreileitung'" key="{310366e1-009a-4d11-afec-731a16bf9768}" symbol="7" label="Hochspannungsfreileitung"/>
+      <rule filter="art = 'Landungssteg'" key="{d4bcb195-e24b-4109-ab4d-8b86295f79c6}" symbol="8" label="Landungssteg"/>
+      <rule filter="art = 'massiver_Sockel'" key="{5ae0a7f9-cbbc-44ec-894b-deca2a40415d}" symbol="9" label="massiver_Sockel"/>
+      <rule filter="art LIKE 'Mast_Antenne%'" key="{7702b34c-108d-4bad-9380-23be529005a1}" symbol="10" label="Mast_Antenne"/>
+      <rule filter="art LIKE 'Mauer%'" key="{35de89fb-2d0e-44a6-befd-07bc8b980a70}" symbol="11" label="Mauer"/>
+      <rule filter="art = 'Pfeiler'" key="{4fc8118d-1178-4f84-b50d-06d3d7db2657}" symbol="12" label="Pfeiler"/>
+      <rule filter="art = 'Reservoir'" key="{9d85a36f-13be-42b3-8f9c-310d6713651b}" symbol="13" label="Reservoir"/>
+      <rule filter="art = 'Ruine_archaeologisches_Objekt'" key="{a50ad196-4289-4ef1-8900-ad9b5b046dc1}" symbol="14" label="Ruine_archaeologisches_Objekt"/>
+      <rule filter="art LIKE 'schmaler_Weg%'" key="{f4e07b37-8f56-4da8-84f5-a739b4dd253a}" symbol="15" label="schmaler_Weg"/>
+      <rule filter="art = 'Schwelle'" key="{5ef9f50f-1bd4-4d28-adde-bf643a87c218}" symbol="16" label="Schwelle"/>
+      <rule filter="art = 'Silo_Turm_Gasometer'" key="{19c0de42-0dfe-4412-a4f8-fe710076cf76}" symbol="17" label="Silo_Turm_Gasometer"/>
+      <rule filter="art = 'Tunnel_Unterfuehrung_Galerie'" key="{dd285878-4301-4eaf-a5df-f962abd7eab7}" symbol="18" label="Tunnel_Unterfuehrung_Galerie"/>
+      <rule filter="art = 'uebriger_Gebaeudeteil'" key="{59b3efd2-ab6a-4db1-be78-a9be532a0a5a}" symbol="19" label="uebriger_Gebaeudeteil"/>
+      <rule filter="art = 'Uferverbauung'" key="{d423c187-67bc-4858-b900-f025cc6e4f24}" symbol="20" label="Uferverbauung"/>
+      <rule filter="art = 'unterirdisches_Gebaeude'" key="{e94ea6cc-6309-41b4-ba82-9fd821d83394}" symbol="21" label="unterirdisches_Gebaeude"/>
+      <rule filter="art = 'Unterstand'" key="{6f585c99-db71-4c0e-aa96-f0e88f83a8d7}" symbol="22" label="Unterstand"/>
+      <rule filter="art = 'weitere'" key="{a3607165-7051-40f7-a481-1f24908c00d4}" symbol="23" label="weitere"/>
+      <rule filter="art = 'wichtige_Treppe'" key="{600e8506-8e76-465d-90d2-d349acf3082f}" symbol="24" label="wichtige_Treppe"/>
     </rules>
     <symbols>
       <symbol alpha="1" clip_to_extent="1" type="fill" name="0">

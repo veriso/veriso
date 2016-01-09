@@ -340,7 +340,7 @@ class ImportProjectDialog(QDialog, Ui_ImportProject):
         arguments.append("--importTid")
         arguments.append("--createGeomIdx")
         arguments.append("--createEnumTabs")
-        arguments.append("--createEnumTxtCol")
+        #arguments.append("--createEnumTxtCol")
         arguments.append("--nameByTopic")
         arguments.append("--strokeArcs")
         arguments.append(self.itf)

@@ -13,7 +13,7 @@
     <edittype widgetv2type="TextEdit" name="art">
       <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
     </edittype>
-    <edittype widgetv2type="TextEdit" name="art_txt">
+    <edittype widgetv2type="TextEdit" name="art">
       <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
     </edittype>
     <edittype widgetv2type="TextEdit" name="eo_ogc_fid">
@@ -22,7 +22,7 @@
   </edittypes>
   <renderer-v2 symbollevels="0" type="RuleRenderer">
     <rules key="{54a0c7e9-74d0-467e-8bd1-b618003276ed}">
-      <rule filter=" &quot;art_txt&quot; LIKE 'uebriger_Gebaeudeteil%'" key="{ade4e05e-7a16-4478-9f72-e6a66d9b4421}" symbol="0" label="uebriger_Gebaeudeteil"/>
+      <rule filter=" &quot;art&quot; LIKE 'uebriger_Gebaeudeteil%'" key="{ade4e05e-7a16-4478-9f72-e6a66d9b4421}" symbol="0" label="uebriger_Gebaeudeteil"/>
     </rules>
     <symbols>
       <symbol alpha="1" clip_to_extent="1" type="line" name="0">

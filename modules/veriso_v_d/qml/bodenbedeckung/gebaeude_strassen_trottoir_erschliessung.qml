@@ -19,16 +19,16 @@
     <edittype widgetv2type="TextEdit" name="art">
       <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
     </edittype>
-    <edittype widgetv2type="TextEdit" name="art_txt">
+    <edittype widgetv2type="TextEdit" name="art">
       <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
     </edittype>
   </edittypes>
   <renderer-v2 symbollevels="0" type="RuleRenderer">
     <rules key="{b421613e-2f16-4d2f-ab0f-91353d52185a}">
-      <rule filter=" &quot;art_txt&quot; LIKE  'Gebaeude%' " key="{f28bd6b2-3788-4605-b57f-6161b18bb128}" symbol="0" label="Gebaeude"/>
-      <rule filter=" &quot;art_txt&quot;  LIKE  'befestigt.Strasse_Weg%' " key="{741b980b-e028-462a-af50-397edae2a775}" symbol="1" label="befestigt.Strasse_Weg"/>
-      <rule filter=" &quot;art_txt&quot;  LIKE  'befestigt.Trottoir%' " key="{78651d9c-2a02-4684-a850-b6c7bac0ffe9}" symbol="2" label="befestigt.Trottoir"/>
-      <rule filter=" &quot;art_txt&quot; LIKE 'befestigt.uebrige_befestigte%' " key="{48f92811-279b-47a4-b093-c9d6391ed2e8}" symbol="3" label="befestigt.uebrige_befestigte"/>
+      <rule filter=" &quot;art&quot; LIKE  'Gebaeude%' " key="{f28bd6b2-3788-4605-b57f-6161b18bb128}" symbol="0" label="Gebaeude"/>
+      <rule filter=" &quot;art&quot;  LIKE  'befestigt.Strasse_Weg%' " key="{741b980b-e028-462a-af50-397edae2a775}" symbol="1" label="befestigt.Strasse_Weg"/>
+      <rule filter=" &quot;art&quot;  LIKE  'befestigt.Trottoir%' " key="{78651d9c-2a02-4684-a850-b6c7bac0ffe9}" symbol="2" label="befestigt.Trottoir"/>
+      <rule filter=" &quot;art&quot; LIKE 'befestigt.uebrige_befestigte%' " key="{48f92811-279b-47a4-b093-c9d6391ed2e8}" symbol="3" label="befestigt.uebrige_befestigte"/>
     </rules>
     <symbols>
       <symbol alpha="1" clip_to_extent="1" type="fill" name="0">
