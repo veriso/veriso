@@ -4,11 +4,13 @@
  VeriSO
                                  A QGIS plugin
  Verification application module for Interlis data.
-                             -------------------
+                              -------------------
         begin                : 2014-07-28
-        copyright            : (C) 2014 by Stefan Ziegler
-        email                : edi.gonzales@gmail.com
         git sha              : $Format:%H$
+        copyright            : (C) 2016 OPENGIS.ch
+                             :     2014 by Stefan Ziegler
+        email                : info@opengis.ch
+                             : edi.gonzales@gmail.com
  ***************************************************************************/
 
 /***************************************************************************
@@ -19,7 +21,6 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
- This script initializes the plugin, making it known to QGIS.
 """
 
 

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>539</width>
-    <height>387</height>
+    <width>542</width>
+    <height>474</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -20,16 +20,6 @@
    <string> Options</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
-   <item row="4" column="0">
-    <widget class="QDialogButtonBox" name="buttonBox">
-     <property name="enabled">
-      <bool>true</bool>
-     </property>
-     <property name="standardButtons">
-      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
-     </property>
-    </widget>
-   </item>
    <item row="0" column="0">
     <widget class="QTabWidget" name="tabWidget">
      <property name="enabled">
@@ -39,7 +29,7 @@
       <enum>QTabWidget::Rounded</enum>
      </property>
      <property name="currentIndex">
-      <number>0</number>
+      <number>3</number>
      </property>
      <property name="elideMode">
       <enum>Qt::ElideLeft</enum>
@@ -111,6 +101,13 @@
              </widget>
             </item>
            </layout>
+          </item>
+          <item row="1" column="0">
+           <widget class="QPushButton" name="btnTestProjectDB">
+            <property name="text">
+             <string>Test projects database</string>
+            </property>
+           </widget>
           </item>
          </layout>
         </widget>
@@ -266,6 +263,13 @@
             </item>
            </layout>
           </item>
+          <item row="1" column="0">
+           <widget class="QPushButton" name="btnTestConnection">
+            <property name="text">
+             <string>Test connection</string>
+            </property>
+           </widget>
+          </item>
          </layout>
         </widget>
        </item>
@@ -287,18 +291,11 @@
             <item>
              <widget class="QListWidget" name="listWidgetModelRepos">
               <property name="selectionMode">
-               <enum>QAbstractItemView::ExtendedSelection</enum>
+               <enum>QAbstractItemView::SingleSelection</enum>
               </property>
-              <item>
-               <property name="text">
-                <string>http://www.catais.org/models/</string>
-               </property>
-              </item>
-              <item>
-               <property name="text">
-                <string>http://models.geo.admin.ch/</string>
-               </property>
-              </item>
+              <property name="selectionBehavior">
+               <enum>QAbstractItemView::SelectRows</enum>
+              </property>
              </widget>
             </item>
             <item>
@@ -306,7 +303,7 @@
               <item>
                <widget class="QPushButton" name="btnAddModelRepo">
                 <property name="enabled">
-                 <bool>false</bool>
+                 <bool>true</bool>
                 </property>
                 <property name="text">
                  <string>Add</string>
@@ -320,6 +317,16 @@
                 </property>
                 <property name="text">
                  <string>Delete</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QPushButton" name="btnEditModelRepo">
+                <property name="enabled">
+                 <bool>false</bool>
+                </property>
+                <property name="text">
+                 <string>Edit</string>
                 </property>
                </widget>
               </item>
@@ -359,6 +366,16 @@
       </size>
      </property>
     </spacer>
+   </item>
+   <item row="4" column="0">
+    <widget class="QDialogButtonBox" name="buttonBox">
+     <property name="enabled">
+      <bool>true</bool>
+     </property>
+     <property name="standardButtons">
+      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+     </property>
+    </widget>
    </item>
   </layout>
  </widget>

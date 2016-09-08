@@ -1,0 +1,25 @@
+the PSQL db needs:
+
+CREATE EXTENSION postgis;
+-- Role: mspublic
+CREATE ROLE mspublic LOGIN
+  NOSUPERUSER INHERIT NOCREATEDB NOCREATEROLE NOREPLICATION;
+
+
+importing using
+ch_254900.itf, module V+D, Model DM01AVCH24D
+fails on postprocessing queries with ogc_fid 2, 5 and 7 due to a name mismatch
+
+select ogc_fid, sql_query q from postprocessing
+where q like '%Kategorie%'
+
+for some reason the tables generated in PG are called %Katgrie%
+
+
+importing using
+ch_254900.itf, module EE, Model DM01AVCH24D same as V+D plus following:
+
+- all %_txt% fields are not present
+- bodenbedeckung_boflaeche.art = 0
+- WHERE a.art = 0
+  -->  operator does not exist: character varying = integer in query 11

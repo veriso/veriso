@@ -1,9 +1,10 @@
 # coding=utf-8
 """Common functionality used by regression tests."""
+from __future__ import absolute_import
 
-import sys
 import logging
-
+import os
+import sys
 
 LOGGER = logging.getLogger('QGIS')
 QGIS_APP = None  # Static variable used to hold hand to running QGIS app
@@ -23,10 +24,10 @@ def get_qgis_app():
     """
 
     try:
-        from PyQt4 import QtGui, QtCore
+        from PyQt import QtGui, QtCore
         from qgis.core import QgsApplication
         from qgis.gui import QgsMapCanvas
-        from qgis_interface import QgisInterface
+        from veriso.test.qgis_interface import QgisInterface
     except ImportError:
         return None, None, None, None
 
@@ -34,7 +35,7 @@ def get_qgis_app():
 
     if QGIS_APP is None:
         gui_flag = True  # All test will run qgis in gui mode
-        #noinspection PyPep8Naming
+        # noinspection PyPep8Naming
         QGIS_APP = QgsApplication(sys.argv, gui_flag)
         # Make sure QGIS_PREFIX_PATH is set in your env if needed!
         QGIS_APP.initQgis()
@@ -43,19 +44,42 @@ def get_qgis_app():
 
     global PARENT  # pylint: disable=W0603
     if PARENT is None:
-        #noinspection PyPep8Naming
+        # noinspection PyPep8Naming
         PARENT = QtGui.QWidget()
 
     global CANVAS  # pylint: disable=W0603
     if CANVAS is None:
-        #noinspection PyPep8Naming
+        # noinspection PyPep8Naming
         CANVAS = QgsMapCanvas(PARENT)
         CANVAS.resize(QtCore.QSize(400, 400))
 
     global IFACE  # pylint: disable=W0603
     if IFACE is None:
         # QgisInterface is a stub implementation of the QGIS plugin interface
-        #noinspection PyPep8Naming
+        # noinspection PyPep8Naming
         IFACE = QgisInterface(CANVAS)
 
     return QGIS_APP, CANVAS, IFACE, PARENT
+
+
+def get_data_content(filename):
+    """
+    Returns the content of a file
+    :param filename: file name in the test_data directory
+    :return: str
+    """
+
+    filename = os.path.join(get_test_data_dir(), filename)
+    with open(filename, 'r') as f:
+        content = f.read()
+    return content
+
+
+def get_test_data_dir():
+    """
+    Returns the test_data directory
+    :return:
+    """
+    return os.path.join(os.path.dirname(
+            os.path.realpath(__file__)),
+            'test_data')

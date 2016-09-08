@@ -1,5 +1,8 @@
 # coding=utf-8
 """Tests QGIS plugin init."""
+from future import standard_library
+
+standard_library.install_aliases()
 
 __author__ = 'Tim Sutton <tim@linfiniti.com>'
 __revision__ = '$Format:%H$'
@@ -8,10 +11,10 @@ __license__ = "GPL"
 __copyright__ = 'Copyright 2012, Australia Indonesia Facility for '
 __copyright__ += 'Disaster Reduction'
 
+import configparser
+import logging
 import os
 import unittest
-import logging
-import ConfigParser
 
 LOGGER = logging.getLogger('QGIS')
 
@@ -43,11 +46,11 @@ class TestInit(unittest.TestCase):
             'author']
 
         file_path = os.path.abspath(os.path.join(
-            os.path.dirname(__file__), os.pardir,
-            'metadata.txt'))
+                os.path.dirname(__file__), os.pardir,
+                'metadata.txt'))
         LOGGER.info(file_path)
         metadata = []
-        parser = ConfigParser.ConfigParser()
+        parser = configparser.ConfigParser()
         parser.optionxform = str
         parser.read(file_path)
         message = 'Cannot find a section named "general" in %s' % file_path
@@ -59,6 +62,7 @@ class TestInit(unittest.TestCase):
                 expectation, file_path))
 
             self.assertIn(expectation, dict(metadata), message)
+
 
 if __name__ == '__main__':
     unittest.main()

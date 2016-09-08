@@ -5,9 +5,9 @@ LOCALES=$*
 
 CHANGED_FILES=0
 PYTHON_FILES=`find . -regex ".*\(ui\|py\)$" -type f`
-for PYTHON_FILE in $PYTHON_FILES
+for PYTHON_FILE in ${PYTHON_FILES}
 do
-  CHANGED=$(stat -c %Y $PYTHON_FILE)
+  CHANGED=$(stat -c %Y ${PYTHON_FILE})
   if [ ${CHANGED} -gt ${CHANGED_FILES} ]
   then
     CHANGED_FILES=${CHANGED}

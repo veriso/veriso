@@ -1,0 +1,1420 @@
+---
+topics:
+- tables:
+  - title:
+      de: LFP1Nachfuehrung (perimeter)
+      fr: LFP1Nachfuehrung (perimeter)_fr
+    style: ''
+    geom: perimeter
+    group: FixpunkteKategorie1
+    readonly: 1
+    featuretype: fixpunktekategorie1_lfp1nachfuehrung
+    key: ogc_fid
+  - title:
+      de: LFP1 (geometrie)
+      fr: LFP1 (geometrie)_fr
+    style: ''
+    geom: geometrie
+    group: FixpunkteKategorie1
+    readonly: 1
+    featuretype: fixpunktekategorie1_lfp1
+    key: ogc_fid
+  - title:
+      de: LFP1Pos (pos)
+      fr: LFP1Pos (pos)_fr
+    style: ''
+    geom: pos
+    group: FixpunkteKategorie1
+    readonly: 1
+    featuretype: fixpunktekategorie1_lfp1pos
+    key: ogc_fid
+  - title:
+      de: LFP1Symbol
+      fr: LFP1Symbol_fr
+    style: ''
+    group: FixpunkteKategorie1
+    readonly: 1
+    featuretype: fixpunktekategorie1_lfp1symbol
+    key: ogc_fid
+  - title:
+      de: HFP1Nachfuehrung (perimeter)
+      fr: HFP1Nachfuehrung (perimeter)_fr
+    style: ''
+    geom: perimeter
+    group: FixpunkteKategorie1
+    readonly: 1
+    featuretype: fixpunktekategorie1_hfp1nachfuehrung
+    key: ogc_fid
+  - title:
+      de: HFP1 (geometrie)
+      fr: HFP1 (geometrie)_fr
+    style: ''
+    geom: geometrie
+    group: FixpunkteKategorie1
+    readonly: 1
+    featuretype: fixpunktekategorie1_hfp1
+    key: ogc_fid
+  - title:
+      de: HFP1Pos (pos)
+      fr: HFP1Pos (pos)_fr
+    style: ''
+    geom: pos
+    group: FixpunkteKategorie1
+    readonly: 1
+    featuretype: fixpunktekategorie1_hfp1pos
+    key: ogc_fid
+  topic:
+    de: FixpunkteKategorie1
+    fr: FixpunkteKategorie1_fr
+  title: FixpunkteKategorie1
+  group: FixpunkteKategorie1
+- tables:
+  - title:
+      de: LFP2Nachfuehrung (perimeter)
+      fr: LFP2Nachfuehrung (perimeter)_fr
+    style: ''
+    geom: perimeter
+    group: FixpunkteKategorie2
+    readonly: 1
+    featuretype: fixpunktekategorie2_lfp2nachfuehrung
+    key: ogc_fid
+  - title:
+      de: LFP2 (geometrie)
+      fr: LFP2 (geometrie)_fr
+    style: ''
+    geom: geometrie
+    group: FixpunkteKategorie2
+    readonly: 1
+    featuretype: fixpunktekategorie2_lfp2
+    key: ogc_fid
+  - title:
+      de: LFP2Pos (pos)
+      fr: LFP2Pos (pos)_fr
+    style: ''
+    geom: pos
+    group: FixpunkteKategorie2
+    readonly: 1
+    featuretype: fixpunktekategorie2_lfp2pos
+    key: ogc_fid
+  - title:
+      de: LFP2Symbol
+      fr: LFP2Symbol_fr
+    style: ''
+    group: FixpunkteKategorie2
+    readonly: 1
+    featuretype: fixpunktekategorie2_lfp2symbol
+    key: ogc_fid
+  - title:
+      de: HFP2Nachfuehrung (perimeter)
+      fr: HFP2Nachfuehrung (perimeter)_fr
+    style: ''
+    geom: perimeter
+    group: FixpunkteKategorie2
+    readonly: 1
+    featuretype: fixpunktekategorie2_hfp2nachfuehrung
+    key: ogc_fid
+  - title:
+      de: HFP2 (geometrie)
+      fr: HFP2 (geometrie)_fr
+    style: ''
+    geom: geometrie
+    group: FixpunkteKategorie2
+    readonly: 1
+    featuretype: fixpunktekategorie2_hfp2
+    key: ogc_fid
+  - title:
+      de: HFP2Pos (pos)
+      fr: HFP2Pos (pos)_fr
+    style: ''
+    geom: pos
+    group: FixpunkteKategorie2
+    readonly: 1
+    featuretype: fixpunktekategorie2_hfp2pos
+    key: ogc_fid
+  topic:
+    de: FixpunkteKategorie2
+    fr: FixpunkteKategorie2_fr
+  title: FixpunkteKategorie2
+  group: FixpunkteKategorie2
+- tables:
+  - title:
+      de: LFP3Nachfuehrung (perimeter)
+      fr: LFP3Nachfuehrung (perimeter)_fr
+    style: ''
+    geom: perimeter
+    group: FixpunkteKategorie3
+    readonly: 1
+    featuretype: fixpunktekategorie3_lfp3nachfuehrung
+    key: ogc_fid
+  - title:
+      de: LFP3 (geometrie)
+      fr: LFP3 (geometrie)_fr
+    style: ''
+    geom: geometrie
+    group: FixpunkteKategorie3
+    readonly: 1
+    featuretype: fixpunktekategorie3_lfp3
+    key: ogc_fid
+  - title:
+      de: LFP3Pos (pos)
+      fr: LFP3Pos (pos)_fr
+    style: ''
+    geom: pos
+    group: FixpunkteKategorie3
+    readonly: 1
+    featuretype: fixpunktekategorie3_lfp3pos
+    key: ogc_fid
+  - title:
+      de: LFP3Symbol
+      fr: LFP3Symbol_fr
+    style: ''
+    group: FixpunkteKategorie3
+    readonly: 1
+    featuretype: fixpunktekategorie3_lfp3symbol
+    key: ogc_fid
+  - title:
+      de: HFP3Nachfuehrung (perimeter)
+      fr: HFP3Nachfuehrung (perimeter)_fr
+    style: ''
+    geom: perimeter
+    group: FixpunkteKategorie3
+    readonly: 1
+    featuretype: fixpunktekategorie3_hfp3nachfuehrung
+    key: ogc_fid
+  - title:
+      de: HFP3 (geometrie)
+      fr: HFP3 (geometrie)_fr
+    style: ''
+    geom: geometrie
+    group: FixpunkteKategorie3
+    readonly: 1
+    featuretype: fixpunktekategorie3_hfp3
+    key: ogc_fid
+  - title:
+      de: HFP3Pos (pos)
+      fr: HFP3Pos (pos)_fr
+    style: ''
+    geom: pos
+    group: FixpunkteKategorie3
+    readonly: 1
+    featuretype: fixpunktekategorie3_hfp3pos
+    key: ogc_fid
+  topic:
+    de: FixpunkteKategorie3
+    fr: FixpunkteKategorie3_fr
+  title: FixpunkteKategorie3
+  group: FixpunkteKategorie3
+- tables:
+  - title:
+      de: BBNachfuehrung (perimeter)
+      fr: BBNachfuehrung (perimeter)_fr
+    style: ''
+    geom: perimeter
+    group: Bodenbedeckung
+    readonly: 1
+    featuretype: bodenbedeckung_bbnachfuehrung
+    key: ogc_fid
+  - title:
+      de: ProjBoFlaeche (geometrie)
+      fr: ProjBoFlaeche (geometrie)_fr
+    style: ''
+    geom: geometrie
+    group: Bodenbedeckung
+    readonly: 1
+    featuretype: bodenbedeckung_projboflaeche
+    key: ogc_fid
+  - title:
+      de: ProjGebaeudenummer
+      fr: ProjGebaeudenummer_fr
+    style: ''
+    group: Bodenbedeckung
+    readonly: 1
+    featuretype: bodenbedeckung_projgebaeudenummer
+    key: ogc_fid
+  - title:
+      de: ProjGebaeudenummerPos (pos)
+      fr: ProjGebaeudenummerPos (pos)_fr
+    style: ''
+    geom: pos
+    group: Bodenbedeckung
+    readonly: 1
+    featuretype: bodenbedeckung_projgebaeudenummerpos
+    key: ogc_fid
+  - title:
+      de: ProjObjektname
+      fr: ProjObjektname_fr
+    style: ''
+    group: Bodenbedeckung
+    readonly: 1
+    featuretype: bodenbedeckung_projobjektname
+    key: ogc_fid
+  - title:
+      de: ProjObjektnamePos (pos)
+      fr: ProjObjektnamePos (pos)_fr
+    style: ''
+    geom: pos
+    group: Bodenbedeckung
+    readonly: 1
+    featuretype: bodenbedeckung_projobjektnamepos
+    key: ogc_fid
+  - title:
+      de: ProjBoFlaecheSymbol (pos)
+      fr: ProjBoFlaecheSymbol (pos)_fr
+    style: ''
+    geom: pos
+    group: Bodenbedeckung
+    readonly: 1
+    featuretype: bodenbedeckung_projboflaechesymbol
+    key: ogc_fid
+  - title:
+      de: BoFlaeche (geometrie)
+      fr: BoFlaeche (geometrie)_fr
+    style: ''
+    geom: geometrie
+    group: Bodenbedeckung
+    readonly: 1
+    featuretype: bodenbedeckung_boflaeche
+    key: ogc_fid
+  - title:
+      de: Gebaeudenummer
+      fr: Gebaeudenummer_fr
+    style: ''
+    group: Bodenbedeckung
+    readonly: 1
+    featuretype: bodenbedeckung_gebaeudenummer
+    key: ogc_fid
+  - title:
+      de: GebaeudenummerPos (pos)
+      fr: GebaeudenummerPos (pos)_fr
+    style: ''
+    geom: pos
+    group: Bodenbedeckung
+    readonly: 1
+    featuretype: bodenbedeckung_gebaeudenummerpos
+    key: ogc_fid
+  - title:
+      de: Objektname
+      fr: Objektname_fr
+    style: ''
+    group: Bodenbedeckung
+    readonly: 1
+    featuretype: bodenbedeckung_objektname
+    key: ogc_fid
+  - title:
+      de: ObjektnamePos (pos)
+      fr: ObjektnamePos (pos)_fr
+    style: ''
+    geom: pos
+    group: Bodenbedeckung
+    readonly: 1
+    featuretype: bodenbedeckung_objektnamepos
+    key: ogc_fid
+  - title:
+      de: BoFlaecheSymbol (pos)
+      fr: BoFlaecheSymbol (pos)_fr
+    style: ''
+    geom: pos
+    group: Bodenbedeckung
+    readonly: 1
+    featuretype: bodenbedeckung_boflaechesymbol
+    key: ogc_fid
+  - title:
+      de: Einzelpunkt (geometrie)
+      fr: Einzelpunkt (geometrie)_fr
+    style: ''
+    geom: geometrie
+    group: Bodenbedeckung
+    readonly: 1
+    featuretype: bodenbedeckung_einzelpunkt
+    key: ogc_fid
+  - title:
+      de: EinzelpunktPos (pos)
+      fr: EinzelpunktPos (pos)_fr
+    style: ''
+    geom: pos
+    group: Bodenbedeckung
+    readonly: 1
+    featuretype: bodenbedeckung_einzelpunktpos
+    key: ogc_fid
+  topic:
+    de: Bodenbedeckung
+    fr: Bodenbedeckung_fr
+  title: Bodenbedeckung
+  group: Bodenbedeckung
+- tables:
+  - title:
+      de: EONachfuehrung (perimeter)
+      fr: EONachfuehrung (perimeter)_fr
+    style: ''
+    geom: perimeter
+    group: Einzelobjekte
+    readonly: 1
+    featuretype: einzelobjekte_eonachfuehrung
+    key: ogc_fid
+  - title:
+      de: Einzelobjekt
+      fr: Einzelobjekt_fr
+    style: ''
+    group: Einzelobjekte
+    readonly: 1
+    featuretype: einzelobjekte_einzelobjekt
+    key: ogc_fid
+  - title:
+      de: Flaechenelement (geometrie)
+      fr: Flaechenelement (geometrie)_fr
+    style: ''
+    geom: geometrie
+    group: Einzelobjekte
+    readonly: 1
+    featuretype: einzelobjekte_flaechenelement
+    key: ogc_fid
+  - title:
+      de: FlaechenelementSymbol (pos)
+      fr: FlaechenelementSymbol (pos)_fr
+    style: ''
+    geom: pos
+    group: Einzelobjekte
+    readonly: 1
+    featuretype: einzelobjekte_flaechenelementsymbol
+    key: ogc_fid
+  - title:
+      de: Linienelement (geometrie)
+      fr: Linienelement (geometrie)_fr
+    style: ''
+    geom: geometrie
+    group: Einzelobjekte
+    readonly: 1
+    featuretype: einzelobjekte_linienelement
+    key: ogc_fid
+  - title:
+      de: LinienelementSymbol (pos)
+      fr: LinienelementSymbol (pos)_fr
+    style: ''
+    geom: pos
+    group: Einzelobjekte
+    readonly: 1
+    featuretype: einzelobjekte_linienelementsymbol
+    key: ogc_fid
+  - title:
+      de: Punktelement (geometrie)
+      fr: Punktelement (geometrie)_fr
+    style: ''
+    geom: geometrie
+    group: Einzelobjekte
+    readonly: 1
+    featuretype: einzelobjekte_punktelement
+    key: ogc_fid
+  - title:
+      de: Objektname
+      fr: Objektname_fr
+    style: ''
+    group: Einzelobjekte
+    readonly: 1
+    featuretype: einzelobjekte_objektname
+    key: ogc_fid
+  - title:
+      de: ObjektnamePos (pos)
+      fr: ObjektnamePos (pos)_fr
+    style: ''
+    geom: pos
+    group: Einzelobjekte
+    readonly: 1
+    featuretype: einzelobjekte_objektnamepos
+    key: ogc_fid
+  - title:
+      de: Objektnummer
+      fr: Objektnummer_fr
+    style: ''
+    group: Einzelobjekte
+    readonly: 1
+    featuretype: einzelobjekte_objektnummer
+    key: ogc_fid
+  - title:
+      de: ObjektnummerPos (pos)
+      fr: ObjektnummerPos (pos)_fr
+    style: ''
+    geom: pos
+    group: Einzelobjekte
+    readonly: 1
+    featuretype: einzelobjekte_objektnummerpos
+    key: ogc_fid
+  - title:
+      de: Einzelpunkt (geometrie)
+      fr: Einzelpunkt (geometrie)_fr
+    style: ''
+    geom: geometrie
+    group: Einzelobjekte
+    readonly: 1
+    featuretype: einzelobjekte_einzelpunkt
+    key: ogc_fid
+  - title:
+      de: EinzelpunktPos (pos)
+      fr: EinzelpunktPos (pos)_fr
+    style: ''
+    geom: pos
+    group: Einzelobjekte
+    readonly: 1
+    featuretype: einzelobjekte_einzelpunktpos
+    key: ogc_fid
+  topic:
+    de: Einzelobjekte
+    fr: Einzelobjekte_fr
+  title: Einzelobjekte
+  group: Einzelobjekte
+- tables:
+  - title:
+      de: HONachfuehrung (perimeter)
+      fr: HONachfuehrung (perimeter)_fr
+    style: ''
+    geom: perimeter
+    group: Hoehen
+    readonly: 1
+    featuretype: hoehen_honachfuehrung
+    key: ogc_fid
+  - title:
+      de: Hoehenpunkt (geometrie)
+      fr: Hoehenpunkt (geometrie)_fr
+    style: ''
+    geom: geometrie
+    group: Hoehen
+    readonly: 1
+    featuretype: hoehen_hoehenpunkt
+    key: ogc_fid
+  - title:
+      de: HoehenpunktPos (pos)
+      fr: HoehenpunktPos (pos)_fr
+    style: ''
+    geom: pos
+    group: Hoehen
+    readonly: 1
+    featuretype: hoehen_hoehenpunktpos
+    key: ogc_fid
+  - title:
+      de: Gelaendekante (geometrie)
+      fr: Gelaendekante (geometrie)_fr
+    style: ''
+    geom: geometrie
+    group: Hoehen
+    readonly: 1
+    featuretype: hoehen_gelaendekante
+    key: ogc_fid
+  - title:
+      de: Aussparung (geometrie)
+      fr: Aussparung (geometrie)_fr
+    style: ''
+    geom: geometrie
+    group: Hoehen
+    readonly: 1
+    featuretype: hoehen_aussparung
+    key: ogc_fid
+  topic:
+    de: Hoehen
+    fr: Hoehen_fr
+  title: Hoehen
+  group: Hoehen
+- tables:
+  - title:
+      de: NKNachfuehrung (perimeter)
+      fr: NKNachfuehrung (perimeter)_fr
+    style: ''
+    geom: perimeter
+    group: Nomenklatur
+    readonly: 1
+    featuretype: nomenklatur_nknachfuehrung
+    key: ogc_fid
+  - title:
+      de: Flurname (geometrie)
+      fr: Flurname (geometrie)_fr
+    style: ''
+    geom: geometrie
+    group: Nomenklatur
+    readonly: 1
+    featuretype: nomenklatur_flurname
+    key: ogc_fid
+  - title:
+      de: FlurnamePos (pos)
+      fr: FlurnamePos (pos)_fr
+    style: ''
+    geom: pos
+    group: Nomenklatur
+    readonly: 1
+    featuretype: nomenklatur_flurnamepos
+    key: ogc_fid
+  - title:
+      de: Ortsname (geometrie)
+      fr: Ortsname (geometrie)_fr
+    style: ''
+    geom: geometrie
+    group: Nomenklatur
+    readonly: 1
+    featuretype: nomenklatur_ortsname
+    key: ogc_fid
+  - title:
+      de: OrtsnamePos (pos)
+      fr: OrtsnamePos (pos)_fr
+    style: ''
+    geom: pos
+    group: Nomenklatur
+    readonly: 1
+    featuretype: nomenklatur_ortsnamepos
+    key: ogc_fid
+  - title:
+      de: Gelaendename
+      fr: Gelaendename_fr
+    style: ''
+    group: Nomenklatur
+    readonly: 1
+    featuretype: nomenklatur_gelaendename
+    key: ogc_fid
+  - title:
+      de: GelaendenamePos (pos)
+      fr: GelaendenamePos (pos)_fr
+    style: ''
+    geom: pos
+    group: Nomenklatur
+    readonly: 1
+    featuretype: nomenklatur_gelaendenamepos
+    key: ogc_fid
+  topic:
+    de: Nomenklatur
+    fr: Nomenklatur_fr
+  title: Nomenklatur
+  group: Nomenklatur
+- tables:
+  - title:
+      de: LSNachfuehrung (perimeter)
+      fr: LSNachfuehrung (perimeter)_fr
+    style: ''
+    geom: perimeter
+    group: Liegenschaften
+    readonly: 1
+    featuretype: liegenschaften_lsnachfuehrung
+    key: ogc_fid
+  - title:
+      de: Grenzpunkt (geometrie)
+      fr: Grenzpunkt (geometrie)_fr
+    style: ''
+    geom: geometrie
+    group: Liegenschaften
+    readonly: 1
+    featuretype: liegenschaften_grenzpunkt
+    key: ogc_fid
+  - title:
+      de: GrenzpunktPos (pos)
+      fr: GrenzpunktPos (pos)_fr
+    style: ''
+    geom: pos
+    group: Liegenschaften
+    readonly: 1
+    featuretype: liegenschaften_grenzpunktpos
+    key: ogc_fid
+  - title:
+      de: GrenzpunktSymbol
+      fr: GrenzpunktSymbol_fr
+    style: ''
+    group: Liegenschaften
+    readonly: 1
+    featuretype: liegenschaften_grenzpunktsymbol
+    key: ogc_fid
+  - title:
+      de: ProjGrundstueck
+      fr: ProjGrundstueck_fr
+    style: ''
+    group: Liegenschaften
+    readonly: 1
+    featuretype: liegenschaften_projgrundstueck
+    key: ogc_fid
+  - title:
+      de: ProjGrundstueckPos (pos)
+      fr: ProjGrundstueckPos (pos)_fr
+    style: ''
+    geom: pos
+    group: Liegenschaften
+    readonly: 1
+    featuretype: liegenschaften_projgrundstueckpos
+    key: ogc_fid
+  - title:
+      de: ProjGrundstueckPos (hilfslinie)
+      fr: ProjGrundstueckPos (hilfslinie)_fr
+    style: ''
+    geom: hilfslinie
+    group: Liegenschaften
+    readonly: 1
+    featuretype: liegenschaften_projgrundstueckpos
+    key: ogc_fid
+  - title:
+      de: LineAttrib1
+      fr: LineAttrib1_fr
+    style: ''
+    group: Liegenschaften
+    readonly: 1
+    featuretype: liegenschaften_lineattrib1
+    key: ogc_fid
+  - title:
+      de: ProjLiegenschaft (geometrie)
+      fr: ProjLiegenschaft (geometrie)_fr
+    style: ''
+    geom: geometrie
+    group: Liegenschaften
+    readonly: 1
+    featuretype: liegenschaften_projliegenschaft
+    key: ogc_fid
+  - title:
+      de: LineAttrib2
+      fr: LineAttrib2_fr
+    style: ''
+    group: Liegenschaften
+    readonly: 1
+    featuretype: liegenschaften_lineattrib2
+    key: ogc_fid
+  - title:
+      de: ProjSelbstRecht (geometrie)
+      fr: ProjSelbstRecht (geometrie)_fr
+    style: ''
+    geom: geometrie
+    group: Liegenschaften
+    readonly: 1
+    featuretype: liegenschaften_projselbstrecht
+    key: ogc_fid
+  - title:
+      de: LineAttrib3
+      fr: LineAttrib3_fr
+    style: ''
+    group: Liegenschaften
+    readonly: 1
+    featuretype: liegenschaften_lineattrib3
+    key: ogc_fid
+  - title:
+      de: ProjBergwerk (geometrie)
+      fr: ProjBergwerk (geometrie)_fr
+    style: ''
+    geom: geometrie
+    group: Liegenschaften
+    readonly: 1
+    featuretype: liegenschaften_projbergwerk
+    key: ogc_fid
+  - title:
+      de: Grundstueck
+      fr: Grundstueck_fr
+    style: ''
+    group: Liegenschaften
+    readonly: 1
+    featuretype: liegenschaften_grundstueck
+    key: ogc_fid
+  - title:
+      de: GrundstueckPos (pos)
+      fr: GrundstueckPos (pos)_fr
+    style: ''
+    geom: pos
+    group: Liegenschaften
+    readonly: 1
+    featuretype: liegenschaften_grundstueckpos
+    key: ogc_fid
+  - title:
+      de: GrundstueckPos (hilfslinie)
+      fr: GrundstueckPos (hilfslinie)_fr
+    style: ''
+    geom: hilfslinie
+    group: Liegenschaften
+    readonly: 1
+    featuretype: liegenschaften_grundstueckpos
+    key: ogc_fid
+  - title:
+      de: LineAttrib4
+      fr: LineAttrib4_fr
+    style: ''
+    group: Liegenschaften
+    readonly: 1
+    featuretype: liegenschaften_lineattrib4
+    key: ogc_fid
+  - title:
+      de: Liegenschaft (geometrie)
+      fr: Liegenschaft (geometrie)_fr
+    style: ''
+    geom: geometrie
+    group: Liegenschaften
+    readonly: 1
+    featuretype: liegenschaften_liegenschaft
+    key: ogc_fid
+  - title:
+      de: LineAttrib5
+      fr: LineAttrib5_fr
+    style: ''
+    group: Liegenschaften
+    readonly: 1
+    featuretype: liegenschaften_lineattrib5
+    key: ogc_fid
+  - title:
+      de: SelbstRecht (geometrie)
+      fr: SelbstRecht (geometrie)_fr
+    style: ''
+    geom: geometrie
+    group: Liegenschaften
+    readonly: 1
+    featuretype: liegenschaften_selbstrecht
+    key: ogc_fid
+  - title:
+      de: LineAttrib6
+      fr: LineAttrib6_fr
+    style: ''
+    group: Liegenschaften
+    readonly: 1
+    featuretype: liegenschaften_lineattrib6
+    key: ogc_fid
+  - title:
+      de: Bergwerk (geometrie)
+      fr: Bergwerk (geometrie)_fr
+    style: ''
+    geom: geometrie
+    group: Liegenschaften
+    readonly: 1
+    featuretype: liegenschaften_bergwerk
+    key: ogc_fid
+  topic:
+    de: Liegenschaften
+    fr: Liegenschaften_fr
+  title: Liegenschaften
+  group: Liegenschaften
+- tables:
+  - title:
+      de: RLNachfuehrung (perimeter)
+      fr: RLNachfuehrung (perimeter)_fr
+    style: ''
+    geom: perimeter
+    group: Rohrleitungen
+    readonly: 1
+    featuretype: rohrleitungen_rlnachfuehrung
+    key: ogc_fid
+  - title:
+      de: Leitungsobjekt
+      fr: Leitungsobjekt_fr
+    style: ''
+    group: Rohrleitungen
+    readonly: 1
+    featuretype: rohrleitungen_leitungsobjekt
+    key: ogc_fid
+  - title:
+      de: LeitungsobjektPos (pos)
+      fr: LeitungsobjektPos (pos)_fr
+    style: ''
+    geom: pos
+    group: Rohrleitungen
+    readonly: 1
+    featuretype: rohrleitungen_leitungsobjektpos
+    key: ogc_fid
+  - title:
+      de: LineAttrib7
+      fr: LineAttrib7_fr
+    style: ''
+    group: Rohrleitungen
+    readonly: 1
+    featuretype: rohrleitungen_lineattrib7
+    key: ogc_fid
+  - title:
+      de: Flaechenelement (geometrie)
+      fr: Flaechenelement (geometrie)_fr
+    style: ''
+    geom: geometrie
+    group: Rohrleitungen
+    readonly: 1
+    featuretype: rohrleitungen_flaechenelement
+    key: ogc_fid
+  - title:
+      de: Linienelement (geometrie)
+      fr: Linienelement (geometrie)_fr
+    style: ''
+    geom: geometrie
+    group: Rohrleitungen
+    readonly: 1
+    featuretype: rohrleitungen_linienelement
+    key: ogc_fid
+  - title:
+      de: Punktelement (geometrie)
+      fr: Punktelement (geometrie)_fr
+    style: ''
+    geom: geometrie
+    group: Rohrleitungen
+    readonly: 1
+    featuretype: rohrleitungen_punktelement
+    key: ogc_fid
+  - title:
+      de: Signalpunkt (geometrie)
+      fr: Signalpunkt (geometrie)_fr
+    style: ''
+    geom: geometrie
+    group: Rohrleitungen
+    readonly: 1
+    featuretype: rohrleitungen_signalpunkt
+    key: ogc_fid
+  - title:
+      de: SignalpunktPos (pos)
+      fr: SignalpunktPos (pos)_fr
+    style: ''
+    geom: pos
+    group: Rohrleitungen
+    readonly: 1
+    featuretype: rohrleitungen_signalpunktpos
+    key: ogc_fid
+  - title:
+      de: Einzelpunkt (geometrie)
+      fr: Einzelpunkt (geometrie)_fr
+    style: ''
+    geom: geometrie
+    group: Rohrleitungen
+    readonly: 1
+    featuretype: rohrleitungen_einzelpunkt
+    key: ogc_fid
+  - title:
+      de: EinzelpunktPos (pos)
+      fr: EinzelpunktPos (pos)_fr
+    style: ''
+    geom: pos
+    group: Rohrleitungen
+    readonly: 1
+    featuretype: rohrleitungen_einzelpunktpos
+    key: ogc_fid
+  topic:
+    de: Rohrleitungen
+    fr: Rohrleitungen_fr
+  title: Rohrleitungen
+  group: Rohrleitungen
+- tables:
+  - title:
+      de: Nummerierungsbereich
+      fr: Nummerierungsbereich_fr
+    style: ''
+    group: Nummerierungsbereiche
+    readonly: 1
+    featuretype: nummerierungsbereiche_nummerierungsbereich
+    key: ogc_fid
+  - title:
+      de: NBGeometrie (geometrie)
+      fr: NBGeometrie (geometrie)_fr
+    style: ''
+    geom: geometrie
+    group: Nummerierungsbereiche
+    readonly: 1
+    featuretype: nummerierungsbereiche_nbgeometrie
+    key: ogc_fid
+  - title:
+      de: NummerierungsbereichPos (pos)
+      fr: NummerierungsbereichPos (pos)_fr
+    style: ''
+    geom: pos
+    group: Nummerierungsbereiche
+    readonly: 1
+    featuretype: nummerierungsbereiche_nummerierungsbereichpos
+    key: ogc_fid
+  topic:
+    de: Nummerierungsbereiche
+    fr: Nummerierungsbereiche_fr
+  title: Nummerierungsbereiche
+  group: Nummerierungsbereiche
+- tables:
+  - title:
+      de: GEMNachfuehrung (perimeter)
+      fr: GEMNachfuehrung (perimeter)_fr
+    style: ''
+    geom: perimeter
+    group: Gemeindegrenzen
+    readonly: 1
+    featuretype: gemeindegrenzen_gemnachfuehrung
+    key: ogc_fid
+  - title:
+      de: Hoheitsgrenzpunkt (geometrie)
+      fr: Hoheitsgrenzpunkt (geometrie)_fr
+    style: ''
+    geom: geometrie
+    group: Gemeindegrenzen
+    readonly: 1
+    featuretype: gemeindegrenzen_hoheitsgrenzpunkt
+    key: ogc_fid
+  - title:
+      de: HoheitsgrenzpunktPos (pos)
+      fr: HoheitsgrenzpunktPos (pos)_fr
+    style: ''
+    geom: pos
+    group: Gemeindegrenzen
+    readonly: 1
+    featuretype: gemeindegrenzen_hoheitsgrenzpunktpos
+    key: ogc_fid
+  - title:
+      de: HoheitsgrenzpunktSymbol
+      fr: HoheitsgrenzpunktSymbol_fr
+    style: ''
+    group: Gemeindegrenzen
+    readonly: 1
+    featuretype: gemeindegrenzen_hoheitsgrenzpunktsymbol
+    key: ogc_fid
+  - title:
+      de: Gemeinde
+      fr: Gemeinde_fr
+    style: ''
+    group: Gemeindegrenzen
+    readonly: 1
+    featuretype: gemeindegrenzen_gemeinde
+    key: ogc_fid
+  - title:
+      de: ProjGemeindegrenze (geometrie)
+      fr: ProjGemeindegrenze (geometrie)_fr
+    style: ''
+    geom: geometrie
+    group: Gemeindegrenzen
+    readonly: 1
+    featuretype: gemeindegrenzen_projgemeindegrenze
+    key: ogc_fid
+  - title:
+      de: LineAttrib8
+      fr: LineAttrib8_fr
+    style: ''
+    group: Gemeindegrenzen
+    readonly: 1
+    featuretype: gemeindegrenzen_lineattrib8
+    key: ogc_fid
+  - title:
+      de: Gemeindegrenze (geometrie)
+      fr: Gemeindegrenze (geometrie)_fr
+    style: ''
+    geom: geometrie
+    group: Gemeindegrenzen
+    readonly: 1
+    featuretype: gemeindegrenzen_gemeindegrenze
+    key: ogc_fid
+  topic:
+    de: Gemeindegrenzen
+    fr: Gemeindegrenzen_fr
+  title: Gemeindegrenzen
+  group: Gemeindegrenzen
+- tables:
+  - title:
+      de: Bezirksgrenzabschnitt (geometrie)
+      fr: Bezirksgrenzabschnitt (geometrie)_fr
+    style: ''
+    geom: geometrie
+    group: Bezirksgrenzen
+    readonly: 1
+    featuretype: bezirksgrenzen_bezirksgrenzabschnitt
+    key: ogc_fid
+  topic:
+    de: Bezirksgrenzen
+    fr: Bezirksgrenzen_fr
+  title: Bezirksgrenzen
+  group: Bezirksgrenzen
+- tables:
+  - title:
+      de: Kantonsgrenzabschnitt (geometrie)
+      fr: Kantonsgrenzabschnitt (geometrie)_fr
+    style: ''
+    geom: geometrie
+    group: Kantonsgrenzen
+    readonly: 1
+    featuretype: kantonsgrenzen_kantonsgrenzabschnitt
+    key: ogc_fid
+  topic:
+    de: Kantonsgrenzen
+    fr: Kantonsgrenzen_fr
+  title: Kantonsgrenzen
+  group: Kantonsgrenzen
+- tables:
+  - title:
+      de: Landesgrenzabschnitt (geometrie)
+      fr: Landesgrenzabschnitt (geometrie)_fr
+    style: ''
+    geom: geometrie
+    group: Landesgrenzen
+    readonly: 1
+    featuretype: landesgrenzen_landesgrenzabschnitt
+    key: ogc_fid
+  topic:
+    de: Landesgrenzen
+    fr: Landesgrenzen_fr
+  title: Landesgrenzen
+  group: Landesgrenzen
+- tables:
+  - title:
+      de: Plan
+      fr: Plan_fr
+    style: ''
+    group: Planeinteilungen
+    readonly: 1
+    featuretype: planeinteilungen_plan
+    key: ogc_fid
+  - title:
+      de: Plangeometrie (geometrie)
+      fr: Plangeometrie (geometrie)_fr
+    style: ''
+    geom: geometrie
+    group: Planeinteilungen
+    readonly: 1
+    featuretype: planeinteilungen_plangeometrie
+    key: ogc_fid
+  - title:
+      de: PlanPos (pos)
+      fr: PlanPos (pos)_fr
+    style: ''
+    geom: pos
+    group: Planeinteilungen
+    readonly: 1
+    featuretype: planeinteilungen_planpos
+    key: ogc_fid
+  topic:
+    de: Planeinteilungen
+    fr: Planeinteilungen_fr
+  title: Planeinteilungen
+  group: Planeinteilungen
+- tables:
+  - title:
+      de: Toleranzstufe (geometrie)
+      fr: Toleranzstufe (geometrie)_fr
+    style: ''
+    geom: geometrie
+    group: TSEinteilung
+    readonly: 1
+    featuretype: tseinteilung_toleranzstufe
+    key: ogc_fid
+  - title:
+      de: ToleranzstufePos (pos)
+      fr: ToleranzstufePos (pos)_fr
+    style: ''
+    geom: pos
+    group: TSEinteilung
+    readonly: 1
+    featuretype: tseinteilung_toleranzstufepos
+    key: ogc_fid
+  topic:
+    de: TSEinteilung
+    fr: TSEinteilung_fr
+  title: TSEinteilung
+  group: TSEinteilung
+- tables:
+  - title:
+      de: Rutschung (geometrie)
+      fr: Rutschung (geometrie)_fr
+    style: ''
+    geom: geometrie
+    group: Rutschgebiete
+    readonly: 1
+    featuretype: rutschgebiete_rutschung
+    key: ogc_fid
+  - title:
+      de: RutschungPos (pos)
+      fr: RutschungPos (pos)_fr
+    style: ''
+    geom: pos
+    group: Rutschgebiete
+    readonly: 1
+    featuretype: rutschgebiete_rutschungpos
+    key: ogc_fid
+  topic:
+    de: Rutschgebiete
+    fr: Rutschgebiete_fr
+  title: Rutschgebiete
+  group: Rutschgebiete
+- tables:
+  - title:
+      de: OSNachfuehrung (perimeter)
+      fr: OSNachfuehrung (perimeter)_fr
+    style: ''
+    geom: perimeter
+    group: PLZOrtschaft
+    readonly: 1
+    featuretype: plzortschaft_osnachfuehrung
+    key: ogc_fid
+  - title:
+      de: OrtschaftsVerbund
+      fr: OrtschaftsVerbund_fr
+    style: ''
+    group: PLZOrtschaft
+    readonly: 1
+    featuretype: plzortschaft_ortschaftsverbund
+    key: ogc_fid
+  - title:
+      de: OrtschaftsVerbundText
+      fr: OrtschaftsVerbundText_fr
+    style: ''
+    group: PLZOrtschaft
+    readonly: 1
+    featuretype: plzortschaft_ortschaftsverbundtext
+    key: ogc_fid
+  - title:
+      de: Ortschaft (flaeche)
+      fr: Ortschaft (flaeche)_fr
+    style: ''
+    geom: flaeche
+    group: PLZOrtschaft
+    readonly: 1
+    featuretype: plzortschaft_ortschaft
+    key: ogc_fid
+  - title:
+      de: OrtschaftsName
+      fr: OrtschaftsName_fr
+    style: ''
+    group: PLZOrtschaft
+    readonly: 1
+    featuretype: plzortschaft_ortschaftsname
+    key: ogc_fid
+  - title:
+      de: OrtschaftsName_Pos (pos)
+      fr: OrtschaftsName_Pos (pos)_fr
+    style: ''
+    geom: pos
+    group: PLZOrtschaft
+    readonly: 1
+    featuretype: plzortschaft_ortschaftsname_pos
+    key: ogc_fid
+  - title:
+      de: PLZ6Nachfuehrung (perimeter)
+      fr: PLZ6Nachfuehrung (perimeter)_fr
+    style: ''
+    geom: perimeter
+    group: PLZOrtschaft
+    readonly: 1
+    featuretype: plzortschaft_plz6nachfuehrung
+    key: ogc_fid
+  - title:
+      de: PLZ6 (flaeche)
+      fr: PLZ6 (flaeche)_fr
+    style: ''
+    geom: flaeche
+    group: PLZOrtschaft
+    readonly: 1
+    featuretype: plzortschaft_plz6
+    key: ogc_fid
+  topic:
+    de: PLZOrtschaft
+    fr: PLZOrtschaft_fr
+  title: PLZOrtschaft
+  group: PLZOrtschaft
+- tables:
+  - title:
+      de: GEBNachfuehrung (perimeter)
+      fr: GEBNachfuehrung (perimeter)_fr
+    style: ''
+    geom: perimeter
+    group: Gebaeudeadressen
+    readonly: 1
+    featuretype: gebaeudeadressen_gebnachfuehrung
+    key: ogc_fid
+  - title:
+      de: Lokalisation
+      fr: Lokalisation_fr
+    style: ''
+    group: Gebaeudeadressen
+    readonly: 1
+    featuretype: gebaeudeadressen_lokalisation
+    key: ogc_fid
+  - title:
+      de: LokalisationsName
+      fr: LokalisationsName_fr
+    style: ''
+    group: Gebaeudeadressen
+    readonly: 1
+    featuretype: gebaeudeadressen_lokalisationsname
+    key: ogc_fid
+  - title:
+      de: LokalisationsNamePos (pos)
+      fr: LokalisationsNamePos (pos)_fr
+    style: ''
+    geom: pos
+    group: Gebaeudeadressen
+    readonly: 1
+    featuretype: gebaeudeadressen_lokalisationsnamepos
+    key: ogc_fid
+  - title:
+      de: LokalisationsNamePos (hilfslinie)
+      fr: LokalisationsNamePos (hilfslinie)_fr
+    style: ''
+    geom: hilfslinie
+    group: Gebaeudeadressen
+    readonly: 1
+    featuretype: gebaeudeadressen_lokalisationsnamepos
+    key: ogc_fid
+  - title:
+      de: BenanntesGebiet (flaeche)
+      fr: BenanntesGebiet (flaeche)_fr
+    style: ''
+    geom: flaeche
+    group: Gebaeudeadressen
+    readonly: 1
+    featuretype: gebaeudeadressen_benanntesgebiet
+    key: ogc_fid
+  - title:
+      de: Strassenstueck (geometrie)
+      fr: Strassenstueck (geometrie)_fr
+    style: ''
+    geom: geometrie
+    group: Gebaeudeadressen
+    readonly: 1
+    featuretype: gebaeudeadressen_strassenstueck
+    key: ogc_fid
+  - title:
+      de: Strassenstueck (anfangspunkt)
+      fr: Strassenstueck (anfangspunkt)_fr
+    style: ''
+    geom: anfangspunkt
+    group: Gebaeudeadressen
+    readonly: 1
+    featuretype: gebaeudeadressen_strassenstueck
+    key: ogc_fid
+  - title:
+      de: Gebaeudeeingang (lage)
+      fr: Gebaeudeeingang (lage)_fr
+    style: ''
+    geom: lage
+    group: Gebaeudeadressen
+    readonly: 1
+    featuretype: gebaeudeadressen_gebaeudeeingang
+    key: ogc_fid
+  - title:
+      de: HausnummerPos (pos)
+      fr: HausnummerPos (pos)_fr
+    style: ''
+    geom: pos
+    group: Gebaeudeadressen
+    readonly: 1
+    featuretype: gebaeudeadressen_hausnummerpos
+    key: ogc_fid
+  - title:
+      de: GebaeudeName
+      fr: GebaeudeName_fr
+    style: ''
+    group: Gebaeudeadressen
+    readonly: 1
+    featuretype: gebaeudeadressen_gebaeudename
+    key: ogc_fid
+  - title:
+      de: GebaeudeNamePos (pos)
+      fr: GebaeudeNamePos (pos)_fr
+    style: ''
+    geom: pos
+    group: Gebaeudeadressen
+    readonly: 1
+    featuretype: gebaeudeadressen_gebaeudenamepos
+    key: ogc_fid
+  - title:
+      de: GebaeudeNamePos (hilfslinie)
+      fr: GebaeudeNamePos (hilfslinie)_fr
+    style: ''
+    geom: hilfslinie
+    group: Gebaeudeadressen
+    readonly: 1
+    featuretype: gebaeudeadressen_gebaeudenamepos
+    key: ogc_fid
+  - title:
+      de: GebaeudeBeschreibung
+      fr: GebaeudeBeschreibung_fr
+    style: ''
+    group: Gebaeudeadressen
+    readonly: 1
+    featuretype: gebaeudeadressen_gebaeudebeschreibung
+    key: ogc_fid
+  topic:
+    de: Gebaeudeadressen
+    fr: Gebaeudeadressen_fr
+  title: Gebaeudeadressen
+  group: Gebaeudeadressen
+- tables:
+  - title:
+      de: PlanLayout (plannullpunkt)
+      fr: PlanLayout (plannullpunkt)_fr
+    style: ''
+    geom: plannullpunkt
+    group: Planrahmen
+    readonly: 1
+    featuretype: planrahmen_planlayout
+    key: ogc_fid
+  - title:
+      de: PlanLayout (uebersichtplannullpunkt)
+      fr: PlanLayout (uebersichtplannullpunkt)_fr
+    style: ''
+    geom: uebersichtplannullpunkt
+    group: Planrahmen
+    readonly: 1
+    featuretype: planrahmen_planlayout
+    key: ogc_fid
+  - title:
+      de: Planbeschriftung
+      fr: Planbeschriftung_fr
+    style: ''
+    group: Planrahmen
+    readonly: 1
+    featuretype: planrahmen_planbeschriftung
+    key: ogc_fid
+  - title:
+      de: PlanbeschriftungPos (pos)
+      fr: PlanbeschriftungPos (pos)_fr
+    style: ''
+    geom: pos
+    group: Planrahmen
+    readonly: 1
+    featuretype: planrahmen_planbeschriftungpos
+    key: ogc_fid
+  - title:
+      de: Koordinatenanschrift
+      fr: Koordinatenanschrift_fr
+    style: ''
+    group: Planrahmen
+    readonly: 1
+    featuretype: planrahmen_koordinatenanschrift
+    key: ogc_fid
+  - title:
+      de: KoordinatenanschriftPos (pos)
+      fr: KoordinatenanschriftPos (pos)_fr
+    style: ''
+    geom: pos
+    group: Planrahmen
+    readonly: 1
+    featuretype: planrahmen_koordinatenanschriftpos
+    key: ogc_fid
+  - title:
+      de: Linienobjekt (geometrie)
+      fr: Linienobjekt (geometrie)_fr
+    style: ''
+    geom: geometrie
+    group: Planrahmen
+    readonly: 1
+    featuretype: planrahmen_linienobjekt
+    key: ogc_fid
+  - title:
+      de: KoordinatenLinie (geometrie)
+      fr: KoordinatenLinie (geometrie)_fr
+    style: ''
+    geom: geometrie
+    group: Planrahmen
+    readonly: 1
+    featuretype: planrahmen_koordinatenlinie
+    key: ogc_fid
+  - title:
+      de: Darstellungsflaeche (geometrie)
+      fr: Darstellungsflaeche (geometrie)_fr
+    style: ''
+    geom: geometrie
+    group: Planrahmen
+    readonly: 1
+    featuretype: planrahmen_darstellungsflaeche
+    key: ogc_fid
+  - title:
+      de: PlanLayoutSymbol (pos)
+      fr: PlanLayoutSymbol (pos)_fr
+    style: ''
+    geom: pos
+    group: Planrahmen
+    readonly: 1
+    featuretype: planrahmen_planlayoutsymbol
+    key: ogc_fid
+  - title:
+      de: Netzkreuz (pos)
+      fr: Netzkreuz (pos)_fr
+    style: ''
+    geom: pos
+    group: Planrahmen
+    readonly: 1
+    featuretype: planrahmen_netzkreuz
+    key: ogc_fid
+  topic:
+    de: Planrahmen
+    fr: Planrahmen_fr
+  title: Planrahmen
+  group: Planrahmen
+model: DM01AVCH24D
+

@@ -8,6 +8,8 @@
      (at your option) any later version.
 
 """
+from __future__ import absolute_import
+
 __author__ = 'tim@linfiniti.com'
 __date__ = '20/01/2011'
 __copyright__ = ('Copyright 2012, Australia Indonesia Facility for '
@@ -20,7 +22,8 @@ from qgis.core import (
     QgsCoordinateReferenceSystem,
     QgsRasterLayer)
 
-from utilities import get_qgis_app
+from .utilities import get_qgis_app
+
 QGIS_APP = get_qgis_app()
 
 
@@ -55,6 +58,7 @@ class QGISTest(unittest.TestCase):
         layer = QgsRasterLayer(path, title)
         auth_id = layer.crs().authid()
         self.assertEqual(auth_id, expected_auth_id)
+
 
 if __name__ == '__main__':
     unittest.main()

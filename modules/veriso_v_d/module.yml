@@ -1,0 +1,9 @@
+---
+displayname: VeriSO (V+D)
+ilimodels:
+- ilimodel: DM01AVCH24D
+  referenceframe: LV03
+  epsg: '21781'
+- ilimodel: DM01AVCH24LV95D
+  referenceframe: LV95
+  epsg: '2056'

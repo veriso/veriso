@@ -1,0 +1,17 @@
+---
+baselayer:
+- type: wms
+  title:
+    de: Orthofoto (RGB)
+    fr: Orthophoto (RGB)
+  url: http://www.catais.org/wms/orthofoto_aktuell
+  layers: ch.so.agi.orthofoto
+  format: image/jpeg
+- type: wms
+  title:
+    de: Orthofoto (CIR)
+    fr: Orthophoto (CIR)
+  url: http://www.catais.org/wms/orthofoto_aktuell
+  layers: ch.so.agi.orthofoto.cir
+  format: image/jpeg
+

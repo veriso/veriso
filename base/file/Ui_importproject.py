@@ -1,29 +1,44 @@
-# -*- coding: utf-8 -*-
-
-# Form implementation generated from reading ui file 'base/file/Ui_importproject.ui'
-#
-# Created: Mon Apr  6 09:15:37 2015
-#      by: PyQt4 UI code generator 4.10.4
-#
-# WARNING! All changes made in this file will be lost!
-
-from PyQt4 import QtCore, QtGui
+# coding=utf-8
+from builtins import object
+from qgis.PyQt import QtCore, QtGui
 
 try:
     _fromUtf8 = QtCore.QString.fromUtf8
 except AttributeError:
+    # noinspection PyPep8Naming
     def _fromUtf8(s):
         return s
 
 try:
     _encoding = QtGui.QApplication.UnicodeUTF8
+
+
     def _translate(context, text, disambig):
         return QtGui.QApplication.translate(context, text, disambig, _encoding)
 except AttributeError:
     def _translate(context, text, disambig):
         return QtGui.QApplication.translate(context, text, disambig)
 
+
+# noinspection PyAttributeOutsideInit,PyAttributeOutsideInit,
+# PyAttributeOutsideInit
+# noinspection PyAttributeOutsideInit,PyAttributeOutsideInit,
+# PyAttributeOutsideInit
+# noinspection PyAttributeOutsideInit,PyAttributeOutsideInit,
+# PyAttributeOutsideInit
+# noinspection PyAttributeOutsideInit,PyAttributeOutsideInit,
+# PyAttributeOutsideInit
+# noinspection PyAttributeOutsideInit,PyAttributeOutsideInit,
+# PyAttributeOutsideInit
+# noinspection PyAttributeOutsideInit,PyAttributeOutsideInit,
+# PyAttributeOutsideInit
+# noinspection PyAttributeOutsideInit,PyAttributeOutsideInit,
+# PyAttributeOutsideInit
+# noinspection PyAttributeOutsideInit,PyAttributeOutsideInit,
+# PyAttributeOutsideInit
+# noinspection PyAttributeOutsideInit,PyPep8Naming
 class Ui_ImportProject(object):
+    # noinspection PyPep8Naming,PyPep8Naming
     def setupUi(self, ImportProject):
         ImportProject.setObjectName(_fromUtf8("ImportProject"))
         ImportProject.resize(480, 596)
@@ -31,7 +46,8 @@ class Ui_ImportProject(object):
         self.gridLayout.setObjectName(_fromUtf8("gridLayout"))
         self.buttonBox = QtGui.QDialogButtonBox(ImportProject)
         self.buttonBox.setOrientation(QtCore.Qt.Horizontal)
-        self.buttonBox.setStandardButtons(QtGui.QDialogButtonBox.Close|QtGui.QDialogButtonBox.Ok)
+        self.buttonBox.setStandardButtons(
+                QtGui.QDialogButtonBox.Close | QtGui.QDialogButtonBox.Ok)
         self.buttonBox.setObjectName(_fromUtf8("buttonBox"))
         self.gridLayout.addWidget(self.buttonBox, 1, 0, 1, 1)
         self.groupBox = QtGui.QGroupBox(ImportProject)
@@ -106,7 +122,8 @@ class Ui_ImportProject(object):
         self.textEditImportOutput.setLayoutDirection(QtCore.Qt.LeftToRight)
         self.textEditImportOutput.setLineWrapMode(QtGui.QPlainTextEdit.NoWrap)
         self.textEditImportOutput.setReadOnly(True)
-        self.textEditImportOutput.setObjectName(_fromUtf8("textEditImportOutput"))
+        self.textEditImportOutput.setObjectName(
+                _fromUtf8("textEditImportOutput"))
         self.verticalLayout.addWidget(self.textEditImportOutput)
         self.gridLayout_2.addLayout(self.verticalLayout, 2, 0, 1, 1)
         self.verticalLayout_2 = QtGui.QVBoxLayout()
@@ -121,21 +138,31 @@ class Ui_ImportProject(object):
         self.gridLayout.addWidget(self.groupBox, 0, 0, 1, 1)
 
         self.retranslateUi(ImportProject)
-        QtCore.QObject.connect(self.buttonBox, QtCore.SIGNAL(_fromUtf8("accepted()")), ImportProject.accept)
-        QtCore.QObject.connect(self.buttonBox, QtCore.SIGNAL(_fromUtf8("rejected()")), ImportProject.reject)
+        QtCore.QObject.connect(self.buttonBox,
+                               QtCore.SIGNAL(_fromUtf8("accepted()")),
+                               ImportProject.accept)
+        QtCore.QObject.connect(self.buttonBox,
+                               QtCore.SIGNAL(_fromUtf8("rejected()")),
+                               ImportProject.reject)
         QtCore.QMetaObject.connectSlotsByName(ImportProject)
 
+    # noinspection PyPep8Naming,PyPep8Naming
     def retranslateUi(self, ImportProject):
-        ImportProject.setWindowTitle(_translate("ImportProject", "Import Project", None))
-        self.groupBox.setTitle(_translate("ImportProject", "Import data ", None))
+        ImportProject.setWindowTitle(
+                _translate("ImportProject", "Import Project", None))
+        self.groupBox.setTitle(
+                _translate("ImportProject", "Import data ", None))
         self.label.setText(_translate("ImportProject", "Input file: ", None))
-        self.btnBrowseInputFile.setText(_translate("ImportProject", "Browse", None))
-        self.lblProjectName.setText(_translate("ImportProject", "Project name: ", None))
+        self.btnBrowseInputFile.setText(
+                _translate("ImportProject", "Browse", None))
+        self.lblProjectName.setText(
+                _translate("ImportProject", "Project name: ", None))
         self.btnProjectName.setText(_translate("ImportProject", "Check", None))
         self.label_3.setText(_translate("ImportProject", "Date: ", None))
-        self.label_5.setText(_translate("ImportProject", "Reference frame: ", None))
-        self.label_6.setText(_translate("ImportProject", "Application module: ", None))
+        self.label_5.setText(
+                _translate("ImportProject", "Reference frame: ", None))
+        self.label_6.setText(
+                _translate("ImportProject", "Application module: ", None))
         self.label_7.setText(_translate("ImportProject", "Model name: ", None))
         self.label_4.setText(_translate("ImportProject", "Output:", None))
         self.label_2.setText(_translate("ImportProject", "Notes:", None))
-

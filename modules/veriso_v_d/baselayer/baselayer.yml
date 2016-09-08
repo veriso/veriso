@@ -1,0 +1,95 @@
+---
+baselayer:
+- type: wms
+  title:
+    de: Orthofoto (RGB)
+    fr: Orthophoto (RGB)
+  url: http://www.catais.org/wms/orthofoto_aktuell
+  layers: ch.so.agi.orthofoto
+  format: image/jpeg
+- type: wms
+  title:
+    de: Orthofoto (CIR)
+    fr: Orthophoto (CIR)
+  url: http://www.catais.org/wms/orthofoto_aktuell
+  layers: ch.so.agi.orthofoto.cir
+  format: image/jpeg
+- type: wms
+  title:
+    de: Orthofoto (NDVI)
+    fr: Orthophoto (NDVI)
+  url: http://www.catais.org/wms/orthofoto_aktuell
+  layers: ch.so.agi.orthofoto.ndvi
+  format: image/jpeg
+- type: wmts
+  title: DTM-Relief (2014) - WMTS Beispiel
+  url: http://www.catais.org/mapcache/
+  layers: ch.so.agi.hoehen.dtm.relief.2014
+  tilematrixset: ch.so.agi.hoehen.dtm.relief.2014-wmsc-10
+  format: image/png
+- type: wms
+  title:
+    de: Plan für das Grundbuch (farbig)
+    fr: Plan du registre foncier (coloré)
+  url: http://www.catais.org/wms/grundbuchplan-nf
+  layers: Amtliche Vermessung (farbig)
+  format: image/jpeg
+- type: wms
+  title:
+    de: Plan für das Grundbuch (grau)
+    fr: Plan du registre foncier (gris)
+  url: http://www.catais.org/wms/grundbuchplan_grau
+  layers: Amtliche Vermessung (grau)
+  format: image/jpeg
+- type: wms
+  title:
+    de: Plan für das Grundbuch (schwarz-weiss)
+    fr: Plan du registre foncier (noir et blanc)
+  url: http://www.catais.org/wms/grundbuchplan
+  layers: Amtliche Vermessung (schwarz-weiss)
+  format: image/jpeg
+- type: wms
+  title: AV-WMS (farbig)
+  url: http://www.catais.org/wms/avwms
+  layers: AVWMS_farbig
+  format: image/jpeg
+- type: wms
+  title: AV-WMS (schwarz-weiss)
+  url: http://www.catais.org/wms/avwms
+  layers: AVWMS_sw
+  format: image/jpeg
+- type: wms
+  title: AV-WMS V+D (farbig)
+  url: http://WMS_SO:TkBT@geodata01.admin.ch/SWMS
+  layers: av_wms
+  format: image/jpeg
+- type: wms
+  title: Basisplan 1:5000 (schwarz-weiss)
+  url: http://www.sogis1.so.ch/cgi-bin/sogis/sogis_bpav.wms
+  layers: bpav5000sw
+  format: image/jpeg
+- type: wms
+  title:
+    de: Basisplan 1:5000 (grau)
+    fr: 'Plan de base 1: 5000 (gris)'
+  url: http://www.sogis1.so.ch/cgi-bin/sogis/sogis_bpav.wms
+  layers: bpav5000sw_grau
+  format: image/jpeg
+- type: postgres
+  title: PostgreSQL Test (NOT WORKING / Temporaer)
+  params:
+    dbhost: localhost
+    dbport: 5432
+    dbname: veriso_test
+    dbschema: test1
+    dbuser: veriso_user
+    dbpwd: veriso_user
+    dbadmin: ''
+    dbadminpwd: ''
+  featuretype: bodenbedeckung_boflaeche
+  geom: geometrie
+  key: ogc_fid
+  sql: ''
+  readonly: 1
+  style: test/test_poly.qml
+
