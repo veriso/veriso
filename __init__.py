@@ -35,6 +35,7 @@ def classFactory(iface):  # pylint: disable=invalid-name
     :param iface: A QGIS interface instance.
     :type iface: QgsInterface
     """
+
     plugin_name = os.path.dirname(__file__).split(os.path.sep)[-1]
     plugin_name = qgis.utils.pluginMetadata(plugin_name, 'name')
     try:

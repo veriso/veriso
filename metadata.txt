@@ -8,9 +8,9 @@
 
 [general]
 name=VeriSO
-qgisMinimumVersion=2.5
+qgisMinimumVersion=2.8
 description=Verification application module for Interlis data.
-version=0.2
+version=0.2.1
 author=Stefan Ziegler and OPENGIS.ch
 email=info@opengis.ch
 
