@@ -471,9 +471,9 @@ class ImportProjectDialog(QDialog, Ui_ImportProject):
         error = self.process.readAllStandardError()
         self.show_output(error)
 
-    def show_output(self, text):
-        text = str(text, encoding='utf-8')
-        self.report_progress(text)
+    def show_output(self, byte_array):
+        unicode_text = byte_array.data().decode('utf-8')
+        self.report_progress(unicode_text)
 
     def finish_import(self, exit_code):
         """
