@@ -472,12 +472,7 @@ class ImportProjectDialog(QDialog, Ui_ImportProject):
         self.show_output(error)
 
     def show_output(self, text):
-        text = str(text, encoding='ascii')
-        # try:
-        #    text = str(text)
-        # except UnicodeDecodeError:
-        #    #text = text.decode('utf-8')
-        #    text = str(text, encoding='ascii')
+        text = str(text, encoding='utf-8')
         self.report_progress(text)
 
     def finish_import(self, exit_code):
