@@ -132,7 +132,7 @@ class LoadLayer(QObject):
                 # *any* postgres layers.
                 try:
                     params = layer["params"]
-                    provider = "postgres"
+                    provider = layer["type"]
                     db_host = params["dbhost"]
                     db_port = str(params["dbport"])
                     db_name = params["dbname"]

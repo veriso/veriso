@@ -93,3 +93,20 @@ baselayer:
   readonly: 1
   style: test/test_poly.qml
 
+- type: postgres
+  title: AV - Nomenklatur Flurnamen
+  params:
+    dbhost: geodb-t.verw.rootso.org
+    dbport: 5432
+    dbname: sogis
+    dbschema: avdpool
+    dbuser: mspublic
+    dbpwd: foo
+    dbadmin: barpastu
+    dbadminpwd: bar
+  featuretype: flurn
+  geom: wkb_geometry
+  key: ogc_fid
+  sql: 'archive=0 AND gem_bfs=2495'
+  readonly: 1
+  style: test/test_poly.qml
