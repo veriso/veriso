@@ -6,6 +6,7 @@ from qgis.core import QgsApplication, QgsDataSourceURI, QgsMapLayerRegistry, \
 
 from qgis.gui import QgsMessageBar
 
+from veriso.base.utils.exceptions import VerisoError
 from veriso.base.utils.utils import tr
 
 
@@ -131,18 +132,17 @@ class LoadLayer(QObject):
                 # *any* postgres layers.
                 try:
                     params = layer["params"]
-                    module_name = params["appmodule"]
-                    provider = params["provider"]
+                    provider = "postgres"
                     db_host = params["dbhost"]
-                    db_port = params["dbport"]
+                    db_port = str(params["dbport"])
                     db_name = params["dbname"]
                     db_schema = params["dbschema"]
                     db_user = params["dbuser"]
                     db_pwd = params["dbpwd"]
                     db_admin = params["dbadmin"]
                     db_admin_pwd = params["dbadminpwd"]
-                except:
-                    pass
+                except Exception as e:
+                    raise VerisoError(e, params)
 
                 uri = QgsDataSourceURI()
 
