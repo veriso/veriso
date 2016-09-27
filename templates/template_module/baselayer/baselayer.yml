@@ -4,14 +4,41 @@ baselayer:
   title:
     de: Orthofoto (RGB)
     fr: Orthophoto (RGB)
-  url: http://www.catais.org/wms/orthofoto_aktuell
-  layers: ch.so.agi.orthofoto
+  url: http://mydb.org/wms/orthofoto_aktuell
+  layers: ch.orthofoto
   format: image/jpeg
-- type: wms
+- type: wmts
   title:
     de: Orthofoto (CIR)
     fr: Orthophoto (CIR)
-  url: http://www.catais.org/wms/orthofoto_aktuell
-  layers: ch.so.agi.orthofoto.cir
+  url: http://mydb.org/wmts/orthofoto_aktuell
+  layers: ch.orthofoto.cir
   format: image/jpeg
 
+- type: postgres
+  title: AV - Nomenklatur Flurnamen
+  params:
+    dbhost: mydb.org
+    dbport: 5432
+    dbname: foodb
+    dbschema: fooschema
+    dbuser: foo
+    dbpwd: foo
+    dbadmin: bar
+    dbadminpwd: bar
+  featuretype: flurn
+  geom: wkb_geometry
+  key: ogc_fid
+  sql: 'archive=0 AND gem_bfs=2495'
+  readonly: 1
+  style: test/test_poly.qml
+
+- type: ogr
+  title: SHP Flurnamen
+  url: /home/marco/gis_test_data/qgis_sample_data/shapefiles/regions.shp
+  style: test/test_poly.qml
+
+- type: gdal
+  title: TIF Flurnamen
+  url: /home/marco/gis_test_data/qgis_sample_data/raster/SR_50M_alaska_nad.tif
+  style: test/test_poly.qml

@@ -161,7 +161,7 @@ class LoadLayer(QObject):
             # WMTS is a bit ugly since we need to know the tileMatrixSet:
             # Load layer manually in QGIS once an look for the tileMatrixSet
             # in the layer properties.
-            elif layer["type"] == "wms" or layer["type"] == "wmts":
+            elif layer["type"] in["wms", "wmts"]:
                 url = layer["url"]
                 title = layer["title"]
                 layers = layer["layers"]
@@ -212,6 +212,27 @@ class LoadLayer(QObject):
                           tilematrixset + "&url=" + url
 
                 my_layer = QgsRasterLayer(uri, title, "wms", False)
+
+            # local ogr and gdal formats
+            elif layer["type"] in ["gdal", "ogr"]:
+                title = layer["title"]
+                url = layer["url"]
+
+                try:
+                    style = str(layer["style"])
+                except:
+                    style = ""
+
+                try:
+                    group = str(layer["group"])
+                except:
+                    group = None
+
+                if layer["type"] == 'ogr':
+                    my_layer = QgsVectorLayer(url, title, layer["type"])
+                else:
+                    my_layer = QgsRasterLayer(url, title)
+
 
             else:
                 self.message_bar.pushMessage(
