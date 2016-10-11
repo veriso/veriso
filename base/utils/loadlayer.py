@@ -6,7 +6,6 @@ from qgis.core import QgsApplication, QgsDataSourceURI, QgsMapLayerRegistry, \
 
 from qgis.gui import QgsMessageBar
 
-from veriso.base.utils.exceptions import VerisoError
 from veriso.base.utils.utils import tr
 
 
@@ -141,8 +140,8 @@ class LoadLayer(QObject):
                     db_pwd = params["dbpwd"]
                     db_admin = params["dbadmin"]
                     db_admin_pwd = params["dbadminpwd"]
-                except Exception as e:
-                    raise VerisoError(e, params)
+                except:
+                    pass
 
                 uri = QgsDataSourceURI()
 
