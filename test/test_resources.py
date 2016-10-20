@@ -18,7 +18,8 @@ class VeriSOResourcesTest(unittest.TestCase):
         """Runs after each test."""
         pass
 
-    def test_icon_png(self):
+    # FIXME MB check and enable
+    def Xtest_icon_png(self):
         """Test we can click OK."""
         path = ':/plugins/VeriSO/icon.png'
         icon = QIcon(path)
