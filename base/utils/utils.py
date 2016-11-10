@@ -1,7 +1,6 @@
 # coding=utf-8
 import importlib
 import os
-import qgis.utils
 import yaml
 from builtins import next
 from collections import OrderedDict
@@ -279,30 +278,3 @@ def tr(message, context='VeriSO', disambig=None, encoding=None):
     if encoding is None:
         return QCoreApplication.translate(context, message, disambig)
     return QCoreApplication.translate(context, message, disambig, encoding)
-
-
-def check_compat():
-    plugin_name = os.path.dirname(__file__).split(os.path.sep)[-3]
-    plugin_name = qgis.utils.pluginMetadata(plugin_name, 'name')
-    try:
-        # qgis.PyQt is available in QGIS >=2.14
-        from qgis.PyQt.QtCore import qVersion
-        # qgis.utils.QGis is available in QGIS < 3
-        if hasattr(qgis.utils, 'QGis'):
-            import qgis2compat.apicompat
-            qgis2compat.log('apicompat used in %s' % plugin_name)
-    except ImportError:
-        try:
-            # we are in QGIS < 2.14
-            import qgis2compat
-            import qgis2compat.apicompat
-            qgis2compat.log('PyQt and apicompat used in %s' % plugin_name)
-        except ImportError:
-            import traceback
-            message = ('The Plugin %s uses the QGIS2compat plugin. '
-                       'Please install it with the plugin manager it and '
-                       'restart QGIS. For more information read '
-                       'http://opengis.ch/qgis2compat' %
-                       plugin_name)
-            traceback.print_exc()
-            raise ImportError(message)
