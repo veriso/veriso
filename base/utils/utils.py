@@ -252,6 +252,7 @@ def open_psql_db(db_host, db_name, db_port, db_admin, db_admin_pwd):
     except Exception as e:
         message = "Could not open psql database: %s" % connection_name
         message = tr(message)
+        # TODO add message when libqt4-sql-psql driver is not loaded
         raise VerisoError(message, e, db.lastError().text())
     return db
 
