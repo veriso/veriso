@@ -24,9 +24,9 @@ email=info@opengis.ch
 # Tags are comma separated with spaces allowed
 tags=
 
-homepage=https://github.org/opengisch/qgis_veriso/
-tracker=https://github.org/opengisch/qgis_veriso/issues
-repository=https://github.org/opengisch/qgis_veriso/overview
+homepage=https://github.org/opengisch/veriso/
+tracker=https://github.org/opengisch/veriso/issues
+repository=https://github.org/opengisch/veriso/overview
 icon=icon.png
 # experimental flag
 experimental=False
