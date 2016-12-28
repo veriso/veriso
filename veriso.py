@@ -25,7 +25,10 @@
 from __future__ import absolute_import
 
 import os.path
-from builtins import object, str
+try:
+    from builtins import object, str
+except ImportError:
+    raise ImportError('Please install the python future package')
 from qgis.PyQt.QtCore import QCoreApplication, QSettings, QTranslator, qVersion
 from qgis.PyQt.QtGui import QPalette
 from qgis.PyQt.QtWidgets import QAction, QMenu, QMenuBar, QSizePolicy
