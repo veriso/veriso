@@ -17,7 +17,7 @@ from qgis.gui import QgsMessageBar
 from veriso.base.utils.utils import (open_psql_db, open_sqlite_db,
                                      get_projects_db, get_modules_dir,
                                      yaml_load_file, tr,
-                                     get_subdirs)
+                                     get_subdirs, jre_version)
 from veriso.base.utils.exceptions import VerisoError
 
 from .Ui_importproject import Ui_ImportProject
@@ -392,6 +392,11 @@ class ImportProjectDialog(QDialog, Ui_ImportProject):
         if import_jar == "":
             self.message_bar.pushWarning("VeriSO",
                                          tr("No jar file set for import."))
+            return
+
+        if jre_version() is None:
+            self.message_bar.pushWarning("VeriSO",
+                                         tr("No java runtime detected."))
             return
 
         self.textEditImportOutput.clear()

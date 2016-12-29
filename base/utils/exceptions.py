@@ -22,9 +22,9 @@ class VerisoError(Exception):
         log_message = self.message
 
         if self.long_message is not None:
-            log_message = "\nDetails:\n %s" % self.long_message
+            log_message += "\nDetails:\n %s" % self.long_message
 
         if self.exception is not None:
-            log_message = "\nException:\n %s" % self.long_message
+            log_message += "\nException:\n %s" % str(self.exception)
 
         QgsMessageLog.logMessage(log_message, tag, QgsMessageLog.CRITICAL)

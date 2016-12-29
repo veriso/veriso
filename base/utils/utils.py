@@ -2,9 +2,10 @@
 import importlib
 import os
 import yaml
+import subprocess
 from builtins import next
 from collections import OrderedDict
-from qgis.PyQt import uic
+from qgis.PyQt.uic import loadUiType
 from qgis.PyQt.QtCore import QSettings, QCoreApplication
 from qgis.PyQt.QtSql import QSqlDatabase, QSqlQuery
 
@@ -240,6 +241,9 @@ def open_psql_db(db_host, db_name, db_port, db_admin, db_admin_pwd):
         if connection_name in QSqlDatabase.connectionNames():
             db = QSqlDatabase.database(connection_name)
         else:
+            if not QSqlDatabase.isDriverAvailable("QPSQL"):
+                raise VerisoError('Please install the PSQL Qt driver.\n')
+
             db = QSqlDatabase.addDatabase("QPSQL", connection_name)
             db.setHostName(db_host)
             db.setPort(int(db_port))
@@ -249,10 +253,13 @@ def open_psql_db(db_host, db_name, db_port, db_admin, db_admin_pwd):
 
         if not db.open():
             raise Exception()
+    except VerisoError:
+        raise
     except Exception as e:
-        message = "Could not open psql database: %s" % connection_name
+        message = "Could not open psql database: %s see log for more details"\
+                  % connection_name
         message = tr(message)
-        # TODO add message when libqt4-sql-psql driver is not loaded
+        #
         raise VerisoError(message, e, db.lastError().text())
     return db
 
@@ -272,10 +279,19 @@ def get_ui_class(ui_file):
                     ui_file
             )
     )
-    return uic.loadUiType(ui_file_path)[0]
+    return loadUiType(ui_file_path)[0]
 
 
 def tr(message, context='VeriSO', disambig=None, encoding=None):
     if encoding is None:
         return QCoreApplication.translate(context, message, disambig)
     return QCoreApplication.translate(context, message, disambig, encoding)
+
+
+def jre_version():
+    try:
+        version = subprocess.check_output(
+            ['java', '-version'], stderr=subprocess.STDOUT)
+        return version
+    except:
+        return None
