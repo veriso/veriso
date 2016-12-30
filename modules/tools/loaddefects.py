@@ -14,9 +14,9 @@ from veriso.base.utils.utils import tr
 class LoadDefects(QObject):
     def __init__(self, iface, module, tr_tag):
 
-        # TODO remove debugging trace
-        import pydevd
-        pydevd.settrace('localhost', port=53100, stdoutToServer=True, stderrToServer=True)
+        #import pydevd
+        #pydevd.settrace('localhost', port=53100, stdoutToServer=True,
+        # stderrToServer=True)
 
         QObject.__init__(self)
         self.iface = iface
