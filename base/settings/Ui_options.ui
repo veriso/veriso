@@ -306,7 +306,14 @@
                  <bool>true</bool>
                 </property>
                 <property name="text">
-                 <string>Add</string>
+                 <string>Add URL</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QPushButton" name="btnAddLocalModelRepo">
+                <property name="text">
+                 <string>Add path</string>
                 </property>
                </widget>
               </item>

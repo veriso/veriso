@@ -2,6 +2,8 @@
 
 from __future__ import absolute_import
 
+import os
+
 from qgis.PyQt.QtCore import (
     QFileInfo, QRegExp, QSettings, pyqtSignal, pyqtSignature)
 from qgis.PyQt.QtGui import QRegExpValidator, QInputDialog, QLineEdit
@@ -167,6 +169,16 @@ class OptionsDialog(QDialog, Ui_Options):
         text, ok = self.ask_url()
         if ok and text:
             self.listWidgetModelRepos.addItem(text)
+
+    @pyqtSignature("on_btnAddLocalModelRepo_clicked()")
+    def on_btnAddLocalModelRepo_clicked(self):
+        path = QFileDialog.getExistingDirectory(
+                self, tr("Open Directory"),
+                os.path.expanduser("~"),
+                QFileDialog.ShowDirsOnly | QFileDialog.DontResolveSymlinks)
+
+        if path:
+            self.listWidgetModelRepos.addItem(path)
 
     @pyqtSignature("on_btnEditModelRepo_clicked()")
     def on_btnEditModelRepo_clicked(self):
