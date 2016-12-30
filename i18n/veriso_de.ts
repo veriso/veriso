@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS><TS version="2.0" language="de" sourcelanguage="">
+<!DOCTYPE TS>
+<TS version="2.1" language="de">
 <context>
     <name>VeriSO</name>
     <message>
@@ -179,7 +180,7 @@
     </message>
     <message>
         <location filename="loaddefects.py" line="44"/>
-        <source>M&#xc3;&#xa4;ngelliste (Punkte)</source>
+        <source>MÃ¤ngelliste (Punkte)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -199,22 +200,22 @@
     </message>
     <message>
         <location filename="loaddefects.py" line="77"/>
-        <source>M&#xc3;&#xa4;ngelliste (Linien)</source>
+        <source>MÃ¤ngelliste (Linien)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="exportdefects.py" line="251"/>
-        <source>L&#xc3;&#xa4;nge [hm]</source>
+        <source>LÃ¤nge [hm]</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="loaddefects.py" line="109"/>
-        <source>M&#xc3;&#xa4;ngelliste (Polygone)</source>
+        <source>MÃ¤ngelliste (Polygone)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="exportdefects.py" line="310"/>
-        <source>Fl&#xc3;&#xa4;che [m2]</source>
+        <source>FlÃ¤che [m2]</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -229,7 +230,7 @@
     </message>
     <message>
         <location filename="loaddefects.py" line="39"/>
-        <source>M&#xc3;&#xa4;ngel</source>
+        <source>MÃ¤ngel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -250,33 +251,33 @@
     <message>
         <location filename="veriso.py" line="113"/>
         <source>Projects</source>
-        <translation type="unfinished">Projekte</translation>
+        <translation>Projekte</translation>
     </message>
     <message>
         <location filename="veriso.py" line="122"/>
         <source>File</source>
-        <translation type="unfinished">Datei</translation>
+        <translation>Datei</translation>
     </message>
     <message>
         <location filename="veriso.py" line="123"/>
         <source>Import project</source>
         <comment>VeriSO</comment>
-        <translation type="unfinished"></translation>
+        <translation>Projekt importieren</translation>
     </message>
     <message>
         <location filename="veriso.py" line="126"/>
         <source>Delete project</source>
-        <translation type="unfinished">Projekt löschen</translation>
+        <translation>Projekt löschen</translation>
     </message>
     <message>
         <location filename="veriso.py" line="139"/>
         <source>Settings</source>
-        <translation type="unfinished">Einstellungen</translation>
+        <translation>Einstellungen</translation>
     </message>
     <message>
         <location filename="veriso.py" line="141"/>
         <source>Options</source>
-        <translation type="unfinished">Optionen</translation>
+        <translation>Optionen</translation>
     </message>
 </context>
 <context>
@@ -565,7 +566,7 @@
     </message>
     <message>
         <location filename="fp3.py" line="88"/>
-        <source>LFP3 Nachf&#xc3;&#xbc;hrung</source>
+        <source>LFP3 NachfÃ¼hrung</source>
         <translation>LFP3 Nachführung</translation>
     </message>
     <message>
@@ -603,7 +604,7 @@
     </message>
     <message>
         <location filename="basislayer.py" line="108"/>
-        <source>GEB.Nachf&#xc3;&#xbc;hrung</source>
+        <source>GEB.NachfÃ¼hrung</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -666,7 +667,7 @@
     </message>
     <message>
         <location filename="checklayer.py" line="62"/>
-        <source>K&#xc3;&#xbc;rzeste Linie</source>
+        <source>KÃ¼rzeste Linie</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -827,7 +828,7 @@
     </message>
     <message>
         <location filename="overview.py" line="208"/>
-        <source>Fl&#xc3;&#xa4;che TS [ha]</source>
+        <source>FlÃ¤che TS [ha]</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -852,7 +853,7 @@
     </message>
     <message>
         <location filename="utils_realestate.py" line="62"/>
-        <source>Grundst&#xc3;&#xbc;cke</source>
+        <source>GrundstÃ¼cke</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -890,7 +891,7 @@
     </message>
     <message>
         <location filename="fp1.py" line="68"/>
-        <source>LFP1 Nachf&#xc3;&#xbc;hrung</source>
+        <source>LFP1 NachfÃ¼hrung</source>
         <translation type="unfinished">LFP3 Nachführung {1 ?}</translation>
     </message>
     <message>
@@ -905,7 +906,7 @@
     </message>
     <message>
         <location filename="fp1.py" line="119"/>
-        <source>HFP1 Nachf&#xc3;&#xbc;hrung</source>
+        <source>HFP1 NachfÃ¼hrung</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -938,7 +939,7 @@
     </message>
     <message>
         <location filename="fp2.py" line="68"/>
-        <source>LFP2 Nachf&#xc3;&#xbc;hrung</source>
+        <source>LFP2 NachfÃ¼hrung</source>
         <translation type="unfinished">LFP3 Nachführung {2 ?}</translation>
     </message>
     <message>
@@ -953,7 +954,7 @@
     </message>
     <message>
         <location filename="fp2.py" line="119"/>
-        <source>HFP2 Nachf&#xc3;&#xbc;hrung</source>
+        <source>HFP2 NachfÃ¼hrung</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -991,7 +992,7 @@
     </message>
     <message>
         <location filename="fp3.py" line="88"/>
-        <source>LFP3 Nachf&#xc3;&#xbc;hrung</source>
+        <source>LFP3 NachfÃ¼hrung</source>
         <translation type="unfinished">LFP3 Nachführung</translation>
     </message>
     <message>
@@ -1026,7 +1027,7 @@
     </message>
     <message>
         <location filename="fp3.py" line="237"/>
-        <source>Fl&#xc3;&#xa4;che TS [ha]</source>
+        <source>FlÃ¤che TS [ha]</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
