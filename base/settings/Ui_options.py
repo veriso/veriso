@@ -1,21 +1,18 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file
-# 'base/settings/Ui_options.ui'
+# Form implementation generated from reading ui file 'base/settings/Ui_options.ui'
 #
-# Created by: PyQt5 UI code generator 5.5.1
+# Created by: PyQt5 UI code generator 5.7
 #
 # WARNING! All changes made in this file will be lost!
 
 from qgis.PyQt import QtCore, QtGui, QtWidgets
 
-
 class Ui_Options(object):
     def setupUi(self, Options):
         Options.setObjectName("Options")
         Options.resize(542, 474)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Minimum,
-                                           QtWidgets.QSizePolicy.Preferred)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(Options.sizePolicy().hasHeightForWidth())
@@ -32,10 +29,9 @@ class Ui_Options(object):
         self.tabGeneral.setEnabled(True)
         self.tabGeneral.setObjectName("tabGeneral")
         self.gridLayout_2 = QtWidgets.QGridLayout(self.tabGeneral)
+        self.gridLayout_2.setContentsMargins(0, 0, 0, 0)
         self.gridLayout_2.setObjectName("gridLayout_2")
-        spacerItem = QtWidgets.QSpacerItem(20, 40,
-                                           QtWidgets.QSizePolicy.Minimum,
-                                           QtWidgets.QSizePolicy.Expanding)
+        spacerItem = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
         self.gridLayout_2.addItem(spacerItem, 1, 0, 1, 1)
         self.groupBox = QtWidgets.QGroupBox(self.tabGeneral)
         self.groupBox.setObjectName("groupBox")
@@ -50,8 +46,7 @@ class Ui_Options(object):
         self.label.setObjectName("label")
         self.gridLayout_3.addWidget(self.label, 0, 0, 1, 1)
         self.btnBrowseProjectsDatabase = QtWidgets.QPushButton(self.groupBox)
-        self.btnBrowseProjectsDatabase.setObjectName(
-                "btnBrowseProjectsDatabase")
+        self.btnBrowseProjectsDatabase.setObjectName("btnBrowseProjectsDatabase")
         self.gridLayout_3.addWidget(self.btnBrowseProjectsDatabase, 0, 2, 1, 1)
         self.btnBrowseProjectsRootDir = QtWidgets.QPushButton(self.groupBox)
         self.btnBrowseProjectsRootDir.setObjectName("btnBrowseProjectsRootDir")
@@ -71,6 +66,7 @@ class Ui_Options(object):
         self.tabImport = QtWidgets.QWidget()
         self.tabImport.setObjectName("tabImport")
         self.gridLayout_7 = QtWidgets.QGridLayout(self.tabImport)
+        self.gridLayout_7.setContentsMargins(0, 0, 0, 0)
         self.gridLayout_7.setObjectName("gridLayout_7")
         self.groupBox_3 = QtWidgets.QGroupBox(self.tabImport)
         self.groupBox_3.setObjectName("groupBox_3")
@@ -93,18 +89,16 @@ class Ui_Options(object):
         self.groupBox_2.setObjectName("groupBox_2")
         self.gridLayout_8 = QtWidgets.QGridLayout(self.groupBox_2)
         self.gridLayout_8.setObjectName("gridLayout_8")
-        self.plainTextEditImportVMArguments = QtWidgets.QPlainTextEdit(
-                self.groupBox_2)
+        self.plainTextEditImportVMArguments = QtWidgets.QPlainTextEdit(self.groupBox_2)
         self.plainTextEditImportVMArguments.setPlainText("")
-        self.plainTextEditImportVMArguments.setObjectName(
-                "plainTextEditImportVMArguments")
-        self.gridLayout_8.addWidget(self.plainTextEditImportVMArguments, 0, 0,
-                                    1, 1)
+        self.plainTextEditImportVMArguments.setObjectName("plainTextEditImportVMArguments")
+        self.gridLayout_8.addWidget(self.plainTextEditImportVMArguments, 0, 0, 1, 1)
         self.gridLayout_7.addWidget(self.groupBox_2, 2, 0, 1, 1)
         self.tabWidget.addTab(self.tabImport, "")
         self.tabDatabase = QtWidgets.QWidget()
         self.tabDatabase.setObjectName("tabDatabase")
         self.gridLayout_6 = QtWidgets.QGridLayout(self.tabDatabase)
+        self.gridLayout_6.setContentsMargins(0, 0, 0, 0)
         self.gridLayout_6.setObjectName("gridLayout_6")
         self.groupBox_5 = QtWidgets.QGroupBox(self.tabDatabase)
         self.groupBox_5.setObjectName("groupBox_5")
@@ -116,8 +110,7 @@ class Ui_Options(object):
         self.lblDbAdminPwd.setObjectName("lblDbAdminPwd")
         self.gridLayout_10.addWidget(self.lblDbAdminPwd, 6, 0, 1, 1)
         self.lineEditDbUserPwd = QtWidgets.QLineEdit(self.groupBox_5)
-        self.lineEditDbUserPwd.setEchoMode(
-                QtWidgets.QLineEdit.PasswordEchoOnEdit)
+        self.lineEditDbUserPwd.setEchoMode(QtWidgets.QLineEdit.PasswordEchoOnEdit)
         self.lineEditDbUserPwd.setObjectName("lineEditDbUserPwd")
         self.gridLayout_10.addWidget(self.lineEditDbUserPwd, 4, 1, 1, 1)
         self.lineEditDbPort = QtWidgets.QLineEdit(self.groupBox_5)
@@ -127,8 +120,7 @@ class Ui_Options(object):
         self.lblDbAdmin.setObjectName("lblDbAdmin")
         self.gridLayout_10.addWidget(self.lblDbAdmin, 5, 0, 1, 1)
         self.lineEditDbAdminPwd = QtWidgets.QLineEdit(self.groupBox_5)
-        self.lineEditDbAdminPwd.setEchoMode(
-                QtWidgets.QLineEdit.PasswordEchoOnEdit)
+        self.lineEditDbAdminPwd.setEchoMode(QtWidgets.QLineEdit.PasswordEchoOnEdit)
         self.lineEditDbAdminPwd.setObjectName("lineEditDbAdminPwd")
         self.gridLayout_10.addWidget(self.lineEditDbAdminPwd, 6, 1, 1, 1)
         self.lblDbPort = QtWidgets.QLabel(self.groupBox_5)
@@ -168,6 +160,7 @@ class Ui_Options(object):
         self.tabModelrepos = QtWidgets.QWidget()
         self.tabModelrepos.setObjectName("tabModelrepos")
         self.gridLayout_14 = QtWidgets.QGridLayout(self.tabModelrepos)
+        self.gridLayout_14.setContentsMargins(0, 0, 0, 0)
         self.gridLayout_14.setObjectName("gridLayout_14")
         self.groupBox_4 = QtWidgets.QGroupBox(self.tabModelrepos)
         self.groupBox_4.setObjectName("groupBox_4")
@@ -176,10 +169,8 @@ class Ui_Options(object):
         self.horizontalLayout_2 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_2.setObjectName("horizontalLayout_2")
         self.listWidgetModelRepos = QtWidgets.QListWidget(self.groupBox_4)
-        self.listWidgetModelRepos.setSelectionMode(
-                QtWidgets.QAbstractItemView.SingleSelection)
-        self.listWidgetModelRepos.setSelectionBehavior(
-                QtWidgets.QAbstractItemView.SelectRows)
+        self.listWidgetModelRepos.setSelectionMode(QtWidgets.QAbstractItemView.SingleSelection)
+        self.listWidgetModelRepos.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
         self.listWidgetModelRepos.setObjectName("listWidgetModelRepos")
         self.horizontalLayout_2.addWidget(self.listWidgetModelRepos)
         self.verticalLayout_2 = QtWidgets.QVBoxLayout()
@@ -188,6 +179,9 @@ class Ui_Options(object):
         self.btnAddModelRepo.setEnabled(True)
         self.btnAddModelRepo.setObjectName("btnAddModelRepo")
         self.verticalLayout_2.addWidget(self.btnAddModelRepo)
+        self.btnAddLocalModelRepo = QtWidgets.QPushButton(self.groupBox_4)
+        self.btnAddLocalModelRepo.setObjectName("btnAddLocalModelRepo")
+        self.verticalLayout_2.addWidget(self.btnAddLocalModelRepo)
         self.btnDeleteModelRepo = QtWidgets.QPushButton(self.groupBox_4)
         self.btnDeleteModelRepo.setEnabled(False)
         self.btnDeleteModelRepo.setObjectName("btnDeleteModelRepo")
@@ -196,24 +190,18 @@ class Ui_Options(object):
         self.btnEditModelRepo.setEnabled(False)
         self.btnEditModelRepo.setObjectName("btnEditModelRepo")
         self.verticalLayout_2.addWidget(self.btnEditModelRepo)
-        spacerItem1 = QtWidgets.QSpacerItem(20, 40,
-                                            QtWidgets.QSizePolicy.Minimum,
-                                            QtWidgets.QSizePolicy.Expanding)
+        spacerItem1 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
         self.verticalLayout_2.addItem(spacerItem1)
         self.horizontalLayout_2.addLayout(self.verticalLayout_2)
         self.gridLayout_13.addLayout(self.horizontalLayout_2, 0, 0, 1, 1)
         self.gridLayout_14.addWidget(self.groupBox_4, 0, 0, 1, 1)
         self.tabWidget.addTab(self.tabModelrepos, "")
         self.gridLayout.addWidget(self.tabWidget, 0, 0, 1, 1)
-        spacerItem2 = QtWidgets.QSpacerItem(20, 40,
-                                            QtWidgets.QSizePolicy.Minimum,
-                                            QtWidgets.QSizePolicy.Expanding)
+        spacerItem2 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
         self.gridLayout.addItem(spacerItem2, 3, 0, 1, 1)
         self.buttonBox = QtWidgets.QDialogButtonBox(Options)
         self.buttonBox.setEnabled(True)
-        self.buttonBox.setStandardButtons(
-                QtWidgets.QDialogButtonBox.Cancel |
-                QtWidgets.QDialogButtonBox.Ok)
+        self.buttonBox.setStandardButtons(QtWidgets.QDialogButtonBox.Cancel|QtWidgets.QDialogButtonBox.Ok)
         self.buttonBox.setObjectName("buttonBox")
         self.gridLayout.addWidget(self.buttonBox, 4, 0, 1, 1)
 
@@ -230,18 +218,14 @@ class Ui_Options(object):
         self.label.setText(_translate("Options", "Projects management: "))
         self.btnBrowseProjectsDatabase.setText(_translate("Options", "Browse"))
         self.btnBrowseProjectsRootDir.setText(_translate("Options", "Browse"))
-        self.label_11.setText(
-                _translate("Options", "Projects root directory: "))
-        self.btnTestProjectDB.setText(
-                _translate("Options", "Test projects database"))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tabGeneral),
-                                  _translate("Options", "General"))
+        self.label_11.setText(_translate("Options", "Projects root directory: "))
+        self.btnTestProjectDB.setText(_translate("Options", "Test projects database"))
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tabGeneral), _translate("Options", "General"))
         self.groupBox_3.setTitle(_translate("Options", "Import application"))
         self.label_8.setText(_translate("Options", "Jar file: "))
         self.btnBrowseImportJar.setText(_translate("Options", "Browse"))
         self.groupBox_2.setTitle(_translate("Options", "VM arguments"))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tabImport),
-                                  _translate("Options", "Import"))
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tabImport), _translate("Options", "Import"))
         self.groupBox_5.setTitle(_translate("Options", "Import database"))
         self.lblDbAdminPwd.setText(_translate("Options", "Admin password"))
         self.lblDbAdmin.setText(_translate("Options", "Admin"))
@@ -251,11 +235,11 @@ class Ui_Options(object):
         self.lblDbHost.setText(_translate("Options", "Host "))
         self.lblDbUser.setText(_translate("Options", "Username"))
         self.btnTestConnection.setText(_translate("Options", "Test connection"))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tabDatabase),
-                                  _translate("Options", "Database"))
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tabDatabase), _translate("Options", "Database"))
         self.groupBox_4.setTitle(_translate("Options", "Model repositories "))
-        self.btnAddModelRepo.setText(_translate("Options", "Add"))
+        self.btnAddModelRepo.setText(_translate("Options", "Add URL"))
+        self.btnAddLocalModelRepo.setText(_translate("Options", "Add path"))
         self.btnDeleteModelRepo.setText(_translate("Options", "Delete"))
         self.btnEditModelRepo.setText(_translate("Options", "Edit"))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tabModelrepos),
-                                  _translate("Options", "Model repositories"))
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tabModelrepos), _translate("Options", "Model repositories"))
+
