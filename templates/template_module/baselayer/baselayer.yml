@@ -7,6 +7,8 @@ baselayer:
   url: http://mydb.org/wms/orthofoto_aktuell
   layers: ch.orthofoto
   format: image/jpeg
+  transparency: 50
+
 - type: wmts
   title:
     de: Orthofoto (CIR)
@@ -42,3 +44,4 @@ baselayer:
   title: TIF Flurnamen
   url: /home/marco/gis_test_data/qgis_sample_data/raster/SR_50M_alaska_nad.tif
   style: test/test_poly.qml
+  transparency: 20

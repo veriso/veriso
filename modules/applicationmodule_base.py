@@ -212,9 +212,7 @@ class ApplicationModuleBase(QObject):
         QApplication.setOverrideCursor(Qt.WaitCursor)
         try:
             layer_loader = LoadLayer(self.iface)
-            layer_loader.load(layer, True,
-                              True)  # Do not show legend for baselayers ->
-            # collapse legend.
+            layer_loader.load(layer, visible=True, collapsed_legend=True)
         except Exception as e:
             QApplication.restoreOverrideCursor()
             QgsMessageLog.logMessage(str(e), self.module_name,
