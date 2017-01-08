@@ -179,7 +179,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="loaddefects.py" line="44"/>
+        <location filename="loaddefects_base.py" line="44"/>
         <source>MÃ¤ngelliste (Punkte)</source>
         <translation type="unfinished"></translation>
     </message>
@@ -199,7 +199,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="loaddefects.py" line="77"/>
+        <location filename="loaddefects_base.py" line="77"/>
         <source>MÃ¤ngelliste (Linien)</source>
         <translation type="unfinished"></translation>
     </message>
@@ -209,7 +209,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="loaddefects.py" line="109"/>
+        <location filename="loaddefects_base.py" line="109"/>
         <source>MÃ¤ngelliste (Polygone)</source>
         <translation type="unfinished"></translation>
     </message>
@@ -229,22 +229,22 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="loaddefects.py" line="39"/>
+        <location filename="loaddefects_base.py" line="39"/>
         <source>MÃ¤ngel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="loaddefects.py" line="125"/>
+        <location filename="loaddefects_base.py" line="125"/>
         <source>Topic:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="loaddefects.py" line="62"/>
+        <location filename="loaddefects_base.py" line="62"/>
         <source>bemekung:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="loaddefects.py" line="128"/>
+        <location filename="loaddefects_base.py" line="128"/>
         <source>Bemerkung:</source>
         <translation type="unfinished"></translation>
     </message>

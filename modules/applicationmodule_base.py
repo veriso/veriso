@@ -317,10 +317,10 @@ class ApplicationModuleBase(QObject):
         self.toolbar.insertWidget(self.beforeAction, menubar)
 
     def do_load_defects(self):
-        defects_module = 'veriso.modules.tools.loaddefects'
+        defects_module = 'veriso.modules.loaddefects_base'
         defects_module = dynamic_import(defects_module)
-        d = defects_module.LoadDefects(self.iface, self.module,
-                                       self.module_name)
+        d = defects_module.LoadDefectsBase(self.iface, self.module,
+                                           self.module_name)
         d.run()
 
     def do_export_defects(self):
