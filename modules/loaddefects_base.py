@@ -12,7 +12,7 @@ from veriso.base.utils.utils import tr
 
 
 class LoadDefectsBase(QObject):
-    def __init__(self, iface, module, tr_tag):
+    def __init__(self, iface, tr_tag):
 
         QObject.__init__(self)
         self.iface = iface
@@ -24,7 +24,6 @@ class LoadDefectsBase(QObject):
         self.settings = QSettings("CatAIS", "VeriSO")
         self.project_id = None
         self.epsg = None
-        self.module = module
         self.tr_tag = tr_tag  # "VeriSO (V+D)", "VeriSO (EE)"
 
         self.project_id = self.settings.value("project/id")
@@ -57,7 +56,7 @@ class LoadDefectsBase(QObject):
                         'alias': 'Bemekung:',
                         'config': {"IsMultiline": True}
                     },
-                    'datum': {'widget': 'Enumeration'}
+                    'datum': {'widget': 'Hidden'}
                 }
             },
             'line': {
@@ -81,7 +80,7 @@ class LoadDefectsBase(QObject):
                         'alias': 'Bemekung:',
                         'config': {"IsMultiline": True}
                     },
-                    'datum': {'widget': 'Enumeration'}
+                    'datum': {'widget': 'Hidden'}
                 }
             },
             'polygon': {
@@ -105,7 +104,7 @@ class LoadDefectsBase(QObject):
                         'alias': 'Bemekung:',
                         'config': {"IsMultiline": True}
                     },
-                    'datum': {'widget': 'Enumeration'}
+                    'datum': {'widget': 'Hidden'}
                 }
             }
         }

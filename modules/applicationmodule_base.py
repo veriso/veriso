@@ -319,15 +319,13 @@ class ApplicationModuleBase(QObject):
     def do_load_defects(self):
         defects_module = 'veriso.modules.loaddefects_base'
         defects_module = dynamic_import(defects_module)
-        d = defects_module.LoadDefectsBase(self.iface, self.module,
-                                           self.module_name)
+        d = defects_module.LoadDefectsBase(self.iface, self.module_name)
         d.run()
 
     def do_export_defects(self):
         defects_module = 'veriso.modules.tools.exportdefects'
         defects_module = dynamic_import(defects_module)
-        d = defects_module.ExportDefects(self.iface, self.module,
-                                         self.module_name)
+        d = defects_module.ExportDefects(self.iface, self.module_name)
         d.run()
 
     def clean_gui(self):

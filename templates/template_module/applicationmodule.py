@@ -17,8 +17,7 @@ class ApplicationModule(ApplicationModuleBase):
         # example of how to add your own defect layers or fields
         defects_module = 'veriso.modules.loaddefects_base'
         defects_module = dynamic_import(defects_module)
-        d = defects_module.LoadDefectsBase(self.iface, self.module,
-                                           self.module_name)
+        d = defects_module.LoadDefectsBase(self.iface, self.module_name)
 
         d.layers['point']['fields'] = {
             'ogc_fid': {'widget': 'TextEdit'},
