@@ -294,15 +294,15 @@ class ApplicationModuleBase(QObject):
         
         Export defects uses some external python excel library.
         """
-        menubar = QMenuBar(self.toolbar)
-        menubar.setObjectName("VeriSOModule.LoadDefectsMenuBar")
-        menubar.setSizePolicy(
-                QSizePolicy(QSizePolicy.Minimum, QSizePolicy.Minimum))
-        menu = QMenu(menubar)
+        menubar = self.toolbar.findChild(
+                QMenuBar, 'VeriSO.Main.LoadDefectsMenuBar')
+
+        menu = menubar.findChild(QMenu, 'VeriSO.Main.LoadDefectsMenu')
         menu.setTitle(_translate(self.module, "Defects", None))
 
         action = QAction(_translate(self.module, "Load defects layer", None),
                          self.iface.mainWindow())
+        action.setObjectName("VeriSOModule.LoadDefectsAction")
         action.triggered.connect(self.do_load_defects)
         menu.addAction(action)
 
@@ -310,6 +310,7 @@ class ApplicationModuleBase(QObject):
                 QCoreApplication.translate(
                         self.module, "Export defects layer"),
                 self.iface.mainWindow())
+        action.setObjectName("VeriSOModule.ExportDefectsAction")
         action.triggered.connect(self.do_export_defects)
         menu.addAction(action)
 
@@ -325,7 +326,8 @@ class ApplicationModuleBase(QObject):
     def do_export_defects(self):
         defects_module = 'veriso.modules.tools.exportdefects'
         defects_module = dynamic_import(defects_module)
-        d = defects_module.ExportDefects(self.iface, self.module_name)
+        d = defects_module.ExportDefects(self.iface, self.module,
+                                         self.module_name)
         d.run()
 
     def clean_gui(self):
@@ -344,6 +346,8 @@ class ApplicationModuleBase(QObject):
                 # Get settings menu bar for module specific settings.
                 if object_name == "VeriSO.Main.SettingsMenuBar":
                     self.settingsAction = action
+                if object_name == "VeriSO.Main.LoadDefectsMenuBar":
+                    defects_action = action
             except AttributeError:
                 pass
 
@@ -356,8 +360,19 @@ class ApplicationModuleBase(QObject):
         actions = settings_menu.actions()
         for action in actions:
             object_name = action.objectName()
-            if object_name[0:12] == "VeriSOModule":
+            if object_name[0:12] == "VeriSOModule" or action.isSeparator():
                 settings_menu.removeAction(action)
 
-            if action.isSeparator():
-                settings_menu.removeAction(action)
+        # Remove all the application module specific options/settings
+        #  in the
+        # settings menu.
+        defect_menu_bar = defects_action.defaultWidget()
+        defect_menu = defects_action.defaultWidget().actions()[
+            0].parentWidget()
+
+        actions = defect_menu.actions()
+        for action in actions:
+            object_name = action.objectName()
+            print(object_name)
+            if object_name[0:12] == "VeriSOModule" or action.isSeparator():
+                defect_menu.removeAction(action)

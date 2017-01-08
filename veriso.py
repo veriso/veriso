@@ -25,16 +25,20 @@
 from __future__ import absolute_import
 
 import os.path
+
+
 try:
     from builtins import object, str
 except ImportError:
     raise ImportError('Please install the python future package')
-from qgis.PyQt.QtCore import QCoreApplication, QSettings, QTranslator, qVersion
-from qgis.PyQt.QtGui import QPalette
+from qgis.PyQt.QtCore import (QCoreApplication, Qt, QSettings, QTranslator,
+                              qVersion)
+from qgis.PyQt.QtGui import QApplication, QPalette
 from qgis.PyQt.QtWidgets import QAction, QMenu, QMenuBar, QSizePolicy
 
 from qgis.gui import QgsMessageBar
 
+from veriso.modules.tools.defects_list import DefectsListDock
 from veriso.base.utils.utils import tr, get_projects, dynamic_import
 
 
@@ -69,6 +73,9 @@ class VeriSO(object):
         self.menubar_settings = None
         self.menu_projects = None
         self.menu_settings = None
+        self.menubar_defects = None
+        self.menu_defects = None
+        self.defects_list_action = None
         self.options = None
         self.import_dlg = None
         self.delete_dlg = None
@@ -78,16 +85,19 @@ class VeriSO(object):
     def initGui(self):
         icon_path = ':/plugins/veriso/icon.png'
 
+        # Prepare defects list dock
+        self._create_defects_list_dock()
+
         # Qt offers some themes which you also can change in QGIS settings.
         # Since the background color of the menu toolbar can be different than
-        # the background color of the button toolbars, the veriso toolbar 
-        # doesn't suit well. So we change it manually by finding out the 
-        # background color of one (e.g. file) toolbar and applying it 
+        # the background color of the button toolbars, the veriso toolbar
+        # doesn't suit well. So we change it manually by finding out the
+        # background color of one (e.g. file) toolbar and applying it
         # to the veriso toolbar.
         # This approach works (well?) for xfce 4.12 and standard (gtk+) theme.
         # We need to do this also in other methods when we add new menus :-(
 
-        # 20150406: Only change QToolBar background color. 
+        # 20150406: Only change QToolBar background color.
         # Otherweise the later added menus will have white hover color and
         # other quirks.
         # Strange: QToolBar stylesheet seems to need an border.
@@ -129,6 +139,25 @@ class VeriSO(object):
         self.menu_file.addActions([self.import_project, self.delete_project])
         self.menubar_file.addMenu(self.menu_file)
 
+        # defects
+        self.menubar_defects = QMenuBar(self.toolbar)
+        self.menubar_defects.setObjectName("VeriSO.Main.LoadDefectsMenuBar")
+
+        self.menubar_defects.setSizePolicy(
+                QSizePolicy(QSizePolicy.Minimum, QSizePolicy.Minimum))
+        self.menu_defects = QMenu(self.menubar_defects)
+        self.menu_defects.setObjectName("VeriSO.Main.LoadDefectsMenu")
+        self.menu_defects.setTitle(tr("Defects"))
+
+        self.defects_list_action = QAction(tr("Show defects list dock"),
+                                          self.iface.mainWindow())
+        self.defects_list_action.setCheckable(True)
+        self.defects_list_action.setChecked(True)
+        self.defects_list_action.triggered.connect(
+                self.toggle_defects_list_dock_visibility)
+        self.menu_defects.addAction(self.defects_list_action)
+        self.menubar_defects.addMenu(self.menu_defects)
+
         # settings
         self.menubar_settings = QMenuBar()
         self.menubar_settings.setObjectName("VeriSO.Main.SettingsMenuBar")
@@ -145,7 +174,9 @@ class VeriSO(object):
         # Add menus to toolbar.
         self.toolbar.addWidget(self.menubar_projects)
         self.toolbar.addWidget(self.menubar_file)
+        self.toolbar.addWidget(self.menubar_defects)
         self.toolbar.addWidget(self.menubar_settings)
+
 
         # Initial load of project menu entries.
         self.do_load_projects_database()
@@ -238,3 +269,24 @@ class VeriSO(object):
 
     def unload(self):
         self.iface.mainWindow().removeToolBar(self.toolbar)
+
+    def toggle_defects_list_dock_visibility(self):
+        """Show or hide the dock widget."""
+        if self.defects_list_dock.isVisible():
+            self.defects_list_dock.setVisible(False)
+        else:
+            self.defects_list_dock.setVisible(True)
+            self.defects_list_dock.raise_()
+
+    def _create_defects_list_dock(self):
+        """Create dockwidget and tabify it with the legend."""
+
+        self.defects_list_dock = DefectsListDock(self.iface)
+        self.defects_list_dock.setObjectName('DefectsListDock')
+        self.iface.addDockWidget(Qt.RightDockWidgetArea, self.defects_list_dock)
+        legend_tab = self.iface.mainWindow().findChild(QApplication, 'Legend')
+        if legend_tab:
+            self.iface.mainWindow().tabifyDockWidget(
+                legend_tab, self.defects_list_dock)
+        self.defects_list_dock.setVisible(True)
+        self.defects_list_dock.raise_()
