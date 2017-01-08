@@ -1,0 +1,6 @@
+[submodule "modules/verivd"]
+	path = modules/verivd
+	url = git@gitlab.com:opengisch/verivd.git
+[submodule "modules/veribe"]
+	path = modules/veribe
+	url = git@gitlab.com:opengisch/veribe.git
