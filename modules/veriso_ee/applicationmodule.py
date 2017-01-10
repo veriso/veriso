@@ -7,5 +7,5 @@ from veriso.modules.applicationmodule_base import ApplicationModuleBase
 
 
 class ApplicationModule(ApplicationModuleBase):
-    def __init__(self, iface, toolbar, locale_path):
-        super(ApplicationModule, self).__init__(iface, toolbar, locale_path)
+    def __init__(self, veriso):
+        super(ApplicationModule, self).__init__(veriso)

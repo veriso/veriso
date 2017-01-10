@@ -31,18 +31,21 @@ except AttributeError:
 
 
 class ApplicationModuleBase(QObject):
-    def __init__(self, iface, toolbar, locale_path):
+    def __init__(self, veriso):
         QObject.__init__(self)
-        self.iface = iface
+        self.iface = veriso.iface
         self.message_bar = self.iface.messageBar()
         self.canvas = self.iface.mapCanvas()
-        self.toolbar = toolbar
+        self.toolbar = veriso.toolbar
 
         self.settings = QSettings("CatAIS", "VeriSO")
         self.epsg = self.settings.value("project/epsg")
         self.provider = self.settings.value("project/provider")
         self.module = self.settings.value("project/appmodule")
         self.module_name = self.settings.value("project/appmodulename")
+
+        self.defects_layers = {}
+        self.defects_list_dock = veriso.defects_list_dock
 
         self.beforeAction = None
         self.settingsAction = None
@@ -55,6 +58,7 @@ class ApplicationModuleBase(QObject):
         self.clean_gui()
         self.do_init_checks_menu()
         self.do_init_defects_menu()
+        self.defects_list_dock.clear()
         # TODO (MB) is this really the requirement?
         # Entfernen des Reiters "Tables"
         # self.do_init_topics_tables_menu()
@@ -294,38 +298,44 @@ class ApplicationModuleBase(QObject):
         
         Export defects uses some external python excel library.
         """
-        menubar = QMenuBar(self.toolbar)
-        menubar.setObjectName("VeriSOModule.LoadDefectsMenuBar")
-        menubar.setSizePolicy(
-                QSizePolicy(QSizePolicy.Minimum, QSizePolicy.Minimum))
-        menu = QMenu(menubar)
+        menubar = self.toolbar.findChild(
+                QMenuBar, 'VeriSO.Main.LoadDefectsMenuBar')
+
+        menu = menubar.findChild(QMenu, 'VeriSO.Main.LoadDefectsMenu')
         menu.setTitle(_translate(self.module, "Defects", None))
 
         action = QAction(_translate(self.module, "Load defects layer", None),
                          self.iface.mainWindow())
-        action.triggered.connect(self.do_load_defects)
+        action.setObjectName("VeriSOModule.LoadDefectsAction")
+        action.triggered.connect(self.do_load_defects_wrapper)
         menu.addAction(action)
 
         action = QAction(
                 QCoreApplication.translate(
                         self.module, "Export defects layer"),
                 self.iface.mainWindow())
+        action.setObjectName("VeriSOModule.ExportDefectsAction")
         action.triggered.connect(self.do_export_defects)
         menu.addAction(action)
 
         menubar.addMenu(menu)
         self.toolbar.insertWidget(self.beforeAction, menubar)
 
+    def do_load_defects_wrapper(self):
+        self.defects_layers = self.do_load_defects()
+        self.defects_list_dock.load_layers(self.defects_layers)
+
     def do_load_defects(self):
         defects_module = 'veriso.modules.loaddefects_base'
         defects_module = dynamic_import(defects_module)
         d = defects_module.LoadDefectsBase(self.iface, self.module_name)
-        d.run()
+        return d.run()
 
     def do_export_defects(self):
         defects_module = 'veriso.modules.tools.exportdefects'
         defects_module = dynamic_import(defects_module)
-        d = defects_module.ExportDefects(self.iface, self.module_name)
+        d = defects_module.ExportDefects(self.iface, self.module,
+                                         self.module_name)
         d.run()
 
     def clean_gui(self):
@@ -344,20 +354,30 @@ class ApplicationModuleBase(QObject):
                 # Get settings menu bar for module specific settings.
                 if object_name == "VeriSO.Main.SettingsMenuBar":
                     self.settingsAction = action
+                if object_name == "VeriSO.Main.LoadDefectsMenuBar":
+                    defects_action = action
             except AttributeError:
                 pass
 
-        # Remove all the application module specific options/settings in the
-        # settings menu.
-        settings_menu_bar = self.settingsAction.defaultWidget()
         settings_menu = self.settingsAction.defaultWidget().actions()[
             0].parentWidget()
+        self.delete_actions_from_menu(settings_menu)
 
-        actions = settings_menu.actions()
+        defect_menu = defects_action.defaultWidget().actions()[
+            0].parentWidget()
+
+        self.delete_actions_from_menu(defect_menu)
+
+    @staticmethod
+    def delete_actions_from_menu(menu):
+        """
+        # Remove all the application module specific options/settings
+        # in a menu.
+        :param menu:
+        :return:
+        """
+        actions = menu.actions()
         for action in actions:
             object_name = action.objectName()
-            if object_name[0:12] == "VeriSOModule":
-                settings_menu.removeAction(action)
-
-            if action.isSeparator():
-                settings_menu.removeAction(action)
+            if object_name[0:12] == "VeriSOModule" or action.isSeparator():
+                menu.removeAction(action)

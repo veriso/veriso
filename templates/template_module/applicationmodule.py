@@ -9,8 +9,8 @@ class ApplicationModule(ApplicationModuleBase):
     """
     This is the minimum required implementation to have your own module
     """
-    def __init__(self, iface, toolbar, locale_path):
-        super(ApplicationModule, self).__init__(iface, toolbar, locale_path)
+    def __init__(self, veriso):
+        super(ApplicationModule, self).__init__(veriso)
 
 """
     def do_load_defects(self):
@@ -33,5 +33,5 @@ class ApplicationModule(ApplicationModuleBase):
             'datum': {'widget': 'Hidden'}
         }
 
-        d.run()
+        return d.run()
 """
