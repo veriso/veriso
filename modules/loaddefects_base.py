@@ -115,7 +115,8 @@ class LoadDefectsBase(QObject):
         for layer in self.layers:
             try:
                 loaded_layer = self._load_defect_layer(self.layers[layer])
-                loaded_layers[layer] = loaded_layer
+                loaded_layers[layer] = {'qgis_layer': loaded_layer,
+                                        'info': self.layers[layer]}
             except Exception:
                 QApplication.restoreOverrideCursor()
                 exc_type, exc_value, exc_traceback = sys.exc_info()

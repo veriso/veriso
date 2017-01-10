@@ -47,7 +47,9 @@ class DefectsListDock(QDockWidget, FORM_CLASS):
     def load_layers(self, layers):
         self.layers_combo.clear()
         for layer in sorted(layers):
-            self.layers_combo.addItem(layer, layers[layer])
+            info = layers[layer]['info']
+            layer_name = '%s - %s' % (info['group'], info['title'])
+            self.layers_combo.addItem(layer_name, layers[layer]['qgis_layer'])
 
     def _layer_changed(self):
         self._toggle_gui_elements((self.layer is not None))
