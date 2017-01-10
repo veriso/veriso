@@ -9,7 +9,6 @@ from veriso.base.utils.utils import (get_ui_class)
 from veriso.base.utils.exceptions import VerisoError
 
 FORM_CLASS = get_ui_class('./defect_list.ui')
-#from .defect_list import Ui_ImportProject
 
 class DefectsListDock(QDockWidget, FORM_CLASS):
     """
@@ -23,3 +22,6 @@ class DefectsListDock(QDockWidget, FORM_CLASS):
         self.iface = iface
         self.message_bar = self.iface.messageBar()
         #self.okButton = self.buttonBox.button(QDialogButtonBox.Ok)
+
+    def refresh(self, layers):
+        print(layers)

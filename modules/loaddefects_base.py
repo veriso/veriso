@@ -110,9 +110,11 @@ class LoadDefectsBase(QObject):
         }
 
     def run(self):
+        loaded_layers = {}
         for layer in self.layers:
             try:
-                self._load_defect_layer(self.layers[layer])
+                loaded_layer = self._load_defect_layer(self.layers[layer])
+                loaded_layers[layer] = loaded_layer
             except Exception:
                 QApplication.restoreOverrideCursor()
                 exc_type, exc_value, exc_traceback = sys.exc_info()
@@ -121,21 +123,23 @@ class LoadDefectsBase(QObject):
                                              level=QgsMessageBar.CRITICAL,
                                              duration=0)
         QApplication.restoreOverrideCursor()
+        return loaded_layers
 
     def _load_defect_layer(self, layer):
-        vlayer = self.layer_loader.load(layer)
-        if vlayer:
-            vlayer.setEditorLayout(QgsVectorLayer.GeneratedLayout)
+        loaded_layer = self.layer_loader.load(layer)
+        if loaded_layer:
+            loaded_layer.setEditorLayout(QgsVectorLayer.GeneratedLayout)
             for field_name in layer['fields']:
                 field = layer['fields'][field_name]
-                idx = vlayer.fieldNameIndex(field_name)
+                idx = loaded_layer.fieldNameIndex(field_name)
                 if 'alias' in field:
-                    vlayer.addAttributeAlias(
+                    loaded_layer.addAttributeAlias(
                             idx, tr(field['alias'], self.tr_tag, None))
 
                 if 'widget' in field:
-                    vlayer.setEditorWidgetV2(
+                    loaded_layer.setEditorWidgetV2(
                             idx, tr(field['widget']))
                 if 'config' in field:
                     # See gui/editorwidgets/ for all the parameters.
-                    vlayer.setEditorWidgetSetup(idx, field['config'])
+                    loaded_layer.setEditorWidgetSetup(idx, field['config'])
+            return loaded_layer

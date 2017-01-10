@@ -259,8 +259,7 @@ class VeriSO(object):
         try:
             module_name = "veriso.modules." + module_name + ".applicationmodule"
             module = dynamic_import(module_name)
-            application_module = module.ApplicationModule(
-                    self.iface, self.toolbar, self.locale_path)
+            application_module = module.ApplicationModule(self)
             application_module.init_gui()
 
         except Exception as e:
