@@ -69,6 +69,20 @@ class DefectsListDock(QDockWidget, FORM_CLASS):
             self.layer.getFeatures()}
         return all_features
 
+    @pyqtSlot()
+    def on_next_button_clicked(self):
+        row = self.defects_list.currentRow() + 1
+        if row == self.defects_list.rowCount():
+            row = 0
+        self.defects_list.setCurrentCell(row, 0)
+
+    @pyqtSlot()
+    def on_previous_button_clicked(self):
+        row = self.defects_list.currentRow() - 1
+        if row == -1:
+            row = self.defects_list.rowCount() - 1
+        self.defects_list.setCurrentCell(row, 0)
+
     @pyqtSlot(QTableWidgetItem, QTableWidgetItem)
     def on_defects_list_currentItemChanged(self, current_item, previous_item):
         if previous_item is None or current_item.row() != previous_item.row():
