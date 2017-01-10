@@ -44,7 +44,7 @@ class ApplicationModuleBase(QObject):
         self.module = self.settings.value("project/appmodule")
         self.module_name = self.settings.value("project/appmodulename")
 
-        self.defects_layers = None
+        self.defects_layers = {}
         self.defects_list_dock = veriso.defects_list_dock
 
         self.beforeAction = None
