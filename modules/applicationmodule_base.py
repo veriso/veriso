@@ -58,7 +58,7 @@ class ApplicationModuleBase(QObject):
         self.clean_gui()
         self.do_init_checks_menu()
         self.do_init_defects_menu()
-        self.do_init_defects_list_dock()
+        self.defects_list_dock.clear()
         # TODO (MB) is this really the requirement?
         # Entfernen des Reiters "Tables"
         # self.do_init_topics_tables_menu()
@@ -321,12 +321,9 @@ class ApplicationModuleBase(QObject):
         menubar.addMenu(menu)
         self.toolbar.insertWidget(self.beforeAction, menubar)
 
-    def do_init_defects_list_dock(self):
-        self.defects_list_dock.refresh(self.defects_layers)
-
     def do_load_defects_wrapper(self):
         self.defects_layers = self.do_load_defects()
-        self.do_init_defects_list_dock()
+        self.defects_list_dock.load_layers(self.defects_layers)
 
     def do_load_defects(self):
         defects_module = 'veriso.modules.loaddefects_base'

@@ -1,3 +1,5 @@
+# coding=utf-8
+
 from __future__ import absolute_import, print_function
 
 from builtins import next, range, str
@@ -24,18 +26,44 @@ class DefectsListDock(QDockWidget, FORM_CLASS):
         self.message_bar = self.iface.messageBar()
         self.layer = None
 
-    def refresh(self, layers):
+        self._gui_elements = [
+            self.layers_combo,
+            self.unfinished_only_check,
+            self.unfinished_fields_combo,
+            self.previous_button,
+            self.next_button,
+            self.defects_list
+        ]
+
+        self._toggle_gui_elements(False)
+
+    def clear(self):
+        self.layer = None
+        self.layers_combo.clear()
+        self.unfinished_fields_combo.clear()
+        self._clear_defects_list()
+        self._toggle_gui_elements(False)
+
+    def load_layers(self, layers):
         self.layers_combo.clear()
         for layer in sorted(layers):
             self.layers_combo.addItem(layer, layers[layer])
 
     def _layer_changed(self):
-        self._refresh_unfinished_only_gui()
-        self._refresh_defects_list()
+        self._toggle_gui_elements((self.layer is not None))
+        if self.layer is not None:
+            self._refresh_unfinished_only_gui()
+            self._refresh_defects_list()
 
-    def _refresh_defects_list(self):
+    def _clear_defects_list(self):
         self.defects_list.clear()
         self.defects_list.setRowCount(0)
+        self.defects_list.setColumnCount(0)
+
+    def _refresh_defects_list(self):
+        if self.layer is None:
+            return
+        self._clear_defects_list()
         fields = [f.name() for f in self.layer.pendingFields()]
         self.defects_list.setColumnCount(len(fields))
         self.defects_list.setHorizontalHeaderLabels(fields)
@@ -52,6 +80,12 @@ class DefectsListDock(QDockWidget, FORM_CLASS):
             row += 1
         self.defects_list.resizeColumnsToContents()
 
+    def _toggle_gui_elements(self, enable):
+        for element in self._gui_elements:
+            element.setEnabled(enable)
+        self.unfinished_fields_combo.setEnabled(
+                self.unfinished_only_check.isChecked())
+
     def _refresh_unfinished_only_gui(self):
         # get al boolean fields
         fields = [f.name() for f
@@ -59,14 +93,9 @@ class DefectsListDock(QDockWidget, FORM_CLASS):
                   if f.typeName() == 'bool']
 
         fields_available = len(fields) > 0
-        self.unfinished_fields_combo.blockSignals(True)
-        self.unfinished_only_check.blockSignals(True)
         self.unfinished_fields_combo.clear()
         self.unfinished_fields_combo.addItems(fields)
-        self.unfinished_fields_combo.setEnabled(fields_available)
         self.unfinished_only_check.setEnabled(fields_available)
-        self.unfinished_fields_combo.blockSignals(False)
-        self.unfinished_only_check.blockSignals(False)
 
     def _get_features(self):
         if self.unfinished_only_check.isChecked():
@@ -102,13 +131,17 @@ class DefectsListDock(QDockWidget, FORM_CLASS):
 
     @pyqtSlot()
     def on_previous_button_clicked(self):
-        row = self.defects_list.currentRow() - 1
-        if row == -1:
+        row = self.defects_list.currentRow()
+        if row > 0:
+            row -= 1
+        else:
             row = self.defects_list.rowCount() - 1
         self.defects_list.setCurrentCell(row, 0)
 
     @pyqtSlot(QTableWidgetItem, QTableWidgetItem)
     def on_defects_list_currentItemChanged(self, current_item, previous_item):
+        if self.layer is None or current_item is None:
+            return
         if previous_item is None or current_item.row() != previous_item.row():
             fid = current_item.data(Qt.UserRole)
             self._zoom_to_feature(fid)
