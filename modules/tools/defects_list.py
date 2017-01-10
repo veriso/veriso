@@ -8,9 +8,9 @@ from qgis.PyQt.QtGui import QTableWidgetItem, QDockWidget
 from qgis.core import QgsFeatureRequest
 
 from veriso.base.utils.utils import (get_ui_class)
-from veriso.base.utils.exceptions import VerisoError
 
 FORM_CLASS = get_ui_class('./defect_list.ui')
+
 
 class DefectsListDock(QDockWidget, FORM_CLASS):
     """
@@ -31,14 +31,16 @@ class DefectsListDock(QDockWidget, FORM_CLASS):
             self.layers_combo.addItem(layer, layers[layer])
 
     def _refresh_defects_list(self):
+        self._refresh_unfinished_only_gui()
         self.defects_list.clear()
+        self.defects_list.setRowCount(0)
         fields = [f.name() for f in self.layer.pendingFields()]
-        self.defects_list.setRowCount(self.layer.featureCount())
         self.defects_list.setColumnCount(len(fields))
         self.defects_list.setHorizontalHeaderLabels(fields)
 
         row = 0
-        for feature in self.layer.getFeatures():
+        for feature in self._get_features():
+            self.defects_list.insertRow(row)
             column = 0
             for field in fields:
                 item = QTableWidgetItem(str(feature[field]))
@@ -46,28 +48,48 @@ class DefectsListDock(QDockWidget, FORM_CLASS):
                 self.defects_list.setItem(row, column, item)
                 column += 1
             row += 1
+        self.defects_list.resizeColumnsToContents()
 
+    def _refresh_unfinished_only_gui(self):
+        # get al boolean fields
+        fields = [f.name() for f
+                  in self.layer.pendingFields()
+                  if f.typeName() == 'bool']
 
-
-    def _get_unfinished_features(self):
-        pass
-
-    def _zoom_to_feature(self, fid):
-        self.layer.setSelectedFeatures([fid])
-
-        box = self.layer.boundingBoxOfSelected()
-        self.iface.mapCanvas().setExtent(box)
-        self.iface.mapCanvas().refresh()
+        fields_available = len(fields) > 0
+        self.unfinished_fields_combo.blockSignals(True)
+        self.unfinished_only_check.blockSignals(True)
+        self.unfinished_fields_combo.clear()
+        self.unfinished_fields_combo.addItems(fields)
+        self.unfinished_fields_combo.setEnabled(fields_available)
+        self.unfinished_only_check.setEnabled(fields_available)
+        self.unfinished_fields_combo.blockSignals(False)
+        self.unfinished_only_check.blockSignals(False)
 
     def _get_features(self):
-        # Select all features along with their attributes1
-        all_attrs = self.layer.pendingAllAttributesList()
-        self.layer.select(all_attrs)
-        # Get all the features to start
-        all_features = {
-            feature.id(): feature for (feature) in
-            self.layer.getFeatures()}
-        return all_features
+        if self.unfinished_only_check.isChecked():
+            return self._get_unfinished_features()
+        return self.layer.getFeatures()
+
+    def _get_unfinished_features(self):
+        request = QgsFeatureRequest()
+        field = self.unfinished_fields_combo.currentText()
+        expression = '"{0}" != True or "{0}" is NULL'.format(field)
+        request.setFilterExpression(expression)
+        return self.layer.getFeatures(request)
+
+    def _zoom_to_feature(self, fid):
+        request = QgsFeatureRequest(fid)
+        feature = self.layer.getFeatures(request).next()
+
+        self.iface.openFeatureForm(self.layer,
+                                   feature,
+                                   updateFeatureOnly=False,
+                                   showModal=True)
+        self.layer.setSelectedFeatures([fid])
+
+        self.iface.mapCanvas().zoomToSelected(self.layer)
+        self.iface.mapCanvas().refresh()
 
     @pyqtSlot()
     def on_next_button_clicked(self):
@@ -93,3 +115,13 @@ class DefectsListDock(QDockWidget, FORM_CLASS):
     def on_layers_combo_currentIndexChanged(self, index):
         self.layer = self.layers_combo.itemData(index)
         self._refresh_defects_list()
+
+    @pyqtSlot(int)
+    def on_unfinished_fields_combo_currentIndexChanged(self, _):
+        self._refresh_defects_list()
+
+    @pyqtSlot(bool)
+    def on_unfinished_only_check_toggled(self, state):
+        self.unfinished_fields_combo.setEnabled(state)
+        self._refresh_defects_list()
+
