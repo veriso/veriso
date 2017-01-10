@@ -2,7 +2,7 @@ from __future__ import absolute_import, print_function
 
 from builtins import next, range, str
 
-from qgis.PyQt.QtCore import pyqtSignal, pyqtSlot, Qt, QObject
+from qgis.PyQt.QtCore import pyqtSlot, Qt
 from qgis.PyQt.QtGui import QTableWidgetItem, QDockWidget
 
 from qgis.core import QgsFeatureRequest
@@ -16,7 +16,6 @@ class DefectsListDock(QDockWidget, FORM_CLASS):
     """
 
     """
-    projectsDatabaseHasChanged = pyqtSignal()
 
     def __init__(self, iface, parent=None):
         QDockWidget.__init__(self, parent)
@@ -30,8 +29,11 @@ class DefectsListDock(QDockWidget, FORM_CLASS):
         for layer in sorted(layers):
             self.layers_combo.addItem(layer, layers[layer])
 
-    def _refresh_defects_list(self):
+    def _layer_changed(self):
         self._refresh_unfinished_only_gui()
+        self._refresh_defects_list()
+
+    def _refresh_defects_list(self):
         self.defects_list.clear()
         self.defects_list.setRowCount(0)
         fields = [f.name() for f in self.layer.pendingFields()]
@@ -114,7 +116,7 @@ class DefectsListDock(QDockWidget, FORM_CLASS):
     @pyqtSlot(int)
     def on_layers_combo_currentIndexChanged(self, index):
         self.layer = self.layers_combo.itemData(index)
-        self._refresh_defects_list()
+        self._layer_changed()
 
     @pyqtSlot(int)
     def on_unfinished_fields_combo_currentIndexChanged(self, _):
@@ -124,4 +126,3 @@ class DefectsListDock(QDockWidget, FORM_CLASS):
     def on_unfinished_only_check_toggled(self, state):
         self.unfinished_fields_combo.setEnabled(state)
         self._refresh_defects_list()
-
