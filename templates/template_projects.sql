@@ -21,5 +21,6 @@ CREATE TABLE projects
         datadate DATE,
         importdate DATE DEFAULT (datetime('now','localtime')),
         notes TEXT,
-        itf TEXT
+        itf TEXT,
+        lockscale INTEGER
 );
