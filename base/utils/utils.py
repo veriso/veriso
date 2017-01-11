@@ -138,6 +138,7 @@ def get_projects():
                 "provider": str(
                         query.value(record.indexOf("provider"))),
                 "epsg": str(query.value(record.indexOf("epsg"))),
+                "lockscale": int(query.value(record.indexOf("lockscale"))),
                 "ilimodelname": str(
                         query.value(record.indexOf("ilimodelname"))),
                 "appmodule": str(
