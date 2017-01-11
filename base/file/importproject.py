@@ -58,6 +58,7 @@ class ImportProjectDialog(QDialog, FORM_CLASS):
         self.db_admin = None
         self.db_admin_pwd = None
         self.projects_database = None
+        self.lock_scale = None
         self.projects_root_directory = None
         self.process = None
 
@@ -276,6 +277,10 @@ class ImportProjectDialog(QDialog, FORM_CLASS):
         self.db_schema = self.lineEditDbSchema.text().strip()
 
         self.data_date = self.dateTimeEdit.date().toString("yyyy-MM-dd")
+
+        self.lock_scale = 0
+        if self.lock_scale_check.isChecked():
+            self.lock_scale = self.lock_scale_value.value()
 
         self.notes = self.textEditNotes.toPlainText().strip()
         if len(self.notes) > 10000:
@@ -591,16 +596,18 @@ class ImportProjectDialog(QDialog, FORM_CLASS):
                 project_root_directory,
                 self.data_date,
                 self.notes,
-                self.itf
+                self.itf,
+                self.lock_scale
             )
             values = "VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s'," \
                      "'%s', '%s', 'postgres', '%s', '%s', '%s', '%s', '%s', " \
-                     "'%s', '%s', '%s', '%s')" % values
+                     "'%s', '%s', '%s', '%s', '%s')" % values
 
             sql = "INSERT INTO projects (id, displayname, dbhost, dbname, " \
                   "dbport, dbschema, dbuser, dbpwd, dbadmin, dbadminpwd, " \
                   "provider, epsg, ilimodelname, appmodule, appmodulename, " \
-                  "projectrootdir, projectdir, datadate, notes, itf)" + values
+                  "projectrootdir, projectdir, datadate, notes, itf, " \
+                  "lockscale)" + values
 
             query = db.exec_(sql)
 

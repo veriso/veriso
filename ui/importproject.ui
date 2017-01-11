@@ -168,20 +168,35 @@
           <item>
            <widget class="QCheckBox" name="lock_scale_check">
             <property name="text">
-             <string>1:</string>
+             <string> 1 :</string>
             </property>
            </widget>
           </item>
           <item>
-           <widget class="QLineEdit" name="lock_scale_text">
+           <widget class="QSpinBox" name="lock_scale_value">
             <property name="enabled">
+             <bool>false</bool>
+            </property>
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="accelerated">
              <bool>true</bool>
             </property>
-            <property name="inputMethodHints">
-             <set>Qt::ImhDigitsOnly</set>
+            <property name="minimum">
+             <number>1</number>
             </property>
-            <property name="text">
-             <string>1000</string>
+            <property name="maximum">
+             <number>1000000000</number>
+            </property>
+            <property name="singleStep">
+             <number>250</number>
+            </property>
+            <property name="value">
+             <number>1000</number>
             </property>
            </widget>
           </item>
@@ -270,6 +285,22 @@
     <hint type="destinationlabel">
      <x>286</x>
      <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>lock_scale_check</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>lock_scale_value</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>224</x>
+     <y>270</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>287</x>
+     <y>270</y>
     </hint>
    </hints>
   </connection>
