@@ -26,6 +26,7 @@ from __future__ import absolute_import
 
 import os.path
 
+import time
 
 try:
     from builtins import object, str
@@ -33,9 +34,10 @@ except ImportError:
     raise ImportError('Please install the python future package')
 from qgis.PyQt.QtCore import (QCoreApplication, Qt, QSettings, QTranslator,
                               qVersion)
-from qgis.PyQt.QtGui import QApplication, QPalette
+from qgis.PyQt.QtGui import QApplication, QPalette, QWidget
 from qgis.PyQt.QtWidgets import QAction, QMenu, QMenuBar, QSizePolicy
 
+from qgis.core import QgsProject
 from qgis.gui import QgsMessageBar
 
 from veriso.modules.tools.defects_list import DefectsListDock
@@ -80,6 +82,8 @@ class VeriSO(object):
         self.import_dlg = None
         self.delete_dlg = None
         self.options_dlg = None
+        self.locked_scale = None
+        self.last_rezoomed_time = time.time()
 
     # noinspection PyPep8Naming
     def initGui(self):
@@ -254,6 +258,7 @@ class VeriSO(object):
         self.settings.setValue("project/dbadmin", str(project["dbadmin"]))
         self.settings.setValue("project/dbadminpwd", str(project["dbadminpwd"]))
         self.settings.setValue("project/projectdir", str(project["projectdir"]))
+        self.settings.setValue("project/lockscale", project["lockscale"])
 
         module_name = str(project["appmodule"]).lower()
         try:
@@ -262,9 +267,43 @@ class VeriSO(object):
             application_module = module.ApplicationModule(self)
             application_module.init_gui()
 
+            if project["lockscale"]:
+                self.lock_scale(project["lockscale"])
+            else:
+                self.unlock_scale()
+
         except Exception as e:
             self.message_bar.pushMessage("VeriSO", str(e),
                                          QgsMessageBar.CRITICAL, duration=0)
+
+    def unlock_scale(self):
+        QgsProject.instance().writeEntry("Scales", "/useProjectScales", False)
+        QgsProject.instance()
+        self.iface.mapCanvas().renderComplete.disconnect(
+                self.zoom_to_locked_scale)
+
+    def lock_scale(self, scale):
+        self.locked_scale = scale
+        scales = ['1:%s' % scale]
+        QgsProject.instance().writeEntry("Scales", "/useProjectScales", True)
+        QgsProject.instance().writeEntry(
+                "Scales", "/ScalesList", scales)
+        scale_widget = self.iface.mainWindow().findChild(QWidget, "mScaleEdit")
+        scale_widget.clear()
+        scale_widget.addItems(scales)
+
+        self.iface.mapCanvas().renderComplete.connect(
+                self.zoom_to_locked_scale)
+
+    def zoom_to_locked_scale(self):
+        now = time.time()
+        if now - self.last_rezoomed_time < 1:
+            # avoid rezooming zo often or we end in an infinite recursion
+            return
+        canvas = self.iface.mapCanvas()
+        if int(canvas.scale()) != int(self.locked_scale):
+            canvas.zoomScale(self.locked_scale)
+            self.last_rezoomed_time = now
 
     def unload(self):
         self.iface.mainWindow().removeToolBar(self.toolbar)
