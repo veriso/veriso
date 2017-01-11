@@ -11,7 +11,7 @@ from qgis.core import QgsFeatureRequest
 
 from veriso.base.utils.utils import (get_ui_class)
 
-FORM_CLASS = get_ui_class('./defect_list.ui')
+FORM_CLASS = get_ui_class('defect_list.ui')
 
 
 class DefectsListDock(QDockWidget, FORM_CLASS):

@@ -9,14 +9,15 @@ from qgis.PyQt.QtCore import (
 from qgis.PyQt.QtGui import QRegExpValidator, QInputDialog, QLineEdit
 from qgis.PyQt.QtWidgets import QDialog, QDialogButtonBox, QFileDialog, QWidget
 
-from veriso.base.utils.utils import open_psql_db, get_projects_db, tr
+from veriso.base.utils.utils import open_psql_db, get_projects_db, tr, \
+    get_ui_class
 from veriso.base.utils.exceptions import VerisoError
 
-from .Ui_options import Ui_Options
+FORM_CLASS = get_ui_class('options.ui')
 
 
 # noinspection PyPep8Naming
-class OptionsDialog(QDialog, Ui_Options):
+class OptionsDialog(QDialog, FORM_CLASS):
     projectsDatabaseHasChanged = pyqtSignal()
 
     def __init__(self, iface, parent=None):

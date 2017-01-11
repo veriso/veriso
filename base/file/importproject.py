@@ -17,13 +17,13 @@ from qgis.gui import QgsMessageBar
 from veriso.base.utils.utils import (open_psql_db, open_sqlite_db,
                                      get_projects_db, get_modules_dir,
                                      yaml_load_file, tr,
-                                     get_subdirs, jre_version)
+                                     get_subdirs, jre_version, get_ui_class)
 from veriso.base.utils.exceptions import VerisoError
 
-from .Ui_importproject import Ui_ImportProject
+FORM_CLASS = get_ui_class('importproject.ui')
 
 
-class ImportProjectDialog(QDialog, Ui_ImportProject):
+class ImportProjectDialog(QDialog, FORM_CLASS):
     projectsDatabaseHasChanged = pyqtSignal()
 
     def __init__(self, iface, parent=None):

@@ -10,13 +10,13 @@ from qgis.PyQt.QtWidgets import QApplication, QDialog, QDialogButtonBox
 from qgis.gui import QgsMessageBar
 
 from veriso.base.utils.utils import open_psql_db, get_projects_db, \
-    get_projects, tr
+    get_projects, tr, get_ui_class
 from veriso.base.utils.exceptions import VerisoError
 
-from .Ui_deleteproject import Ui_DeleteProject
+FORM_CLASS = get_ui_class('deleteproject.ui')
 
 
-class DeleteProjectDialog(QDialog, Ui_DeleteProject):
+class DeleteProjectDialog(QDialog, FORM_CLASS):
     projectsDatabaseHasChanged = pyqtSignal()
 
     def __init__(self, iface, parent=None):
