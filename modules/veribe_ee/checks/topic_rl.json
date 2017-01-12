@@ -1,0 +1,12 @@
+{  
+   "checks":[  
+      {  
+         "id":"ts",
+         "name":{  
+            "de":"Rohrleitungen",
+            "fr":"Conduites"
+         },
+         "file":"complexchecks.rohr_allgemein"
+      }
+   ]
+}

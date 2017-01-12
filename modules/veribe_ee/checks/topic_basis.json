@@ -1,0 +1,12 @@
+{  
+   "checks":[  
+      {  
+         "id":"Basis",
+         "name":{  
+            "de":"Basis",
+            "fr":"Base"
+         },
+         "file":"complexchecks.basis"
+      }
+   ]
+}

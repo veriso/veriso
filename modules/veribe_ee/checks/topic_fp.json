@@ -1,0 +1,20 @@
+{  
+   "checks":[  
+      {  
+         "id":"fixpunktekategorie12",
+         "name":{  
+            "de":"Fixpunkt Kat. 1/2",
+            "fr":"Points fixes cat. 1/2"
+         },
+         "file":"complexchecks.fp12"
+      },
+      {  
+         "id":"fixpunktekategorie3",
+         "name":{  
+            "de":"Fixpunkt Kat. 3",
+            "fr":"Points fixes cat. 3"
+         },
+         "file":"complexchecks.fp3"
+      }
+   ]
+}

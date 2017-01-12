@@ -1,0 +1,20 @@
+{  
+   "checks":[  
+      {  
+         "id":"fp12",
+         "name":{  
+            "de":"Übersicht LFP1/2",
+            "fr":"Vue d'ensemble"
+         },
+         "file":"complexchecks.fp12"
+      },
+      {  
+         "id":"fp3",
+         "name":{  
+            "de":"Übersicht LFP3",
+            "fr":"Vue d'ensemble"
+         },
+         "file":"complexchecks.fp3"
+      }
+   ]
+}

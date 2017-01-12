@@ -1,0 +1,20 @@
+{  
+   "checks":[  
+      {  
+         "id":"Gemeindegrenzen",
+         "name":{  
+            "de":"Gemeindegrenzen",
+            "fr":"Limites de commune"
+         },
+         "file":"complexchecks.GemGrenz"
+      },
+      {  
+         "id":"HPG",
+         "name":{  
+            "de":"HGP ausserhalb",
+            "fr":"PL terr extérieur"
+         },
+         "file":"complexchecks.Hoheitsgrenze_GP_Linie"
+      }
+   ]
+}
