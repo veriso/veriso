@@ -274,6 +274,10 @@ def get_checks_from_files(module_name, topic_dir, modules_dir=None):
                 QgsMessageLog.logMessage(tr(message), module_name,
                                          QgsMessageLog.WARNING)
                 continue
+        elif f.endswith('_separator'):
+            check['name'] = 'separator'
+            checks.append(check)
+
     return checks
 
 
