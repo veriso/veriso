@@ -50,9 +50,7 @@ class ComplexCheckBase(QObject):
         try:
             return cls.name
         except:
-            path = cls.__module__ + "." + cls.__name__
-            message = "%s does not define whether names nor name" % path
-            raise Exception(message)
+            return ''
 
     @classmethod
     def get_shortcut(cls):
