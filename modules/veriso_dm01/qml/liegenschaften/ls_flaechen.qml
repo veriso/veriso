@@ -37,7 +37,8 @@
   </edittypes>
   <renderer-v2 symbollevels="0" type="RuleRenderer">
     <rules key="{2cdbefb9-b625-48d7-bf4b-3e45fd704aeb}">
-      <rule filter="(( $area -0.55>&quot;flaechenmass&quot; ) or ( $area +0.55&lt; &quot;flaechenmass&quot; ) )" key="{0029f964-6608-478a-8284-7c0964a0e7c6}" symbol="0" label="Differenz"/>
+      <rule filter="qualitaet_txt = 'AV93' and (( $area -0.55>&quot;flaechenmass&quot; ) or ( $area +0.55&lt; &quot;flaechenmass&quot; ) )" key="{0029f964-6608-478a-8284-7c0964a0e7c6}" symbol="0" label=" AV93 / MO93"/>
+      <rule filter="qualitaet_txt &lt;> 'AV93' and (( $area -0.55> &quot;flaechenmass&quot; ) or ( $area +0.55&lt; &quot;flaechenmass&quot; ) )" key="{12bb080d-e08d-44b2-a172-424a8f28755b}" symbol="1" label="audres de qualité"/>
     </rules>
     <symbols>
       <symbol alpha="1" type="fill" name="0">
@@ -85,6 +86,21 @@
           <prop k="outline_color" v="252,0,0,255"/>
           <prop k="outline_style" v="solid"/>
           <prop k="outline_width" v="2.06"/>
+          <prop k="outline_width_unit" v="MM"/>
+          <prop k="style" v="no"/>
+        </layer>
+      </symbol>
+      <symbol alpha="1" type="fill" name="1">
+        <layer pass="0" class="SimpleFill" locked="0">
+          <prop k="border_width_map_unit_scale" v="0,0"/>
+          <prop k="color" v="211,142,21,255"/>
+          <prop k="joinstyle" v="bevel"/>
+          <prop k="offset" v="0,0"/>
+          <prop k="offset_map_unit_scale" v="0,0"/>
+          <prop k="offset_unit" v="MM"/>
+          <prop k="outline_color" v="255,0,127,255"/>
+          <prop k="outline_style" v="solid"/>
+          <prop k="outline_width" v="2"/>
           <prop k="outline_width_unit" v="MM"/>
           <prop k="style" v="no"/>
         </layer>

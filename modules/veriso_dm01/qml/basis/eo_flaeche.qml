@@ -63,7 +63,7 @@
       <category render="true" symbol="38" value="wichtiger_Einzelbaum" label="wichtiger_Einzelbaum"/>
       <category render="true" symbol="39" value="Bildstock_Kruzifix" label="Bildstock_Kruzifix"/>
       <category render="true" symbol="40" value="Bezugspunkt" label="Bezugspunkt"/>
-      <category render="true" symbol="41" value="Dekmal" label="Denkmal"/>
+      <category render="true" symbol="41" value="Denkmal" label="Denkmal"/>
     </categories>
     <symbols>
       <symbol alpha="0.552941" type="fill" name="0">
