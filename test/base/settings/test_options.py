@@ -64,40 +64,92 @@ class TestUtils(TestCase):
         self.assertEquals(lst_items[1], 'http://models.geo.admin.ch/')
 
     @patch('qgis.PyQt.QtWidgets.QFileDialog.getOpenFileName')
-    def test_on_btnBrowseImportJar_clicked(self, mock_on_btnBrowseImportJar_clicked):
+    def test_on_btnBrowseImportJar_clicked(self, mock_getOpenFileName):
         '''test Button Browse Import Jar'''
-        mock_on_btnBrowseImportJar_clicked.return_value = "/foo/bar.jar"
+        mock_getOpenFileName.return_value = "/foo/bar.jar"
         button = self.dialog.btnBrowseImportJar
         button.click()
         self.assertEquals(self.dialog.lineEditImportJar.text(), "/foo/bar.jar")
 
     @patch('qgis.PyQt.QtWidgets.QFileDialog.getOpenFileName')
-    def test_on_btnBrowseProjectsDatabase_clicked(self, mock_on_btnBrowseProjectsDatabase_clicked):
+    def test_on_btnBrowseProjectsDatabase_clicked(self, mock_getOpenFileName):
         '''test Button Browse Project Database'''
-        mock_on_btnBrowseProjectsDatabase_clicked.return_value = "/foo/bar.db"
+        mock_getOpenFileName.return_value = "/foo/bar.db"
         button = self.dialog.btnBrowseProjectsDatabase
         button.click()
         self.assertEquals(self.dialog.lineEditProjectsDatabase.text(), "/foo/bar.db")
 
     @patch('qgis.PyQt.QtWidgets.QFileDialog.getExistingDirectory')
-    def test_on_btnBrowseProjectsRootDir_clicked(self, mock_on_btnBrowseProjectsRootDir_clicked):
+    def test_on_btnBrowseProjectsRootDir_clicked(self, mock_getExistingDirectory):
         '''test Button Project Root Dir'''
-        mock_on_btnBrowseProjectsRootDir_clicked.return_value = "/foo/bar/"
+        mock_getExistingDirectory.return_value = "/foo/bar/"
         button = self.dialog.btnBrowseProjectsRootDir
         button.click()
         self.assertEquals(self.dialog.lineEditProjectsRootDir.text(), "/foo/bar/")
 
-    #ToDo Marioba
+    # #ToDo Marioba
     # @patch('veriso.base.settings.options.OptionsDialog.test_connection_succes')
     # @patch('veriso.base.settings.options.OptionsDialog.test_connection_failed')
     # def test_on_btnTestProjectDB_clicked(self, mock_test_connection_failed, mock_test_connection_succes):
-    #     '''test Button Test Project DB'''
-    #     self.dialog.lineEditProjectsDatabase.setText("")
-    #     button = self.dialog.btnTestProjectDB
-    #     button.click()
-    #     assert mock_test_connection_failed.called
-    #     mock_test_connection_failed.called_once.reset_mock
-    #     self.dialog.lineEditProjectsDatabase.setText("/home/mario/.qgis2/python/plugins/veriso/templates/template_projects.db")
-    #     button.click()
-    #     assert mock_test_connection_succes.called
+    #      '''test Button Test Project DB'''
+    #      self.dialog.lineEditProjectsDatabase.setText('')
+    #      button = self.dialog.btnTestProjectDB
+    #      button.click()
+    #      assert mock_test_connection_failed.called
+    #
+    #      mock_test_connection_failed.called_once.reset_mock
+    #      self.dialog.lineEditProjectsDatabase.setText('../../../templates/template_projects.db')
+    #      button.click()
+    #      assert mock_test_connection_succes.called
+
+
+    #ToDo
+    #def test_on_btnTestConnection_clicked
+
+    def test_on_listWidgetModelRepos_itemSelectionChanged(self):
+        '''test Item selection on List Model Repos Widget'''
+        self.dialog.listWidgetModelRepos.clearSelection()
+        self.assertFalse(self.dialog.btnDeleteModelRepo.isEnabled())
+        self.assertFalse(self.dialog.btnEditModelRepo.isEnabled())
+        self.dialog.listWidgetModelRepos.setItemSelected(self.dialog.listWidgetModelRepos.item(0), True)
+        self.assertTrue(self.dialog.btnDeleteModelRepo.isEnabled())
+        self.assertTrue(self.dialog.btnEditModelRepo.isEnabled())
+
+    def test_on_btnDeleteModelRepo_clicked(self):
+        '''test Button Delete Model Repo'''
+        count = self.dialog.listWidgetModelRepos.count()
+        self.dialog.listWidgetModelRepos.clearSelection()
+        self.dialog.listWidgetModelRepos.insertItem(0,"http://foo.bar")
+        self.dialog.listWidgetModelRepos.setItemSelected(self.dialog.listWidgetModelRepos.item(0),True)
+        button = self.dialog.btnDeleteModelRepo
+        button.click()
+        self.assertEqual(count, self.dialog.listWidgetModelRepos.count())
+
+    @patch('veriso.base.settings.options.OptionsDialog.ask_url')
+    def test_on_btnAddModelRepo_clicked(self, mock_ask_url):
+        '''test Button Add Model Repo'''
+        mock_ask_url.return_value=['http://foo.bar', True]
+        count = self.dialog.listWidgetModelRepos.count()
+        button = self.dialog.btnAddModelRepo
+        button.click()
+        self.assertEqual(count +1, self.dialog.listWidgetModelRepos.count())
+
+    @patch('qgis.PyQt.QtWidgets.QFileDialog.getExistingDirectory')
+    def test_on_btnAddLocalModelRepo_clicked(self, mock_getExistingDirectory):
+        '''test Button Add Local Model Repo'''
+        mock_getExistingDirectory.return_value = "/foo/bar/"
+        count = self.dialog.listWidgetModelRepos.count()
+        button = self.dialog.btnAddLocalModelRepo
+        button.click()
+        self.assertEqual(count + 1, self.dialog.listWidgetModelRepos.count())
+
+    @patch('veriso.base.settings.options.OptionsDialog.ask_url')
+    def test_on_btnEditModelRepo_clicked(self, mock_ask_url):
+        '''test Button Edit Model Repo'''
+        mock_ask_url.return_value=['http://foo.bar', True]
+        self.dialog.listWidgetModelRepos.insertItem(0, 'http://bar.foo')
+        self.dialog.listWidgetModelRepos.setCurrentItem(self.dialog.listWidgetModelRepos.item(0))
+        button = self.dialog.btnEditModelRepo
+        button.click()
+        self.assertEqual(self.dialog.listWidgetModelRepos.item(0).text(), 'http://foo.bar')
 
