@@ -1,0 +1,54 @@
+﻿INSERT INTO test1.t_gebaeudeadressen_gebaeudeeingang_ausserhalb 
+SELECT * 
+FROM 
+(
+ SELECT a.*
+ FROM
+ (
+  SELECT * 
+  FROM test1.gebaeudeadressen_gebaeudeeingang
+
+  EXCEPT
+
+  SELECT a.* 
+  FROM test1.gebaeudeadressen_gebaeudeeingang as a, test1.bodenbedeckung_boflaeche as b
+  WHERE b.art_txt = 'Gebaeude'
+  AND a.lage && b.geometrie
+  AND ST_Distance(a.lage, b.geometrie) = 0
+ ) as a
+
+EXCEPT
+
+ SELECT a.*
+ FROM
+ (
+  SELECT * 
+  FROM test1.gebaeudeadressen_gebaeudeeingang
+
+  EXCEPT
+
+  SELECT a.* 
+  FROM test1.gebaeudeadressen_gebaeudeeingang as a, test1.bodenbedeckung_boflaeche as b
+  WHERE b.art_txt = 'Gebaeude'
+  AND a.lage && b.geometrie
+  AND ST_Distance(a.lage, b.geometrie) = 0
+ ) as a,
+ test1.v_einzelobjekte_flaechenelement as b
+ WHERE b.art_txt IN ('unterirdisches_Gebaeude', 'uebriger_Gebaeudeteil', 'Unterstand', 'Reservoir') 
+ AND a.lage && b.geometrie
+ AND ST_Distance(a.lage, b.geometrie) = 0
+) as c;
+
+
+
+
+
+INSERT INTO test2.t_gebaeudeadressen_gebaeudeeingang_innerhalb_centroidbuffer
+SELECT a.*
+FROM test2.gebaeudeadressen_gebaeudeeingang as a, test2.bodenbedeckung_boflaeche as b
+WHERE a.lage && b.geometrie
+AND ST_Distance(a.lage, ST_Buffer(ST_Centroid(b.geometrie),1)) = 0;
+
+
+
+
