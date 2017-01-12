@@ -276,24 +276,33 @@ class VeriSO(object):
             self.message_bar.pushMessage("VeriSO", str(e),
                                          QgsMessageBar.CRITICAL, duration=0)
 
-    def unlock_scale(self):
-        QgsProject.instance().writeEntry("Scales", "/useProjectScales", False)
-        QgsProject.instance()
-        self.iface.mapCanvas().renderComplete.disconnect(
-                self.zoom_to_locked_scale)
-
     def lock_scale(self, scale):
         self.locked_scale = scale
-        scales = ['1:%s' % scale]
+
         QgsProject.instance().writeEntry("Scales", "/useProjectScales", True)
         QgsProject.instance().writeEntry(
-                "Scales", "/ScalesList", scales)
-        scale_widget = self.iface.mainWindow().findChild(QWidget, "mScaleEdit")
-        scale_widget.clear()
-        scale_widget.addItems(scales)
-
+                "Scales", "/ScalesList", ['1:%s' % self.locked_scale])
         self.iface.mapCanvas().renderComplete.connect(
                 self.zoom_to_locked_scale)
+
+        self._update_scale_widget()
+
+    def unlock_scale(self):
+        QgsProject.instance().writeEntry("Scales", "/useProjectScales", False)
+        self.iface.mapCanvas().renderComplete.disconnect(
+                self.zoom_to_locked_scale)
+        self._update_scale_widget(True)
+
+    def _update_scale_widget(self, enable=False):
+        scale_widget = self.iface.mainWindow().findChild(QWidget, "mScaleEdit")
+        if scale_widget is None:
+            scale_widget = self.iface.mainWindow().findChild(
+                    QWidget, "mScaleWidget")
+        scale_widget.setEnabled(enable)
+
+        if not enable:
+            scale_widget.clear()
+            scale_widget.addItem('1:%s' % self.locked_scale)
 
     def zoom_to_locked_scale(self):
         now = time.time()
