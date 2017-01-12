@@ -257,7 +257,7 @@ class VeriSO(object):
         self.settings.setValue("project/dbadmin", str(project["dbadmin"]))
         self.settings.setValue("project/dbadminpwd", str(project["dbadminpwd"]))
         self.settings.setValue("project/projectdir", str(project["projectdir"]))
-        self.settings.setValue("project/lockscale", project["lockscale"])
+        self.settings.setValue("project/max_scale", project["max_scale"])
 
         module_name = str(project["appmodule"]).lower()
         try:
@@ -266,7 +266,7 @@ class VeriSO(object):
             application_module = module.ApplicationModule(self)
             application_module.init_gui()
 
-            if project["lockscale"]:
+            if project["max_scale"]:
                 self.set_max_scale(project["lockscale"])
             else:
                 self.unset_max_scale()
