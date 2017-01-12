@@ -83,7 +83,6 @@ class VeriSO(object):
         self.delete_dlg = None
         self.options_dlg = None
         self.locked_scale = None
-        self.last_rezoomed_time = time.time()
 
     # noinspection PyPep8Naming
     def initGui(self):
@@ -279,40 +278,19 @@ class VeriSO(object):
     def lock_scale(self, scale):
         self.locked_scale = scale
 
-        QgsProject.instance().writeEntry("Scales", "/useProjectScales", True)
-        QgsProject.instance().writeEntry(
-                "Scales", "/ScalesList", ['1:%s' % self.locked_scale])
-        self.iface.mapCanvas().renderComplete.connect(
+        self.iface.mapCanvas().scaleChanged.connect(
                 self.zoom_to_locked_scale)
-
-        self._update_scale_widget()
 
     def unlock_scale(self):
-        QgsProject.instance().writeEntry("Scales", "/useProjectScales", False)
-        self.iface.mapCanvas().renderComplete.disconnect(
+        self.iface.mapCanvas().scaleChanged.disconnect(
                 self.zoom_to_locked_scale)
-        self._update_scale_widget(True)
-
-    def _update_scale_widget(self, enable=False):
-        scale_widget = self.iface.mainWindow().findChild(QWidget, "mScaleEdit")
-        if scale_widget is None:
-            scale_widget = self.iface.mainWindow().findChild(
-                    QWidget, "mScaleWidget")
-        scale_widget.setEnabled(enable)
-
-        if not enable:
-            scale_widget.clear()
-            scale_widget.addItem('1:%s' % self.locked_scale)
 
     def zoom_to_locked_scale(self):
-        now = time.time()
-        if now - self.last_rezoomed_time < 0.5:
-            # avoid rezooming zo often or we end in an infinite recursion
-            return
         canvas = self.iface.mapCanvas()
-        if int(canvas.scale()) != int(self.locked_scale):
+        if int(canvas.scale()) < int(self.locked_scale):
+            canvas.scaleChanged.disconnect(self.zoom_to_locked_scale)
             canvas.zoomScale(self.locked_scale)
-            self.last_rezoomed_time = now
+            canvas.scaleChanged.connect(self.zoom_to_locked_scale)
 
     def unload(self):
         self.iface.mainWindow().removeToolBar(self.toolbar)
