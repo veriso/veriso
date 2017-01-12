@@ -5,7 +5,7 @@ import os
 import shutil
 from builtins import next, range, str
 from qgis.PyQt.QtCore import QDateTime, QDir, QFileInfo, \
-    QProcess, QRegExp, QSettings, Qt, pyqtSignal, pyqtSignature
+    QProcess, QRegExp, QSettings, Qt, pyqtSignal, pyqtSignature, pyqtSlot
 from qgis.PyQt.QtGui import QRegExpValidator
 from qgis.PyQt.QtSql import QSqlQuery
 from qgis.PyQt.QtWidgets import QApplication, QDialog, QDialogButtonBox, \
@@ -246,6 +246,38 @@ class ImportProjectDialog(QDialog, FORM_CLASS):
         file_info = QFileInfo(file_path)
         self.lineEditInputFile.setText(file_info.absoluteFilePath())
 
+    # noinspection PyPep8Naming,PyPep8Naming
+    @pyqtSlot(bool)
+    def on_lock_scale_check_toggled(self, enable):
+        """Fill out the reference frame lineedit (read only).
+        """
+        db_user = self.settings.value("options/db/user")
+
+        lock_scale_super_users = self.get_module_lock_scale_super_users()
+        if enable and (lock_scale_super_users is None or
+                        db_user in lock_scale_super_users):
+            self.lock_scale_value.setEnabled(True)
+        else:
+            self.lock_scale_value.setEnabled(False)
+
+    def get_module_lock_scale_super_users(self):
+        """
+        if a module.yml include a can_configure_lock_scale_users list this
+        method will behave as following:
+        - no can_configure_lock_scale_users list declared: all users can set
+        the map scale in the importer.
+        - can_configure_lock_scale_users declared but empty: no user can set
+        the map scale in the importer.
+        - usernames in the list: these users can set the map scale in the
+        importer.
+        :return:
+        """
+        data = self.cmbBoxAppModule.itemData(
+                self.cmbBoxAppModule.currentIndex())
+        if data is None:
+            return None
+        return data['can_configure_lock_scale_users']
+
     def accept(self):
         """Collecting all the stuff we need to know to start the import process.
         """
@@ -277,10 +309,6 @@ class ImportProjectDialog(QDialog, FORM_CLASS):
         self.db_schema = self.lineEditDbSchema.text().strip()
 
         self.data_date = self.dateTimeEdit.date().toString("yyyy-MM-dd")
-
-        self.lock_scale = 0
-        if self.lock_scale_check.isChecked():
-            self.lock_scale = self.lock_scale_value.value()
 
         self.notes = self.textEditNotes.toPlainText().strip()
         if len(self.notes) > 10000:
@@ -403,6 +431,13 @@ class ImportProjectDialog(QDialog, FORM_CLASS):
             self.message_bar.pushWarning("VeriSO",
                                          tr("No java runtime detected."))
             return
+
+        self.lock_scale = 0
+        if self.lock_scale_check.isChecked():
+            if self.db_user == 'AGI':
+                self.lock_scale = self.lock_scale_value.value()
+            else:
+                self.lock_scale = 1000
 
         self.textEditImportOutput.clear()
 

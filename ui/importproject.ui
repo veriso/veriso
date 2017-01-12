@@ -183,6 +183,9 @@
               <verstretch>0</verstretch>
              </sizepolicy>
             </property>
+            <property name="toolTip">
+             <string>This is customizable only for the users defined in module.yml</string>
+            </property>
             <property name="accelerated">
              <bool>true</bool>
             </property>
@@ -285,22 +288,6 @@
     <hint type="destinationlabel">
      <x>286</x>
      <y>274</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>lock_scale_check</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>lock_scale_value</receiver>
-   <slot>setEnabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>224</x>
-     <y>270</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>287</x>
-     <y>270</y>
     </hint>
    </hints>
   </connection>
