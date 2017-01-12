@@ -58,7 +58,7 @@ class ImportProjectDialog(QDialog, FORM_CLASS):
         self.db_admin = None
         self.db_admin_pwd = None
         self.projects_database = None
-        self.lock_scale = None
+        self.max_scale = None
         self.projects_root_directory = None
         self.process = None
 
@@ -217,6 +217,8 @@ class ImportProjectDialog(QDialog, FORM_CLASS):
             self.app_module = ""
             self.app_module_name = ""
 
+        self.on_max_scale_check_toggled(self.max_scale_check.isChecked())
+
     # noinspection PyPep8Naming,PyPep8Naming
     @pyqtSignature("on_cmbBoxIliModelName_currentIndexChanged(int)")
     def on_cmbBoxIliModelName_currentIndexChanged(self, idx):
@@ -248,25 +250,25 @@ class ImportProjectDialog(QDialog, FORM_CLASS):
 
     # noinspection PyPep8Naming,PyPep8Naming
     @pyqtSlot(bool)
-    def on_lock_scale_check_toggled(self, enable):
+    def on_max_scale_check_toggled(self, enable):
         """Fill out the reference frame lineedit (read only).
         """
         db_user = self.settings.value("options/db/user")
 
-        lock_scale_super_users = self.get_module_lock_scale_super_users()
-        if enable and (lock_scale_super_users is None or
-                        db_user in lock_scale_super_users):
-            self.lock_scale_value.setEnabled(True)
+        max_scale_super_users = self.get_module_max_scale_super_users()
+        if enable and (max_scale_super_users is None or
+                               db_user in max_scale_super_users):
+            self.max_scale_value.setEnabled(True)
         else:
-            self.lock_scale_value.setEnabled(False)
+            self.max_scale_value.setEnabled(False)
 
-    def get_module_lock_scale_super_users(self):
+    def get_module_max_scale_super_users(self):
         """
-        if a module.yml include a can_configure_lock_scale_users list this
+        if a module.yml include a can_configure_max_scale_users list this
         method will behave as following:
-        - no can_configure_lock_scale_users list declared: all users can set
+        - no can_configure_max_scale_users list declared: all users can set
         the map scale in the importer.
-        - can_configure_lock_scale_users declared but empty: no user can set
+        - can_configure_max_scale_users declared but empty: no user can set
         the map scale in the importer.
         - usernames in the list: these users can set the map scale in the
         importer.
@@ -274,9 +276,10 @@ class ImportProjectDialog(QDialog, FORM_CLASS):
         """
         data = self.cmbBoxAppModule.itemData(
                 self.cmbBoxAppModule.currentIndex())
-        if data is None:
+        try:
+            return data['can_configure_max_scale_users']
+        except (KeyError, TypeError):
             return None
-        return data['can_configure_lock_scale_users']
 
     def accept(self):
         """Collecting all the stuff we need to know to start the import process.
@@ -432,12 +435,12 @@ class ImportProjectDialog(QDialog, FORM_CLASS):
                                          tr("No java runtime detected."))
             return
 
-        self.lock_scale = 0
-        if self.lock_scale_check.isChecked():
+        self.max_scale = 0
+        if self.max_scale_check.isChecked():
             if self.db_user == 'AGI':
-                self.lock_scale = self.lock_scale_value.value()
+                self.max_scale = self.max_scale_value.value()
             else:
-                self.lock_scale = 1000
+                self.max_scale = 1000
 
         self.textEditImportOutput.clear()
 
@@ -632,7 +635,7 @@ class ImportProjectDialog(QDialog, FORM_CLASS):
                 self.data_date,
                 self.notes,
                 self.itf,
-                self.lock_scale
+                self.max_scale
             )
             values = "VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s'," \
                      "'%s', '%s', 'postgres', '%s', '%s', '%s', '%s', '%s', " \

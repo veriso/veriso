@@ -82,7 +82,7 @@ class VeriSO(object):
         self.import_dlg = None
         self.delete_dlg = None
         self.options_dlg = None
-        self.locked_scale = None
+        self.max_scale = None
 
     # noinspection PyPep8Naming
     def initGui(self):
@@ -267,30 +267,30 @@ class VeriSO(object):
             application_module.init_gui()
 
             if project["lockscale"]:
-                self.lock_scale(project["lockscale"])
+                self.set_max_scale(project["lockscale"])
             else:
-                self.unlock_scale()
+                self.unset_max_scale()
 
         except Exception as e:
             self.message_bar.pushMessage("VeriSO", str(e),
                                          QgsMessageBar.CRITICAL, duration=0)
 
-    def lock_scale(self, scale):
-        self.locked_scale = scale
-
+    def set_max_scale(self, scale):
+        self.max_scale = scale
         self.iface.mapCanvas().scaleChanged.connect(
-                self.zoom_to_locked_scale)
+                self.zoom_to_max_scale)
 
-    def unlock_scale(self):
+    def unset_max_scale(self):
+        self.max_scale = None
         self.iface.mapCanvas().scaleChanged.disconnect(
-                self.zoom_to_locked_scale)
+                self.zoom_to_max_scale)
 
-    def zoom_to_locked_scale(self):
+    def zoom_to_max_scale(self):
         canvas = self.iface.mapCanvas()
-        if int(canvas.scale()) < int(self.locked_scale):
-            canvas.scaleChanged.disconnect(self.zoom_to_locked_scale)
-            canvas.zoomScale(self.locked_scale)
-            canvas.scaleChanged.connect(self.zoom_to_locked_scale)
+        if int(canvas.scale()) < int(self.max_scale):
+            canvas.scaleChanged.disconnect(self.zoom_to_max_scale)
+            canvas.zoomScale(self.max_scale)
+            canvas.scaleChanged.connect(self.zoom_to_max_scale)
 
     def unload(self):
         self.iface.mainWindow().removeToolBar(self.toolbar)
