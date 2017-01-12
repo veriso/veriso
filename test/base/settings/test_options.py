@@ -1,24 +1,13 @@
 from __future__ import absolute_import
-
-import os
-
 from unittest import TestCase
-
 try:
     from mock import patch, Mock
 except ImportError:
     from unittest.mock import patch, Mock
-
-import qgis
 from qgis.PyQt.QtCore import QSettings
 from qgis.PyQt.QtCore import Qt
-from qgis.PyQt.QtCore import QTimer
-from qgis.PyQt.QtTest import QTest
-from qgis.PyQt.QtWidgets import QFileDialog
-
 from veriso.test.utilities import get_qgis_app
 from veriso.base.settings.options import OptionsDialog
-
 
 QGIS_APP, CANVAS, IFACE, PARENT = get_qgis_app()
 
@@ -87,24 +76,22 @@ class TestUtils(TestCase):
         button.click()
         self.assertEquals(self.dialog.lineEditProjectsRootDir.text(), "/foo/bar/")
 
-    # #ToDo Marioba
-    # @patch('veriso.base.settings.options.OptionsDialog.test_connection_succes')
-    # @patch('veriso.base.settings.options.OptionsDialog.test_connection_failed')
-    # def test_on_btnTestProjectDB_clicked(self, mock_test_connection_failed, mock_test_connection_succes):
-    #      '''test Button Test Project DB'''
-    #      self.dialog.lineEditProjectsDatabase.setText('')
-    #      button = self.dialog.btnTestProjectDB
-    #      button.click()
-    #      assert mock_test_connection_failed.called
-    #
-    #      mock_test_connection_failed.called_once.reset_mock
-    #      self.dialog.lineEditProjectsDatabase.setText('../../../templates/template_projects.db')
-    #      button.click()
-    #      assert mock_test_connection_succes.called
+    @patch('veriso.base.settings.options.OptionsDialog.test_connection_succes')
+    @patch('veriso.base.settings.options.OptionsDialog.test_connection_failed')
+    def xtest_on_btnTestProjectDB_clicked(self, mock_test_connection_failed, mock_test_connection_succes):
+         '''test Button Test Project DB with default options'''
+         self.dialog.lineEditProjectsDatabase.setText('')
+         button = self.dialog.btnTestProjectDB
+         button.click()
+         assert mock_test_connection_succes.called
 
-
-    #ToDo
-    #def test_on_btnTestConnection_clicked
+    @patch('veriso.base.settings.options.OptionsDialog.test_connection_succes')
+    @patch('veriso.base.settings.options.OptionsDialog.test_connection_failed')
+    def test_on_btnTestConnection_clicked(self, mock_test_connection_failed, mock_test_connection_succes):
+        '''test Button Test Connection with current settings'''
+        button = self.dialog.btnTestConnection
+        button.click()
+        assert mock_test_connection_succes.called
 
     def test_on_listWidgetModelRepos_itemSelectionChanged(self):
         '''test Item selection on List Model Repos Widget'''
