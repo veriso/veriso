@@ -306,7 +306,7 @@ class VeriSO(object):
 
     def zoom_to_locked_scale(self):
         now = time.time()
-        if now - self.last_rezoomed_time < 1:
+        if now - self.last_rezoomed_time < 0.5:
             # avoid rezooming zo often or we end in an infinite recursion
             return
         canvas = self.iface.mapCanvas()
