@@ -138,7 +138,7 @@ def get_projects():
                 "provider": str(
                         query.value(record.indexOf("provider"))),
                 "epsg": str(query.value(record.indexOf("epsg"))),
-                "lockscale": int(query.value(record.indexOf("lockscale"))),
+                "max_scale": int(query.value(record.indexOf("max_scale"))),
                 "ilimodelname": str(
                         query.value(record.indexOf("ilimodelname"))),
                 "appmodule": str(
@@ -154,7 +154,6 @@ def get_projects():
                 "importdate": str(
                         query.value(record.indexOf("importdate")))
             }
-
             projects.append(project)
 
         db.close()

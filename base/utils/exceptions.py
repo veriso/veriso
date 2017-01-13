@@ -1,6 +1,7 @@
 # coding=utf-8
 from qgis.core import QgsMessageLog
 from qgis.gui import QgsMessageBar
+import traceback
 
 
 class VerisoError(Exception):
@@ -27,7 +28,8 @@ class VerisoError(Exception):
             log_message += "\nDetails:\n %s" % self.long_message
 
         if self.exception is not None:
-            log_message += "\nException:\n %s" % str(self.exception)
+            log_message += "\n\n %s" % str(traceback.format_exc())
+            #traceback.print_exc()
 
         QgsMessageLog.logMessage(log_message, tag, QgsMessageLog.CRITICAL)
 

@@ -645,7 +645,7 @@ class ImportProjectDialog(QDialog, FORM_CLASS):
                   "dbport, dbschema, dbuser, dbpwd, dbadmin, dbadminpwd, " \
                   "provider, epsg, ilimodelname, appmodule, appmodulename, " \
                   "projectrootdir, projectdir, datadate, notes, itf, " \
-                  "lockscale)" + values
+                  "max_scale)" + values
 
             query = db.exec_(sql)
 

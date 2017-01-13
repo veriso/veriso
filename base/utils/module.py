@@ -257,9 +257,36 @@ def get_checks_from_files(module_name, topic_dir, modules_dir=None):
                 module = dynamic_import(module)
                 check['id'] = filename
                 check['file'] = filename
-                check['shortcut'] = module.ComplexCheck.get_shortcut()
                 check['name'] = module.ComplexCheck.get_name()
+                if check['name'] is not None:
+                    # name is defined in the class
+                    check['shortcut'] = module.ComplexCheck.get_shortcut()
+                else:
+                    # let's see if there is a yaml file as our last resort
+                    yaml_path = os.path.join(path, filename + '.yml')
+                    check['name'], check['shortcut'] = get_info_from_yaml(
+                            yaml_path)
+
+                # if we made it to here, it's all good
                 checks.append(check)
             except:
                 continue
+        elif f.endswith('_separator'):
+            check['name'] = 'separator'
+            checks.append(check)
+
     return checks
+
+
+def get_info_from_yaml(path):
+    try:
+        data = yaml_load_file(path)
+        name = data['name']
+    except Exception as e:
+        raise VerisoError('error parsing %s' % path, e)
+    try:
+        shortcut = data['shortcut']
+    except KeyError:
+        shortcut = ''
+
+    return name, shortcut
