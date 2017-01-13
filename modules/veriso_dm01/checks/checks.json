@@ -1,0 +1,81 @@
+{  
+   "checks":[  
+      {  
+         "topic":{  
+            "de":"Basis",
+            "fr":"Base"
+         },
+         "file":"topic_basis"
+      },
+
+      {  
+         "topic":{  
+            "de":"Fixpunkte",
+            "fr":"Points fixes"
+         },
+         "file":"topic_fp"
+      },
+
+      {  
+         "topic":{  
+            "de":"BB / EO",
+            "fr":"CS / OD"
+         },
+         "file":"topic_bb_eo"
+      },
+
+      {  
+         "topic":{  
+            "de":"Liegenschaften",
+            "fr":"Biens-fonds"
+         },
+         "file":"topic_ls"
+      },
+
+      {  
+         "topic":{  
+            "de":"Hoheitsgrenzen",
+            "fr":"Limites territoriales"
+         },
+         "file":"topic_gg"
+      },
+
+      {  
+         "topic":{  
+            "de":"Nomenklatur",
+            "fr":"Nomenclature"
+         },
+         "file":"topic_nk"
+      },
+
+      {  
+         "topic":{  
+            "de":"Toleranzstufen",
+            "fr":"Niveau de tolérance"
+         },
+         "file":"topic_ts"
+      },
+      {  
+         "topic":{  
+            "de":"Planeinteilung",
+            "fr":"Répartitions des plans"
+         },
+         "file":"topic_pl"
+      },
+      {  
+         "topic":{  
+            "de":"Rohrleitungen",
+            "fr":"Conduites"
+         },
+         "file":"topic_rl"
+      },
+      {  
+         "topic":{  
+            "de":"Gebaeudeadressen",
+            "fr":"Adresses des batiments"
+         },
+         "file":"topic_gebaeudeadressen"
+      }
+
+   ]
+}

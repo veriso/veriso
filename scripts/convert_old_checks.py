@@ -1,6 +1,6 @@
 import shutil
 
-old_module_dir = '/home/marco/dev/QGIS/plugins/veriso/modules/veribe_ee'
+old_module_dir = '/home/marco/dev/QGIS/plugins/veriso/modules/veriso_dm01'
 
 # end config
 
