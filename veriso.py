@@ -267,7 +267,7 @@ class VeriSO(object):
             application_module.init_gui()
 
             if project["max_scale"]:
-                self.set_max_scale(project["lockscale"])
+                self.set_max_scale(project["max_scale"])
             else:
                 self.unset_max_scale()
 
