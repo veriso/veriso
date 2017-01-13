@@ -7,9 +7,13 @@ import sys
 import traceback
 
 
-class ComplexCheck(QObject):
+from veriso.modules.complexcheck_base import ComplexCheckBase
+
+
+class ComplexCheck(ComplexCheckBase):
 
     def __init__(self, iface):
+        super(ComplexCheck, self).__init__(iface)
         self.iface = iface
 
     def run(self):        
