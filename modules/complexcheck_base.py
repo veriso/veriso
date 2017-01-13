@@ -50,7 +50,7 @@ class ComplexCheckBase(QObject):
         try:
             return cls.name
         except:
-            return ''
+            return None
 
     @classmethod
     def get_shortcut(cls):
