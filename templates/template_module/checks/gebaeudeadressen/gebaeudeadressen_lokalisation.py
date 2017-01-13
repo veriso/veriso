@@ -11,6 +11,8 @@ from qgis.gui import QgsMessageBar, QgsTextAnnotationItem
 
 from veriso.base.utils.loadlayer import LoadLayer
 
+from veriso.modules.complexcheck_base import ComplexCheckBase
+
 try:
     _encoding = QApplication.UnicodeUTF8
 
@@ -22,9 +24,10 @@ except AttributeError:
         return QApplication.translate(context, text, disambig)
 
 
-class ComplexCheck(QObject):
+class ComplexCheck(ComplexCheckBase):
+
     def __init__(self, iface):
-        QObject.__init__(self)
+        super(ComplexCheck, self).__init__(iface)
         self.iface = iface
         self.message_bar = self.iface.messageBar()
         self.canvas = self.iface.mapCanvas()
