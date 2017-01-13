@@ -136,3 +136,4 @@ baselayer:
   url: http://wms.geo.admin.ch/?
   layers: ch.swisstopo-vd.ortschaftenverzeichnis_plz
   format: image/jpeg
+

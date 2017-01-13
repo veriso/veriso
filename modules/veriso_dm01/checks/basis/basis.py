@@ -7,6 +7,7 @@ from qgis.gui import *
 import sys
 import traceback
 
+from veriso.base.utils.doLoadLayer import LoadLayer
 
 try:
     _encoding = QApplication.UnicodeUTF8
@@ -16,16 +17,13 @@ except AttributeError:
     def _translate(context, text, disambig):
         return QApplication.translate(context, text, disambig)
 
-from veriso.modules.complexcheck_base import ComplexCheckBase
-
-
-class ComplexCheck(ComplexCheckBase):
+class ComplexCheck(QObject):
 
     def __init__(self, iface):
-        super(ComplexCheck, self).__init__(iface)
         self.iface = iface
         
         self.root = QgsProject.instance().layerTreeRoot()        
+        self.layerLoader = LoadLayer(self.iface)
 
     def run(self):        
         self.settings = QSettings("CatAIS","VeriSO")
@@ -60,7 +58,7 @@ class ComplexCheck(ComplexCheckBase):
             layer["group"] = group1
             layer["sql"] = ""
             layer["style"] = "basis/eo_flaeche.qml"
-            vlayer = self.layer_loader.load(layer)
+            vlayer = self.layerLoader.load(layer)     
             layer = {}
             layer["type"] = "postgres"
             layer["title"] = _translate("VeriSO_EE_basis","EO Linienelemente",None)
@@ -71,7 +69,7 @@ class ComplexCheck(ComplexCheckBase):
             layer["group"] = group1
             layer["sql"] = ""
             layer["style"] = "basis/eo_linie.qml"
-            vlayer = self.layer_loader.load(layer)
+            vlayer = self.layerLoader.load(layer)
             layer = {}
             layer["type"] = "postgres"
             layer["title"] = _translate("VeriSO_EE_basis","EO Punktelemente",None)
@@ -82,7 +80,7 @@ class ComplexCheck(ComplexCheckBase):
             layer["group"] = group1
             layer["sql"] = ""
             layer["style"] = "basis/eo_pkt.qml"
-            vlayer = self.layer_loader.load(layer)
+            vlayer = self.layerLoader.load(layer)
             layer = {}
             layer["type"] = "postgres"
             layer["title"] = _translate("VeriSO_EE_basis","Objektname",None)
@@ -93,7 +91,7 @@ class ComplexCheck(ComplexCheckBase):
             layer["group"] = group1
             layer["sql"] = ""
             layer["style"] = "bodenbedeckung/objektnamen.qml"
-            vlayer = self.layer_loader.load(layer, False, True)
+            vlayer = self.layerLoader.load(layer, False, True)
 
 
 
@@ -108,7 +106,7 @@ class ComplexCheck(ComplexCheckBase):
             layer["key"] = "ogc_fid"
             layer["sql"] = ""
             layer["style"] = "liegenschaften/selbstrecht.qml"
-            vlayer = self.layer_loader.load(layer)
+            vlayer = self.layerLoader.load(layer)  
             layer = {}
             layer["type"] = "postgres"
  
@@ -122,7 +120,7 @@ class ComplexCheck(ComplexCheckBase):
             layer["key"] = "ogc_fid"
             layer["sql"] = ""
             layer["style"] = "liegenschaften/liegenschaft.qml"
-            vlayer = self.layer_loader.load(layer)
+            vlayer = self.layerLoader.load(layer)  
             layer = {}
             layer["type"] = "postgres"
  
@@ -134,7 +132,7 @@ class ComplexCheck(ComplexCheckBase):
             layer["key"] = "ogc_fid"
             layer["sql"] = ""
             layer["style"] = "liegenschaften/hilfslinie.qml"
-            vlayer = self.layer_loader.load(layer, False, True)
+            vlayer = self.layerLoader.load(layer, False, True) 
  
 
             layer["title"] = _translate("VeriSO_EE_basis","proj. Liegenschaften",None)
@@ -145,7 +143,7 @@ class ComplexCheck(ComplexCheckBase):
             layer["key"] = "ogc_fid"
             layer["sql"] = ""
             layer["style"] = "liegenschaften/projliegenschaft.qml"
-            vlayer = self.layer_loader.load(layer)
+            vlayer = self.layerLoader.load(layer)  
  
 
             layer["title"] = _translate("VeriSO_EE_basis","proj. SDR",None)
@@ -156,7 +154,7 @@ class ComplexCheck(ComplexCheckBase):
             layer["key"] = "ogc_fid"
             layer["sql"] = ""
             layer["style"] = "liegenschaften/projselbstrecht.qml"
-            vlayer = self.layer_loader.load(layer)
+            vlayer = self.layerLoader.load(layer)  
 
             layer = {}
             layer["type"] = "postgres"
@@ -172,7 +170,7 @@ class ComplexCheck(ComplexCheckBase):
             layer["key"] = "ogc_fid"
             layer["sql"] = ""
             layer["style"] = "liegenschaften/proj_GS_NR.qml"
-            vlayer = self.layer_loader.load(layer)
+            vlayer = self.layerLoader.load(layer)  
             layer = {}
             layer["type"] = "postgres"
  
@@ -184,7 +182,7 @@ class ComplexCheck(ComplexCheckBase):
             layer["group"] = group2
             layer["sql"] = "(art=0) and (gesamteflaechenmass is NULL)"
             layer["style"] = "liegenschaften/nr_ls_ganz.qml"
-            vlayer = self.layer_loader.load(layer)
+            vlayer = self.layerLoader.load(layer) 
             layer = {}
             layer["type"] = "postgres"
  
@@ -196,7 +194,7 @@ class ComplexCheck(ComplexCheckBase):
             layer["key"] = "ogc_fid"
             layer["sql"] = "(art>0) and (gesamteflaechenmass is NULL)"
             layer["style"] = "liegenschaften/nr_sdr_ganz.qml"
-            vlayer = self.layer_loader.load(layer)
+            vlayer = self.layerLoader.load(layer) 
             layer = {}
             layer["type"] = "postgres"
  
@@ -208,7 +206,7 @@ class ComplexCheck(ComplexCheckBase):
             layer["key"] = "ogc_fid"
             layer["sql"] = "(art=0) and (gesamteflaechenmass>0)"
             layer["style"] = "liegenschaften/nr_ls_teil.qml"
-            vlayer = self.layer_loader.load(layer)
+            vlayer = self.layerLoader.load(layer) 
             
             layer = {}
             layer["type"] = "postgres"
@@ -220,7 +218,7 @@ class ComplexCheck(ComplexCheckBase):
             layer["key"] = "ogc_fid"
             layer["sql"] = "art>0 and gesamteflaechenmass>0"
             layer["style"] = "liegenschaften/nr_sdr_teil.qml"
-            vlayer = self.layer_loader.load(layer)
+            vlayer = self.layerLoader.load(layer) 
 
 
 
@@ -237,7 +235,7 @@ class ComplexCheck(ComplexCheckBase):
             layer["sql"] = "art = 0"
             layer["group"] = group3
             layer["style"] = "basis/projGeb.qml"
-            vlayerprojGeb = self.layer_loader.load(layer)
+            vlayerprojGeb = self.layerLoader.load(layer)
             layer = {}
             layer["type"] = "postgres"
             layer["title"] = _translate("VeriSO_EE_basis","HausnummerPos",None)
@@ -247,7 +245,7 @@ class ComplexCheck(ComplexCheckBase):
             layer["sql"] = ""
             layer["group"] = group3
             layer["style"] = "gebaeudeadressen/hausnummerpos.qml"
-            vlayer = self.layer_loader.load(layer)
+            vlayer = self.layerLoader.load(layer)
             layer = {}
             layer["type"] = "postgres" 
             layer["title"] = _translate("VeriSO_EE_basis","Bodenbedeckung",None)
@@ -258,7 +256,7 @@ class ComplexCheck(ComplexCheckBase):
             layer["group"] = group3
             layer["sql"] = ""
             layer["style"] = "basis/BB.qml"
-            vlayer = self.layer_loader.load(layer)
+            vlayer = self.layerLoader.load(layer)
             layer = {}
             layer["type"] = "postgres" 
             layer["title"] = _translate("VeriSO_EE_basis","Objektname",None)
@@ -269,7 +267,7 @@ class ComplexCheck(ComplexCheckBase):
             layer["key"] = "ogc_fid"
             layer["sql"] = ""
             layer["style"] = "bodenbedeckung/objektnamen.qml"
-            vlayer = self.layer_loader.load(layer, False, True)
+            vlayer = self.layerLoader.load(layer, False, True)
 
 
 

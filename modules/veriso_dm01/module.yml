@@ -1,10 +1,11 @@
 ---
-displayname: Demo (CH)
+displayname: VeriBE (EE/EN)
 ilimodels:
-- ilimodel: DM01AVCH24D
+- ilimodel: DM01AVBE11D
   referenceframe: LV03
   epsg: '21781'
-- ilimodel: DM01AVCH24LV95D
+- ilimodel: DM01AVBE11LV95D
   referenceframe: LV95
   epsg: '2056'
-
+can_configure_max_scale_users:
+  - AGI
