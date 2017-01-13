@@ -27,6 +27,12 @@ def load_json(file_path):
         return json.load(f)
 
 
+def create_empty_file(path):
+    open(path, 'a').close()
+
+
+create_empty_file(checks_dir)
+
 for topic in checks_file['checks']:
     topic_name = topic['file']
     topic_file_path = os.path.join(checks_dir, topic_name + '.json')
@@ -36,6 +42,7 @@ for topic in checks_file['checks']:
     # create topics dir
     if not os.path.exists(dest_dir_path):
         os.makedirs(dest_dir_path)
+        create_empty_file(dest_dir_path + '.__init__.py')
 
     # write topic file
     yaml_topic_file_path = os.path.join(dest_dir_path, 'topic.yml')
@@ -59,4 +66,4 @@ for topic in checks_file['checks']:
             if check['name'] == 'separator':
                 dest = os.path.join(
                         dest_dir_path, last_file_name + '_separator')
-                open(dest, 'a').close()
+                create_empty_file(dest)
