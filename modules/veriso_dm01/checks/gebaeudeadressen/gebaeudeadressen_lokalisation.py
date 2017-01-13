@@ -27,7 +27,6 @@ class ComplexCheck(ComplexCheckBase):
         self.canvas = self.iface.mapCanvas()
         
         self.root = QgsProject.instance().layerTreeRoot()        
-        self.layerLoader = LoadLayer(self.iface)
 
     def run(self):        
         self.settings = QSettings("CatAIS","VeriSO")
@@ -65,7 +64,7 @@ class ComplexCheck(ComplexCheckBase):
                 layer["sql"] = "tid = '-1'"
                 layer["readonly"] = True
                 layer["group"] = group
-                vlayer_lokalisation = self.layerLoader.load(layer)
+                vlayer_lokalisation = self.layer_loader.load(layer)
 
             vlayer_strassenstueck_geometrie = self.getVectorLayerByName(strassenstueck_geometrie)
             if not vlayer_strassenstueck_geometrie:
@@ -79,7 +78,7 @@ class ComplexCheck(ComplexCheckBase):
                 layer["readonly"] = True                
                 layer["group"] = group
                 layer["style"] = "gebaeudeadressen/strassenachsen_rot.qml"
-                vlayer_strassenstueck_geometrie = self.layerLoader.load(layer)
+                vlayer_strassenstueck_geometrie = self.layer_loader.load(layer)
 
             vlayer_strassenstueck_anfangspunkt = self.getVectorLayerByName(strassenstueck_anfangspunkt)
             if not vlayer_strassenstueck_anfangspunkt:
@@ -93,7 +92,7 @@ class ComplexCheck(ComplexCheckBase):
                 layer["readonly"] = True                
                 layer["group"] = group
                 layer["style"] = "gebaeudeadressen/anfangspunkt_rot.qml"
-                vlayer_strassenstueck_anfangspunkt = self.layerLoader.load(layer)
+                vlayer_strassenstueck_anfangspunkt = self.layer_loader.load(layer)
 
             vlayer_benanntesgebiet = self.getVectorLayerByName(benanntesgebiet)
             if not vlayer_benanntesgebiet:
@@ -107,7 +106,7 @@ class ComplexCheck(ComplexCheckBase):
                 layer["readonly"] = True                
                 layer["group"] = group
                 layer["style"] = "gebaeudeadressen/benanntesgebiet_rot.qml"
-                vlayer_benanntesgebiet = self.layerLoader.load(layer)
+                vlayer_benanntesgebiet = self.layer_loader.load(layer)
 
             vlayer_gebaeudeeingang = self.getVectorLayerByName(gebaeudeeingang)
             if not vlayer_gebaeudeeingang:
@@ -121,7 +120,7 @@ class ComplexCheck(ComplexCheckBase):
                 layer["readonly"] = True                
                 layer["group"] = group
                 layer["style"] = "gebaeudeadressen/gebaeudeeingang_rot.qml"
-                vlayer_gebaeudeeingang = self.layerLoader.load(layer)
+                vlayer_gebaeudeeingang = self.layer_loader.load(layer)
 
             vlayer_shortestline = self.getVectorLayerByName(shortestline)
             if not vlayer_shortestline:
@@ -135,7 +134,7 @@ class ComplexCheck(ComplexCheckBase):
                 layer["readonly"] = True                
                 layer["group"] = group
                 layer["style"] = "gebaeudeadressen/shortestline_linie_rot.qml"
-                vlayer_shortestline = self.layerLoader.load(layer)
+                vlayer_shortestline = self.layer_loader.load(layer)
 
             vlayer_hausnummerpos = self.getVectorLayerByName(hausnummerpos)
             if not vlayer_hausnummerpos:
@@ -149,7 +148,7 @@ class ComplexCheck(ComplexCheckBase):
                 layer["readonly"] = True                
                 layer["group"] = group
                 layer["style"] = "gebaeudeadressen/hausnummerpos_rot.qml"
-                vlayer_hausnummerpos = self.layerLoader.load(layer)
+                vlayer_hausnummerpos = self.layer_loader.load(layer)
 
             vlayer_lokalisationsname = self.getVectorLayerByName(lokalisationsname)
             if not vlayer_lokalisationsname:

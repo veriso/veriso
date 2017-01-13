@@ -26,7 +26,6 @@ class ComplexCheck(ComplexCheckBase):
         self.iface = iface
         
         self.root = QgsProject.instance().layerTreeRoot()        
-        self.layerLoader = LoadLayer(self.iface)
 
     def run(self):        
         self.settings = QSettings("CatAIS","VeriSO")
@@ -53,7 +52,7 @@ class ComplexCheck(ComplexCheckBase):
             layer["sql"] = ""
             layer["group"] = group
             layer["style"] = "bodenbedeckung/bb_kante_ortho.qml"
-            vlayerBB = self.layerLoader.load(layer)
+            vlayerBB = self.layer_loader.load(layer)
 
             #layer = {}
             #layer["type"] = "postgres"
@@ -65,7 +64,7 @@ class ComplexCheck(ComplexCheckBase):
             #layer["sql"] = ""
             #layer["group"] = group
             #layer["style"] = "bodenbedeckung/ls_kante.qml"
-            #vlayerLS = self.layerLoader.load(layer)
+            #vlayerLS = self.layer_loader.load(layer)
 
             layer = {}
             layer["type"] = "postgres"
@@ -77,7 +76,7 @@ class ComplexCheck(ComplexCheckBase):
             layer["sql"] = ""
             layer["group"] = group
             layer["style"] = "bodenbedeckung/eo_fl_muster.qml"
-            vlayerEOFlaechen = self.layerLoader.load(layer)
+            vlayerEOFlaechen = self.layer_loader.load(layer)
 
             layer = {}
             layer["type"] = "postgres"
@@ -89,7 +88,7 @@ class ComplexCheck(ComplexCheckBase):
             layer["sql"] = ""
             layer["group"] = group
             layer["style"] = "bodenbedeckung/eo_linie_ortho.qml"
-            vlayerEOLinien = self.layerLoader.load(layer)
+            vlayerEOLinien = self.layer_loader.load(layer)
  
             layer = {}
             layer["type"] = "postgres"
@@ -101,7 +100,7 @@ class ComplexCheck(ComplexCheckBase):
             layer["sql"] = ""
             layer["group"] = group
             layer["style"] = "bodenbedeckung/eo_punkt_ortho.qml"
-            vlayerEOPkt = self.layerLoader.load(layer)
+            vlayerEOPkt = self.layer_loader.load(layer)
 
 
         except Exception:

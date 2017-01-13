@@ -26,7 +26,6 @@ class ComplexCheck(ComplexCheckBase):
         self.iface = iface
         
         self.root = QgsProject.instance().layerTreeRoot()        
-        self.layerLoader = LoadLayer(self.iface)
 
     def run(self):        
         self.settings = QSettings("CatAIS","VeriSO")
@@ -55,7 +54,7 @@ class ComplexCheck(ComplexCheckBase):
             layer["readonly"] = True
             layer["group"] = group    
             layer["style"] = "tseinteilung/toleranzstufe.qml"
-            vlayer = self.layerLoader.load(layer, False, True)
+            vlayer = self.layer_loader.load(layer, False, True)
 
 
             layer = {}
@@ -67,7 +66,7 @@ class ComplexCheck(ComplexCheckBase):
             layer["sql"] = ""
             layer["group"] = group
             layer["style"] = "gemeindegrenze/gemeindegrenze.qml"
-            vlayer = self.layerLoader.load(layer)            
+            vlayer = self.layer_loader.load(layer)
                     
             layer = {}
             layer["type"] = "postgres"
@@ -79,7 +78,7 @@ class ComplexCheck(ComplexCheckBase):
             layer["readonly"] = True
             layer["group"] = group     
             layer["style"] = "fixpunkte/hfp2.qml"
-            vlayerHFP2 = self.layerLoader.load(layer, False, True)
+            vlayerHFP2 = self.layer_loader.load(layer, False, True)
 
 
             layer = {}
@@ -92,7 +91,7 @@ class ComplexCheck(ComplexCheckBase):
             layer["readonly"] = True
             layer["group"] = group     
             layer["style"] = "fixpunkte/lfp2.qml"
-            vlayerLFP2 = self.layerLoader.load(layer, False, True)
+            vlayerLFP2 = self.layer_loader.load(layer, False, True)
 
                         
             layer = {}
@@ -105,7 +104,7 @@ class ComplexCheck(ComplexCheckBase):
             layer["readonly"] = True
             layer["group"] = group     
             layer["style"] = "fixpunkte/hfp1.qml"
-            vlayerHFP1 = self.layerLoader.load(layer, False, True)
+            vlayerHFP1 = self.layer_loader.load(layer, False, True)
 
 
             layer = {}
@@ -118,7 +117,7 @@ class ComplexCheck(ComplexCheckBase):
             layer["readonly"] = True
             layer["group"] = group     
             layer["style"] = "fixpunkte/lfp1.qml"
-            vlayerLFP1 = self.layerLoader.load(layer, False, True)
+            vlayerLFP1 = self.layer_loader.load(layer, False, True)
 
             layer = {}
             layer["type"] = "wms"
@@ -128,7 +127,7 @@ class ComplexCheck(ComplexCheckBase):
             layer["format"] = "image/png"
             layer["title"] =  _translate("VeriSO_EE_FP12", "Hoehenfixpunkte 1", None)
             layer["group"] = group
-            vlayer = self.layerLoader.load(layer, False, True)
+            vlayer = self.layer_loader.load(layer, False, True)
 
             layer = {}
             layer["type"] = "wms"
@@ -138,7 +137,7 @@ class ComplexCheck(ComplexCheckBase):
             layer["format"] = "image/png"
             layer["title"] =  _translate("VeriSO_EE_FP12", "Hoehenfixpunkte 2", None)
             layer["group"] = group
-            vlayer = self.layerLoader.load(layer, False, True)
+            vlayer = self.layer_loader.load(layer, False, True)
 
             layer = {}
             layer["type"] = "wms"
@@ -148,7 +147,7 @@ class ComplexCheck(ComplexCheckBase):
             layer["format"] = "image/png"
             layer["title"] =  _translate("VeriSO_EE_FP12", "Lagefixpunkte 1", None)
             layer["group"] = group
-            vlayer = self.layerLoader.load(layer, False, True)
+            vlayer = self.layer_loader.load(layer, False, True)
             
             layer = {}
             layer["type"] = "wms"
@@ -158,7 +157,7 @@ class ComplexCheck(ComplexCheckBase):
             layer["format"] = "image/png"
             layer["title"] =  _translate("VeriSO_EE_FP12", "Lagefixpunkte 2", None)
             layer["group"] = group
-            vlayer = self.layerLoader.load(layer, False, True)
+            vlayer = self.layer_loader.load(layer, False, True)
             
             QApplication.restoreOverrideCursor()
 

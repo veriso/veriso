@@ -26,7 +26,6 @@ class ComplexCheck(ComplexCheckBase):
         self.iface = iface
         
         self.root = QgsProject.instance().layerTreeRoot()        
-        self.layerLoader = LoadLayer(self.iface)
 
     def run(self):        
         self.settings = QSettings("CatAIS","VeriSO")
@@ -53,7 +52,7 @@ class ComplexCheck(ComplexCheckBase):
             layer["sql"] = "art=24 AND st_area(geometrie) > 800"
             layer["group"] = group
             layer["style"] = "bodenbedeckung/kleiner_wald.qml"
-            vlayerWald = self.layerLoader.load(layer)
+            vlayerWald = self.layer_loader.load(layer)
 
             Wald = vlayerWald.featureCount()
 

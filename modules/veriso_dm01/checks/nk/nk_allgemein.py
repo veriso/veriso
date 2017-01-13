@@ -26,7 +26,6 @@ class ComplexCheck(ComplexCheckBase):
         self.iface = iface
         
         self.root = QgsProject.instance().layerTreeRoot()        
-        self.layerLoader = LoadLayer(self.iface)
 
     def run(self):        
         self.settings = QSettings("CatAIS","VeriSO")
@@ -60,7 +59,7 @@ class ComplexCheck(ComplexCheckBase):
             layer["key"] = "ogc_fid"
             layer["sql"] = ""
             layer["style"] = "liegenschaften/liegenschaft.qml"
-            vlayer = self.layerLoader.load(layer, False, True) 
+            vlayer = self.layer_loader.load(layer, False, True)
             layer = {}
             layer["type"] = "postgres"
 
@@ -72,7 +71,7 @@ class ComplexCheck(ComplexCheckBase):
             layer["key"] = "ogc_fid"
             layer["sql"] = ""
             layer["style"] = "liegenschaften/selbstrecht.qml"
-            vlayer = self.layerLoader.load(layer, False, True) 
+            vlayer = self.layer_loader.load(layer, False, True)
             layer = {}
             layer["type"] = "postgres"
 
@@ -84,7 +83,7 @@ class ComplexCheck(ComplexCheckBase):
             layer["key"] = "ogc_fid"
             layer["sql"] = ""
             layer["style"] = "liegenschaften/projliegenschaft.qml"
-            vlayer = self.layerLoader.load(layer, False, True) 
+            vlayer = self.layer_loader.load(layer, False, True)
             layer = {}
             layer["type"] = "postgres"
 
@@ -96,7 +95,7 @@ class ComplexCheck(ComplexCheckBase):
             layer["key"] = "ogc_fid"
             layer["sql"] = ""
             layer["style"] = "liegenschaften/projselbstrecht.qml"
-            vlayer = self.layerLoader.load(layer, False, True) 
+            vlayer = self.layer_loader.load(layer, False, True)
             layer = {}
             layer["type"] = "postgres"
 
@@ -108,7 +107,7 @@ class ComplexCheck(ComplexCheckBase):
             layer["key"] = "ogc_fid"
             layer["sql"] = ""
             layer["style"] = "liegenschaften/GS_NR.qml"
-            vlayer = self.layerLoader.load(layer, False, True) 
+            vlayer = self.layer_loader.load(layer, False, True)
             layer = {}
             layer["type"] = "postgres"
 
@@ -120,7 +119,7 @@ class ComplexCheck(ComplexCheckBase):
             layer["key"] = "ogc_fid"
             layer["sql"] = ""
             layer["style"] = "liegenschaften/proj_GS_NR.qml"
-            vlayer = self.layerLoader.load(layer, False, True) 
+            vlayer = self.layer_loader.load(layer, False, True)
 
             layer = {}
             layer["type"] = "postgres"
@@ -133,7 +132,7 @@ class ComplexCheck(ComplexCheckBase):
             layer["key"] = "ogc_fid"
             layer["sql"] = ""
             layer["style"] = "nomenklatur/nomenklatur.qml"
-            vlayerNKpkt = self.layerLoader.load(layer)
+            vlayerNKpkt = self.layer_loader.load(layer)
 
             layer = {}
             layer["type"] = "postgres"
@@ -146,7 +145,7 @@ class ComplexCheck(ComplexCheckBase):
             layer["key"] = "ogc_fid"
             layer["sql"] = ""
             layer["style"] = "nomenklatur/gelaendenamen.qml"
-            vlayer = self.layerLoader.load(layer)
+            vlayer = self.layer_loader.load(layer)
 
             layer = {}
             layer["type"] = "postgres"
@@ -159,7 +158,7 @@ class ComplexCheck(ComplexCheckBase):
             layer["key"] = "ogc_fid"
             layer["sql"] = ""
             layer["style"] = "nomenklatur/ortsname.qml"
-            vlayer = self.layerLoader.load(layer)
+            vlayer = self.layer_loader.load(layer)
 
 
         except Exception:

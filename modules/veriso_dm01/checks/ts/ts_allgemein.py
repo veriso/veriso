@@ -26,7 +26,6 @@ class ComplexCheck(ComplexCheckBase):
         self.iface = iface
         
         self.root = QgsProject.instance().layerTreeRoot()        
-        self.layerLoader = LoadLayer(self.iface)
 
     def run(self):        
         self.settings = QSettings("CatAIS","VeriSO")
@@ -54,7 +53,7 @@ class ComplexCheck(ComplexCheckBase):
             layer["sql"] = ""
             layer["key"] = "ogc_fid"
             layer["style"] = "liegenschaften/TS.qml"
-            vlayer = self.layerLoader.load(layer)
+            vlayer = self.layer_loader.load(layer)
 
             layer = {}
             layer["type"] = "postgres"
@@ -64,7 +63,7 @@ class ComplexCheck(ComplexCheckBase):
             layer["group"] = group
             layer["key"] = "ogc_fid"
             layer["sql"] = ""
-            vlayer = self.layerLoader.load(layer, False, False) 
+            vlayer = self.layer_loader.load(layer, False, False)
             layer = {}
             layer["type"] = "postgres"
 
@@ -76,7 +75,7 @@ class ComplexCheck(ComplexCheckBase):
             layer["key"] = "ogc_fid"
             layer["sql"] = ""
             layer["style"] = "liegenschaften/projselbstrecht.qml"
-            vlayer = self.layerLoader.load(layer, False, True) 
+            vlayer = self.layer_loader.load(layer, False, True)
             layer = {}
             layer["type"] = "postgres"
 
@@ -88,7 +87,7 @@ class ComplexCheck(ComplexCheckBase):
             layer["key"] = "ogc_fid"
             layer["sql"] = ""
             layer["style"] = "liegenschaften/selbstrecht.qml"
-            vlayer = self.layerLoader.load(layer, False, True) 
+            vlayer = self.layer_loader.load(layer, False, True)
             layer = {}
             layer["type"] = "postgres"
 
@@ -100,7 +99,7 @@ class ComplexCheck(ComplexCheckBase):
             layer["key"] = "ogc_fid"
             layer["sql"] = ""
             layer["style"] = "liegenschaften/projliegenschaft.qml"
-            vlayer = self.layerLoader.load(layer, False, True) 
+            vlayer = self.layer_loader.load(layer, False, True)
             layer = {}
             layer["type"] = "postgres"
 
@@ -112,7 +111,7 @@ class ComplexCheck(ComplexCheckBase):
             layer["key"] = "ogc_fid"
             layer["sql"] = ""
             layer["style"] = "liegenschaften/liegenschaft.qml"
-            vlayer = self.layerLoader.load(layer, False, True) 
+            vlayer = self.layer_loader.load(layer, False, True)
 
 
 

@@ -26,7 +26,6 @@ class ComplexCheck(ComplexCheckBase):
         self.iface = iface
         
         self.root = QgsProject.instance().layerTreeRoot()        
-        self.layerLoader = LoadLayer(self.iface)
 
     def run(self):        
         self.settings = QSettings("CatAIS","VeriSO")
@@ -54,7 +53,7 @@ class ComplexCheck(ComplexCheckBase):
             layer["key"] = "ogc_fid"
             layer["sql"] = "art in (14,15,16)"
             layer["style"] = "bodenbedeckung/gewaesser.qml"
-            vlayer = self.layerLoader.load(layer, False, True)
+            vlayer = self.layer_loader.load(layer, False, True)
             layer = {}
             layer["type"] = "postgres"
 
@@ -66,7 +65,7 @@ class ComplexCheck(ComplexCheckBase):
             layer["key"] = "ogc_fid"
             layer["sql"] = "art in (1,2,3,4)"
             layer["style"] = "bodenbedeckung/verkehr.qml"
-            vlayer = self.layerLoader.load(layer, False, True)
+            vlayer = self.layer_loader.load(layer, False, True)
             layer = {}
             layer["type"] = "postgres"
 
@@ -78,7 +77,7 @@ class ComplexCheck(ComplexCheckBase):
             layer["key"] = "ctid"
             layer["sql"] = "art in (3,5,6,7,17,18,22,25,26,29,34,36)"
             layer["style"] = "bodenbedeckung/eo_verkehr.qml"
-            vlayer = self.layerLoader.load(layer, False, True)
+            vlayer = self.layer_loader.load(layer, False, True)
             layer = {}
             layer["type"] = "postgres"
 
@@ -90,7 +89,7 @@ class ComplexCheck(ComplexCheckBase):
             layer["key"] = "ctid"
             layer["sql"] = "art in (3,5,6,7,17,18,22,25,26,29,34,36)"
             layer["style"] = "bodenbedeckung/eo_linie_verkehr.qml"
-            vlayer = self.layerLoader.load(layer, False, True)
+            vlayer = self.layer_loader.load(layer, False, True)
             layer = {}
             layer["type"] = "postgres"
 
@@ -102,7 +101,7 @@ class ComplexCheck(ComplexCheckBase):
             layer["key"] = "ctid"
             layer["sql"] = ""
             layer["style"] = "bodenbedeckung/eo_punk.qml"
-            vlayer = self.layerLoader.load(layer, False, True)
+            vlayer = self.layer_loader.load(layer, False, True)
         except Exception:
             QApplication.restoreOverrideCursor()            
             exc_type, exc_value, exc_traceback = sys.exc_info()

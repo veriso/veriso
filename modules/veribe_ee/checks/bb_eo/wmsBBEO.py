@@ -26,7 +26,6 @@ class ComplexCheck(ComplexCheckBase):
         self.iface = iface
         
         self.root = QgsProject.instance().layerTreeRoot()        
-        self.layerLoader = LoadLayer(self.iface)
 
     def run(self):        
         self.settings = QSettings("CatAIS","VeriSO")
@@ -54,7 +53,7 @@ class ComplexCheck(ComplexCheckBase):
             #layer["crs"] ="EPSG:21781"
             layer["sql"] = ""
             layer["style"] = ""
-            vlayer = self.layerLoader.load(layer)
+            vlayer = self.layer_loader.load(layer)
             layer = {} 
             layer["type"] = "wms"
             layer["group"] = group
@@ -65,7 +64,7 @@ class ComplexCheck(ComplexCheckBase):
             #layer["crs"] ="EPSG:21781"
             layer["sql"] = ""
             layer["style"] = ""
-            vlayer = self.layerLoader.load(layer)
+            vlayer = self.layer_loader.load(layer)
             layer = {} 
             layer["type"] = "wms"
             layer["group"] = group
@@ -76,7 +75,7 @@ class ComplexCheck(ComplexCheckBase):
             #layer["crs"] ="EPSG:21781"
             layer["sql"] = ""
             layer["style"] = ""
-            vlayer = self.layerLoader.load(layer)          
+            vlayer = self.layer_loader.load(layer)
             layer = {} 
             layer["type"] = "wms"
             layer["group"] = group
@@ -87,7 +86,7 @@ class ComplexCheck(ComplexCheckBase):
             #layer["crs"] ="EPSG:21781"
             layer["sql"] = ""
             layer["style"] = ""
-            vlayer = self.layerLoader.load(layer) 
+            vlayer = self.layer_loader.load(layer)
             layer = {} 
             layer["type"] = "wms"
             layer["group"] = group
@@ -98,7 +97,7 @@ class ComplexCheck(ComplexCheckBase):
             #layer["crs"] ="EPSG:21781"
             layer["sql"] = ""
             layer["style"] = ""
-            vlayer = self.layerLoader.load(layer)
+            vlayer = self.layer_loader.load(layer)
  
         except Exception:
             QApplication.restoreOverrideCursor()            

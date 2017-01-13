@@ -26,7 +26,6 @@ class ComplexCheck(ComplexCheckBase):
         self.iface = iface
         
         self.root = QgsProject.instance().layerTreeRoot()        
-        self.layerLoader = LoadLayer(self.iface)
 
     def run(self):        
         self.settings = QSettings("CatAIS","VeriSO")
@@ -53,7 +52,7 @@ class ComplexCheck(ComplexCheckBase):
             layer["sql"] = "punktzeichen=6"
             layer["group"] = group
             layer["style"] = "liegenschaften/GP_unver.qml"
-            vlayerunvGP = self.layerLoader.load(layer)
+            vlayerunvGP = self.layer_loader.load(layer)
             unvGP = vlayerunvGP.featureCount()
 
             layer = {}
@@ -66,7 +65,7 @@ class ComplexCheck(ComplexCheckBase):
             layer["sql"] = "exaktdefiniert=1"
             layer["group"] = group
             layer["style"] = "liegenschaften/GP_exakt.qml"
-            vlayerunex = self.layerLoader.load(layer)
+            vlayerunex = self.layer_loader.load(layer)
             unex = vlayerunex.featureCount()
 
             layer = {}
@@ -79,7 +78,7 @@ class ComplexCheck(ComplexCheckBase):
             layer["sql"] = ""
             layer["group"] = group
             layer["style"] = "liegenschaften/GP_zuv.qml"
-            vlayer = self.layerLoader.load(layer)
+            vlayer = self.layer_loader.load(layer)
 
             layer["type"] = "postgres"
             layer["title"] = _translate("VeriSO_EE_gp_ts", "GP zuv", None)
@@ -90,7 +89,7 @@ class ComplexCheck(ComplexCheckBase):
             layer["sql"] = "lagezuv=1"
             layer["group"] = group
             layer["style"] = ""
-            vlayerunzuv = self.layerLoader.load(layer, False, False)
+            vlayerunzuv = self.layer_loader.load(layer, False, False)
             unzuv = vlayerunzuv.featureCount()
 
             layer = {}
@@ -103,7 +102,7 @@ class ComplexCheck(ComplexCheckBase):
             layer["sql"] = ""
             layer["group"] = group
             layer["style"] = "liegenschaften/GP_gen.qml"
-            vlayergenGP = self.layerLoader.load(layer)
+            vlayergenGP = self.layer_loader.load(layer)
             genGP = vlayergenGP.featureCount()
 
             layer = {}
@@ -116,7 +115,7 @@ class ComplexCheck(ComplexCheckBase):
             layer["sql"] = ""
             layer["group"] = group
             layer["style"] = "liegenschaften/sdr_quali.qml"
-            vlayersdr = self.layerLoader.load(layer)
+            vlayersdr = self.layer_loader.load(layer)
 
             layer = {}
             layer["type"] = "postgres"
@@ -128,7 +127,7 @@ class ComplexCheck(ComplexCheckBase):
             layer["sql"] = ""
             layer["group"] = group
             layer["style"] = "liegenschaften/ls_quali.qml"
-            vlayerLS = self.layerLoader.load(layer)  
+            vlayerLS = self.layer_loader.load(layer)
 
             layer = {}
             layer["type"] = "postgres"
@@ -140,7 +139,7 @@ class ComplexCheck(ComplexCheckBase):
             layer["sql"] = ""
             layer["group"] = group
             layer["style"] = "liegenschaften/q_proj_sdr.qml"
-            vlayerprojsdr = self.layerLoader.load(layer)
+            vlayerprojsdr = self.layer_loader.load(layer)
 
             layer = {}
             layer["type"] = "postgres"
@@ -152,7 +151,7 @@ class ComplexCheck(ComplexCheckBase):
             layer["sql"] = ""
             layer["group"] = group
             layer["style"] = "liegenschaften/q_proj_ls.qml"
-            vlayerprojLS = self.layerLoader.load(layer) 
+            vlayerprojLS = self.layer_loader.load(layer)
 
 
             layer = {}
@@ -165,7 +164,7 @@ class ComplexCheck(ComplexCheckBase):
             layer["sql"] = "(exaktdefiniert = 0 AND ((art <2  AND lagegen  > 5) OR (art = 2 AND lagegen > 7) OR (art = 3 AND lagegen > 15) OR (art = 4 AND lagegen > 35))) OR (exaktdefiniert = 1 AND ((art <2  AND lagegen  > 20) OR (art = 2 AND lagegen > 35) OR (art = 3 AND lagegen > 75) OR (art = 4 AND lagegen >  150)))"
             layer["group"] = group
             layer["style"] = "liegenschaften/GP_TS_Gen.qml"
-            vlayerGP = self.layerLoader.load(layer)
+            vlayerGP = self.layer_loader.load(layer)
 
             GP = vlayerGP.featureCount()
 

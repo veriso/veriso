@@ -26,7 +26,6 @@ class ComplexCheck(ComplexCheckBase):
         self.iface = iface
         
         self.root = QgsProject.instance().layerTreeRoot()        
-        self.layerLoader = LoadLayer(self.iface)
 
     def run(self):        
         self.settings = QSettings("CatAIS","VeriSO")
@@ -52,7 +51,7 @@ class ComplexCheck(ComplexCheckBase):
             layer["format"] = "image/png"
             layer["title"] = _translate("VeriSO_EE_GemGrenz", "Kantonsgrenze", None)
             layer["group"] = group
-            vlayer = self.layerLoader.load(layer, False, True)
+            vlayer = self.layer_loader.load(layer, False, True)
 
             layer = {}
             layer["type"] = "wms"
@@ -62,7 +61,7 @@ class ComplexCheck(ComplexCheckBase):
             layer["format"] ="image/png"
             layer["group"] = group
 #            layer["crs"] ="EPSG:21781"
-            vlayer = self.layerLoader.load(layer, False, True) 
+            vlayer = self.layer_loader.load(layer, False, True)
           
 
             layer = {}
@@ -76,7 +75,7 @@ class ComplexCheck(ComplexCheckBase):
             layer["key"] = "ogc_fid"
             layer["sql"] = ""
             layer["style"] = "gemeindegrenze/gemeindegrenze.qml"
-            vlayer = self.layerLoader.load(layer, False, True)  
+            vlayer = self.layer_loader.load(layer, False, True)
             layer = {}
             layer["type"] = "postgres"
 
@@ -88,7 +87,7 @@ class ComplexCheck(ComplexCheckBase):
             layer["key"] = "ogc_fid"
             layer["sql"] = "punktzeichen=6"
             layer["style"] = "liegenschaften/GP_unver.qml"
-            vlayer = self.layerLoader.load(layer, False, True)
+            vlayer = self.layer_loader.load(layer, False, True)
             layer = {}
             layer["type"] = "postgres"
 
@@ -100,7 +99,7 @@ class ComplexCheck(ComplexCheckBase):
             layer["key"] = "ogc_fid"
             layer["sql"] = "exaktdefiniert=1"
             layer["style"] = "liegenschaften/GP_exakt.qml"
-            vlayer = self.layerLoader.load(layer, False, True)
+            vlayer = self.layer_loader.load(layer, False, True)
             layer = {}
             layer["type"] = "postgres"
 
@@ -112,7 +111,7 @@ class ComplexCheck(ComplexCheckBase):
             layer["group"] = group
             layer["sql"] = "Hoheitsgrenzstein=0"
             layer["style"] = "liegenschaften/HP_schoen.qml"
-            vlayer = self.layerLoader.load(layer, False, True)
+            vlayer = self.layer_loader.load(layer, False, True)
             layer = {}
             layer["type"] = "postgres"
 
@@ -124,7 +123,7 @@ class ComplexCheck(ComplexCheckBase):
             layer["key"] = "ogc_fid"
             layer["sql"] = ""
             layer["style"] = "liegenschaften/GP_zuv.qml"
-            vlayer = self.layerLoader.load(layer, False, True)
+            vlayer = self.layer_loader.load(layer, False, True)
             layer = {}
             layer["type"] = "postgres"
 
@@ -136,7 +135,7 @@ class ComplexCheck(ComplexCheckBase):
             layer["key"] = "ogc_fid"
             layer["sql"] = ""
             layer["style"] = "liegenschaften/GP_gen.qml"
-            vlayer = self.layerLoader.load(layer, False, True)
+            vlayer = self.layer_loader.load(layer, False, True)
 
             layer = {}
             layer["type"] = "postgres"
@@ -149,7 +148,7 @@ class ComplexCheck(ComplexCheckBase):
             layer["key"] = "ogc_fid"
             layer["sql"] = ""
             layer["style"] = "liegenschaften/projliegenschaft.qml"
-            vlayer = self.layerLoader.load(layer, False, True)
+            vlayer = self.layer_loader.load(layer, False, True)
 
             layer = {}
             layer["type"] = "postgres"
@@ -162,7 +161,7 @@ class ComplexCheck(ComplexCheckBase):
             layer["key"] = "ogc_fid"
             layer["sql"] = ""
             layer["style"] = "liegenschaften/ls_quali.qml"
-            vlayer = self.layerLoader.load(layer, False, True)
+            vlayer = self.layer_loader.load(layer, False, True)
 
         except Exception:
             QApplication.restoreOverrideCursor()            

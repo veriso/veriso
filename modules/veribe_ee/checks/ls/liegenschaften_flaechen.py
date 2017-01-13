@@ -26,7 +26,6 @@ class ComplexCheck(ComplexCheckBase):
         self.iface = iface
         
         self.root = QgsProject.instance().layerTreeRoot()        
-        self.layerLoader = LoadLayer(self.iface)
 
     def run(self):        
         self.settings = QSettings("CatAIS","VeriSO")
@@ -55,7 +54,7 @@ class ComplexCheck(ComplexCheckBase):
             layer["group"] = group
             layer["style"] = "liegenschaften/ls_flaechen.qml"
 #            layer["style"] = "gebaeudeadressen/lokalisationsnamepos_newlabel_"+_locale+".qml"
-            vlayerLS = self.layerLoader.load(layer)     
+            vlayerLS = self.layer_loader.load(layer)
 
             layer = {}
             layer["type"] = "postgres"
@@ -69,7 +68,7 @@ class ComplexCheck(ComplexCheckBase):
             layer["group"] = group
             layer["style"] = "liegenschaften/ls_flaechen.qml"
 #            layer["style"] = "gebaeudeadressen/lokalisationsnamepos_newlabel_"+_locale+".qml"
-            vlayer3 = self.layerLoader.load(layer, False, True)      
+            vlayer3 = self.layer_loader.load(layer, False, True)
            
             layer = {}
             layer["type"] = "postgres"
@@ -82,7 +81,7 @@ class ComplexCheck(ComplexCheckBase):
             layer["group"] = group
             layer["style"] = "liegenschaften/grudis.qml"
 #            layer["style"] = "gebaeudeadressen/lokalisationsnamepos_newlabel_"+_locale+".qml"
-            vlayerGRUDIS = self.layerLoader.load(layer)  
+            vlayerGRUDIS = self.layer_loader.load(layer)
 
 
 #            LS = vlayerLS.featureCount()

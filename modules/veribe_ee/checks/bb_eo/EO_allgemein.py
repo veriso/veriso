@@ -26,7 +26,6 @@ class ComplexCheck(ComplexCheckBase):
         self.iface = iface
         
         self.root = QgsProject.instance().layerTreeRoot()        
-        self.layerLoader = LoadLayer(self.iface)
 
     def run(self):        
         self.settings = QSettings("CatAIS","VeriSO")
@@ -54,7 +53,7 @@ class ComplexCheck(ComplexCheckBase):
             layer["group"] = group
             layer["sql"] = ""
             layer["style"] = "bodenbedeckung/eo_fl.qml"
-            vlayer = self.layerLoader.load(layer, False, True)     
+            vlayer = self.layer_loader.load(layer, False, True)
             layer = {}
             layer["type"] = "postgres"
             layer["title"] = _translate("VeriSO_EE_EO_allgemein", "EO Linienelemente", None)
@@ -65,7 +64,7 @@ class ComplexCheck(ComplexCheckBase):
             layer["group"] = group
             layer["sql"] = ""
             layer["style"] = "bodenbedeckung/eo_li.qml"
-            vlayer = self.layerLoader.load(layer, False, True)
+            vlayer = self.layer_loader.load(layer, False, True)
             layer = {}
             layer["type"] = "postgres"
             layer["title"] = _translate("VeriSO_EE_EO_allgemein", "EO Punktelemente", None)
@@ -76,7 +75,7 @@ class ComplexCheck(ComplexCheckBase):
             layer["group"] = group
             layer["sql"] = ""
             layer["style"] = "bodenbedeckung/eo_pkt.qml"
-            vlayer = self.layerLoader.load(layer, False, True)
+            vlayer = self.layer_loader.load(layer, False, True)
             layer = {}
             layer["type"] = "postgres"
             layer["title"] = _translate("VeriSO_EE_EO_allgemein", "Objektname", None)
@@ -87,7 +86,7 @@ class ComplexCheck(ComplexCheckBase):
             layer["group"] = group
             layer["sql"] = ""
             layer["style"] = "bodenbedeckung/objektnamen.qml"
-            vlayer = self.layerLoader.load(layer, False, True)  
+            vlayer = self.layer_loader.load(layer, False, True)
             layer = {}
             layer["type"] = "postgres"
             layer["title"] = _translate("VeriSO_EE_EO_allgemein", "BEGID (EO)", None)
@@ -98,7 +97,7 @@ class ComplexCheck(ComplexCheckBase):
             layer["geom"] = "pos"
             layer["sql"] = ""
             layer["style"] = "gebaeudeadressen/BEGIDeo.qml"
-            vlayer = self.layerLoader.load(layer, False, True)
+            vlayer = self.layer_loader.load(layer, False, True)
  
         except Exception:
             QApplication.restoreOverrideCursor()            

@@ -26,7 +26,6 @@ class ComplexCheck(ComplexCheckBase):
         self.iface = iface
         
         self.root = QgsProject.instance().layerTreeRoot()        
-        self.layerLoader = LoadLayer(self.iface)
 
     def run(self):        
         self.settings = QSettings("CatAIS","VeriSO")
@@ -54,7 +53,7 @@ class ComplexCheck(ComplexCheckBase):
             layer["group"] = group
             layer["style"] = "liegenschaften/GP_ausserhalb.qml"
 #            layer["style"] = "gebaeudeadressen/lokalisationsnamepos_newlabel_"+_locale+".qml"
-            vlayerGP = self.layerLoader.load(layer)
+            vlayerGP = self.layer_loader.load(layer)
 
             GP = vlayerGP.featureCount()
 
@@ -71,7 +70,7 @@ class ComplexCheck(ComplexCheckBase):
 #            layer["format"] = "image/png"
 #            layer["title"] = "GWR"
 #            layer["group"] = group
-#            vlayerGWR = self.layerLoader.load(layer)
+#            vlayerGWR = self.layer_loader.load(layer)
 
 
             

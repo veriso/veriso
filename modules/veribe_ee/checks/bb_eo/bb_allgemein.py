@@ -26,7 +26,6 @@ class ComplexCheck(ComplexCheckBase):
         self.iface = iface
         
         self.root = QgsProject.instance().layerTreeRoot()        
-        self.layerLoader = LoadLayer(self.iface)
 
     def run(self):        
         self.settings = QSettings("CatAIS","VeriSO")
@@ -53,7 +52,7 @@ class ComplexCheck(ComplexCheckBase):
             layer["group"] = group
             layer["sql"] = ""
             layer["style"] = "bodenbedeckung/ls.qml"
-            vlayer = self.layerLoader.load(layer, False, True)
+            vlayer = self.layer_loader.load(layer, False, True)
             layer = {}
             layer["type"] = "postgres" 
             layer["title"] =  _translate("VeriSO_EE_BB_allgemein", "Bodenbedeckung", None)
@@ -64,7 +63,7 @@ class ComplexCheck(ComplexCheckBase):
             layer["group"] = group
             layer["sql"] = ""
             layer["style"] = "bodenbedeckung/bb.qml"
-            vlayer = self.layerLoader.load(layer)
+            vlayer = self.layer_loader.load(layer)
             layer = {}
             layer["type"] = "postgres" 
             layer["title"] =  _translate("VeriSO_EE_BB_allgemein", "Objektname", None)
@@ -75,7 +74,7 @@ class ComplexCheck(ComplexCheckBase):
             layer["key"] = "ogc_fid"
             layer["sql"] = ""
             layer["style"] = "bodenbedeckung/objektnamen.qml"
-            vlayer = self.layerLoader.load(layer, False, True)
+            vlayer = self.layer_loader.load(layer, False, True)
  
             layer = {}
             layer["type"] = "postgres"     
@@ -87,7 +86,7 @@ class ComplexCheck(ComplexCheckBase):
             layer["group"] = group
             layer["sql"] = ""
             layer["style"] = "gebaeudeadressen/BEGIDbb.qml"
-            vlayer = self.layerLoader.load(layer, False, True)
+            vlayer = self.layer_loader.load(layer, False, True)
 
             layer = {}
             layer["type"] = "postgres"     
@@ -99,7 +98,7 @@ class ComplexCheck(ComplexCheckBase):
             layer["group"] = group
             layer["sql"] = ""
             layer["style"] = "bodenbedeckung/bb_symbol.qml"
-            vlayer = self.layerLoader.load(layer, False, True)
+            vlayer = self.layer_loader.load(layer, False, True)
  
         except Exception:
           QApplication.restoreOverrideCursor()            

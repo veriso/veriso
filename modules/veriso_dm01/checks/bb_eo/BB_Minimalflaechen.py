@@ -26,7 +26,6 @@ class ComplexCheck(ComplexCheckBase):
         self.iface = iface
         
         self.root = QgsProject.instance().layerTreeRoot()        
-        self.layerLoader = LoadLayer(self.iface)
 
     def run(self):        
         self.settings = QSettings("CatAIS","VeriSO")
@@ -53,7 +52,7 @@ class ComplexCheck(ComplexCheckBase):
             layer["sql"] = ""
             layer["group"] = group
             layer["style"] = "liegenschaften/TS.qml"
-            vlayer = self.layerLoader.load(layer, False, True)
+            vlayer = self.layer_loader.load(layer, False, True)
  
             layer = {}
             layer["type"] = "postgres"
@@ -65,7 +64,7 @@ class ComplexCheck(ComplexCheckBase):
             layer["sql"] = ""
             layer["group"] = group
             layer["style"] = "bodenbedeckung/bb_kante.qml"
-            vlayer = self.layerLoader.load(layer)
+            vlayer = self.layer_loader.load(layer)
 
             layer = {}
             layer["type"] = "postgres"
@@ -77,7 +76,7 @@ class ComplexCheck(ComplexCheckBase):
             layer["sql"] = "ts_art in(3,4) and bb_art not in (0,3,6,15) and flaeche < 2500"
             layer["group"] = group
             layer["style"] = "bodenbedeckung/kleiner_wald.qml"
-            vlayer45 = self.layerLoader.load(layer, False, True)
+            vlayer45 = self.layer_loader.load(layer, False, True)
 
             layer = {}
             layer["type"] = "postgres"
@@ -89,7 +88,7 @@ class ComplexCheck(ComplexCheckBase):
             layer["sql"] = "ts_art=2 and bb_art not in (0,3,6,15) and flaeche < 1000"
             layer["group"] = group
             layer["style"] = "bodenbedeckung/kleiner_wald.qml"
-            vlayer3 = self.layerLoader.load(layer, False, True)
+            vlayer3 = self.layer_loader.load(layer, False, True)
 
             layer = {}
             layer["type"] = "postgres"
@@ -101,7 +100,7 @@ class ComplexCheck(ComplexCheckBase):
             layer["sql"] = "ts_art IN (0,1) AND bb_art NOT IN (0,3,6,15) AND flaeche < 100"
             layer["group"] = group
             layer["style"] = "bodenbedeckung/kleiner_wald.qml"
-            vlayerklein = self.layerLoader.load(layer, False, True)
+            vlayerklein = self.layer_loader.load(layer, False, True)
            
             layer = {}
             layer["type"] = "postgres"
@@ -113,7 +112,7 @@ class ComplexCheck(ComplexCheckBase):
             layer["sql"] = "art IN (17,18,19,20) AND st_area(geometrie) < 800"
             layer["group"] = group
             layer["style"] = "bodenbedeckung/kleiner_wald.qml"
-            vlayerWald = self.layerLoader.load(layer, False, True)
+            vlayerWald = self.layer_loader.load(layer, False, True)
 
             layer = {}
             layer["type"] = "postgres"
@@ -125,7 +124,7 @@ class ComplexCheck(ComplexCheckBase):
             layer["sql"] = "art in(0) AND st_area(geometrie) < 12"
             layer["group"] = group
             layer["style"] = "bodenbedeckung/kleiner_wald.qml"
-            vlayerGeb = self.layerLoader.load(layer, False, True)
+            vlayerGeb = self.layer_loader.load(layer, False, True)
 
             layer = {}
             layer["type"] = "postgres"
@@ -137,7 +136,7 @@ class ComplexCheck(ComplexCheckBase):
             layer["sql"] = "art IN (6) AND st_area(geometrie) < 20"
             layer["group"] = group
             layer["style"] = "bodenbedeckung/kleiner_wald.qml"
-            vlayerWb = self.layerLoader.load(layer, False, True)
+            vlayerWb = self.layer_loader.load(layer, False, True)
 
             layer = {}
             layer["type"] = "postgres"
@@ -149,7 +148,7 @@ class ComplexCheck(ComplexCheckBase):
             layer["sql"] = "art<26 and art>0 AND flaeche>.1 and flaeche <10"
             layer["group"] = group
             layer["style"] = "bodenbedeckung/kleiner_wald.qml"
-            vlayerBB = self.layerLoader.load(layer)
+            vlayerBB = self.layer_loader.load(layer)
 
 
             TS1 = vlayerklein.featureCount()

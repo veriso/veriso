@@ -26,7 +26,6 @@ class ComplexCheck(ComplexCheckBase):
         self.iface = iface
         
         self.root = QgsProject.instance().layerTreeRoot()        
-        self.layerLoader = LoadLayer(self.iface)
 
     def run(self):        
         self.settings = QSettings("CatAIS","VeriSO")
@@ -53,7 +52,7 @@ class ComplexCheck(ComplexCheckBase):
             layer["key"] = "ogc_fid"
             layer["sql"] = ""
             layer["style"] = "planeinteilung/gemeinde.qml"
-            vlayer = self.layerLoader.load(layer, False, True) 
+            vlayer = self.layer_loader.load(layer, False, True)
             layer = {}
             layer["type"] = "postgres"
 
@@ -65,7 +64,7 @@ class ComplexCheck(ComplexCheckBase):
             layer["key"] = "ogc_fid"
             layer["sql"] = ""
             layer["style"] = "planeinteilung/liegenschaften.qml"
-            vlayer = self.layerLoader.load(layer, False, True) 
+            vlayer = self.layer_loader.load(layer, False, True)
             layer = {}
             layer["type"] = "postgres"
 
@@ -77,7 +76,7 @@ class ComplexCheck(ComplexCheckBase):
             layer["key"] = "ogc_fid"
             layer["sql"] = ""
             layer["style"] = "rohrleitungen/linien.qml"
-            vlayer = self.layerLoader.load(layer) 
+            vlayer = self.layer_loader.load(layer)
             layer = {}
             layer["type"] = "postgres"
 
@@ -89,7 +88,7 @@ class ComplexCheck(ComplexCheckBase):
             layer["key"] = "ogc_fid"
             layer["sql"] = ""
             layer["style"] = "rohrleitungen/flaechen.qml"
-            vlayer = self.layerLoader.load(layer) 
+            vlayer = self.layer_loader.load(layer)
             layer = {}
             layer["type"] = "postgres"
 
@@ -101,7 +100,7 @@ class ComplexCheck(ComplexCheckBase):
             layer["key"] = "ogc_fid"
             layer["sql"] = ""
             layer["style"] = "rohrleitungen/punkt.qml"
-            vlayer = self.layerLoader.load(layer) 
+            vlayer = self.layer_loader.load(layer)
             layer = {}
             layer["type"] = "postgres"
 
@@ -113,7 +112,7 @@ class ComplexCheck(ComplexCheckBase):
             layer["key"] = "ogc_fid"
             layer["sql"] = ""
             layer["style"] = "rohrleitungen/objekt.qml"
-            vlayer = self.layerLoader.load(layer) 
+            vlayer = self.layer_loader.load(layer)
             layer = {}
             layer["type"] = "postgres"
 
@@ -125,7 +124,7 @@ class ComplexCheck(ComplexCheckBase):
             layer["key"] = "ogc_fid"
             layer["sql"] = ""
             layer["style"] = "rohrleitungen/signalpunkt.qml"
-            vlayer = self.layerLoader.load(layer) 
+            vlayer = self.layer_loader.load(layer)
 
         except Exception:
             QApplication.restoreOverrideCursor()            

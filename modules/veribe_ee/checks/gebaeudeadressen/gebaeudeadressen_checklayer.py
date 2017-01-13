@@ -26,7 +26,6 @@ class ComplexCheck(ComplexCheckBase):
         self.iface = iface
         
         self.root = QgsProject.instance().layerTreeRoot()        
-        self.layerLoader = LoadLayer(self.iface)
 
     def run(self):        
         self.settings = QSettings("CatAIS","VeriSO")
@@ -55,7 +54,7 @@ class ComplexCheck(ComplexCheckBase):
             layer["group"] = group
             layer["style"] = "gebaeudeadressen/spinnennetz_blau.qml"
             
-            vlayer = self.layerLoader.load(layer, False)
+            vlayer = self.layer_loader.load(layer, False)
                 
             layer = {}
             layer["type"] = "postgres"
@@ -68,7 +67,7 @@ class ComplexCheck(ComplexCheckBase):
             layer["group"] = group
             layer["style"] = "gebaeudeadressen/shortestline_linie.qml"
             
-            vlayer = self.layerLoader.load(layer)
+            vlayer = self.layer_loader.load(layer)
             
             layer = {}
             layer["type"] = "postgres"
@@ -80,7 +79,7 @@ class ComplexCheck(ComplexCheckBase):
             layer["group"] = group
             layer["style"] = "gebaeudeadressen/shortestline_hausnummerpos.qml"
  
-            vlayer = self.layerLoader.load(layer)
+            vlayer = self.layer_loader.load(layer)
             
             layer = {}
             layer["type"] = "postgres"
@@ -92,7 +91,7 @@ class ComplexCheck(ComplexCheckBase):
             layer["group"] = group
             layer["style"] = "gebaeudeadressen/gebaeude_12m2_ohne_eingang.qml"
             
-            vlayer = self.layerLoader.load(layer)
+            vlayer = self.layer_loader.load(layer)
 
             layer = {}
             layer["type"] = "postgres"
@@ -104,7 +103,7 @@ class ComplexCheck(ComplexCheckBase):
             layer["sql"] = ""
             layer["group"] = group
             
-            vlayer = self.layerLoader.load(layer)
+            vlayer = self.layer_loader.load(layer)
             
         except Exception, e:
             QApplication.restoreOverrideCursor()            

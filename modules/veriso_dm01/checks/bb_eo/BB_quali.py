@@ -26,7 +26,6 @@ class ComplexCheck(ComplexCheckBase):
         self.iface = iface
         
         self.root = QgsProject.instance().layerTreeRoot()        
-        self.layerLoader = LoadLayer(self.iface)
 
     def run(self):        
         self.settings = QSettings("CatAIS","VeriSO")
@@ -53,7 +52,7 @@ class ComplexCheck(ComplexCheckBase):
             layer["key"] = "ogc_fid"
             layer["sql"] = ""
             layer["style"] = "bodenbedeckung/q_eo_fl.qml"
-            vlayer = self.layerLoader.load(layer, False, True)    
+            vlayer = self.layer_loader.load(layer, False, True)
             layer = {}
             layer["type"] = "postgres" 
             layer["title"] = _translate("VeriSO_EE_quali", "EO Linienelemente", None)
@@ -64,7 +63,7 @@ class ComplexCheck(ComplexCheckBase):
             layer["key"] = "ogc_fid"
             layer["sql"] = ""
             layer["style"] = "bodenbedeckung/q_eo_li.qml"
-            vlayer = self.layerLoader.load(layer, False, True)  
+            vlayer = self.layer_loader.load(layer, False, True)
             layer = {}
             layer["type"] = "postgres" 
             layer["title"] = _translate("VeriSO_EE_quali", "EO Punktelemente", None)
@@ -75,7 +74,7 @@ class ComplexCheck(ComplexCheckBase):
             layer["key"] = "ogc_fid"
             layer["sql"] = ""
             layer["style"] = "bodenbedeckung/q_eo_pkt.qml"
-            vlayer = self.layerLoader.load(layer, False, True)
+            vlayer = self.layer_loader.load(layer, False, True)
             layer = {}
             layer["type"] = "postgres" 
             layer["title"] = _translate("VeriSO_EE_quali", "Bodenbedeckung", None)
@@ -86,7 +85,7 @@ class ComplexCheck(ComplexCheckBase):
             layer["group"] = group
             layer["sql"] = ""
             layer["style"] = "bodenbedeckung/q_bb.qml"
-            vlayer = self.layerLoader.load(layer, False, True)    
+            vlayer = self.layer_loader.load(layer, False, True)
         except Exception:
             QApplication.restoreOverrideCursor()            
             exc_type, exc_value, exc_traceback = sys.exc_info()

@@ -26,7 +26,6 @@ class ComplexCheck(ComplexCheckBase):
         self.iface = iface
         
         self.root = QgsProject.instance().layerTreeRoot()        
-        self.layerLoader = LoadLayer(self.iface)
 
     def run(self):        
         self.settings = QSettings("CatAIS","VeriSO")
@@ -55,7 +54,7 @@ class ComplexCheck(ComplexCheckBase):
             layer["sql"] = "flaeche < 20.00 and flaeche > 0.3"
             layer["group"] = group
             layer["style"] = "nomenklatur/pkt_nk.qml"
-            vlayerNKpkt = self.layerLoader.load(layer)
+            vlayerNKpkt = self.layer_loader.load(layer)
 
 
             NK = vlayerNKpkt.featureCount()

@@ -26,7 +26,6 @@ class ComplexCheck(ComplexCheckBase):
         self.iface = iface
         
         self.root = QgsProject.instance().layerTreeRoot()        
-        self.layerLoader = LoadLayer(self.iface)
 
     def run(self):        
         self.settings = QSettings("CatAIS","VeriSO")
@@ -57,11 +56,11 @@ class ComplexCheck(ComplexCheckBase):
             
             # Die Sichtbarkeit des Layer und ob die Legende
             # und die Gruppe zusammengeklappt sein sollen:
-            # self.layerLoader.load(layer, True, True, True)
+            # self.layer_loader.load(layer, True, True, True)
             # Legende = vorletztes True (default is False)
             # Gruppe = letztes True (default is False)
             # Sichtbarkeit des Layers = erstes True (default is True)
-            vlayer = self.layerLoader.load(layer)
+            vlayer = self.layer_loader.load(layer)
             
             layer = {}
             layer["type"] = "postgres"
@@ -74,7 +73,7 @@ class ComplexCheck(ComplexCheckBase):
             layer["readonly"] = True            
             layer["group"] = group
             
-            vlayer = self.layerLoader.load(layer, False, True)            
+            vlayer = self.layer_loader.load(layer, False, True)
             
             layer = {}
             layer["type"] = "postgres"
@@ -87,7 +86,7 @@ class ComplexCheck(ComplexCheckBase):
             layer["group"] = group
             layer["style"] = "fixpunkte/lfp3.qml"
 
-            vlayer = self.layerLoader.load(layer)
+            vlayer = self.layer_loader.load(layer)
 
             layer = {}
             layer["type"] = "postgres"
@@ -100,7 +99,7 @@ class ComplexCheck(ComplexCheckBase):
             layer["group"] = group
             layer["style"] = "fixpunkte/punktversicherung.qml"
 
-            vlayer = self.layerLoader.load(layer)
+            vlayer = self.layer_loader.load(layer)
             
             layer = {}
             layer["type"] = "postgres"
@@ -113,7 +112,7 @@ class ComplexCheck(ComplexCheckBase):
             layer["group"] = group
             layer["style"] = "fixpunkte/lfp3ausserhalb.qml"
             
-            vlayer = self.layerLoader.load(layer)
+            vlayer = self.layer_loader.load(layer)
             
             # So funktionieren WMS:
             layer = {}
@@ -125,7 +124,7 @@ class ComplexCheck(ComplexCheckBase):
             layer["crs"] = "EPSG:" + str(epsg)
             layer["group"] = group
 
-            vlayer = self.layerLoader.load(layer, False, True)
+            vlayer = self.layer_loader.load(layer, False, True)
 
 
             layer = {}
@@ -137,7 +136,7 @@ class ComplexCheck(ComplexCheckBase):
             layer["sql"] = ""
             layer["readonly"] = True
             layer["group"] = group    
-            vlayer = self.layerLoader.load(layer)
+            vlayer = self.layer_loader.load(layer)
 
 
             layer = {}
@@ -150,7 +149,7 @@ class ComplexCheck(ComplexCheckBase):
             layer["readonly"] = True
             layer["group"] = group
             layer["style"] = "gemeindegrenze/gemgre_strichliert.qml"
-            gemgrelayer = self.layerLoader.load(layer)
+            gemgrelayer = self.layer_loader.load(layer)
 
            
 

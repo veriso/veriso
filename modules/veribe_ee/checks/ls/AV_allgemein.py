@@ -26,7 +26,6 @@ class ComplexCheck(ComplexCheckBase):
         self.iface = iface
         
         self.root = QgsProject.instance().layerTreeRoot()        
-        self.layerLoader = LoadLayer(self.iface)
 
     def run(self):        
         self.settings = QSettings("CatAIS","VeriSO")
@@ -53,7 +52,7 @@ class ComplexCheck(ComplexCheckBase):
             layer["sql"] = ""
             layer["key"] = "ogc_fid"
             layer["style"] = "liegenschaften/TS.qml"
-            vlayer = self.layerLoader.load(layer, False, True) 
+            vlayer = self.layer_loader.load(layer, False, True)
             layer = {}
             layer["type"] = "postgres"
  
@@ -63,7 +62,7 @@ class ComplexCheck(ComplexCheckBase):
             layer["group"] = group
             layer["key"] = "ogc_fid"
             layer["sql"] = ""
-            vlayer = self.layerLoader.load(layer, False, True) 
+            vlayer = self.layer_loader.load(layer, False, True)
             layer = {}
             layer["type"] = "postgres"
  
@@ -75,7 +74,7 @@ class ComplexCheck(ComplexCheckBase):
             layer["key"] = "ogc_fid"
             layer["sql"] = ""
             layer["style"] = "liegenschaften/projselbstrecht.qml"
-            vlayer = self.layerLoader.load(layer)  
+            vlayer = self.layer_loader.load(layer)
             layer = {}
             layer["type"] = "postgres"
  
@@ -87,7 +86,7 @@ class ComplexCheck(ComplexCheckBase):
             layer["key"] = "ogc_fid"
             layer["sql"] = ""
             layer["style"] = "liegenschaften/selbstrecht.qml"
-            vlayer = self.layerLoader.load(layer)  
+            vlayer = self.layer_loader.load(layer)
             layer = {}
             layer["type"] = "postgres"
  
@@ -99,7 +98,7 @@ class ComplexCheck(ComplexCheckBase):
             layer["key"] = "ogc_fid"
             layer["sql"] = ""
             layer["style"] = "liegenschaften/projliegenschaft.qml"
-            vlayer = self.layerLoader.load(layer)  
+            vlayer = self.layer_loader.load(layer)
             layer = {}
             layer["type"] = "postgres"
  
@@ -111,7 +110,7 @@ class ComplexCheck(ComplexCheckBase):
             layer["key"] = "ogc_fid"
             layer["sql"] = ""
             layer["style"] = "liegenschaften/liegenschaft.qml"
-            vlayer = self.layerLoader.load(layer)  
+            vlayer = self.layer_loader.load(layer)
             layer = {}
             layer["type"] = "postgres"
  
@@ -123,7 +122,7 @@ class ComplexCheck(ComplexCheckBase):
             layer["key"] = "ogc_fid"
             layer["sql"] = ""
             layer["style"] = "liegenschaften/hilfslinie.qml"
-            vlayer = self.layerLoader.load(layer, False, True) 
+            vlayer = self.layer_loader.load(layer, False, True)
  
  
  
@@ -138,7 +137,7 @@ class ComplexCheck(ComplexCheckBase):
             layer["key"] = "ogc_fid"
             layer["sql"] = ""
             layer["style"] = "liegenschaften/proj_GS_NR.qml"
-            vlayer = self.layerLoader.load(layer, False, True) 
+            vlayer = self.layer_loader.load(layer, False, True)
             layer = {}
             layer["type"] = "postgres"
  
@@ -150,7 +149,7 @@ class ComplexCheck(ComplexCheckBase):
             layer["group"] = group
             layer["sql"] = "(art=0) and (gesamteflaechenmass is NULL)"
             layer["style"] = "liegenschaften/nr_ls_ganz.qml"
-            vlayer = self.layerLoader.load(layer, False, True) 
+            vlayer = self.layer_loader.load(layer, False, True)
             layer = {}
             layer["type"] = "postgres"
  
@@ -162,7 +161,7 @@ class ComplexCheck(ComplexCheckBase):
             layer["key"] = "ogc_fid"
             layer["sql"] = "(art>0) and (gesamteflaechenmass is NULL)"
             layer["style"] = "liegenschaften/nr_sdr_ganz.qml"
-            vlayer = self.layerLoader.load(layer, False, True) 
+            vlayer = self.layer_loader.load(layer, False, True)
             layer = {}
             layer["type"] = "postgres"
  
@@ -174,7 +173,7 @@ class ComplexCheck(ComplexCheckBase):
             layer["key"] = "ogc_fid"
             layer["sql"] = "(art=0) and (gesamteflaechenmass>0)"
             layer["style"] = "liegenschaften/nr_ls_teil.qml"
-            vlayer = self.layerLoader.load(layer, False, True) 
+            vlayer = self.layer_loader.load(layer, False, True)
             
             layer = {}
             layer["type"] = "postgres"
@@ -186,7 +185,7 @@ class ComplexCheck(ComplexCheckBase):
             layer["key"] = "ogc_fid"
             layer["sql"] = "art>0 and gesamteflaechenmass>0"
             layer["style"] = "liegenschaften/nr_sdr_teil.qml"
-            vlayer = self.layerLoader.load(layer, False, True) 
+            vlayer = self.layer_loader.load(layer, False, True)
             layer = {}
             layer["type"] = "postgres"
  
@@ -198,7 +197,7 @@ class ComplexCheck(ComplexCheckBase):
             layer["key"] = "ogc_fid"
             layer["sql"] = "lin=1"
             layer["style"] = "liegenschaften/lable_aussen.qml"
-            vlayer = self.layerLoader.load(layer, False, True) 
+            vlayer = self.layer_loader.load(layer, False, True)
             layer = {}
             layer["type"] = "postgres"
             layer["title"] = _translate("VeriSO_EE_AV allgemein", "Rutschgebiet", None)
@@ -209,7 +208,7 @@ class ComplexCheck(ComplexCheckBase):
             layer["sql"] = ""
             layer["key"] = "ogc_fid"
             layer["style"] = "liegenschaften/rutsch.qml"
-            vlayer = self.layerLoader.load(layer, False, True) 
+            vlayer = self.layer_loader.load(layer, False, True)
             layer = {}
             layer["type"] = "postgres"
             layer["title"] = _translate("VeriSO_EE_AV allgemein", "Rutschgebiet Pos", None)
@@ -220,7 +219,7 @@ class ComplexCheck(ComplexCheckBase):
             layer["sql"] = ""
             layer["key"] = "ogc_fid"
             layer["style"] = ""
-            vlayer = self.layerLoader.load(layer, False, True) 
+            vlayer = self.layer_loader.load(layer, False, True)
 
 
         except Exception:

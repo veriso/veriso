@@ -26,7 +26,6 @@ class ComplexCheck(ComplexCheckBase):
         self.iface = iface
         
         self.root = QgsProject.instance().layerTreeRoot()        
-        self.layerLoader = LoadLayer(self.iface)
 
     def run(self):        
         self.settings = QSettings("CatAIS","VeriSO")
@@ -55,7 +54,7 @@ class ComplexCheck(ComplexCheckBase):
 
             layer["readonly"] = True
             layer["group"] = group   
-            vlayerBBNachfuehrung = self.layerLoader.load(layer, False, True)              
+            vlayerBBNachfuehrung = self.layer_loader.load(layer, False, True)
             
             layer = {}
             layer["type"] = "postgres"
@@ -67,7 +66,7 @@ class ComplexCheck(ComplexCheckBase):
             layer["sql"] = ""
             layer["readonly"] = True
             layer["group"] = group   
-            vlayerEONachfuehrung = self.layerLoader.load(layer, False, True)              
+            vlayerEONachfuehrung = self.layer_loader.load(layer, False, True)
                         
             layer = {}
             layer["type"] = "postgres"
@@ -80,7 +79,7 @@ class ComplexCheck(ComplexCheckBase):
             layer["readonly"] = True
             layer["group"] = group   
             layer["style"] = "bodenbedeckung/bb.qml"
-            vlayerBodenbedeckung = self.layerLoader.load(layer, False, True)  
+            vlayerBodenbedeckung = self.layer_loader.load(layer, False, True)
 
             layer = {}
             layer["type"] = "postgres"
@@ -93,7 +92,7 @@ class ComplexCheck(ComplexCheckBase):
             layer["readonly"] = True
             layer["group"] = group   
             layer["style"] = "bodenbedeckung/eo_fl.qml"
-            vlayerEOFlaechen = self.layerLoader.load(layer, False, True)  
+            vlayerEOFlaechen = self.layer_loader.load(layer, False, True)
 
             layer = {}
             layer["type"] = "postgres"
@@ -106,7 +105,7 @@ class ComplexCheck(ComplexCheckBase):
             layer["readonly"] = True
             layer["group"] = group   
             layer["style"] = "bodenbedeckung/eo_li.qml"
-            vlayerEOLinien = self.layerLoader.load(layer, False, True)  
+            vlayerEOLinien = self.layer_loader.load(layer, False, True)
 
             layer = {}
             layer["type"] = "postgres"
@@ -119,7 +118,7 @@ class ComplexCheck(ComplexCheckBase):
             layer["readonly"] = True
             layer["group"] = group   
             layer["style"] = "bodenbedeckung/eo_pkt.qml"
-            vlayerEOLinien = self.layerLoader.load(layer, False, True)  
+            vlayerEOLinien = self.layer_loader.load(layer, False, True)
 
             layer = {}
             layer["type"] = "postgres"
@@ -131,7 +130,7 @@ class ComplexCheck(ComplexCheckBase):
             layer["sql"] = ""
             layer["readonly"] = True
             layer["group"] = group   
-            vlayerGebaeudenummer = self.layerLoader.load(layer, False, True)          
+            vlayerGebaeudenummer = self.layer_loader.load(layer, False, True)
             
             layer = {}
             layer["type"] = "postgres"
@@ -143,7 +142,7 @@ class ComplexCheck(ComplexCheckBase):
             layer["sql"] = ""
             layer["readonly"] = True
             layer["group"] = group   
-            vlayerObjektnummer = self.layerLoader.load(layer, False, True)                   
+            vlayerObjektnummer = self.layer_loader.load(layer, False, True)
         
             layer = {}
             layer["type"] = "postgres"
@@ -156,7 +155,7 @@ class ComplexCheck(ComplexCheckBase):
             layer["readonly"] = True
             layer["group"] = group   
             layer["style"] = "gemeindegrenze/gemeindegrenze.qml"
-            vlayerGemeinde = self.layerLoader.load(layer, False, True)  
+            vlayerGemeinde = self.layer_loader.load(layer, False, True)
 
         except Exception:
             QApplication.restoreOverrideCursor()            

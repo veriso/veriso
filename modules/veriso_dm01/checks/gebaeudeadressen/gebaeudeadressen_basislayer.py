@@ -26,7 +26,6 @@ class ComplexCheck(ComplexCheckBase):
         self.iface = iface
         
         self.root = QgsProject.instance().layerTreeRoot()        
-        self.layerLoader = LoadLayer(self.iface)
 
     def run(self):        
         self.settings = QSettings("CatAIS","VeriSO")
@@ -55,7 +54,7 @@ class ComplexCheck(ComplexCheckBase):
             layer["format"] ="image/jpeg"
             #layer["crs"] ="EPSG:21781"
             layer["sql"] = ""
-            vlayer = self.layerLoader.load(layer, False, True)
+            vlayer = self.layer_loader.load(layer, False, True)
 
             layer = {}
             layer["type"] = "postgres"
@@ -73,11 +72,11 @@ class ComplexCheck(ComplexCheckBase):
             
             # Die Sichtbarkeit des Layer und ob die Legende
             # und die Gruppe zusammengeklappt sein sollen:
-            # self.layerLoader.load(layer, True, True, True)
+            # self.layer_loader.load(layer, True, True, True)
             # Legende = vorletztes True (default is False)
             # Gruppe = letztes True (default is False)
             # Sichtbarkeit des Layers = erstes True (default is True)
-            vlayer = self.layerLoader.load(layer)
+            vlayer = self.layer_loader.load(layer)
             
             layer = {}
             layer["type"] = "postgres"
@@ -90,7 +89,7 @@ class ComplexCheck(ComplexCheckBase):
             layer["group"] = group
             layer["style"] = "einzelobjekte/eo_flaeche_gebdetail_unterstand_reservoir_unterirdisch.qml"
 
-            vlayer = self.layerLoader.load(layer)
+            vlayer = self.layer_loader.load(layer)
 
             layer = {}
             layer["type"] = "postgres"
@@ -103,7 +102,7 @@ class ComplexCheck(ComplexCheckBase):
             layer["group"] = group
             layer["style"] = "einzelobjekte/eo_linie_gebdetail.qml"
 
-            vlayer = self.layerLoader.load(layer)
+            vlayer = self.layer_loader.load(layer)
 
             layer = {}
             layer["type"] = "postgres"
@@ -115,7 +114,7 @@ class ComplexCheck(ComplexCheckBase):
             layer["readonly"] = True            
             layer["group"] = group
 
-            vlayer = self.layerLoader.load(layer)
+            vlayer = self.layer_loader.load(layer)
 
             layer = {}
             layer["type"] = "postgres"
@@ -128,7 +127,7 @@ class ComplexCheck(ComplexCheckBase):
             layer["group"] = group
             layer["style"] = "gebaeudeadressen/benanntesgebiet_gruen.qml"
 
-            vlayer = self.layerLoader.load(layer)
+            vlayer = self.layer_loader.load(layer)
 
             layer = {}
             layer["type"] = "postgres"
@@ -140,7 +139,7 @@ class ComplexCheck(ComplexCheckBase):
             layer["group"] = group
             layer["style"] = "gebaeudeadressen/strassenachsen_gruen.qml"
 
-            vlayer = self.layerLoader.load(layer)
+            vlayer = self.layer_loader.load(layer)
 
             layer = {}
             layer["type"] = "postgres"
@@ -152,7 +151,7 @@ class ComplexCheck(ComplexCheckBase):
             layer["group"] = group
             layer["style"] = "gebaeudeadressen/anfangspunkt_gruen.qml"
 
-            vlayer = self.layerLoader.load(layer)
+            vlayer = self.layer_loader.load(layer)
 
             layer = {}
             layer["type"] = "postgres"
@@ -164,7 +163,7 @@ class ComplexCheck(ComplexCheckBase):
             layer["group"] = group
             layer["style"] = "gebaeudeadressen/gebaeudeeingang_blaues_viereck_mit_label.qml"
 
-            vlayer = self.layerLoader.load(layer)
+            vlayer = self.layer_loader.load(layer)
 
             layer = {}
             layer["type"] = "postgres"
@@ -176,7 +175,7 @@ class ComplexCheck(ComplexCheckBase):
             layer["group"] = group
             layer["style"] = "gebaeudeadressen/hausnummerpos.qml"
 
-            vlayer = self.layerLoader.load(layer)
+            vlayer = self.layer_loader.load(layer)
 
             layer = {}
             layer["type"] = "postgres"
@@ -186,7 +185,7 @@ class ComplexCheck(ComplexCheckBase):
             layer["sql"] = ""
             layer["group"] = group
             
-            vlayer = self.layerLoader.load(layer)
+            vlayer = self.layer_loader.load(layer)
             
             layer = {}
             layer["type"] = "postgres"
@@ -198,7 +197,7 @@ class ComplexCheck(ComplexCheckBase):
             layer["group"] = group
             layer["style"] = "gebaeudeadressen/lokalisationsnamepos.qml"
 
-            vlayer = self.layerLoader.load(layer)
+            vlayer = self.layer_loader.load(layer)
 
             layer = {}
             layer["type"] = "postgres"
@@ -211,7 +210,7 @@ class ComplexCheck(ComplexCheckBase):
             layer["group"] = group
             layer["style"] = "gemeindegrenze/gemgre_strichliert.qml"
 
-            gemgrelayer = self.layerLoader.load(layer)
+            gemgrelayer = self.layer_loader.load(layer)
 
             if gemgrelayer:
                 rect = gemgrelayer.extent()
