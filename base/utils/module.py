@@ -270,9 +270,6 @@ def get_checks_from_files(module_name, topic_dir, modules_dir=None):
                 # if we made it to here, it's all good
                 checks.append(check)
             except:
-                message = "Skipping loading %s due to errors" % path
-                QgsMessageLog.logMessage(tr(message), module_name,
-                                         QgsMessageLog.WARNING)
                 continue
         elif f.endswith('_separator'):
             check['name'] = 'separator'
@@ -282,8 +279,11 @@ def get_checks_from_files(module_name, topic_dir, modules_dir=None):
 
 
 def get_info_from_yaml(path):
-    data = yaml_load_file(path)
-    name = data['name']
+    try:
+        data = yaml_load_file(path)
+        name = data['name']
+    except Exception as e:
+        raise VerisoError('error parsing %s' % path, e)
     try:
         shortcut = data['shortcut']
     except KeyError:
