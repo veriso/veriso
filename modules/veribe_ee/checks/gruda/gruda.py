@@ -7,7 +7,6 @@ from qgis.gui import *
 import sys
 import traceback
 
-from veriso.base.utils.doLoadLayer import LoadLayer
 
 try:
     _encoding = QApplication.UnicodeUTF8
@@ -29,38 +28,38 @@ class ComplexCheck(ComplexCheckBase):
         self.root = QgsProject.instance().layerTreeRoot()        
         self.layerLoader = LoadLayer(self.iface)
 
-    def run(self):        
+    def run(self):
         self.settings = QSettings("CatAIS","VeriSO")
         project_id = self.settings.value("project/id")
         epsg = self.settings.value("project/epsg")
-        
+
         locale = QSettings().value('locale/userLocale')[0:2] # Für Multilingual-Legenden.
 
         if not project_id:
-            self.iface.messageBar().pushMessage("Error",  _translate("VeriSO_EE_gruda", "project_id not set", None), level=QgsMessageBar.CRITICAL, duration=5)                                
+            self.iface.messageBar().pushMessage("Error",  _translate("VeriSO_EE_gruda", "project_id not set", None), level=QgsMessageBar.CRITICAL, duration=5)
             return
 
         QApplication.setOverrideCursor(Qt.WaitCursor)
         try:
             group1 = _translate("VeriSO_EE_gruda", "Planeinteilung", None)
-            group1 += " (" + str(project_id) + ")" 
+            group1 += " (" + str(project_id) + ")"
 
             group2 = _translate("VeriSO_EE_gruda", "Bodenbedeckung", None)
-            group2 += " (" + str(project_id) + ")" 
+            group2 += " (" + str(project_id) + ")"
 
             group3 = _translate("VeriSO_EE_gruda", "Liegenschaften", None)
-            group3 += " (" + str(project_id) + ")" 
+            group3 += " (" + str(project_id) + ")"
 
             group4 = _translate("VeriSO_EE_gruda", "Adressen", None)
-            group4 += " (" + str(project_id) + ")" 
+            group4 += " (" + str(project_id) + ")"
 
             group5 = _translate("VeriSO_EE_gruda", "Fixpunkte", None)
-            group5 += " (" + str(project_id) + ")" 
+            group5 += " (" + str(project_id) + ")"
 
             layer = {}
             layer["type"] = "postgres"
             layer["title"] = _translate("VeriSO_EE_gruda","Bodenbedeckung", None)
-            layer["readonly"] = True 
+            layer["readonly"] = True
             layer["featuretype"] = "bodenbedeckung_boflaeche"
             layer["key"] = "ogc_fid"
             layer["geom"] = "geometrie"
@@ -82,7 +81,7 @@ class ComplexCheck(ComplexCheckBase):
             layer["style"] = "gebaeudeadressen/BEGIDeo.qml"
             vlayer = self.layerLoader.load(layer, False, True)
 
-  
+
             layer = {}
             layer["type"] = "postgres"
             layer["title"] = _translate("VeriSO_EE_gruda","BEGID (EO)", None)
@@ -100,10 +99,10 @@ class ComplexCheck(ComplexCheckBase):
             layer = {}
             layer["type"] = "postgres"
             layer["title"] = _translate("VeriSO_EE_gruda","Plangeometrie", None)
-            layer["readonly"] = True 
+            layer["readonly"] = True
             layer["featuretype"] = "planeinteilungen_plan_v"
             layer["geom"] = "geometrie"
-            layer["key"] = "ogc_fid"            
+            layer["key"] = "ogc_fid"
             layer["sql"] = ""
             layer["group"] = group1
             layer["style"] = "planeinteilung/plangeometrie.qml"
@@ -113,10 +112,10 @@ class ComplexCheck(ComplexCheckBase):
             layer = {}
             layer["type"] = "postgres"
             layer["title"] = _translate("VeriSO_EE_gruda","Flurnamen", None)
-            layer["readonly"] = True 
+            layer["readonly"] = True
             layer["featuretype"] = "nomenklatur_flurname"
             layer["geom"] = "geometrie"
-            layer["key"] = "ogc_fid"            
+            layer["key"] = "ogc_fid"
             layer["sql"] = ""
             layer["group"] = group1
             layer["style"] = "nomenklatur/nomenklatur.qml"
@@ -129,7 +128,7 @@ class ComplexCheck(ComplexCheckBase):
             layer["readonly"] = True
             layer["featuretype"] = "planeinteilungen_plan_v"
             layer["geom"] = "geometrie"
-            layer["key"] = "ogc_fid"            
+            layer["key"] = "ogc_fid"
             layer["sql"] = ""
             layer["group"] = group1
             layer["style"] = "planeinteilung/planpos.qml"
@@ -138,7 +137,7 @@ class ComplexCheck(ComplexCheckBase):
             layer = {}
             layer["type"] = "postgres"
             layer["title"] = _translate("VeriSO_EE_gruda","Gemeindegrenze", None)
-            layer["readonly"] = True 
+            layer["readonly"] = True
             layer["featuretype"] = "gemeindegrenzen_gemeindegrenze"
             layer["geom"] = "geometrie"
             layer["key"] = "ogc_fid"
@@ -151,7 +150,7 @@ class ComplexCheck(ComplexCheckBase):
             layer = {}
             layer["type"] = "postgres"
             layer["title"] = _translate("VeriSO_EE_gruda","Grundstueck", None)
-            layer["readonly"] = True 
+            layer["readonly"] = True
             layer["featuretype"] = "liegenschaften_grundstueck"
             layer["key"] = "ogc_fid"
             layer["sql"] = ""
@@ -161,7 +160,7 @@ class ComplexCheck(ComplexCheckBase):
             layer = {}
             layer["type"] = "postgres"
             layer["title"] = _translate("VeriSO_EE_gruda","proj. SDR", None)
-            layer["readonly"] = True 
+            layer["readonly"] = True
             layer["featuretype"] = "liegenschaften_projselbstrecht"
             layer["geom"] = "geometrie"
             layer["key"] = "ogc_fid"
@@ -218,7 +217,7 @@ class ComplexCheck(ComplexCheckBase):
             layer["sql"] = ""
             layer["group"] = group3
             layer["style"] = "liegenschaften/hilfslinie.qml"
-            vlayerHilfe = self.layerLoader.load(layer)	
+            vlayerHilfe = self.layerLoader.load(layer)
 
             layer = {}
             layer["type"] = "postgres"
@@ -230,7 +229,7 @@ class ComplexCheck(ComplexCheckBase):
             layer["sql"] = ""
             layer["group"] = group3
             layer["style"] = "liegenschaften/proj_GS_NR.qml"
-            vlayerprojNrLS = self.layerLoader.load(layer)	
+            vlayerprojNrLS = self.layerLoader.load(layer)
 
             layer = {}
             layer["type"] = "postgres"
@@ -254,7 +253,7 @@ class ComplexCheck(ComplexCheckBase):
             layer["group"] = group3
             layer["sql"] = "(art>0) and (gesamteflaechenmass is NULL)"
             layer["style"] = "liegenschaften/nr_sdr_ganz.qml"
-            vlayerNRGSSDR = self.layerLoader.load(layer) 
+            vlayerNRGSSDR = self.layerLoader.load(layer)
 
             layer = {}
             layer["type"] = "postgres"
@@ -283,10 +282,10 @@ class ComplexCheck(ComplexCheckBase):
             layer = {}
             layer["type"] = "postgres"
             layer["title"] =  _translate("VeriSO_EE_gruda", u"unvollständige Liegenschaften", None)
-            layer["readonly"] = True 
+            layer["readonly"] = True
             layer["featuretype"] = "liegenschaften_liegenschaft_v2"
             layer["geom"] = "geometrie"
-            layer["key"] = "ogc_fid"            
+            layer["key"] = "ogc_fid"
             layer["sql"] = "Vollstaendigkeit=1"
             layer["group"] = group3
             layer["style"] = "liegenschaften/voll_ls.qml"
@@ -295,10 +294,10 @@ class ComplexCheck(ComplexCheckBase):
             layer = {}
             layer["type"] = "postgres"
             layer["title"] = _translate("VeriSO_EE_gruda","streitige SDR", None)
-            layer["readonly"] = True 
+            layer["readonly"] = True
             layer["featuretype"] = "liegenschaften_selbstrecht_v"
             layer["geom"] = "geometrie"
-            layer["key"] = "ogc_fid"            
+            layer["key"] = "ogc_fid"
             layer["sql"] = "Gueltigkeit=1"
             layer["group"] = group3
             layer["style"] = "liegenschaften/voll_ls.qml"
@@ -307,10 +306,10 @@ class ComplexCheck(ComplexCheckBase):
             layer = {}
             layer["type"] = "postgres"
             layer["title"] =  _translate("VeriSO_EE_gruda",u"unvollständige SDR", None)
-            layer["readonly"] = True 
+            layer["readonly"] = True
             layer["featuretype"] = "liegenschaften_selbstrecht_v"
             layer["geom"] = "geometrie"
-            layer["key"] = "ogc_fid"            
+            layer["key"] = "ogc_fid"
             layer["sql"] = "Vollstaendigkeit=1"
             layer["group"] = group3
             layer["style"] = "liegenschaften/voll_ls.qml"
@@ -321,21 +320,21 @@ class ComplexCheck(ComplexCheckBase):
             layer = {}
             layer["type"] = "postgres"
             layer["title"] = _translate("VeriSO_EE_gruda","streitige Liegenschaften", None)
-            layer["readonly"] = True 
+            layer["readonly"] = True
             layer["featuretype"] = "liegenschaften_liegenschaft_v2"
             layer["geom"] = "geometrie"
-            layer["key"] = "ogc_fid"            
+            layer["key"] = "ogc_fid"
             layer["sql"] = "Gueltigkeit=1"
             layer["group"] = group3
             layer["style"] = "liegenschaften/voll_ls.qml"
             vlayerstreitigLS = self.layerLoader.load(layer)
 
-            
+
 
             layer = {}
             layer["type"] = "postgres"
             layer["title"] = _translate("VeriSO_EE_gruda","PLZ", None)
-            layer["readonly"] = True 
+            layer["readonly"] = True
             layer["featuretype"] = "plzortschaft_plz6"
             layer["geom"] = "flaeche"
             layer["key"] = "ogc_fid"
@@ -347,7 +346,7 @@ class ComplexCheck(ComplexCheckBase):
             layer = {}
             layer["type"] = "postgres"
             layer["title"] = _translate("VeriSO_EE_gruda","Ortschaften", None)
-            layer["readonly"] = True 
+            layer["readonly"] = True
             layer["featuretype"] = "z_ortschaftsnamen_geom"
             layer["geom"] = "flaeche"
             layer["key"] = "ogc_fid"
@@ -355,12 +354,12 @@ class ComplexCheck(ComplexCheckBase):
             layer["group"] = group4
             layer["style"] = "gebaeudeadressen/ortschaft.qml"
             vlayerortschaft = self.layerLoader.load(layer)
- 
+
 
             layer = {}
             layer["type"] = "postgres"
             layer["title"] = _translate("VeriSO_EE_gruda","benanntes Gebiet", None)
-            layer["readonly"] = True 
+            layer["readonly"] = True
             layer["featuretype"] = "gebaeudeadressen_benanntesgebiet"
             layer["geom"] = "flaeche"
             layer["key"] = "ogc_fid"
@@ -373,7 +372,7 @@ class ComplexCheck(ComplexCheckBase):
             layer = {}
             layer["type"] = "postgres"
             layer["title"] = _translate("VeriSO_EE_gruda","proj. Gebaeude", None)
-            layer["readonly"] = True 
+            layer["readonly"] = True
             layer["featuretype"] = "bodenbedeckung_projboflaeche"
             layer["geom"] = "geometrie"
             layer["key"] = "ogc_fid"
@@ -385,7 +384,7 @@ class ComplexCheck(ComplexCheckBase):
             layer = {}
             layer["type"] = "postgres"
             layer["title"] = _translate("VeriSO_EE_gruda","adressierbare EOs", None)
-            layer["readonly"] = True 
+            layer["readonly"] = True
             layer["featuretype"] = "z_eo_flaeche"
             layer["geom"] = "geometrie"
             layer["key"] = "ctid"
@@ -415,12 +414,12 @@ class ComplexCheck(ComplexCheckBase):
             layer["key"] = "ogc_fid"
             layer["style"] = "gebaeudeadressen/strassenachsen_Pfeil.qml"
             vlayer = self.layerLoader.load(layer, False, True)
-    
+
 
             layer = {}
             layer["type"] = "postgres"
             layer["title"] = _translate("VeriSO_EE_gruda","Spinnennetz", None)
-            layer["readonly"] = True 
+            layer["readonly"] = True
             layer["featuretype"] = "t_gebaeudeadressen_spinnennetz"
             layer["geom"] = "line"
             layer["key"] = "ogc_fid"
@@ -432,48 +431,48 @@ class ComplexCheck(ComplexCheckBase):
             layer = {}
             layer["type"] = "postgres"
             layer["title"] = _translate("VeriSO_EE_gruda","Gebaeudeeingang BB/EO", None)
-            layer["readonly"] = True 
+            layer["readonly"] = True
             layer["featuretype"] = "gebaeudeadressen_gebaeudeeingang"
             layer["geom"] = "lage"
             layer["key"] = "ogc_fid"
             layer["sql"] = ""
             layer["group"] = group4
-            layer["style"] = "gebaeudeadressen/GebEingang_BB_EO.qml"  
+            layer["style"] = "gebaeudeadressen/GebEingang_BB_EO.qml"
             vlayerGebein = self.layerLoader.load(layer)
- 
+
             layer = {}
             layer["type"] = "postgres"
             layer["title"] = _translate("VeriSO_EE_gruda","LokalisationsNamePos", None)
-            layer["readonly"] = True 
+            layer["readonly"] = True
             layer["featuretype"] = "gebaeudeadressen_lokalisationsnamepos_v"
             layer["geom"] = "pos"
             layer["key"] = "ogc_fid"
             layer["sql"] = ""
             layer["group"] = group4
-            layer["style"] = "gebaeudeadressen/lokalisationsnamepos.qml"   
+            layer["style"] = "gebaeudeadressen/lokalisationsnamepos.qml"
             vlayerLokPos = self.layerLoader.load(layer)
 
             layer = {}
             layer["type"] = "postgres"
             layer["title"] = _translate("VeriSO_EE_gruda","LFP2", None)
-            layer["readonly"] = True 
+            layer["readonly"] = True
             layer["featuretype"] = "fixpunktekategorie2_lfp2"
             layer["geom"] = "geometrie"
-            layer["key"] = "ogc_fid"            
+            layer["key"] = "ogc_fid"
             layer["sql"] = ""
-            layer["group"] = group5        
+            layer["group"] = group5
             layer["style"] = "fixpunkte/lfp2.qml"
             vlayerLFP2 = self.layerLoader.load(layer)
 
             layer = {}
             layer["type"] = "postgres"
             layer["title"] = _translate("VeriSO_EE_gruda","LFP1", None)
-            layer["readonly"] = True 
+            layer["readonly"] = True
             layer["featuretype"] = "fixpunktekategorie1_lfp1"
             layer["geom"] = "geometrie"
-            layer["key"] = "ogc_fid"            
+            layer["key"] = "ogc_fid"
             layer["sql"] = ""
-            layer["group"] = group5      
+            layer["group"] = group5
             layer["style"] = "fixpunkte/lfp1.qml"
             vlayerLFP1 = self.layerLoader.load(layer)
 

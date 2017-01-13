@@ -7,7 +7,6 @@ from qgis.gui import *
 import sys
 import traceback
 
-from veriso.base.utils.doLoadLayer import LoadLayer
 
 try:
     _encoding = QApplication.UnicodeUTF8
