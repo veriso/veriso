@@ -102,6 +102,17 @@ class ComplexCheck(ComplexCheckBase):
             layer["sql"] = ""
             layer["style"] = "bodenbedeckung/eo_punk.qml"
             vlayer = self.layer_loader.load(layer, False, True)
+
+            layer["title"] = _translate("VeriSO_EE_BB_netz", "Hochspannungsfreileitung", None)
+            layer["readonly"] = True
+            layer["featuretype"] = "z_eo_linie"
+            layer["geom"] = "geometrie"
+            layer["group"] = group
+            layer["key"] = "ctid"
+            layer["sql"] = "art=27"
+            layer["style"] = "bodenbedeckung/hochspannungsfreileitung.qml"
+            vlayer = self.layer_loader.load(layer, False, True)
+
         except Exception:
             QApplication.restoreOverrideCursor()            
             exc_type, exc_value, exc_traceback = sys.exc_info()
