@@ -20,31 +20,31 @@ GRANT SELECT ON TABLE $$DBSCHEMA.v_lfp3_ausserhalb_gemeinde TO $$USER;'),
  (2,'CREATE OR REPLACE VIEW $$DBSCHEMA.v_einzelobjekte_flaechenelement AS
 SELECT b.*, a.art, a.art_txt, a.t_ili_tid as eo_tid
 FROM $$DBSCHEMA.einzelobjekte_einzelobjekt as a, $$DBSCHEMA.einzelobjekte_flaechenelement as b
-WHERE b.flaechenelement_von::text = a.t_ili_tid;
+WHERE b.flaechenelement_von::text = a.ogc_fid::text;
 
 GRANT SELECT ON TABLE $$DBSCHEMA.v_einzelobjekte_flaechenelement TO $$USER;'),
  (3,'CREATE OR REPLACE VIEW $$DBSCHEMA.v_einzelobjekte_linienelement AS
 SELECT b.*, a.art, a.art_txt, a.t_ili_tid as eo_tid
 FROM $$DBSCHEMA.einzelobjekte_einzelobjekt as a, $$DBSCHEMA.einzelobjekte_linienelement as b
-WHERE b.linienelement_von::text = a.t_ili_tid;
+WHERE b.linienelement_von::text = a.ogc_fid::text;
 
 GRANT SELECT ON TABLE $$DBSCHEMA.v_einzelobjekte_linienelement TO $$USER;'),
  (4,'CREATE OR REPLACE VIEW $$DBSCHEMA.v_einzelobjekte_punktelement AS
 SELECT b.*, a.art, a.art_txt, a.t_ili_tid as eo_tid
 FROM $$DBSCHEMA.einzelobjekte_einzelobjekt as a, $$DBSCHEMA.einzelobjekte_punktelement as b
-WHERE b.punktelement_von::text = a.t_ili_tid;
+WHERE b.punktelement_von::text = a.ogc_fid::text;
 
 GRANT SELECT ON TABLE $$DBSCHEMA.v_einzelobjekte_punktelement TO $$USER;'),
  (5,'CREATE OR REPLACE VIEW $$DBSCHEMA.v_gebaeudeadressen_hausnummerpos AS
 SELECT b.ogc_fid, b.t_ili_tid, b.hausnummerpos_von::text, b.pos, b.ori, b.hali, b.hali_txt, b.vali, b.vali_txt, b.groesse, b.groesse_txt, ST_X(b.pos) AS y, ST_Y(b.pos) AS x, (100::double precision - b.ori) * 0.9::double precision AS rot, a.hausnummer, a.gebaeudeeingang_von::text as lok_tid
 FROM $$DBSCHEMA.gebaeudeadressen_gebaeudeeingang a, $$DBSCHEMA.gebaeudeadressen_hausnummerpos b
-WHERE a.t_ili_tid::text = b.hausnummerpos_von::text;
+WHERE a.ogc_fid::text::text = b.hausnummerpos_von::text;
 
 GRANT SELECT ON TABLE $$DBSCHEMA.v_gebaeudeadressen_hausnummerpos TO $$USER;'),
  (6,'CREATE OR REPLACE VIEW $$DBSCHEMA.v_gebaeudeadressen_lokalisationsnamepos AS
  SELECT b.ogc_fid, b.t_ili_tid, b.lokalisationsnamepos_von::text, b.anfindex, b.endindex, b.pos, b.ori, b.hali, b.hali_txt, b.vali, b.vali_txt, b.groesse, b.groesse_txt, b.hilfslinie, ST_X(b.pos) AS y, ST_Y(b.pos) AS x, (100::double precision - b.ori) * 0.9::double precision AS rot, a.benannte, a.atext
 FROM $$DBSCHEMA.gebaeudeadressen_lokalisationsname a, $$DBSCHEMA.gebaeudeadressen_lokalisationsnamepos b
-WHERE a.t_ili_tid::text = b.lokalisationsnamepos_von::text;
+WHERE a.ogc_fid::text::text = b.lokalisationsnamepos_von::text;
 
 GRANT SELECT ON TABLE $$DBSCHEMA.v_gebaeudeadressen_lokalisationsnamepos TO $$USER;'),
  (7,'CREATE OR REPLACE VIEW $$DBSCHEMA.v_distanz_gebaeudeeingang_lokalisationsnamepos AS
@@ -117,14 +117,14 @@ GRANT SELECT ON TABLE $$DBSCHEMA.v_gebaeudeadressen_gebaeudeeingang_mit_nummer_a
 SELECT a.ogc_fid, a.t_ili_tid, a.hausnummerpos_von::text, a.pos, a.ori, a.hali, a.hali_txt,
        a.vali, a.vali_txt, a.groesse, a.groesse_txt
 FROM $$DBSCHEMA.gebaeudeadressen_hausnummerpos a, $$DBSCHEMA.gebaeudeadressen_gebaeudeeingang b
-WHERE a.hausnummerpos_von::text = b.t_ili_tid::text
+WHERE a.hausnummerpos_von::text = b.ogc_fid::text
 AND b.hausnummer IS NULL;
 
 GRANT SELECT ON TABLE $$DBSCHEMA.v_gebaeudeadressen_hausnummerpos_ohne_nummer TO $$USER;'),
  (101,'CREATE OR REPLACE VIEW $$DBSCHEMA.einzelobjekte_flaechenelement_v AS
  SELECT b.ogc_fid, b.t_ili_tid, b.flaechenelement_von::text, b.geometrie,a.art, a.art_txt, a.qualitaet_txt
    FROM $$DBSCHEMA.einzelobjekte_einzelobjekt a, $$DBSCHEMA.einzelobjekte_flaechenelement b
-  WHERE b.flaechenelement_von::text = a.t_ili_tid::text;
+  WHERE b.flaechenelement_von::text = a.ogc_fid::text;
 
 ALTER TABLE $$DBSCHEMA.einzelobjekte_flaechenelement_v
   OWNER TO $$USER;
@@ -132,7 +132,7 @@ GRANT ALL ON TABLE $$DBSCHEMA.einzelobjekte_flaechenelement_v TO $$USER;'),
  (102,'CREATE OR REPLACE VIEW $$DBSCHEMA.einzelobjekte_linienelement_v AS
  SELECT b.ogc_fid, b.t_ili_tid, b.linienelement_von::text, b.geometrie, a.art, a.art_txt, a.qualitaet_txt
    FROM $$DBSCHEMA.einzelobjekte_einzelobjekt a, $$DBSCHEMA.einzelobjekte_linienelement b
-  WHERE b.linienelement_von::text = a.t_ili_tid::text;
+  WHERE b.linienelement_von::text = a.ogc_fid::text;
 
 ALTER TABLE $$DBSCHEMA.einzelobjekte_linienelement_v
   OWNER TO $$USER;
@@ -148,7 +148,7 @@ GRANT ALL ON TABLE $$DBSCHEMA.einzelobjekte_objektnamepos_v TO $$USER;'),
  (104,'CREATE OR REPLACE VIEW $$DBSCHEMA.einzelobjekte_punktelement_v AS
  SELECT b.ogc_fid, b.t_ili_tid, b.punktelement_von::text, b.geometrie, a.art, a.art_txt, a.qualitaet_txt
    FROM $$DBSCHEMA.einzelobjekte_einzelobjekt a, $$DBSCHEMA.einzelobjekte_punktelement b
-  WHERE b.punktelement_von::text = a.t_ili_tid::text;
+  WHERE b.punktelement_von::text = a.ogc_fid::text;
 
 ALTER TABLE $$DBSCHEMA.einzelobjekte_punktelement_v
   OWNER TO $$USER;
@@ -192,7 +192,7 @@ GRANT ALL ON TABLE $$DBSCHEMA.fixpunktekatgrie3_lfp3_pro_toleranzstufe_v TO $$US
  (107,'CREATE OR REPLACE VIEW $$DBSCHEMA.gebaeudeadressen_lokalisationsnamepos_v AS
  SELECT b.ogc_fid, b.t_ili_tid, b.lokalisationsnamepos_von::text, b.anfindex, b.endindex, b.pos, b.ori, b.hali, b.hali_txt, b.vali, b.vali_txt, b.groesse, b.groesse_txt, b.hilfslinie, st_x(b.pos) AS y, st_y(b.pos) AS x, (100::double precision - b.ori) * 0.9::double precision AS ori_neu, a.benannte, a.atext
    FROM $$DBSCHEMA.gebaeudeadressen_lokalisationsname a, $$DBSCHEMA.gebaeudeadressen_lokalisationsnamepos b
-  WHERE a.t_ili_tid::text = b.lokalisationsnamepos_von::text;
+  WHERE a.ogc_fid::text = b.lokalisationsnamepos_von::text;
 
 ALTER TABLE $$DBSCHEMA.gebaeudeadressen_lokalisationsnamepos_v
   OWNER TO $$USER;
@@ -200,7 +200,7 @@ GRANT ALL ON TABLE $$DBSCHEMA.gebaeudeadressen_lokalisationsnamepos_v TO $$USER;
  (108,'CREATE OR REPLACE VIEW $$DBSCHEMA.liegenschaften_liegenschaft_v AS
  SELECT a.ogc_fid, a.t_ili_tid, a.entstehung, a.nbident, a.nummer, a.egris_egrid, a.gueltigkeit, a.gueltigkeit_txt, a.vollstaendigkeit, a.vollstaendigkeit_txt, a.art, a.art_txt, a.gesamteflaechenmass, b.geometrie, b.flaechenmass, b.nummerteilgrundstueck
    FROM $$DBSCHEMA.liegenschaften_grundstueck a, $$DBSCHEMA.liegenschaften_liegenschaft b
-  WHERE a.t_ili_tid::text = b.liegenschaft_von::text;
+  WHERE a.ogc_fid::text = b.liegenschaft_von::text;
 
 ALTER TABLE $$DBSCHEMA.liegenschaften_liegenschaft_v
   OWNER TO $$USER;
@@ -208,7 +208,7 @@ GRANT ALL ON TABLE $$DBSCHEMA.liegenschaften_liegenschaft_v TO $$USER;'),
  (109,'CREATE OR REPLACE VIEW $$DBSCHEMA.liegenschaften_liegenschaft_v2 AS
  SELECT b.ogc_fid, a.t_ili_tid, a.entstehung, a.nbident, a.nummer, a.egris_egrid, a.gueltigkeit, a.gueltigkeit_txt, a.vollstaendigkeit, a.vollstaendigkeit_txt, a.art, a.art_txt, a.gesamteflaechenmass, b.geometrie, b.flaechenmass, b.nummerteilgrundstueck
    FROM $$DBSCHEMA.liegenschaften_grundstueck a, $$DBSCHEMA.liegenschaften_liegenschaft b
-  WHERE a.t_ili_tid::text = b.liegenschaft_von::text;
+  WHERE a.ogc_fid::text = b.liegenschaft_von::text;
 
 ALTER TABLE $$DBSCHEMA.liegenschaften_liegenschaft_v2
   OWNER TO $$USER;
@@ -216,7 +216,7 @@ GRANT ALL ON TABLE $$DBSCHEMA.liegenschaften_liegenschaft_v2 TO $$USER;'),
  (110,'CREATE OR REPLACE VIEW $$DBSCHEMA.liegenschaften_projliegenschaft_v AS
  SELECT a.ogc_fid, a.t_ili_tid, a.entstehung, a.nbident, a.nummer, a.egris_egrid, a.gueltigkeit, a.gueltigkeit_txt, a.vollstaendigkeit, a.vollstaendigkeit_txt, a.art, a.art_txt, a.gesamteflaechenmass,b.geometrie, b.flaechenmass, b.nummerteilgrundstueck
    FROM $$DBSCHEMA.liegenschaften_grundstueck a, $$DBSCHEMA.liegenschaften_projliegenschaft b
-  WHERE a.t_ili_tid::text = b.projliegenschaft_von::text;
+  WHERE a.ogc_fid::text = b.projliegenschaft_von::text;
 
 ALTER TABLE $$DBSCHEMA.liegenschaften_projliegenschaft_v
   OWNER TO $$USER;
@@ -224,7 +224,7 @@ GRANT ALL ON TABLE $$DBSCHEMA.liegenschaften_projliegenschaft_v TO $$USER;'),
  (111,'CREATE OR REPLACE VIEW $$DBSCHEMA.liegenschaften_projselbstrecht_v AS
  SELECT a.ogc_fid, a.t_ili_tid, a.entstehung, a.nbident, a.nummer, a.egris_egrid, a.gueltigkeit, a.gueltigkeit_txt, a.vollstaendigkeit, a.vollstaendigkeit_txt, a.art, a.art_txt, a.gesamteflaechenmass, b.geometrie, b.flaechenmass, b.nummerteilgrundstueck
    FROM $$DBSCHEMA.liegenschaften_grundstueck a, $$DBSCHEMA.liegenschaften_projselbstrecht b
-  WHERE a.t_ili_tid::text = b.projselbstrecht_von::text;
+  WHERE a.ogc_fid::text = b.projselbstrecht_von::text;
 
 ALTER TABLE $$DBSCHEMA.liegenschaften_projselbstrecht_v
   OWNER TO $$USER;
@@ -232,7 +232,7 @@ GRANT ALL ON TABLE $$DBSCHEMA.liegenschaften_projselbstrecht_v TO $$USER;'),
  (112,'CREATE OR REPLACE VIEW $$DBSCHEMA.liegenschaften_selbstrecht_v AS
  SELECT a.ogc_fid, a.t_ili_tid, a.entstehung, a.nbident, a.nummer, a.egris_egrid, a.gueltigkeit, a.gueltigkeit_txt, a.vollstaendigkeit, a.vollstaendigkeit_txt, a.art, a.art_txt, a.gesamteflaechenmass, b.geometrie, b.flaechenmass, b.nummerteilgrundstueck
    FROM $$DBSCHEMA.liegenschaften_grundstueck a, $$DBSCHEMA.liegenschaften_selbstrecht b
-  WHERE a.t_ili_tid::text = b.selbstrecht_von::text;
+  WHERE a.ogc_fid::text = b.selbstrecht_von::text;
 
 ALTER TABLE $$DBSCHEMA.liegenschaften_selbstrecht_v
   OWNER TO $$USER;
@@ -240,7 +240,7 @@ GRANT ALL ON TABLE $$DBSCHEMA.liegenschaften_selbstrecht_v TO $$USER;'),
  (113,'CREATE OR REPLACE VIEW $$DBSCHEMA.nomenklatur_gelaendenamepos_v AS
  SELECT b.ogc_fid, b.t_ili_tid, b.gelaendenamepos_von::text, b.pos, b.ori, b.hali, b.hali_txt, b.vali, b.vali_txt, b.groesse, b.groesse_txt, b.stil, b.stil_txt,st_x(b.pos) AS y, st_y(b.pos) AS x, (100::double precision - b.ori) * 0.9::double precision AS rot, a.aname
    FROM $$DBSCHEMA.nomenklatur_gelaendename a, $$DBSCHEMA.nomenklatur_gelaendenamepos b
-  WHERE a.t_ili_tid::text = b.gelaendenamepos_von::text;
+  WHERE a.ogc_fid::text = b.gelaendenamepos_von::text;
 
 ALTER TABLE $$DBSCHEMA.nomenklatur_gelaendenamepos_v
   OWNER TO $$USER;
@@ -248,7 +248,7 @@ GRANT ALL ON TABLE $$DBSCHEMA.nomenklatur_gelaendenamepos_v TO $$USER;'),
  (114,'CREATE OR REPLACE VIEW $$DBSCHEMA.planeinteilungen_plan_v AS
  SELECT a.ogc_fid, a.t_ili_tid, a.nbident, a.nummer, a.techdossier, a.gueltigereintrag,  b.geometrie
    FROM $$DBSCHEMA.planeinteilungen_plan a, $$DBSCHEMA.planeinteilungen_plangeometrie b
-  WHERE a.t_ili_tid::text = b.plangeometrie_von::text;
+  WHERE a.ogc_fid::text = b.plangeometrie_von::text;
 
 ALTER TABLE $$DBSCHEMA.planeinteilungen_plan_v
   OWNER TO $$USER;
@@ -256,14 +256,14 @@ GRANT ALL ON TABLE $$DBSCHEMA.planeinteilungen_plan_v TO $$USER;'),
  (115,'CREATE OR REPLACE VIEW $$DBSCHEMA.rohrleitungen_leitungsobjekt_v AS
  SELECT rohrleitungen_leitungsobjekt.qualitaet_txt, rohrleitungen_leitungsobjekt.betreiber, rohrleitungen_leitungsobjekt.t_ili_tid, rohrleitungen_leitungsobjekt.art_txt, rohrleitungen_leitungsobjektpos.ogc_fid, rohrleitungen_leitungsobjektpos.pos, rohrleitungen_leitungsobjektpos.leitungsobjektpos_von::text
    FROM $$DBSCHEMA.rohrleitungen_leitungsobjekt, $$DBSCHEMA.rohrleitungen_leitungsobjektpos
-  WHERE rohrleitungen_leitungsobjekt.t_ili_tid::text = rohrleitungen_leitungsobjektpos.leitungsobjektpos_von::text;
+  WHERE rohrleitungen_leitungsobjekt.ogc_fid::text = rohrleitungen_leitungsobjektpos.leitungsobjektpos_von::text;
 
 ALTER TABLE $$DBSCHEMA.rohrleitungen_leitungsobjekt_v OWNER TO $$USER;
 GRANT ALL ON TABLE $$DBSCHEMA.rohrleitungen_leitungsobjekt_v TO $$USER;'),
  (116,'CREATE OR REPLACE VIEW $$DBSCHEMA.rohrleitungen_linienelement_v AS
  SELECT b.ogc_fid, b.t_ili_tid, b.linienelement_von::text, b.geometrie, b.linienart, b.linienart_txt, a.betreiber, a.qualitaet, a.qualitaet_txt, a.art, a.art_txt
    FROM $$DBSCHEMA.rohrleitungen_leitungsobjekt a, $$DBSCHEMA.rohrleitungen_linienelement b
-  WHERE a.t_ili_tid::text = b.linienelement_von::text;
+  WHERE a.ogc_fid::text = b.linienelement_von::text;
 
 ALTER TABLE $$DBSCHEMA.rohrleitungen_linienelement_v
   OWNER TO $$USER;
@@ -318,7 +318,7 @@ GRANT ALL ON TABLE $$DBSCHEMA."z_benGeb_Ortschaft" TO $$USER;'),
  (126,'CREATE OR REPLACE VIEW $$DBSCHEMA.z_eo_flaeche AS
  SELECT einzelobjekte_flaechenelement.ogc_fid AS ctid, einzelobjekte_flaechenelement.geometrie, einzelobjekte_einzelobjekt.t_ili_tid, einzelobjekte_einzelobjekt.entstehung, einzelobjekte_einzelobjekt.qualitaet, einzelobjekte_einzelobjekt.qualitaet_txt, einzelobjekte_einzelobjekt.art, einzelobjekte_einzelobjekt.art_txt
    FROM $$DBSCHEMA.einzelobjekte_einzelobjekt, $$DBSCHEMA.einzelobjekte_flaechenelement
-  WHERE einzelobjekte_flaechenelement.flaechenelement_von::text = einzelobjekte_einzelobjekt.t_ili_tid::text;
+  WHERE einzelobjekte_flaechenelement.flaechenelement_von::text = einzelobjekte_einzelobjekt.ogc_fid::text;
 
 ALTER TABLE $$DBSCHEMA.z_eo_flaeche
   OWNER TO $$USER;
@@ -326,7 +326,7 @@ GRANT ALL ON TABLE $$DBSCHEMA.z_eo_flaeche TO $$USER;'),
  (127,'CREATE OR REPLACE VIEW $$DBSCHEMA.z_eo_linie AS
  SELECT einzelobjekte_einzelobjekt.entstehung, einzelobjekte_einzelobjekt.t_ili_tid, einzelobjekte_einzelobjekt.qualitaet, einzelobjekte_einzelobjekt.qualitaet_txt, einzelobjekte_einzelobjekt.art, einzelobjekte_einzelobjekt.art_txt, einzelobjekte_linienelement.geometrie, einzelobjekte_linienelement.ogc_fid AS ctid
    FROM $$DBSCHEMA.einzelobjekte_einzelobjekt, $$DBSCHEMA.einzelobjekte_linienelement
-  WHERE einzelobjekte_linienelement.linienelement_von::text = einzelobjekte_einzelobjekt.t_ili_tid::text;
+  WHERE einzelobjekte_linienelement.linienelement_von::text = einzelobjekte_einzelobjekt.ogc_fid::text;
 
 ALTER TABLE $$DBSCHEMA.z_eo_linie
   OWNER TO $$USER;
@@ -334,7 +334,7 @@ GRANT ALL ON TABLE $$DBSCHEMA.z_eo_linie TO $$USER;'),
  (128,'CREATE OR REPLACE VIEW $$DBSCHEMA.z_eo_punkt AS
  SELECT einzelobjekte_punktelement.ogc_fid AS ctid, einzelobjekte_punktelement.geometrie, einzelobjekte_einzelobjekt.t_ili_tid, einzelobjekte_einzelobjekt.entstehung, einzelobjekte_einzelobjekt.qualitaet, einzelobjekte_einzelobjekt.qualitaet_txt, einzelobjekte_einzelobjekt.art,einzelobjekte_einzelobjekt.art_txt
    FROM $$DBSCHEMA.einzelobjekte_einzelobjekt, $$DBSCHEMA.einzelobjekte_punktelement
-  WHERE einzelobjekte_punktelement.punktelement_von::text = einzelobjekte_einzelobjekt.t_ili_tid::text;
+  WHERE einzelobjekte_punktelement.punktelement_von::text = einzelobjekte_einzelobjekt.ogc_fid::text;
 
 ALTER TABLE $$DBSCHEMA.z_eo_punkt
   OWNER TO $$USER;
@@ -342,7 +342,7 @@ GRANT ALL ON TABLE $$DBSCHEMA.z_eo_punkt TO $$USER;'),
  (129,'CREATE OR REPLACE VIEW $$DBSCHEMA.z_gs_ls AS
  SELECT DISTINCT liegenschaften_grundstueck.ogc_fid, liegenschaften_liegenschaft.t_ili_tid, liegenschaften_grundstueck.nummer, liegenschaften_liegenschaft.geometrie, liegenschaften_grundstueck.entstehung
    FROM $$DBSCHEMA.liegenschaften_grundstueck, $$DBSCHEMA.liegenschaften_liegenschaft
-  WHERE liegenschaften_liegenschaft.liegenschaft_von::text = liegenschaften_grundstueck.t_ili_tid::text;
+  WHERE liegenschaften_liegenschaft.liegenschaft_von::text = liegenschaften_grundstueck.ogc_fid::text;
 
 ALTER TABLE $$DBSCHEMA.z_gs_ls
   OWNER TO $$USER;
@@ -350,7 +350,7 @@ GRANT ALL ON TABLE $$DBSCHEMA.z_gs_ls TO $$USER;'),
  (130,'CREATE OR REPLACE VIEW $$DBSCHEMA.z_gs_nr AS
  SELECT liegenschaften_grundstueckpos.pos, liegenschaften_grundstueck.nummer, liegenschaften_grundstueck.gesamteflaechenmass, liegenschaften_grundstueck.art_txt, liegenschaften_grundstueck.art, liegenschaften_grundstueck.vollstaendigkeit_txt, liegenschaften_grundstueck.vollstaendigkeit, liegenschaften_grundstueck.gueltigkeit_txt, liegenschaften_grundstueck.gueltigkeit, liegenschaften_grundstueck.egris_egrid, liegenschaften_grundstueckpos.ogc_fid
    FROM $$DBSCHEMA.liegenschaften_grundstueck, $$DBSCHEMA.liegenschaften_grundstueckpos
-  WHERE liegenschaften_grundstueck.t_ili_tid::text = liegenschaften_grundstueckpos.grundstueckpos_von::text;
+  WHERE liegenschaften_grundstueck.ogc_fid::text = liegenschaften_grundstueckpos.grundstueckpos_von::text;
 
 ALTER TABLE $$DBSCHEMA.z_gs_nr
   OWNER TO $$USER;
@@ -358,7 +358,7 @@ GRANT ALL ON TABLE $$DBSCHEMA.z_gs_nr TO $$USER;'),
  (131,'CREATE OR REPLACE VIEW $$DBSCHEMA.z_hgp_linie AS
  SELECT gemeindegrenzen_hoheitsgrenzpunkt.ogc_fid, gemeindegrenzen_hoheitsgrenzpunkt.entstehung, gemeindegrenzen_hoheitsgrenzpunkt.identifikator, gemeindegrenzen_hoheitsgrenzpunkt.geometrie, gemeindegrenzen_hoheitsgrenzpunkt.lagegen, gemeindegrenzen_hoheitsgrenzpunkt.lagezuv, gemeindegrenzen_hoheitsgrenzpunkt.lagezuv_txt, gemeindegrenzen_hoheitsgrenzpunkt.punktzeichen, gemeindegrenzen_hoheitsgrenzpunkt.punktzeichen_txt, gemeindegrenzen_hoheitsgrenzpunkt.hoheitsgrenzstein, gemeindegrenzen_hoheitsgrenzpunkt.hoheitsgrenzstein_txt, gemeindegrenzen_hoheitsgrenzpunkt.exaktdefiniert, gemeindegrenzen_hoheitsgrenzpunkt.exaktdefiniert_txt,gemeindegrenzen_hoheitsgrenzpunktpos.pos
    FROM $$DBSCHEMA.gemeindegrenzen_gemeindegrenze, $$DBSCHEMA.gemeindegrenzen_hoheitsgrenzpunkt, $$DBSCHEMA.gemeindegrenzen_hoheitsgrenzpunktpos
-  WHERE gemeindegrenzen_hoheitsgrenzpunktpos.hoheitsgrenzpunktpos_von::text = gemeindegrenzen_hoheitsgrenzpunkt.t_ili_tid::text AND st_touches(gemeindegrenzen_gemeindegrenze.geometrie, gemeindegrenzen_hoheitsgrenzpunktpos.pos) IS FALSE;
+  WHERE gemeindegrenzen_hoheitsgrenzpunktpos.hoheitsgrenzpunktpos_von::text = gemeindegrenzen_hoheitsgrenzpunkt.ogc_fid::text AND st_touches(gemeindegrenzen_gemeindegrenze.geometrie, gemeindegrenzen_hoheitsgrenzpunktpos.pos) IS FALSE;
 
 ALTER TABLE $$DBSCHEMA.z_hgp_linie
   OWNER TO $$USER;
@@ -366,7 +366,7 @@ GRANT ALL ON TABLE $$DBSCHEMA.z_hgp_linie TO $$USER;'),
  (134,'CREATE OR REPLACE VIEW $$DBSCHEMA.z_nr_ls AS
  SELECT liegenschaften_grundstueckpos.pos, liegenschaften_grundstueck.nummer, liegenschaften_grundstueck.gesamteflaechenmass, liegenschaften_grundstueck.art_txt, liegenschaften_grundstueck.art, liegenschaften_grundstueck.vollstaendigkeit_txt, liegenschaften_grundstueck.vollstaendigkeit, liegenschaften_grundstueck.gueltigkeit_txt, liegenschaften_grundstueck.gueltigkeit, liegenschaften_grundstueck.egris_egrid, liegenschaften_grundstueckpos.ogc_fid, liegenschaften_liegenschaft.nummerteilgrundstueck
    FROM $$DBSCHEMA.liegenschaften_grundstueck, $$DBSCHEMA.liegenschaften_grundstueckpos, $$DBSCHEMA.liegenschaften_liegenschaft
-  WHERE liegenschaften_liegenschaft.liegenschaft_von::text = liegenschaften_grundstueck.t_ili_tid::text AND liegenschaften_grundstueck.t_ili_tid::text = liegenschaften_grundstueckpos.grundstueckpos_von::text;
+  WHERE liegenschaften_liegenschaft.liegenschaft_von::text = liegenschaften_grundstueck.ogc_fid::text AND liegenschaften_grundstueck.ogc_fid::text = liegenschaften_grundstueckpos.grundstueckpos_von::text;
 
 ALTER TABLE $$DBSCHEMA.z_nr_ls
   OWNER TO $$USER;
@@ -374,7 +374,7 @@ GRANT ALL ON TABLE $$DBSCHEMA.z_nr_ls TO $$USER;'),
  (135,'CREATE OR REPLACE VIEW $$DBSCHEMA.z_nr_sdr AS
  SELECT liegenschaften_grundstueckpos.pos, liegenschaften_grundstueck.nummer, liegenschaften_grundstueck.gesamteflaechenmass, liegenschaften_grundstueck.art_txt, liegenschaften_grundstueck.art, liegenschaften_grundstueck.vollstaendigkeit_txt, liegenschaften_grundstueck.vollstaendigkeit, liegenschaften_grundstueck.gueltigkeit_txt, liegenschaften_grundstueck.gueltigkeit, liegenschaften_grundstueck.egris_egrid, liegenschaften_grundstueckpos.ogc_fid, liegenschaften_selbstrecht.nummerteilgrundstueck
    FROM $$DBSCHEMA.liegenschaften_grundstueck, $$DBSCHEMA.liegenschaften_grundstueckpos, $$DBSCHEMA.liegenschaften_selbstrecht
-  WHERE liegenschaften_selbstrecht.selbstrecht_von::text = liegenschaften_grundstueck.t_ili_tid::text AND liegenschaften_grundstueck.t_ili_tid::text = liegenschaften_grundstueckpos.grundstueckpos_von::text;
+  WHERE liegenschaften_selbstrecht.selbstrecht_von::text = liegenschaften_grundstueck.ogc_fid::text AND liegenschaften_grundstueck.ogc_fid::text = liegenschaften_grundstueckpos.grundstueckpos_von::text;
 
 ALTER TABLE $$DBSCHEMA.z_nr_sdr
   OWNER TO $$USER;
@@ -382,7 +382,7 @@ GRANT ALL ON TABLE $$DBSCHEMA.z_nr_sdr TO $$USER;'),
  (136,'CREATE OR REPLACE VIEW $$DBSCHEMA.z_ortschaftsnamen_geom AS
  SELECT plzortschaft_ortschaftsname.atext, plzortschaft_ortschaftsname.kurztext, plzortschaft_ortschaftsname.indextext, plzortschaft_ortschaftsname.sprache_txt, plzortschaft_ortschaftsname.sprache, plzortschaft_ortschaft.status, plzortschaft_ortschaft.status_txt, plzortschaft_ortschaft.ogc_fid, plzortschaft_ortschaft.inaenderung_txt, plzortschaft_ortschaft.inaenderung, plzortschaft_ortschaft.flaeche
    FROM $$DBSCHEMA.plzortschaft_ortschaft, $$DBSCHEMA.plzortschaft_ortschaftsname
-  WHERE plzortschaft_ortschaftsname.ortschaftsname_von::text = plzortschaft_ortschaft.t_ili_tid::text;
+  WHERE plzortschaft_ortschaftsname.ortschaftsname_von::text = plzortschaft_ortschaft.ogc_fid::text;
 
 ALTER TABLE $$DBSCHEMA.z_ortschaftsnamen_geom
   OWNER TO $$USER;
@@ -390,7 +390,7 @@ GRANT ALL ON TABLE $$DBSCHEMA.z_ortschaftsnamen_geom TO $$USER;'),
  (137,'CREATE OR REPLACE VIEW $$DBSCHEMA.z_projgs_nr AS
  SELECT liegenschaften_projgrundstueckpos.pos, liegenschaften_projgrundstueck.nummer, liegenschaften_projgrundstueck.gesamteflaechenmass, liegenschaften_projgrundstueck.art_txt, liegenschaften_projgrundstueck.art, liegenschaften_projgrundstueck.vollstaendigkeit_txt, liegenschaften_projgrundstueck.vollstaendigkeit, liegenschaften_projgrundstueck.gueltigkeit_txt, liegenschaften_projgrundstueck.gueltigkeit, liegenschaften_projgrundstueck.egris_egrid, liegenschaften_projgrundstueckpos.ogc_fid
    FROM $$DBSCHEMA.liegenschaften_projgrundstueck, $$DBSCHEMA.liegenschaften_projgrundstueckpos
-  WHERE liegenschaften_projgrundstueck.t_ili_tid::text = liegenschaften_projgrundstueckpos.projgrundstueckpos_von::text;
+  WHERE liegenschaften_projgrundstueck.ogc_fid::text = liegenschaften_projgrundstueckpos.projgrundstueckpos_von::text;
 
 ALTER TABLE $$DBSCHEMA.z_projgs_nr
   OWNER TO $$USER;
@@ -419,7 +419,7 @@ GRANT ALL ON TABLE $$DBSCHEMA.test_gp TO $$USER;'),
     bodenbedeckung_objektnamepos.ogc_fid
    FROM $$DBSCHEMA.bodenbedeckung_objektname,
     $$DBSCHEMA.bodenbedeckung_objektnamepos
-  WHERE bodenbedeckung_objektname.t_ili_tid::text = bodenbedeckung_objektnamepos.objektnamepos_von::text;
+  WHERE bodenbedeckung_objektname.ogc_fid::text = bodenbedeckung_objektnamepos.objektnamepos_von::text;
 
 ALTER TABLE $$DBSCHEMA.bodenbedeckung_objektnamepos_v
   OWNER TO $$USER;
@@ -434,7 +434,7 @@ GRANT ALL ON TABLE $$DBSCHEMA.bodenbedeckung_objektnamepos_v TO $$USER;'),
     bb.art_txt
    FROM $$DBSCHEMA.bodenbedeckung_boflaechesymbol sym,
     $$DBSCHEMA.bodenbedeckung_boflaeche bb
-  WHERE sym.boflaechesymbol_von::text = bb.t_ili_tid::text;
+  WHERE sym.boflaechesymbol_von::text = bb.ogc_fid::text;
 
 ALTER TABLE $$DBSCHEMA.t_bb_sym
   OWNER TO $$USER;
@@ -1129,7 +1129,7 @@ FROM $$DBSCHEMA.v_gebaeudeadressen_hausnummerpos as a,
        GROUP BY strassenstueck_von::text
      ) as c,
      $$DBSCHEMA.gebaeudeadressen_lokalisationsname as d
-WHERE a.hausnummerpos_von::text = b.t_ili_tid
+WHERE a.hausnummerpos_von::text = b.ogc_fid::text
 AND b.gebaeudeeingang_von::text = c.strassenstueck_von::text
 AND d.benannte = b.gebaeudeeingang_von;'),
  (4,'INSERT INTO $$DBSCHEMA.t_gebaeude_groesser_12m2_ohne_eingang (tid, entstehung, geometrie, flaeche, qualitaet, qualitaet_txt, art, art_txt)
@@ -1345,7 +1345,7 @@ SELECT ls.ogc_fid, ls.geometrie,
 gs.nummer, gs.entstehung
 FROM $$DBSCHEMA.liegenschaften_grundstueck gs, $$DBSCHEMA.liegenschaften_liegenschaft ls
 WHERE
-ls.liegenschaft_von::text=gs.t_ili_tid'),
+ls.liegenschaft_von::text=gs.ogc_fid::text'),
  (107,'INSERT INTO $$DBSCHEMA.z_v_gp_ts (tid,entstehung,identifikator,geometrie,lagegen,lagezuv,lagezuv_txt,punktzeichen,punktzeichen_txt,exaktdefiniert,exaktdefiniert_txt,hoheitsgrenzsteinalt,
   hoheitsgrenzsteinalt_txt,art)
 SELECT
@@ -1404,8 +1404,8 @@ FROM
   $$DBSCHEMA.liegenschaften_grundstueckpos
 WHERE
   liegenschaften_grundstueck.gesamteflaechenmass is NULL AND
-  liegenschaften_grundstueck.t_ili_tid = liegenschaften_selbstrecht.selbstrecht_von::text AND
-  liegenschaften_grundstueckpos.grundstueckpos_von::text = liegenschaften_grundstueck.t_ili_tid'),
+  liegenschaften_grundstueck.ogc_fid::text = liegenschaften_selbstrecht.selbstrecht_von::text AND
+  liegenschaften_grundstueckpos.grundstueckpos_von::text = liegenschaften_grundstueck.ogc_fid::text'),
  (113,'INSERT INTO $$DBSCHEMA.z_nr_gs  (nbident,nummer,egris_egrid,gueltigkeit,gueltigkeit_txt,vollstaendigkeit,vollstaendigkeit_txt,art,art_txt,gesamteflaechenmass,nummerteilgrundstueck,Pos,lin)
 select * from (
 SELECT DISTINCT
@@ -1428,8 +1428,8 @@ FROM
   $$DBSCHEMA.liegenschaften_grundstueckpos
 WHERE
   liegenschaften_grundstueck.gesamteflaechenmass is NULL AND
-  liegenschaften_grundstueck.t_ili_tid = liegenschaften_liegenschaft.liegenschaft_von::text AND
-  liegenschaften_grundstueckpos.grundstueckpos_von::text = liegenschaften_grundstueck.t_ili_tid) as foo
+  liegenschaften_grundstueck.ogc_fid::text = liegenschaften_liegenschaft.liegenschaft_von::text AND
+  liegenschaften_grundstueckpos.grundstueckpos_von::text = liegenschaften_grundstueck.ogc_fid::text) as foo
 where geometrytype(pos) = ''POINT'' '),
  (114,'INSERT INTO $$DBSCHEMA.z_v_ls_nk_pkt (ls_fid,nk_fid,flaeche,geometrie)
 SELECT
@@ -1463,8 +1463,8 @@ FROM
   $$DBSCHEMA.liegenschaften_teilsrpos
 WHERE
   liegenschaften_grundstueck.gesamteflaechenmass >0 AND
-  liegenschaften_grundstueck.t_ili_tid = liegenschaften_selbstrecht.selbstrecht_von::text AND
-  liegenschaften_teilsrpos.teilsrpos_von::text = liegenschaften_selbstrecht.t_ili_tid'),
+  liegenschaften_grundstueck.ogc_fid::text = liegenschaften_selbstrecht.selbstrecht_von::text AND
+  liegenschaften_teilsrpos.teilsrpos_von::text = liegenschaften_selbstrecht.ogc_fid::text'),
  (116,'INSERT INTO $$DBSCHEMA.z_nr_gs (nbident,nummer,egris_egrid,gueltigkeit,gueltigkeit_txt,vollstaendigkeit,vollstaendigkeit_txt,art,art_txt,gesamteflaechenmass,nummerteilgrundstueck,Pos,lin)
 SELECT DISTINCT
   liegenschaften_grundstueck.nbident,
@@ -1486,8 +1486,8 @@ FROM
   $$DBSCHEMA.liegenschaften_teillspos
 WHERE
   liegenschaften_grundstueck.gesamteflaechenmass >0 AND
-  liegenschaften_grundstueck.t_ili_tid = liegenschaften_liegenschaft.liegenschaft_von::text AND
-  liegenschaften_teillspos.teillspos_von::text = liegenschaften_liegenschaft.t_ili_tid'),
+  liegenschaften_grundstueck.ogc_fid::text = liegenschaften_liegenschaft.liegenschaft_von::text AND
+  liegenschaften_teillspos.teillspos_von::text = liegenschaften_liegenschaft.ogc_fid::text'),
  (117,'INSERT INTO $$DBSCHEMA.z_objektnummer_pos (nummer,gwr_egid,nbident,pos,ori,groesse,vali_txt,vali,hali_txt,hali,groesse_txt)
 SELECT
   einzelobjekte_objektnummer.nummer,
@@ -1505,7 +1505,7 @@ FROM
   $$DBSCHEMA.einzelobjekte_objektnummer,
   $$DBSCHEMA.einzelobjekte_objektnummerpos
 WHERE
-  einzelobjekte_objektnummer.t_ili_tid = einzelobjekte_objektnummerpos.objektnummerpos_von::text'),
+  einzelobjekte_objektnummer.ogc_fid::text = einzelobjekte_objektnummerpos.objektnummerpos_von::text'),
  (118,'INSERT INTO $$DBSCHEMA.z_gebaeudenummer_pos (nummer,gwr_egid,nbident,pos,ori,groesse,vali_txt,vali,hali_txt,hali,groesse_txt)
 SELECT
   bodenbedeckung_gebaeudenummer.nummer,
@@ -1523,7 +1523,7 @@ FROM
   $$DBSCHEMA.bodenbedeckung_gebaeudenummer,
   $$DBSCHEMA.bodenbedeckung_gebaeudenummerpos
 WHERE
-  bodenbedeckung_gebaeudenummer.t_ili_tid = bodenbedeckung_gebaeudenummerpos.gebaeudenummerpos_von::text'),
+  bodenbedeckung_gebaeudenummer.ogc_fid::text = bodenbedeckung_gebaeudenummerpos.gebaeudenummerpos_von::text'),
  (125,'INSERT INTO $$DBSCHEMA.t_gebaeudeadressen_spinnennetz (ogc_fid, tid, line, hausnummer)
 SELECT distinct a.ogc_fid, a.t_ili_tid, ST_GeometryFromText((((((((''LINESTRING(''::text || ST_X(a.lage)::text) || '' ''::text) || ST_Y(a.lage)::text) || '',''::text) || ST_X(c.pos)::text) || '' ''::text) || ST_Y(c.pos)::text) || '')''::text, $$EPSG) AS line, a.hausnummer
 

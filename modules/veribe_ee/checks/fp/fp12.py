@@ -71,7 +71,7 @@ class ComplexCheck(ComplexCheckBase):
             layer = {}
             layer["type"] = "postgres"
             layer["title"] =  _translate("VeriSO_EE_FP12", "HFP2", None)
-            layer["featuretype"] = "fixpunktekategorie2_hfp2"
+            layer["featuretype"] = "fixpunktekatgrie2_hfp2"
             layer["geom"] = "geometrie"
             layer["key"] = "ogc_fid"            
             layer["sql"] = ""
@@ -84,7 +84,7 @@ class ComplexCheck(ComplexCheckBase):
             layer = {}
             layer["type"] = "postgres"
             layer["title"] =  _translate("VeriSO_EE_FP12", "LFP2", None)
-            layer["featuretype"] = "fixpunktekategorie2_lfp2"
+            layer["featuretype"] = "fixpunktekatgrie2_lfp2"
             layer["geom"] = "geometrie"
             layer["key"] = "ogc_fid"            
             layer["sql"] = ""
@@ -97,7 +97,7 @@ class ComplexCheck(ComplexCheckBase):
             layer = {}
             layer["type"] = "postgres"
             layer["title"] =  _translate("VeriSO_EE_FP12", "HFP1", None)
-            layer["featuretype"] = "fixpunktekategorie1_hfp1"
+            layer["featuretype"] = "fixpunktekatgrie1_hfp1"
             layer["geom"] = "geometrie"
             layer["key"] = "ogc_fid"            
             layer["sql"] = ""
@@ -110,7 +110,7 @@ class ComplexCheck(ComplexCheckBase):
             layer = {}
             layer["type"] = "postgres"
             layer["title"] =  _translate("VeriSO_EE_FP12", "LFP1", None)
-            layer["featuretype"] = "fixpunktekategorie1_lfp1"
+            layer["featuretype"] = "fixpunktekatgrie1_lfp1"
             layer["geom"] = "geometrie"
             layer["key"] = "ogc_fid"            
             layer["sql"] = ""
