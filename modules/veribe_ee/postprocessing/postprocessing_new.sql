@@ -994,11 +994,11 @@ CREATE TYPE $$DBSCHEMA.avor_bezeichnung AS ENUM
  ''Waldgrenzen: Kontrolle und Beurteilung'',
  ''Übr. best. Fläche entlang Bäche, Bahn, Autobahn bereinigen'',
  ''Wytweiden: Definition durch Waldabteilung'',
- ''Schmale bestockte Fläche ab Bodenbedeckung in Einzelobjekte übernehmen'',
+ ''Schmale bestockte Fläche ab Bb in Einzelobj. übernehmen'',
  ''Schmale bestockte Fläche löschen'',
  ''Wanderwege: wenn fehlend, als Achse in Einzelobjekte erfassen'',
  ''Wege in Landwirtschaftszone gemäss Handbuch'',
- ''GN5: Kontrolle, fehlende erfassen, Name attributieren, schmale Gewässer als Rinnsal'',
+ ''GN5: Kontr., fehl. erfas., Name att., schm. Gewäss. Rinnsal'',
  ''Flüsse und Seen: Bodenbedeckung nach Prinzip LWN anpassen'',
  ''Hochwasserdamm darstellen od. löschen'',
  ''Bauernhof: Gartenanlage od. übrig befestigt anpassen'',
@@ -1006,28 +1006,28 @@ CREATE TYPE $$DBSCHEMA.avor_bezeichnung AS ENUM
  ''Trottoir und Verkehrsinsel in Bodenbedeckung'',
  ''Löschen von zu detaillierten Gebäudeerschliessungen'',
  ''Erfassung und/oder Ergänzungen von Gebäudeerschliessungen'',
- ''Löschen und Separatablage von Verkehrshindernissen und Verkehrschwellen'',
+ ''Löschen und Separatablage von Verkehrshin. und Verkehrschwe.'',
  ''Löschen von privaten Parkplätzen'',
  ''Erfassung und/oder Ergänzung von grossen Parkplätzen'',
- ''Erfassung und/oder Ergänzung von übrig befestigen Flächen (Einfahrt Einstellhallen)'',
+ ''Erfassung und/oder Ergänzung von übrig befestigen Flächen'',
  ''Bahnareal: Bereinigung der Bodenbedeckung'',
  ''Bahnhof / Station: Bahnsteig erfassen'',
- ''Bei PNF-Bearbeitung neu festgestellte Fälle (sofort bereinigen)'',
+ ''Bei PNF-Bearbeitung neu festgestellte Fälle'',
  ''Bereinigung an Gemeinde- oder Losgrenzen'',
- ''Einzelobjekte: Bereinigung gemäss Handbuch (Flächen-, Linien- & Symbolobjekte)'',
+ ''Einzelobjekte: Bereinigung gemäss Handbuch'',
  ''Löschen von überflüssigen Bodenbedeckungsgrenzen'',
  ''Gebäude < 12 m2 evt. Löschen'',
- ''neue BB ausscheiden, BB - Art ändern, BB - Abgrenzung anpassen'',
- ''fehlendes Silo / Wasserbecken / Gebäude etc.'',
- ''fehlende Brücke / Mast / schmaler Weg / eingedoltes Gewässer / Tunnel / Hochspannungsfreileitung'',
- ''fehlende Landwirtschaftswege'',
+ ''Neue BB ausscheiden, BB - Art ändern, BB - Abgrenzung anpassen'',
+ ''Fehlendes Silo / Wasserbecken / Gebäude etc.'',
+ ''Fehl. Brücke / Mast / schmal. Weg / eingedolt. Gewäs. / ...'',
+ ''Fehlende Landwirtschaftswege'',
  ''Kontrolle Gebäude/Objekte (noch vorhanden)'',
  ''Trottoir bei Einfahrt unterbrechen'',
  ''Waldweg wird im Feld erhoben'',
- ''neuer Waldweg (laut Forst Klasse 2) wird nicht erhoben, da auf dem OF und auf der PK keine Grundlagen vorhanden sind. Feldaufnahmen werden nur bei Waldwege mit Klasse 1 ausgeführt'',
- ''EO mit Typ Brücke_Passarelle / Tunnel_Unterführung_Galerie / unterirdische Gebäude / Reservoir und Unterstand flächenmässig definieren (shapen)'',
- ''offene EO in NV und EE - Gebieten geschlossen definieren'',
- ''weiteres''
+ ''Neuer Waldweg (laut Forst Klasse 2) ...'',
+ ''EO mit Typ Brücke_Passar. / Tunnel_Unterführung_Galerie / ...'',
+ ''Offene EO in NV und EE - Gebieten geschlossen definieren'',
+ ''Weiteres''
 );
 
 -- noinspection SqlNoDataSourceInspectionForFile
@@ -1154,7 +1154,8 @@ EXCEPT
  AND ST_Distance(a.geometrie, b.lage) = 0::double precision
 ) as c;'),
  (7,'INSERT INTO $$DBSCHEMA.t_gebaeudeadressen_hausnummerpos_ausserhalb
-SELECT *
+(ogc_fid, tid, ori, hali, hali_txt, vali, vali_txt, groesse, groesse_txt, hausnummerpos_von, pos)
+SELECT c.ogc_fid, c.t_ili_tid, c.ori, c.hali, c.hali_txt, c.vali, c.vali_txt, c.groesse, c.groesse_txt, c.hausnummerpos_von::text, c.pos
 FROM
 (
  SELECT a.*
@@ -1195,7 +1196,8 @@ EXCEPT
  AND ST_Distance(a.pos, b.geometrie) = 0
 ) as c;'),
  (8,'INSERT INTO $$DBSCHEMA.t_gebaeudeadressen_hausnummerpos_doppelt
-SELECT a.*
+(ogc_fid, tid, hausnummerpos_von, pos, ori, hali, hali_txt, vali, vali_txt, groesse, groesse_txt)
+SELECT a.ogc_fid, a.t_ili_tid, a.hausnummerpos_von, a.pos, a.ori, a.hali, a.hali_txt, a.vali, a.vali_txt, a.groesse, a.groesse_txt
 FROM $$DBSCHEMA.gebaeudeadressen_hausnummerpos as a,
 (
  SELECT gebaeudeadressen_hausnummerpos.ogc_fid, gebaeudeadressen_hausnummerpos.t_ili_tid,
@@ -1208,12 +1210,18 @@ FROM $$DBSCHEMA.gebaeudeadressen_hausnummerpos as a,
 
  EXCEPT
 
- SELECT DISTINCT ON (hausnummerpos_von) *
+ SELECT DISTINCT ON (hausnummerpos_von) ogc_fid, t_ili_tid, hausnummerpos_von, pos, ori, hali, hali_txt, vali, vali_txt, groesse, groesse_txt
  FROM $$DBSCHEMA.gebaeudeadressen_hausnummerpos
 ) as b
 WHERE a.hausnummerpos_von = b.hausnummerpos_von;'),
  (9,'INSERT INTO $$DBSCHEMA.t_gebaeudeadressen_gebaeudeeingang_mit_nummer_ohne_pos
-SELECT a.*
+(ogc_fid, tid, entstehung, gebaeudeeingang_von, status, status_txt, inaenderung, inaenderung_txt, attributeprovisorisch,
+  attributeprovisorisch_txt, istoffiziellebezeichnung, istoffiziellebezeichnung_txt, lage, hoehenlage, hausnummer, im_gebaeude,
+  im_gebaeude_txt, gwr_egid, gwr_edid)
+
+SELECT a.ogc_fid, a.t_ili_tid, a.entstehung, a.gebaeudeeingang_von, a.status, a.status_txt, a.inaenderung, a.inaenderung_txt, a.attributeprovisorisch,
+  a.attributeprovisorisch_txt, a.istoffiziellebezeichnung, a.istoffiziellebezeichnung_txt, a.lage, a.hoehenlage, a.hausnummer, a.im_gebaeude,
+  a.im_gebaeude_txt, a.gwr_egid, a.gwr_edid
 FROM $$DBSCHEMA.gebaeudeadressen_gebaeudeeingang a,
 (
  SELECT t_ili_tid
@@ -1222,17 +1230,23 @@ FROM $$DBSCHEMA.gebaeudeadressen_gebaeudeeingang a,
 
   EXCEPT
 
- SELECT hausnummerpos_von
+ SELECT hausnummerpos_von::text
  FROM $$DBSCHEMA.gebaeudeadressen_hausnummerpos
 
 ) b
-WHERE a.t_ili_tid::text = b.t_ili_tid::text;'),
+WHERE a.t_ili_tid::text = b.t_ili_tid::text;
+ '),
  (10,'INSERT INTO $$DBSCHEMA.t_gebaeudeadressen_gebaeudeeingang_gleiche_nummer_und_lok
-SELECT a.*
+(ogc_fid, tid, entstehung, gebaeudeeingang_von, status, status_txt, inaenderung, inaenderung_txt, attributeprovisorisch,
+  attributeprovisorisch_txt, istoffiziellebezeichnung, istoffiziellebezeichnung_txt, lage, hoehenlage, hausnummer, im_gebaeude, im_gebaeude_txt,
+  gwr_egid, gwr_edid)
+SELECT a.ogc_fid, a.t_ili_tid, a.entstehung, a.gebaeudeeingang_von, a.status, a.status_txt, a.inaenderung, a.inaenderung_txt, a.attributeprovisorisch,
+  a.attributeprovisorisch_txt, a.istoffiziellebezeichnung, a.istoffiziellebezeichnung_txt, a.lage, a.hoehenlage, a.hausnummer, a.im_gebaeude, a.im_gebaeude_txt,
+  a.gwr_egid, a.gwr_edid
 FROM $$DBSCHEMA.gebaeudeadressen_gebaeudeeingang a,
 (
   SELECT gebaeudeadressen_gebaeudeeingang.ogc_fid, gebaeudeadressen_gebaeudeeingang.t_ili_tid,
-         gebaeudeadressen_gebaeudeeingang.entstehung, gebaeudeadressen_gebaeudeeingang.gebaeudeeingang_von::text,
+         gebaeudeadressen_gebaeudeeingang.entstehung, gebaeudeadressen_gebaeudeeingang.gebaeudeeingang_von,
          gebaeudeadressen_gebaeudeeingang.status, gebaeudeadressen_gebaeudeeingang.status_txt,
          gebaeudeadressen_gebaeudeeingang.inaenderung, gebaeudeadressen_gebaeudeeingang.inaenderung_txt,
          gebaeudeadressen_gebaeudeeingang.attributeprovisorisch, gebaeudeadressen_gebaeudeeingang.attributeprovisorisch_txt,
