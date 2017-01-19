@@ -66,7 +66,7 @@ class ComplexCheck(ComplexCheckBase):
             layer["type"] = "postgres"
 #            layer["title"] = self.tr("LFP3 Nachführung") # Mit Linguist übersetzen. -> Achtung: Testen ob Übersetzungen mit Umlauten funktionieren...
             layer["title"] = _translate("VeriSO_EE_FP3", "LFP3 Nachführung", None)
-            layer["featuretype"] = "fixpunktekategorie3_lfp3nachfuehrung"
+            layer["featuretype"] = "fixpunktekatgrie3_lfp3nachfuehrung"
             layer["geom"] = "perimeter" # Falls layer["geom"] bei Tabellen/Layern mit einer Geomtriespalte weggelassen wird, wird die Tabelle als "geometryless" geladen.
             layer["key"] = "ogc_fid"            
             layer["sql"] = ""
@@ -78,7 +78,7 @@ class ComplexCheck(ComplexCheckBase):
             layer = {}
             layer["type"] = "postgres"
             layer["title"] = _translate("VeriSO_EE_FP3", "LFP3", None)
-            layer["featuretype"] = "fixpunktekategorie3_lfp3"
+            layer["featuretype"] = "fixpunktekatgrie3_lfp3"
             layer["geom"] = "geometrie"
             layer["key"] = "ogc_fid"            
             layer["sql"] = ""
@@ -91,7 +91,7 @@ class ComplexCheck(ComplexCheckBase):
             layer = {}
             layer["type"] = "postgres"
             layer["title"] = _translate("VeriSO_EE_FP3_PZ", "Punktzeichen", None)
-            layer["featuretype"] = "fixpunktekategorie3_lfp3"
+            layer["featuretype"] = "fixpunktekatgrie3_lfp3"
             layer["geom"] = "geometrie"
             layer["key"] = "ogc_fid"            
             layer["sql"] = ""
@@ -130,7 +130,7 @@ class ComplexCheck(ComplexCheckBase):
             layer = {}
             layer["type"] = "postgres"
             layer["title"] = _translate("VeriSO_EE_FP3", "LFP3 pro Toleranzstufe",None)
-            layer["featuretype"] = "fixpunktekategorie3_lfp3_pro_toleranzstufe_v"
+            layer["featuretype"] = "fixpunktekatgrie3_lfp3_pro_toleranzstufe_v"
             #layer["geom"] = ""
             layer["key"] = "ogc_fid"            
             layer["sql"] = ""

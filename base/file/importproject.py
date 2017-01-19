@@ -482,8 +482,9 @@ class ImportProjectDialog(QDialog, FORM_CLASS):
         arguments.append("ogc_fid")
         arguments.append("--importTid")
         arguments.append("--createGeomIdx")
-        arguments.append("--createEnumTabs")
-        # arguments.append("--createEnumTxtCol")
+        #arguments.append("--createEnumTabs")
+        arguments.append("--createEnumColAsItfCode")
+        arguments.append("--createEnumTxtCol")
         arguments.append("--nameByTopic")
         arguments.append("--strokeArcs")
         arguments.append(self.itf)
@@ -685,7 +686,7 @@ class ImportProjectDialog(QDialog, FORM_CLASS):
                     QgsMessageLog.logMessage(tr(message), "VeriSO",
                                              QgsMessageLog.CRITICAL)
                     QgsMessageLog.logMessage(
-                            str(QSqlQuery.lastError(query).text()), "VeriSO",
+                            str(QSqlQuery.lastError(query).text()) + str(sql), "VeriSO",
                             QgsMessageLog.CRITICAL)
                     self.report_progress("--> error, see log", 'orange')
 
