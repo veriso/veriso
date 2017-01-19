@@ -8,7 +8,53 @@ CREATE TABLE "postprocessing" (
 	apply INTEGER DEFAULT 1,
 	PRIMARY KEY(ogc_fid)
 );
-INSERT INTO `postprocessing` (ogc_fid,sql_query,order,comment,lang,apply) VALUES (3,'CREATE TABLE $$DBSCHEMA.t_maengel_topics
+INSERT INTO `postprocessing` (ogc_fid,sql_query,order,comment,lang,apply) VALUES (1,'CREATE TYPE $$DBSCHEMA.maengel_topic AS ENUM 
+(
+ ''FixpunkteKatgrie1'', 
+ ''FixpunkteKatgrie2'', 
+ ''FixpunkteKatgrie3'', 
+ ''Bodenbedeckung'', 
+ ''Einzelobjekte'', 
+ ''Hoehen'', 
+ ''Nomenklatur'', 
+ ''Liegenschaften'', 
+ ''Rohrleitungen'', 
+ ''Nummerierungsbereiche'', 
+ ''Gemeindegrenzen'', 
+ ''Bezirksgrenzen'', 
+ ''Kantonsgrenzen'', 
+ ''Landesgrenzen'', 
+ ''Planeinteilungen'', 
+ ''TSEinteilung'', 
+ ''Rutschgebiete'', 
+ ''PLZOrtschaft'', 
+ ''Gebaeudeadressen'', 
+ ''Planrahmen''
+);',1,'German enum type for t_maengel_topic.','de',1),
+ (2,'CREATE TYPE $$DBSCHEMA.maengel_topic AS ENUM 
+(
+ ''Points_fixesCategorie1'', 
+ ''Points_fixesCategorie2'', 
+ ''Points_fixesCategorie3'', 
+ ''Couverture_du_sol'', 
+ ''Objets_divers'', 
+ ''Altimetrie'', 
+ ''Nomenclature'', 
+ ''Biens_fonds'', 
+ ''Conduites'', 
+ ''Domaines_numerotation'', 
+ ''Limites_commune'', 
+ ''Limites_district'', 
+ ''Limites_canton'', 
+ ''Limites_nationales'', 
+ ''Repartitions_plans'', 
+ ''RepartitionNT'', 
+ ''Zones_glissement'', 
+ ''NPA_Localite'', 
+ ''Adresses_des_batiments'', 
+ ''Bords_de_plan''
+);',1,'French enum type for t_maengel_topic','fr',1),
+ (3,'CREATE TABLE $$DBSCHEMA.t_maengel_topics
 (
  ogc_fid serial NOT NULL,
  topic_name varchar NOT NULL,
