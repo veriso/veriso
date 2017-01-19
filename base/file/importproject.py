@@ -742,17 +742,6 @@ class ImportProjectDialog(QDialog, FORM_CLASS):
                   "OR lang IS NULL) AND apply = 1 " \
                   "ORDER BY 'order', ogc_fid;" % lang
 
-            # sql = "SELECT * FROM (SELECT * FROM tables WHERE " \
-            #       "(lang = '%s' OR lang IS NULL) AND apply = 1 ORDER BY 'order') union all " \
-            #       "SELECT * FROM (SELECT * FROM views WHERE " \
-            #       "(lang = '%s' OR lang IS NULL) AND apply = 1 ORDER BY 'order') union all " \
-            #       "SELECT * FROM (SELECT * FROM inserts WHERE " \
-            #       "(lang = '%s' OR lang IS NULL) AND apply = 1 ORDER BY 'order') union all " \
-            #       "SELECT * FROM (SELECT * FROM updates WHERE " \
-            #       "(lang = '%s' OR lang IS NULL) AND apply = 1 ORDER BY 'order') union all " \
-            #       "SELECT * FROM (SELECT * FROM postprocessing WHERE " \
-            #       "(lang = '%s' OR lang IS NULL) AND apply = 1 ORDER BY 'order'); " % (lang, lang, lang, lang, lang)
-
             query = db.exec_(sql)
 
             if not query.isActive():
