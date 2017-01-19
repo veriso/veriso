@@ -8,29 +8,7 @@ CREATE TABLE "postprocessing" (
 	apply INTEGER DEFAULT 1,
 	PRIMARY KEY(ogc_fid)
 );
-INSERT INTO `postprocessing` (ogc_fid,sql_query,order,comment,lang,apply) VALUES (1,'CREATE TABLE $$DBSCHEMA.t_maengel_punkt
-(
- ogc_fid serial NOT NULL,
- topic varchar NOT NULL,
- bemerkung varchar,
- datum timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
- the_geom geometry(POINT,$$EPSG),
- CONSTRAINT t_maengel_punkt_pkey PRIMARY KEY (ogc_fid)
-)
-WITH (OIDS=FALSE);
-GRANT SELECT ON TABLE $$DBSCHEMA.t_maengel_punkt TO $$USER;',1,'Was in table tables',NULL,1),
- (2,'CREATE TABLE $$DBSCHEMA.t_maengel_linie
-(
- ogc_fid serial NOT NULL,
- topic varchar NOT NULL,
- bemerkung varchar,
- datum timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
- the_geom geometry(LINESTRING,$$EPSG),
- CONSTRAINT t_maengel_linie_pkey PRIMARY KEY (ogc_fid)
-)
-WITH (OIDS=FALSE);
-GRANT SELECT ON TABLE $$DBSCHEMA.t_maengel_linie TO $$USER;',1,'Was in table tables',NULL,1),
- (3,'CREATE TABLE $$DBSCHEMA.t_maengel_topics
+INSERT INTO `postprocessing` (ogc_fid,sql_query,order,comment,lang,apply) VALUES (3,'CREATE TABLE $$DBSCHEMA.t_maengel_topics
 (
  ogc_fid serial NOT NULL,
  topic_name varchar NOT NULL,
@@ -1505,5 +1483,5 @@ CREATE TABLE $$DBSCHEMA.t_maengel_polygon
 )
 WITH (OIDS=FALSE);
 GRANT SELECT ON TABLE $$DBSCHEMA.t_maengel_linie TO $$USER;
-',5,'Was in table postprocessing',NULL,0);
+',5,'Was in table postprocessing',NULL,1);
 COMMIT;
