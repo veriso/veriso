@@ -737,21 +737,21 @@ class ImportProjectDialog(QDialog, FORM_CLASS):
             else:
                 lang = "de"
 
-            #sql = "SELECT * FROM postprocessing " \
-            #      "WHERE (lang = '%s' " \
-            #      "OR lang IS NULL) AND apply = 1 " \
-            #      "ORDER BY 'order', ogc_fid;" % lang
+            sql = "SELECT * FROM postprocessing " \
+                  "WHERE (lang = '%s' " \
+                  "OR lang IS NULL) AND apply = 1 " \
+                  "ORDER BY 'order', ogc_fid;" % lang
 
-            sql = "SELECT * FROM (SELECT * FROM tables WHERE " \
-                  "(lang = '%s' OR lang IS NULL) AND apply = 1 ORDER BY 'order') union all " \
-                  "SELECT * FROM (SELECT * FROM views WHERE " \
-                  "(lang = '%s' OR lang IS NULL) AND apply = 1 ORDER BY 'order') union all " \
-                  "SELECT * FROM (SELECT * FROM inserts WHERE " \
-                  "(lang = '%s' OR lang IS NULL) AND apply = 1 ORDER BY 'order') union all " \
-                  "SELECT * FROM (SELECT * FROM updates WHERE " \
-                  "(lang = '%s' OR lang IS NULL) AND apply = 1 ORDER BY 'order') union all " \
-                  "SELECT * FROM (SELECT * FROM postprocessing WHERE " \
-                  "(lang = '%s' OR lang IS NULL) AND apply = 1 ORDER BY 'order'); " % (lang, lang, lang, lang, lang)
+            # sql = "SELECT * FROM (SELECT * FROM tables WHERE " \
+            #       "(lang = '%s' OR lang IS NULL) AND apply = 1 ORDER BY 'order') union all " \
+            #       "SELECT * FROM (SELECT * FROM views WHERE " \
+            #       "(lang = '%s' OR lang IS NULL) AND apply = 1 ORDER BY 'order') union all " \
+            #       "SELECT * FROM (SELECT * FROM inserts WHERE " \
+            #       "(lang = '%s' OR lang IS NULL) AND apply = 1 ORDER BY 'order') union all " \
+            #       "SELECT * FROM (SELECT * FROM updates WHERE " \
+            #       "(lang = '%s' OR lang IS NULL) AND apply = 1 ORDER BY 'order') union all " \
+            #       "SELECT * FROM (SELECT * FROM postprocessing WHERE " \
+            #       "(lang = '%s' OR lang IS NULL) AND apply = 1 ORDER BY 'order'); " % (lang, lang, lang, lang, lang)
 
             query = db.exec_(sql)
 
@@ -766,7 +766,7 @@ class ImportProjectDialog(QDialog, FORM_CLASS):
                 sql_query = str(query.value(record.indexOf("sql_query")))
 
                 sql_query = sql_query.replace("$$DBSCHEMA", self.db_schema)
-                sql_query = sql_query.replace("$$USER", self.db_admin)
+                sql_query = sql_query.replace("$$USER", self.db_user)
                 sql_query = sql_query.replace("$$EPSG", self.epsg)
 
                 queries.append(sql_query)
