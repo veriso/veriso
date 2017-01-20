@@ -315,19 +315,24 @@ def db_user_has_role(username, rolenames, require_all_roles=False):
     if require_all_roles:
         operator = 'AND'
 
-    role_sql = 'AND ('
+    role_sql = 'WHERE '
     for role in rolenames:
         role_sql += " roles.rolname = '%s' %s" % (role, operator)
-    role_sql = role_sql[:-len(operator)] + ')'
+    role_sql = role_sql[:-len(operator)]
 
-    sql = "select roles.rolname " \
-          "from pg_auth_members auth_members " \
+    sql = "WITH RECURSIVE cte AS (" \
+          "  SELECT oid FROM pg_roles " \
+          "  WHERE rolname = '%s'" \
+          "  UNION ALL" \
+          "  SELECT m.roleid" \
+          "  FROM   cte" \
+          "  JOIN   pg_auth_members m " \
+          "  ON m.member = cte.oid)" \
+          "SELECT roles.rolname FROM cte c " \
           "join pg_roles roles " \
-          "on auth_members.roleid = roles.oid " \
-          "join pg_roles members " \
-          "on auth_members.member = members.oid " \
-          "WHERE members.rolname = '%s' " \
+          "on c.oid = roles.oid " \
           "%s" % (username, role_sql)
+    print sql
     try:
         db = get_default_db()
         query = db.exec_(sql)
