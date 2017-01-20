@@ -298,16 +298,40 @@ def jre_version():
         return None
 
 
-def db_user_has_role(username, rolename):
+def db_user_has_role(username, rolenames, require_all_roles=False):
+    """
+    This function returns true if the given username has at least one of the
+    given rolenames
+    :param username: the db username
+    :param rolenames: a list of roles to test
+    :return:
+    """
+
     # for debugging use
     # select auth_members.roleid, auth_members.member, roles.rolname,
     # members.rolname
-    sql = "select count(*) " \
+
+    operator = 'OR'
+    if require_all_roles:
+        operator = 'AND'
+
+    role_sql = 'AND ('
+    for role in rolenames:
+        role_sql += " roles.rolname = '%s' %s" % (role, operator)
+    role_sql = role_sql[:-len(operator)] + ')'
+
+    sql = "select roles.rolname " \
           "from pg_auth_members auth_members " \
           "join pg_roles roles " \
-          "on auth_members.roleid = roles.oid" \
-          "join pg_roles members" \
-          "on auth_members.member = members.oid" \
-          "WHERE roles.rolname = '%s'" \
-          "AND members.rolname = '%s'" % (rolename, username)
-    return username == 'agi'
+          "on auth_members.roleid = roles.oid " \
+          "join pg_roles members " \
+          "on auth_members.member = members.oid " \
+          "WHERE members.rolname = '%s' " \
+          "%s" % (username, role_sql)
+    try:
+        db = get_default_db()
+        query = db.exec_(sql)
+
+        return bool(query.size())
+    except:
+        return False
