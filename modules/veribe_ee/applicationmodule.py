@@ -61,8 +61,8 @@ class ApplicationModule(ApplicationModuleBase):
                 'widget': 'CheckBox',
                 'alias': 'Verifikation:',
                 'config': {
-                    'CheckedState': 1,
-                    'UncheckedState': 0
+                    'CheckedState': 't',
+                    'UncheckedState': 'f'
                 }
             }
         }
@@ -70,5 +70,9 @@ class ApplicationModule(ApplicationModuleBase):
         d.layers['point']['fields'] = fields
         d.layers['line']['fields'] = fields
         d.layers['polygon']['fields'] = fields
+
+        d.layers['point']['readonly'] = True
+        d.layers['line']['readonly'] = True
+        d.layers['polygon']['readonly'] = True
 
         return d.run()
