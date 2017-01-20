@@ -24,6 +24,10 @@ class ApplicationModule(ApplicationModuleBase):
             'ogc_fid': {'widget': 'TextEdit'},
             'topic': {'widget': 'Enumeration',
                       'alias': 'Topic:'},
+            'bezeichnung': {
+                'widget': 'Enumeration',
+                'alias': 'Bezeichnung:'
+                },
             'bemerkung': {
                 'widget': 'TextEdit',
                 'alias': 'Bemekung:',
