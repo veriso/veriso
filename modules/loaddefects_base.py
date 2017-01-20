@@ -9,7 +9,7 @@ from qgis.core import QgsProject, QgsVectorLayer
 from qgis.gui import QgsMessageBar
 
 from veriso.base.utils.loadlayer import LoadLayer
-from veriso.base.utils.utils import tr
+from veriso.base.utils.utils import tr, db_user_has_role
 
 
 class LoadDefectsBase(QObject):
@@ -29,6 +29,7 @@ class LoadDefectsBase(QObject):
 
         self.project_id = self.settings.value("project/id")
         self.epsg = self.settings.value("project/epsg")
+        self.dbuser = self.settings.value("project/dbuser")
 
         self.group = tr(u"Mängel", self.tr_tag, None)
         self.group += " (" + str(self.project_id) + ")"
@@ -147,4 +148,9 @@ class LoadDefectsBase(QObject):
                 if 'config' in field:
                     # See gui/editorwidgets/ for all the parameters.
                     loaded_layer.setEditorWidgetSetup(idx, field['config'])
+                if 'writable_only_by' in field:
+                    if not db_user_has_role(
+                            self.dbuser, field['writable_only_by']):
+                        loaded_layer.editFormConfig().setReadOnly(idx, True)
+
             return loaded_layer

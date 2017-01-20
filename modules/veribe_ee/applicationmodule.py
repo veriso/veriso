@@ -28,7 +28,8 @@ class ApplicationModule(ApplicationModuleBase):
                       'alias': 'Topic:'},
             'bezeichnung': {
                 'widget': 'Enumeration',
-                'alias': 'Bezeichnung:'
+                'alias': 'Bezeichnung:',
+                'writable_only_by': ['geometerbuero']
                 },
             'bemerkung': {
                 'widget': 'TextEdit',
@@ -39,33 +40,39 @@ class ApplicationModule(ApplicationModuleBase):
             'bemerkung_nfg': {
                 'widget': 'TextEdit',
                 'alias': 'Bemekung NFG:',
-                'config': {"IsMultiline": True}
+                'config': {"IsMultiline": True},
+                'writable_only_by': ['geometerbuero']
             },
             'forstorgan': {
                 'widget': 'Enumeration',
-                'alias': 'Forstorgan:'
+                'alias': 'Forstorgan:',
+                'writable_only_by': ['forst']
             },
             'bemerkung_forst': {
                 'widget': 'TextEdit',
                 'alias': 'Bemekung Forst:',
-                'config': {"IsMultiline": True}
+                'config': {"IsMultiline": True},
+                'writable_only_by': ['forst']
             },
             'verifikation': {
                 'widget': 'Enumeration',
-                'alias': 'Verifikation:'
+                'alias': 'Verifikation:',
+                'writable_only_by': ['verifikation']
             },
             'bemerkung_verifikation': {
                 'widget': 'TextEdit',
-                'alias': 'Bemekung Forst:',
-                'config': {"IsMultiline": True}
+                'alias': 'Bemekung Verifikation:',
+                'config': {"IsMultiline": True},
+                'writable_only_by': ['verifikation']
             },
             'erledigt': {
                 'widget': 'CheckBox',
-                'alias': 'Verifikation:',
+                'alias': 'Erledigt:',
                 'config': {
                     'CheckedState': 't',
                     'UncheckedState': 'f'
-                }
+                },
+                'writable_only_by': ['geometerbuero']
             }
         }
 

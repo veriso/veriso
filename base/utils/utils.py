@@ -303,7 +303,8 @@ def db_user_has_role(username, rolenames, require_all_roles=False):
     This function returns true if the given username has at least one of the
     given rolenames
     :param username: the db username
-    :param rolenames: a list of roles to test
+    :param rolenames: a list of roles to test. passing an empty list will
+    return False
     :return:
     """
 
@@ -332,7 +333,6 @@ def db_user_has_role(username, rolenames, require_all_roles=False):
           "join pg_roles roles " \
           "on c.oid = roles.oid " \
           "%s" % (username, role_sql)
-    print sql
     try:
         db = get_default_db()
         query = db.exec_(sql)

@@ -2,8 +2,10 @@
 
 CREATE ROLE geometerbuero;
 CREATE ROLE forst;
+CREATE ROLE verifikation;
 CREATE ROLE agi;
 CREATE ROLE olpnf;
+GRANT verifikation to agi, olpnf;
 
 CREATE TABLE $$DBSCHEMA.t_maengel_punkt
 (

@@ -28,7 +28,8 @@ class ApplicationModule(ApplicationModuleBase):
             'bemerkung': {
                 'widget': 'TextEdit',
                 'alias': 'Bemekung:',
-                'config': {"IsMultiline": True}
+                'config': {"IsMultiline": True},
+                'writable_only_by': ['PG_role_1', 'PG_role_3']
             },
             'datum': {'widget': 'Hidden'}
         }
