@@ -17,8 +17,10 @@ from qgis.gui import QgsMessageBar
 from veriso.base.utils.utils import (open_psql_db, open_sqlite_db,
                                      get_projects_db, get_modules_dir,
                                      yaml_load_file, tr,
-                                     get_subdirs, jre_version, get_ui_class)
+                                     get_subdirs, jre_version, get_ui_class,
+                                     db_user_has_role)
 from veriso.base.utils.exceptions import VerisoError
+
 
 FORM_CLASS = get_ui_class('importproject.ui')
 
@@ -254,21 +256,21 @@ class ImportProjectDialog(QDialog, FORM_CLASS):
         """Fill out the reference frame lineedit (read only).
         """
         db_user = self.settings.value("options/db/user")
-
-        max_scale_super_users = self.get_module_max_scale_super_users()
-        if enable and (max_scale_super_users is None or
-                               db_user in max_scale_super_users):
+        max_scale_role = self.get_module_allow_max_scale_role()
+        if enable and (max_scale_role is None
+                       or db_user_has_role(db_user, max_scale_role)):
             self.max_scale_value.setEnabled(True)
         else:
             self.max_scale_value.setEnabled(False)
+            self.max_scale_value.setValue(1000)
 
-    def get_module_max_scale_super_users(self):
+    def get_module_allow_max_scale_role(self):
         """
-        if a module.yml include a can_configure_max_scale_users list this
+        if a module.yml include a can_configure_max_scale_role list this
         method will behave as following:
-        - no can_configure_max_scale_users list declared: all users can set
+        - no can_configure_max_scale_role list declared: all users can set
         the map scale in the importer.
-        - can_configure_max_scale_users declared but empty: no user can set
+        - can_configure_max_scale_role declared but empty: no user can set
         the map scale in the importer.
         - usernames in the list: these users can set the map scale in the
         importer.
@@ -277,7 +279,7 @@ class ImportProjectDialog(QDialog, FORM_CLASS):
         data = self.cmbBoxAppModule.itemData(
                 self.cmbBoxAppModule.currentIndex())
         try:
-            return data['can_configure_max_scale_users']
+            return data['can_configure_max_scale_role']
         except (KeyError, TypeError):
             return None
 
@@ -435,9 +437,10 @@ class ImportProjectDialog(QDialog, FORM_CLASS):
                                          tr("No java runtime detected."))
             return
 
+        max_scale_role = self.get_module_allow_max_scale_role()
         self.max_scale = 0
         if self.max_scale_check.isChecked():
-            if self.db_user == 'AGI':
+            if db_user_has_role(self.db_user, max_scale_role):
                 self.max_scale = self.max_scale_value.value()
             else:
                 self.max_scale = 1000

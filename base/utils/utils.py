@@ -296,3 +296,18 @@ def jre_version():
         return version
     except:
         return None
+
+
+def db_user_has_role(username, rolename):
+    # for debugging use
+    # select auth_members.roleid, auth_members.member, roles.rolname,
+    # members.rolname
+    sql = "select count(*) " \
+          "from pg_auth_members auth_members " \
+          "join pg_roles roles " \
+          "on auth_members.roleid = roles.oid" \
+          "join pg_roles members" \
+          "on auth_members.member = members.oid" \
+          "WHERE roles.rolname = '%s'" \
+          "AND members.rolname = '%s'" % (rolename, username)
+    return username == 'agi'
