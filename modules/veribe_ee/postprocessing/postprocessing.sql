@@ -1471,7 +1471,15 @@ CREATE TYPE $$DBSCHEMA.avor_bezeichnung AS ENUM
  ''Weiteres''
 );
 
--- noinspection SqlNoDataSourceInspectionForFile
+
+-- The following table create assume these roles are available
+-- CREATE ROLE geometerbuero;
+-- CREATE ROLE forst;
+-- CREATE ROLE verifikation;
+-- CREATE ROLE agi;
+-- CREATE ROLE olpnf;
+-- GRANT verifikation to agi, olpnf;
+
 CREATE TABLE $$DBSCHEMA.t_maengel_punkt
 (
  ogc_fid serial NOT NULL,
@@ -1490,6 +1498,13 @@ CREATE TABLE $$DBSCHEMA.t_maengel_punkt
 )
 WITH (OIDS=FALSE);
 GRANT SELECT ON TABLE $$DBSCHEMA.t_maengel_punkt TO $$USER;
+
+GRANT UPDATE (bezeichnung, bemerkung_nfg, erledigt) ON $$DBSCHEMA.t_maengel_punkt TO
+geometerbuero;
+GRANT UPDATE (forstorgan, bemerkung_forst) ON $$DBSCHEMA.t_maengel_punkt TO
+forst;
+GRANT UPDATE (verifikation, bemerkung_verifikation) ON $$DBSCHEMA.t_maengel_punkt TO
+verifikation;
 
 CREATE TABLE $$DBSCHEMA.t_maengel_linie
 (
@@ -1510,6 +1525,14 @@ CREATE TABLE $$DBSCHEMA.t_maengel_linie
 WITH (OIDS=FALSE);
 GRANT SELECT ON TABLE $$DBSCHEMA.t_maengel_linie TO $$USER;
 
+GRANT UPDATE (bezeichnung, bemerkung_nfg, erledigt) ON $$DBSCHEMA.t_maengel_linie TO
+geometerbuero;
+GRANT UPDATE (forstorgan, bemerkung_forst) ON $$DBSCHEMA.t_maengel_linie TO
+forst;
+GRANT UPDATE (verifikation, bemerkung_verifikation) ON $$DBSCHEMA.t_maengel_linie TO
+verifikation;
+
+
 
 CREATE TABLE $$DBSCHEMA.t_maengel_polygon
 (
@@ -1529,5 +1552,11 @@ CREATE TABLE $$DBSCHEMA.t_maengel_polygon
 )
 WITH (OIDS=FALSE);
 GRANT SELECT ON TABLE $$DBSCHEMA.t_maengel_linie TO $$USER;
-',5,'Was in table postprocessing',NULL,1);
+GRANT UPDATE (bezeichnung, bemerkung_nfg, erledigt) ON $$DBSCHEMA.t_maengel_polygon TO
+geometerbuero;
+GRANT UPDATE (forstorgan, bemerkung_forst) ON $$DBSCHEMA.t_maengel_polygon TO
+forst;
+GRANT UPDATE (verifikation, bemerkung_verifikation) ON $$DBSCHEMA.t_maengel_polygon TO
+verifikation;',5,'allow defects list
+',NULL,1);
 COMMIT;
