@@ -141,6 +141,9 @@ class LoadDefectsBase(QObject):
                 if 'widget' in field:
                     loaded_layer.setEditorWidgetV2(
                             idx, tr(field['widget']))
+                if 'readonly' in field:
+                    loaded_layer.editFormConfig().setReadOnly(
+                            idx, field['readonly'])
                 if 'config' in field:
                     # See gui/editorwidgets/ for all the parameters.
                     loaded_layer.setEditorWidgetSetup(idx, field['config'])

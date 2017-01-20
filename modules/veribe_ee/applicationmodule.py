@@ -21,7 +21,9 @@ class ApplicationModule(ApplicationModuleBase):
         d = defects_module.LoadDefectsBase(self.iface, self.module_name)
 
         fields = {
-            'ogc_fid': {'widget': 'TextEdit'},
+            'ogc_fid': {'widget': 'TextEdit',
+                        'readonly': True,
+                        'config': {"Editable": False}},
             'topic': {'widget': 'Enumeration',
                       'alias': 'Topic:'},
             'bezeichnung': {
