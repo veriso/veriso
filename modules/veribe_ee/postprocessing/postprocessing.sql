@@ -1478,15 +1478,6 @@ CREATE TYPE $$DBSCHEMA.avor_bezeichnung AS ENUM
 -- CREATE ROLE agi;
 -- CREATE ROLE olpnf;
 
--- EXAMPLE file, this is included in postprocessing.db fid = 98
-
-CREATE ROLE geometerbuero;
-CREATE ROLE forst;
-CREATE ROLE verifikation;
-CREATE ROLE agi;
-CREATE ROLE olpnf;
-GRANT verifikation to agi, olpnf;
-
 CREATE TABLE $$DBSCHEMA.t_maengel_punkt
 (
  ogc_fid serial NOT NULL,
