@@ -1483,10 +1483,10 @@ CREATE TYPE $$DBSCHEMA.avor_bezeichnung AS ENUM
 CREATE TABLE $$DBSCHEMA.t_maengel_punkt
 (
  ogc_fid serial NOT NULL,
- topic $$DBSCHEMA.maengel_topic NOT NULL,
+ topic $$DBSCHEMA.maengel_topic,
  bemerkung varchar,
  datum timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
- bezeichnung $$DBSCHEMA.avor_bezeichnung NOT NULL,
+ bezeichnung $$DBSCHEMA.avor_bezeichnung,
  bemerkung_nfg text,
  forstorgan $$DBSCHEMA.maengel_bereinigen,
  bemerkung_forst text,
@@ -1509,10 +1509,10 @@ verifikation;
 CREATE TABLE $$DBSCHEMA.t_maengel_linie
 (
  ogc_fid serial NOT NULL,
- topic $$DBSCHEMA.maengel_topic NOT NULL,
+ topic $$DBSCHEMA.maengel_topic,
  bemerkung varchar,
  datum timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
- bezeichnung $$DBSCHEMA.avor_bezeichnung NOT NULL,
+ bezeichnung $$DBSCHEMA.avor_bezeichnung,
  bemerkung_nfg text,
  forstorgan $$DBSCHEMA.maengel_bereinigen,
  bemerkung_forst text,
@@ -1537,10 +1537,10 @@ verifikation;
 CREATE TABLE $$DBSCHEMA.t_maengel_polygon
 (
  ogc_fid serial NOT NULL,
- topic $$DBSCHEMA.maengel_topic NOT NULL,
+ topic $$DBSCHEMA.maengel_topic,
  bemerkung varchar,
  datum timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
- bezeichnung $$DBSCHEMA.avor_bezeichnung NOT NULL,
+ bezeichnung $$DBSCHEMA.avor_bezeichnung,
  bemerkung_nfg text,
  forstorgan $$DBSCHEMA.maengel_bereinigen,
  bemerkung_forst text,
