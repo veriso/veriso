@@ -185,6 +185,7 @@ def get_check_topics(module_name):
         locale = 'en'
     try:
         topics = OrderedDict()
+        checks = sorted(checks, key=lambda k: k['topic'])
         for check in checks:
             topic = check["topic"]
             topic_dir = check["topic_dir"]
@@ -245,9 +246,9 @@ def get_checks_from_files(module_name, topic_dir, modules_dir=None):
     files = os.listdir(path)
     # alpha-numeric sorting to assure the same order in the menus
     # see http://stackoverflow.com/a/2669523/1193450
-    files = sorted(files, key=lambda item: (
-        int(item.partition(' ')[0]) if item[0].isdigit() else float('inf'),
-        item))
+    # files = sorted(files, key=lambda item: (
+    #    int(item.partition(' ')[0]) if item[0].isdigit() else float('inf'),
+    #    item))
     for f in files:
         check = {}
         if f.endswith(".py") and f != '__init__.py':
@@ -273,8 +274,9 @@ def get_checks_from_files(module_name, topic_dir, modules_dir=None):
                 continue
         elif f.endswith('_separator'):
             check['name'] = 'separator'
-            checks.append(check)
+            # checks.append(check)
 
+    checks = sorted(checks, key=lambda k: k['name'])
     return checks
 
 
