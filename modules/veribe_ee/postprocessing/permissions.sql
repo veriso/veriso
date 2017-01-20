@@ -2,18 +2,16 @@
 
 CREATE ROLE geometerbuero;
 CREATE ROLE forst;
-CREATE ROLE verifikation;
 CREATE ROLE agi;
 CREATE ROLE olpnf;
-GRANT verifikation to agi, olpnf;
 
 CREATE TABLE $$DBSCHEMA.t_maengel_punkt
 (
  ogc_fid serial NOT NULL,
- topic $$DBSCHEMA.maengel_topic NOT NULL,
+ topic $$DBSCHEMA.maengel_topic,
  bemerkung varchar,
  datum timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
- bezeichnung $$DBSCHEMA.avor_bezeichnung NOT NULL,
+ bezeichnung $$DBSCHEMA.avor_bezeichnung,
  bemerkung_nfg text,
  forstorgan $$DBSCHEMA.maengel_bereinigen,
  bemerkung_forst text,
@@ -24,23 +22,16 @@ CREATE TABLE $$DBSCHEMA.t_maengel_punkt
  CONSTRAINT t_maengel_punkt_pkey PRIMARY KEY (ogc_fid)
 )
 WITH (OIDS=FALSE);
-GRANT SELECT ON TABLE $$DBSCHEMA.t_maengel_punkt TO $$USER;
+GRANT ALL ON TABLE $$DBSCHEMA.t_maengel_punkt TO $$USER;
 
-GRANT UPDATE (bezeichnung, bemerkung_nfg, erledigt) ON $$DBSCHEMA.t_maengel_punkt TO
-geometerbuero;
-GRANT UPDATE (forstorgan, bemerkung_forst) ON $$DBSCHEMA.t_maengel_punkt TO
-forst;
-GRANT UPDATE (verifikation, bemerkung_verifikation) ON $$DBSCHEMA.t_maengel_punkt TO
-verifikation;
-
-
+-- LINES
 CREATE TABLE $$DBSCHEMA.t_maengel_linie
 (
  ogc_fid serial NOT NULL,
- topic $$DBSCHEMA.maengel_topic NOT NULL,
+ topic $$DBSCHEMA.maengel_topic,
  bemerkung varchar,
  datum timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
- bezeichnung $$DBSCHEMA.avor_bezeichnung NOT NULL,
+ bezeichnung $$DBSCHEMA.avor_bezeichnung,
  bemerkung_nfg text,
  forstorgan $$DBSCHEMA.maengel_bereinigen,
  bemerkung_forst text,
@@ -51,24 +42,16 @@ CREATE TABLE $$DBSCHEMA.t_maengel_linie
  CONSTRAINT t_maengel_linie_pkey PRIMARY KEY (ogc_fid)
 )
 WITH (OIDS=FALSE);
-GRANT SELECT ON TABLE $$DBSCHEMA.t_maengel_linie TO $$USER;
-
-GRANT UPDATE (bezeichnung, bemerkung_nfg, erledigt) ON $$DBSCHEMA.t_maengel_linie TO
-geometerbuero;
-GRANT UPDATE (forstorgan, bemerkung_forst) ON $$DBSCHEMA.t_maengel_linie TO
-forst;
-GRANT UPDATE (verifikation, bemerkung_verifikation) ON $$DBSCHEMA.t_maengel_linie TO
-verifikation;
-
+GRANT ALL ON TABLE $$DBSCHEMA.t_maengel_linie TO $$USER;
 
 
 CREATE TABLE $$DBSCHEMA.t_maengel_polygon
 (
  ogc_fid serial NOT NULL,
- topic $$DBSCHEMA.maengel_topic NOT NULL,
+ topic $$DBSCHEMA.maengel_topic,
  bemerkung varchar,
  datum timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
- bezeichnung $$DBSCHEMA.avor_bezeichnung NOT NULL,
+ bezeichnung $$DBSCHEMA.avor_bezeichnung,
  bemerkung_nfg text,
  forstorgan $$DBSCHEMA.maengel_bereinigen,
  bemerkung_forst text,
@@ -79,10 +62,4 @@ CREATE TABLE $$DBSCHEMA.t_maengel_polygon
  CONSTRAINT t_maengel_polygon_pkey PRIMARY KEY (ogc_fid)
 )
 WITH (OIDS=FALSE);
-GRANT SELECT ON TABLE $$DBSCHEMA.t_maengel_linie TO $$USER;
-GRANT UPDATE (bezeichnung, bemerkung_nfg, erledigt) ON $$DBSCHEMA.t_maengel_polygon TO
-geometerbuero;
-GRANT UPDATE (forstorgan, bemerkung_forst) ON $$DBSCHEMA.t_maengel_polygon TO
-forst;
-GRANT UPDATE (verifikation, bemerkung_verifikation) ON $$DBSCHEMA.t_maengel_polygon TO
-verifikation;
+GRANT ALL ON TABLE $$DBSCHEMA.t_maengel_polygon TO $$USER;
