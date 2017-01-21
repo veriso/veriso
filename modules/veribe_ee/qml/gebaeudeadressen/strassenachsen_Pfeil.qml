@@ -56,7 +56,7 @@
     <edittype type="0" name="ogc_fid"/>
     <edittype type="0" name="ordnung"/>
     <edittype type="0" name="strassenstueck_von"/>
-    <edittype type="0" name="tid"/>
+    <edittype type="0" name="t_ili_tid"/>
   </edittypes>
   <editform></editform>
   <editforminit></editforminit>

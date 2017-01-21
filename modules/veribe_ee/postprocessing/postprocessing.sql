@@ -337,7 +337,7 @@ GRANT ALL ON TABLE $$DBSCHEMA.z_grenzen TO $$USER;',1,'Was in table tables',NULL
   tid character varying,
   entstehung character varying,
   identifikator character varying,
-  geometrie geometry,
+  geometrie geometry(Point,$$EPSG),
   lagegen double precision,
   lagezuv integer,
   lagezuv_txt character varying,
@@ -448,7 +448,7 @@ GRANT ALL ON TABLE $$DBSCHEMA.z_nr_gs TO $$USER;',1,'Was in table tables',NULL,1
   ls_fid integer,
   nk_fid integer,
   flaeche double precision,
-  geometrie geometry,
+  geometrie geometry(Point,$$EPSG),
   CONSTRAINT z_v_ls_nk_pkt_pkey PRIMARY KEY (z_ls_nk_pkt_fid )
 )
 WITH (

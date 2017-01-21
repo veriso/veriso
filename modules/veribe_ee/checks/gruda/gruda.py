@@ -393,6 +393,7 @@ class ComplexCheck(ComplexCheckBase):
             vlayerEO = self.layer_loader.load(layer)
 
             layer = {}
+            layer["type"] = "postgres"
             layer["title"] = _translate("VeriSO_EE_gruda","Strassenstueck Anfangspunkt", None)
             layer["readonly"] = True
             layer["featuretype"] = "gebaeudeadressen_strassenstueck"
@@ -404,6 +405,7 @@ class ComplexCheck(ComplexCheckBase):
             vlayer = self.layer_loader.load(layer, False, True)
 
             layer = {}
+            layer["type"] = "postgres"
             layer["title"] = _translate("VeriSO_EE_gruda","Strassenstueck (Geometrie)", None)
             layer["readonly"] = True
             layer["featuretype"] = "gebaeudeadressen_strassenstueck"
@@ -413,7 +415,6 @@ class ComplexCheck(ComplexCheckBase):
             layer["key"] = "ogc_fid"
             layer["style"] = "gebaeudeadressen/strassenachsen_Pfeil.qml"
             vlayer = self.layer_loader.load(layer, False, True)
-
 
             layer = {}
             layer["type"] = "postgres"
@@ -455,7 +456,7 @@ class ComplexCheck(ComplexCheckBase):
             layer["type"] = "postgres"
             layer["title"] = _translate("VeriSO_EE_gruda","LFP2", None)
             layer["readonly"] = True
-            layer["featuretype"] = "fixpunktekategorie2_lfp2"
+            layer["featuretype"] = "fixpunktekatgrie2_lfp2"
             layer["geom"] = "geometrie"
             layer["key"] = "ogc_fid"
             layer["sql"] = ""
@@ -467,7 +468,7 @@ class ComplexCheck(ComplexCheckBase):
             layer["type"] = "postgres"
             layer["title"] = _translate("VeriSO_EE_gruda","LFP1", None)
             layer["readonly"] = True
-            layer["featuretype"] = "fixpunktekategorie1_lfp1"
+            layer["featuretype"] = "fixpunktekatgrie1_lfp1"
             layer["geom"] = "geometrie"
             layer["key"] = "ogc_fid"
             layer["sql"] = ""
@@ -475,12 +476,9 @@ class ComplexCheck(ComplexCheckBase):
             layer["style"] = "fixpunkte/lfp1.qml"
             vlayerLFP1 = self.layer_loader.load(layer)
 
-
-
-             
         except Exception:
             QApplication.restoreOverrideCursor()            
             exc_type, exc_value, exc_traceback = sys.exc_info()
-            self.iface.messageBar().pushMessage("Error", str(traceback.format_exc(exc_traceback)), level=QgsMessageBar.CRITICAL, duration=5)                    
-        QApplication.restoreOverrideCursor()  
+            self.iface.messageBar().pushMessage("Error", str(traceback.format_exc(exc_traceback)), level=QgsMessageBar.CRITICAL, duration=5)
+        QApplication.restoreOverrideCursor()
 
