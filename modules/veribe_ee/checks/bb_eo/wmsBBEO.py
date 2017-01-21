@@ -47,7 +47,7 @@ class ComplexCheck(ComplexCheckBase):
             layer["type"] = "wms"
             layer["group"] = group
             layer["title"] = _translate("VeriSO_EE_wmsBBEO", "gesch. geol. Objekte", None)
-            layer["url"] ="http://www.geoservice.apps.be.ch/geoservice/services/a4p/a4p_geologiewms_d_fk_s/MapServer/WMSServer?"
+            layer["url"] ="http://www.geoservice.apps.be.ch/geoservice2/services/a42geo/a42geo_geologiewms_d_fk/MapServer/WMSServer?"
             layer["layers"] ="GEODB.GGO_GGOP"
             layer["format"] ="image/png"
             #layer["crs"] ="EPSG:21781"
@@ -58,7 +58,7 @@ class ComplexCheck(ComplexCheckBase):
             layer["type"] = "wms"
             layer["group"] = group
             layer["title"] = _translate("VeriSO_EE_wmsBBEO", "Lawinienverb.", None)
-            layer["url"] ="http://www.geoservice.apps.be.ch/geoservice/services/a4p/a4p_umweltwms_d_fk_s/MapServer/WMSServer?"
+            layer["url"] ="http://www.geoservice.apps.be.ch/geoservice2/services/a42geo/a42geo_umweltwms_d_fk/MapServer/WMSServer?"
             layer["layers"] ="GEODB.SCHBLAW_SBLAWP,GEODB.SCHBLAW_SBLAW"
             layer["format"] ="image/png"
             #layer["crs"] ="EPSG:21781"
@@ -69,7 +69,7 @@ class ComplexCheck(ComplexCheckBase):
             layer["type"] = "wms"
             layer["group"] = group
             layer["title"] = _translate("VeriSO_EE_wmsBBEO", "GBO (geschuetzte botanische...)", None)
-            layer["url"] ="http://www.geoservice.apps.be.ch/geoservice/services/a4p/a4p_umweltwms_d_fk_s/MapServer/WMSServer?"
+            layer["url"] ="http://www.geoservice.apps.be.ch/geoservice2/services/a42geo/a42geo_umweltwms_d_fk/MapServer/WMSServer?"
             layer["layers"] ="GEODB.GBO_GBOP,GEODB.GBO_GBOF"
             layer["format"] ="image/png"
             #layer["crs"] ="EPSG:21781"
@@ -80,7 +80,7 @@ class ComplexCheck(ComplexCheckBase):
             layer["type"] = "wms"
             layer["group"] = group
             layer["title"] = _translate("VeriSO_EE_wmsBBEO", "GN5", None)
-            layer["url"] ="http://www.geoservice.apps.be.ch/geoservice/services/a4p/a4p_gewaesserwms_d_fk_s/MapServer/WMSServer?"
+            layer["url"] ="http://www.geoservice.apps.be.ch/geoservice2/services/a42geo/a42geo_gewaesserwms_d_fk/MapServer/WMSServer?"
             layer["layers"] ="GEODB.GN5_GN5ROUTE_B,GEODB.GN5_DOLUNG,GEODB.GN5_GN5ROUTE"
             layer["format"] ="image/png"
             #layer["crs"] ="EPSG:21781"
@@ -91,7 +91,7 @@ class ComplexCheck(ComplexCheckBase):
             layer["type"] = "wms"
             layer["group"] = group
             layer["title"] = _translate("VeriSO_EE_wmsBBEO", "Wanderwege", None)
-            layer["url"] ="http://www.geoservice.apps.be.ch/geoservice/services/a4p/a4p_transportwms_d_fk_s/MapServer/WMSServer?"
+            layer["url"] ="http://www.geoservice.apps.be.ch/geoservice2/services/a42geo/a42geo_transportwms_d_fk/MapServer/WMSServer?"
             layer["layers"] ="GEODB.WANDERNS_WEGE"
             layer["format"] ="image/png"
             #layer["crs"] ="EPSG:21781"
