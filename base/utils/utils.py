@@ -10,7 +10,7 @@ from qgis.PyQt.QtCore import QSettings, QCoreApplication, QDir
 from qgis.PyQt.QtSql import QSqlDatabase, QSqlQuery
 
 from qgis.core import QgsMessageLog, QgsApplication
-from veriso.base.utils.exceptions import VerisoError, VerisoErrorWithBar
+from veriso.base.utils.exceptions import VerisoError
 
 
 def dynamic_import(module_name):
@@ -354,5 +354,5 @@ def get_absolute_path(path):
     # lets try in the qgis installation folder (for central installation
     # on servers)
     if not os.path.isfile(filename):
-        raise VerisoErrorWithBar('File not found at %s' % filename)
+        raise VerisoError('File not found at %s' % filename)
     return filename
