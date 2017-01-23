@@ -208,6 +208,8 @@ def open_sqlite_db(file_path, connection_name):
     :return: a db object
     :rtype: QSqlDatabase
     """
+
+    print (connection_name, file_path)
     try:
         if connection_name in QSqlDatabase.connectionNames():
             db = QSqlDatabase.database(connection_name)
@@ -216,7 +218,7 @@ def open_sqlite_db(file_path, connection_name):
             db.setDatabaseName(file_path)
 
         if not db.open():
-            raise Exception()
+            raise Exception("DB NOT OPEN")
     except Exception as e:
         message = "Could not open sqlite database: %s" % connection_name
         message = tr(message)
