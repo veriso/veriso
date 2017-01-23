@@ -281,7 +281,7 @@ class VeriSO(object):
                 self.zoom_to_max_scale)
 
     def unset_max_scale(self):
-        self.max_scale = None
+        self.max_scale = 0.0
         try:
             self.iface.mapCanvas().scaleChanged.disconnect(
                 self.zoom_to_max_scale)

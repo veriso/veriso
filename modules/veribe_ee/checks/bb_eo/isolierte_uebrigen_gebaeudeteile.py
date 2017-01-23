@@ -29,8 +29,8 @@ except AttributeError:
 class ComplexCheck(ComplexCheckBase):
 
     names = OrderedDict()
-    names['de'] = u'Check Isolierte Übrigen Gebäudeteile'
-    names['fr'] = u'Check parties isolées des bâtiments'
+    names['de'] = u'Isolierte Übrigen Gebäudeteile'
+    names['fr'] = u'Parties isolées des bâtiments'
 
     def __init__(self, iface):
         super(ComplexCheck, self).__init__(iface)

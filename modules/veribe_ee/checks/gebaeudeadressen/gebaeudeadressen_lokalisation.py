@@ -61,7 +61,7 @@ class ComplexCheck(ComplexCheckBase):
                 layer["title"] = _translate("VeriSO_EE_gebaeudeadressen_lokalisation","Lokalisation", None)
                 layer["featuretype"] = "gebaeudeadressen_lokalisation"
                 layer["key"] = "ogc_fid"            
-                layer["sql"] = "tid = '-1'"
+                layer["sql"] = "t_ili_tid = '-1'"
                 layer["readonly"] = True
                 layer["group"] = group
                 vlayer_lokalisation = self.layer_loader.load(layer)
@@ -178,7 +178,7 @@ class ComplexCheck(ComplexCheckBase):
             idx = ids.index(id)
             
             benannte_idx = vlayer_lokalisationsname.fieldNameIndex("benannte")
-            text_idx = vlayer_lokalisationsname.fieldNameIndex("text")
+            text_idx = vlayer_lokalisationsname.fieldNameIndex("atext")
             
             if benannte_idx == -1 or text_idx == -1:
                 self.iface.messageBar().pushMessage("Error",  _translate("VeriSO_EE_Geb_LokTest", "Field _benannte_ or _text_ not found.", None), level=QgsMessageBar.CRITICAL, duration=10)                                                    
@@ -188,13 +188,13 @@ class ComplexCheck(ComplexCheckBase):
             benannte =  feat.attributes()[benannte_idx]
             lokalisationsname = feat.attributes()[text_idx]
         
-            vlayer_strassenstueck_geometrie.setSubsetString("(strassenstueck_von = '"+benannte+"')")
-            vlayer_strassenstueck_anfangspunkt.setSubsetString("(strassenstueck_von = '"+benannte+"')")
-            vlayer_benanntesgebiet.setSubsetString("(benanntesgebiet_von = '"+benannte+"')")
-            vlayer_gebaeudeeingang.setSubsetString("(gebaeudeeingang_von = '"+benannte+"')")
-            vlayer_lokalisation.setSubsetString("(tid = '"+benannte+"')")
-            vlayer_shortestline.setSubsetString("(lok_tid = '"+benannte+"')")
-            vlayer_hausnummerpos.setSubsetString("(lok_tid = '"+benannte+"')")
+            vlayer_strassenstueck_geometrie.setSubsetString("(strassenstueck_von = '"+str(benannte)+"')")
+            vlayer_strassenstueck_anfangspunkt.setSubsetString("(strassenstueck_von = '"+str(benannte)+"')")
+            vlayer_benanntesgebiet.setSubsetString("(benanntesgebiet_von = '"+str(benannte)+"')")
+            vlayer_gebaeudeeingang.setSubsetString("(gebaeudeeingang_von = '"+str(benannte)+"')")
+            vlayer_lokalisation.setSubsetString("(t_ili_tid = '"+str(benannte)+"')")
+            vlayer_shortestline.setSubsetString("(lok_tid = '"+str(benannte)+"')")
+            vlayer_hausnummerpos.setSubsetString("(lok_tid = '"+str(benannte)+"')")
 
             if vlayer_strassenstueck_geometrie.featureCount() > 0:
                 xMin = vlayer_strassenstueck_geometrie.extent().xMinimum()
@@ -233,7 +233,9 @@ class ComplexCheck(ComplexCheckBase):
             self.iface.mapCanvas().refresh()                
             
             iter = vlayer_lokalisation.getFeatures()
-            
+            x, y=0.0, 0.0
+            prinzip, attributeprovisorisch, offiziell, status, inaenderung, art = "","","","","",""
+
             # only one feature is selected
             for feature in iter:
                 prinzip_idx = vlayer_lokalisation.fieldNameIndex("nummerierungsprinzip_txt")
@@ -281,7 +283,7 @@ class ComplexCheck(ComplexCheckBase):
             text_item.setFrameBackgroundColor(QColor(250, 250, 250, 255))
             text_item.setFrameSize(QSizeF(250,150))
             text_document = QTextDocument()
-            text_document.setHtml("<table style='font-size:12px;'><tr><td>Lok.Name: </td><td>"+lokalisationsname+"</td></tr><tr><td>TID: </td><td>"+benannte+"</td></tr> <tr><td>Num.prinzip: </td><td>"+prinzip+"</td></tr> <tr><td>Attr. prov.: </td><td>"+attributeprovisorisch+"</td></tr> <tr><td>ist offiziell: </td><td>"+offiziell+"</td></tr> <tr><td>Status: </td><td>"+status+"</td></tr> <tr><td>in Aenderung: </td><td>"+inaenderung+"</td></tr> <tr><td>Art: </td><td>"+art+"</td></tr>  </table>")
+            text_document.setHtml("<table style='font-size:12px;'><tr><td>Lok.Name: </td><td>"+lokalisationsname+"</td></tr><tr><td>T_ILI_TID: </td><td>"+str(benannte)+"</td></tr> <tr><td>Num.prinzip: </td><td>"+prinzip+"</td></tr> <tr><td>Attr. prov.: </td><td>"+attributeprovisorisch+"</td></tr> <tr><td>ist offiziell: </td><td>"+offiziell+"</td></tr> <tr><td>Status: </td><td>"+status+"</td></tr> <tr><td>in Aenderung: </td><td>"+inaenderung+"</td></tr> <tr><td>Art: </td><td>"+art+"</td></tr>  </table>")
             text_item.setDocument(text_document)
                         
             # Workaround: das erste Mal passt die Position nicht...???
