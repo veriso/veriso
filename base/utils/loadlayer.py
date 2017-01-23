@@ -10,6 +10,8 @@ from veriso.base.utils.utils import tr
 
 from veriso.base.utils.exceptions import VerisoError, VerisoErrorWithBar
 
+from base.utils.utils import get_absolute_path
+
 
 class LoadLayer(QObject):
     def __init__(self, iface):
@@ -125,16 +127,11 @@ class LoadLayer(QObject):
         try:
             style = str(layer_definition["style"])
             if style.startswith('global_qml'):
-                qml_dir = "/python/plugins/veriso/"
+                qml_path = style
             else:
-                qml_dir = "/python/plugins/veriso/modules/%s/qml/" % \
-                          module_name
-            qml_path = QDir.convertSeparators(QDir.cleanPath(
-                    QgsApplication.qgisSettingsDirPath() +
-                    qml_dir + style))
+                qml_path = "modules/%s/qml/%s" % (module_name, style)
 
-            qml = QDir.convertSeparators(QDir.cleanPath(qml_path))
-            loaded_layer.loadNamedStyle(qml)
+            loaded_layer.loadNamedStyle(get_absolute_path(qml_path))
         except KeyError:
             # layer["style"] doesn't exist
             pass

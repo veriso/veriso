@@ -6,11 +6,11 @@ import subprocess
 from builtins import next
 from collections import OrderedDict
 from qgis.PyQt.uic import loadUiType
-from qgis.PyQt.QtCore import QSettings, QCoreApplication
+from qgis.PyQt.QtCore import QSettings, QCoreApplication, QDir
 from qgis.PyQt.QtSql import QSqlDatabase, QSqlQuery
 
-from qgis.core import QgsMessageLog
-from veriso.base.utils.exceptions import VerisoError
+from qgis.core import QgsMessageLog, QgsApplication
+from veriso.base.utils.exceptions import VerisoError, VerisoErrorWithBar
 
 
 def dynamic_import(module_name):
@@ -340,3 +340,19 @@ def db_user_has_role(username, rolenames, require_all_roles=False):
         return bool(query.size())
     except:
         return False
+
+
+def get_absolute_path(path):
+    path = "/python/plugins/veriso/%s" % path
+    filename = QDir.convertSeparators(QDir.cleanPath(
+            QgsApplication.qgisSettingsDirPath() + path))
+    if not os.path.isfile(filename):
+        filename = QDir.convertSeparators(QDir.cleanPath(
+                QgsApplication.pkgDataPath() + path))
+
+    # the plugin is not in the .qgis2 folder
+    # lets try in the qgis installation folder (for central installation
+    # on servers)
+    if not os.path.isfile(filename):
+        raise VerisoErrorWithBar('File not found at %s' % filename)
+    return filename

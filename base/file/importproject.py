@@ -18,8 +18,9 @@ from veriso.base.utils.utils import (open_psql_db, open_sqlite_db,
                                      get_projects_db, get_modules_dir,
                                      yaml_load_file, tr,
                                      get_subdirs, jre_version, get_ui_class,
-                                     db_user_has_role)
-from veriso.base.utils.exceptions import VerisoError, VerisoErrorWithBar
+                                     db_user_has_role, get_absolute_path)
+from veriso.base.utils.exceptions import VerisoError
+
 
 FORM_CLASS = get_ui_class('importproject.ui')
 
@@ -603,10 +604,8 @@ class ImportProjectDialog(QDialog, FORM_CLASS):
             # Create a new projects database if there is none (copy one from
             # the templates).
             if self.projects_database == "":
-                template = QDir.convertSeparators(QDir.cleanPath(
-                        QgsApplication.qgisSettingsDirPath() +
-                        "/python/plugins/veriso/templates/template_projects"
-                        ".db"))
+                template = get_absolute_path(
+                        "veriso/templates/template_projects.db")
                 self.projects_database = QDir.convertSeparators(QDir.cleanPath(
                         self.projects_root_directory + "/projects.db"))
                 shutil.copyfile(template, self.projects_database)
@@ -719,21 +718,8 @@ class ImportProjectDialog(QDialog, FORM_CLASS):
           False: If the queries could not be fetched from the sqlite
           database. Otherwise a list with the SQL queries.
         """
-        path = "/python/plugins/veriso/modules/%s/postprocessing" \
-               "/postprocessing.db" % self.app_module
-
-        filename = QDir.convertSeparators(QDir.cleanPath(
-                QgsApplication.qgisSettingsDirPath() + path))
-        if not os.path.isfile(filename):
-            filename = QDir.convertSeparators(QDir.cleanPath(
-                    QgsApplication.pkgDataPath() + path))
-
-        # the plugin is not in the .qgis2 folder
-        # lets try in the qgis installation folder (for central installation
-        # on servers)
-        if not os.path.isfile(filename):
-            raise VerisoErrorWithBar('postprocessing.db file missing at %s' %
-                                     filename)
+        path = "modules/%s/postprocessing/postprocessing.db" % self.app_module
+        filename = get_absolute_path(path)
 
         self.report_progress("Info: getting postprocessing queries...")
 
