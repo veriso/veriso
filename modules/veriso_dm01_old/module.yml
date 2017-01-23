@@ -1,0 +1,11 @@
+---
+displayname: VeriBE (dm01)
+ilimodels:
+- ilimodel: DM01AVBE11D
+  referenceframe: LV03
+  epsg: '21781'
+- ilimodel: DM01AVBE11LV95D
+  referenceframe: LV95
+  epsg: '2056'
+can_configure_max_scale_role:
+  - agi

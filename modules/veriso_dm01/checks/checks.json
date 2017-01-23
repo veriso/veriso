@@ -75,6 +75,13 @@
             "fr":"Adresses des batiments"
          },
          "file":"topic_gebaeudeadressen"
+      },
+      {  
+         "topic":{  
+            "de":"GRUDA-AV",
+            "fr":"GRUDA-MO"
+         },
+         "file":"topic_gruda"
       }
 
    ]

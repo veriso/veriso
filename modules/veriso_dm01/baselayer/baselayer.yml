@@ -11,28 +11,28 @@ baselayer:
   title:
     de: Uebersichtsplan
     fr: Plan d'ensemble numérique
-  url: http://www.geoservice.apps.be.ch/geoservice/services/a4p/a4p_basiswms_d_fk_s/MapServer/WMSServer?
+  url: http://www.geoservice.apps.be.ch/geoservice2/services/a42geo/a42geo_basiswms_d_fk/MapServer/WMSServer?
   layers: GEODB.UP5_SITU5_MOSAIC
   format: image/png
 - type: wms
   title:
     de: Bauzonen UZP
     fr: 'Zones à bâtir UZP '
-  url: http://www.geoservice.apps.be.ch/geoservice/services/a4p/a4p_planungwms_d_fk_s/MapServer/WMSServer?
+  url: http://www.geoservice.apps.be.ch/geoservice2/services/a42geo/a42geo_planungwms_d_fk/MapServer/WMSServer?
   layers: GEODB.UZP_BAU_det
   format: image/png
 - type: wms
   title:
     de: Gewässer des Kantons Bern
     fr: Eaux du canton de Berne
-  url: http://www.geoservice.apps.be.ch/geoservice/services/a4p/a4p_gewaesserwms_d_fk_s/MapServer/WMSServer?
+  url: http://www.geoservice.apps.be.ch/geoservice2/services/a42geo/a42geo_gewaesserwms_d_fk/MapServer/WMSServer?
   layers: GEODB.GN5_GN5ROUTE_B,GEODB.GN5_DOLUNG,GEODB.GN5_GN5ROUTE
   format: image/png
 - type: wms
   title:
     de: Wanderwege
     fr: 'itinéraires de randonnée pédestre '
-  url: http://www.geoservice.apps.be.ch/geoservice/services/a4p/a4p_transportwms_d_fk_s/MapServer/WMSServer?
+  url: http://www.geoservice.apps.be.ch/geoservice2/services/a42geo/a42geo_transportwms_d_fk/MapServer/WMSServer?
   layers: GEODB.WANDERNS_WEGE
   format: image/png
 - type: wms
@@ -69,8 +69,8 @@ baselayer:
   style: baselayer/swissimage_50.qml
 - type: wms
   title:
-    de: Relief
-    fr: Relief
+    de: Relief (swisstopo)
+    fr: Relief (swisstopo)
   url: http://wms.swisstopo.admin.ch/wss/httpauth/swisstopowms?
   username: nikolaus.graessle@bve.be.ch
   password: veriso
@@ -91,42 +91,42 @@ baselayer:
   title:
     de: AV Bodenbed.
     fr: MO couverture du sol
-  url: http://www.geoservice.apps.be.ch/geoservice/services/a4p/a4p_avrwms_d_fk_s/MapServer/WMSServer?
+  url: http://www.geoservice.apps.be.ch/geoservice2/services/a42geo/a42geo_avrwms_d_fk/MapServer/WMSServer?
   layers: Bodenbedeckung farbig
   format: image/jpeg
 - type: wms
   title:
     de: AV EO Flaechen.
     fr: MO objets divers surfacique
-  url: http://www.geoservice.apps.be.ch/geoservice/services/a4p/a4p_avrwms_d_fk_s/MapServer/WMSServer?
+  url: http://www.geoservice.apps.be.ch/geoservice2/services/a42geo/a42geo_avrwms_d_fk/MapServer/WMSServer?
   layers: Einzelobjekte Flaeche
   format: image/png
 - type: wms
   title:
     de: AV EO Linien.
     fr: MO objets divers lineaire
-  url: http://www.geoservice.apps.be.ch/geoservice/services/a4p/a4p_avrwms_d_fk_s/MapServer/WMSServer?
+  url: http://www.geoservice.apps.be.ch/geoservice2/services/a42geo/a42geo_avrwms_d_fk/MapServer/WMSServer?
   layers: Einzelobjekte Linien
   format: image/png
 - type: wms
   title:
     de: AV Liegenschaften
     fr: MO Inmeuble
-  url: http://www.geoservice.apps.be.ch/geoservice/services/a4p/a4p_avrwms_d_fk_s/MapServer/WMSServer?
+  url: http://www.geoservice.apps.be.ch/geoservice2/services/a42geo/a42geo_avrwms_d_fk/MapServer/WMSServer?
   layers: Liegenschaften
   format: image/png
 - type: wms
   title:
     de: AV SDR
     fr: MO DDP
-  url: http://www.geoservice.apps.be.ch/geoservice/services/a4p/a4p_avrwms_d_fk_s/MapServer/WMSServer?
+  url: http://www.geoservice.apps.be.ch/geoservice2/services/a42geo/a42geo_avrwms_d_fk/MapServer/WMSServer?
   layers: SDRechte
   format: image/png
 - type: wms
   title:
     de: AV Geb.-Adr.
     fr: MO Adresse postale
-  url: http://www.geoservice.apps.be.ch/geoservice/services/a4p/a4p_avrwms_d_fk_s/MapServer/WMSServer?
+  url: http://www.geoservice.apps.be.ch/geoservice2/services/a42geo/a42geo_avrwms_d_fk/MapServer/WMSServer?
   layers: Gebaeudeadressen
   format: image/png
 - type: wms
@@ -136,4 +136,3 @@ baselayer:
   url: http://wms.geo.admin.ch/?
   layers: ch.swisstopo-vd.ortschaftenverzeichnis_plz
   format: image/jpeg
-
