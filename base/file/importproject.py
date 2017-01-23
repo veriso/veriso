@@ -605,7 +605,7 @@ class ImportProjectDialog(QDialog, FORM_CLASS):
             # the templates).
             if self.projects_database == "":
                 template = get_absolute_path(
-                        "veriso/templates/template_projects.db")
+                        "templates/template_projects.db")
                 self.projects_database = QDir.convertSeparators(QDir.cleanPath(
                         self.projects_root_directory + "/projects.db"))
                 shutil.copyfile(template, self.projects_database)
