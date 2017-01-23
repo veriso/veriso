@@ -209,13 +209,14 @@ def open_sqlite_db(file_path, connection_name):
     :rtype: QSqlDatabase
     """
 
-    print (connection_name, file_path)
+    print (connection_name, file_path, QSqlDatabase.connectionNames())
     try:
         if connection_name in QSqlDatabase.connectionNames():
             db = QSqlDatabase.database(connection_name)
         else:
             db = QSqlDatabase.addDatabase("QSQLITE", connection_name)
             db.setDatabaseName(file_path)
+            print 1234567
 
         if not db.open():
             raise Exception("DB NOT OPEN")

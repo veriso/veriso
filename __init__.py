@@ -42,10 +42,8 @@ def check_compat():
     plugin_name = os.path.dirname(__file__).split(os.path.sep)[-1]
     plugin_name = qgis.utils.pluginMetadata(plugin_name, 'name')
     try:
-        print(1234567890)
         # qgis.PyQt is available in QGIS >=2.14
         from qgis.PyQt.QtCore import qVersion
-        print(qVersion())
         # qgis.utils.QGis is available in QGIS < 3
         if hasattr(qgis.utils, 'QGis'):
             import qgis2compat.apicompat
