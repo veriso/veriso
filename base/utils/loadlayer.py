@@ -6,11 +6,9 @@ from qgis.core import QgsApplication, QgsDataSourceURI, QgsMapLayerRegistry, \
 
 from qgis.gui import QgsMessageBar
 
-from veriso.base.utils.utils import tr
+from veriso.base.utils.utils import tr, get_absolute_path
 
-from veriso.base.utils.exceptions import VerisoError, VerisoErrorWithBar
-
-from base.utils.utils import get_absolute_path
+from veriso.base.utils.exceptions import VerisoErrorWithBar
 
 
 class LoadLayer(QObject):
