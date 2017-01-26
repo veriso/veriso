@@ -53,7 +53,7 @@ class ComplexCheck(ComplexCheckBase):
             layer["sql"] = ""
             layer["readonly"] = True
             layer["group"] = group    
-            layer["style"] = "tseinteilung/toleranzstufe.qml"
+            layer["style"] = "tseinteilung/toleranzstufe" + locale + ".qml"
             vlayer = self.layer_loader.load(layer, False, True)
 
 

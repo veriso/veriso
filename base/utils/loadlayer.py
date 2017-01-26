@@ -1,7 +1,7 @@
 # coding=utf-8
 from builtins import str
-from qgis.PyQt.QtCore import QDir, QObject, QSettings, Qt
-from qgis.core import QgsApplication, QgsDataSourceURI, QgsMapLayerRegistry, \
+from qgis.PyQt.QtCore import QObject, QSettings, Qt
+from qgis.core import QgsDataSourceURI, QgsMapLayerRegistry, \
     QgsMessageLog, QgsProject, QgsRasterLayer, QgsVectorLayer
 
 from qgis.gui import QgsMessageBar
