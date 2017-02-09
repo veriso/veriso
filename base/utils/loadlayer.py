@@ -33,8 +33,6 @@ class LoadLayer(QObject):
         try:
             loaded_layer = self._load(epsg, layer_definition)
 
-            self.set_style(module_name, loaded_layer, layer_definition)
-            self.set_transparency(loaded_layer, layer_definition)
 
             if not loaded_layer.isValid():
                 # str(layer['title']) throws some ascii out of range error...
@@ -98,7 +96,6 @@ class LoadLayer(QObject):
                     # "Direkt(er)"
                     """
                     my_layer_node = my_group_node.insertLayer(0, loaded_layer)
-
                 else:
                     QgsMapLayerRegistry.instance().addMapLayer(loaded_layer,
                                                                False)
@@ -113,6 +110,9 @@ class LoadLayer(QObject):
                     my_layer_node.setExpanded(False)
                 else:
                     my_layer_node.setExpanded(True)
+
+                self.set_style(module_name, loaded_layer, layer_definition)
+                self.set_transparency(loaded_layer, layer_definition)
 
             return loaded_layer
         except VerisoErrorWithBar:
