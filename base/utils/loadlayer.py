@@ -33,9 +33,6 @@ class LoadLayer(QObject):
         try:
             loaded_layer = self._load(epsg, layer_definition)
 
-            self.set_style(module_name, loaded_layer, layer_definition)
-            self.set_transparency(loaded_layer, layer_definition)
-
             if not loaded_layer.isValid():
                 # str(layer['title']) throws some ascii out of range error...
                 error = layer_definition['title'] + tr(" is not valid layer.")
@@ -114,6 +111,9 @@ class LoadLayer(QObject):
                 else:
                     my_layer_node.setExpanded(True)
 
+            self.set_style(module_name, loaded_layer, layer_definition)
+            self.set_transparency(loaded_layer, layer_definition)
+
             return loaded_layer
         except VerisoErrorWithBar:
             return
@@ -132,7 +132,6 @@ class LoadLayer(QObject):
             qml_path = QDir.convertSeparators(QDir.cleanPath(
                     QgsApplication.qgisSettingsDirPath() +
                     qml_dir + style))
-
             qml = QDir.convertSeparators(QDir.cleanPath(qml_path))
             loaded_layer.loadNamedStyle(qml)
         except KeyError:
