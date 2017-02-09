@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>DefectListDock</class>
+ <widget class="QDockWidget" name="DefectListDock">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>547</width>
+    <height>481</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Check results</string>
+  </property>
+  <widget class="QWidget" name="dockWidgetContents">
+   <layout class="QVBoxLayout" name="verticalLayout">
+    <item>
+     <layout class="QHBoxLayout" name="horizontalLayout">
+      <item>
+       <widget class="QTreeWidget" name="treeWidget">
+        <column>
+         <property name="text">
+          <string>Nome</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>Descrizione</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>Risultato</string>
+         </property>
+        </column>
+        <item>
+         <property name="text">
+          <string>Vincolo_01</string>
+         </property>
+         <property name="text">
+          <string>Devono esserci dati nel file Interlis</string>
+         </property>
+         <property name="background">
+          <brush brushstyle="NoBrush">
+           <color alpha="255">
+            <red>239</red>
+            <green>41</green>
+            <blue>41</blue>
+           </color>
+          </brush>
+         </property>
+         <property name="text">
+          <string>Fallito</string>
+         </property>
+         <property name="background">
+          <brush brushstyle="SolidPattern">
+           <color alpha="255">
+            <red>239</red>
+            <green>41</green>
+            <blue>41</blue>
+           </color>
+          </brush>
+         </property>
+         <item>
+          <property name="text">
+           <string>Check</string>
+          </property>
+          <property name="text">
+           <string>tgeo_zona_base_poligono contiene dati</string>
+          </property>
+          <property name="text">
+           <string>OK</string>
+          </property>
+          <property name="background">
+           <brush brushstyle="SolidPattern">
+            <color alpha="255">
+             <red>138</red>
+             <green>226</green>
+             <blue>52</blue>
+            </color>
+           </brush>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Check</string>
+          </property>
+          <property name="text">
+           <string>tgeo_zona_sovrapposta_poligono contiene dati</string>
+          </property>
+          <property name="text">
+           <string>OK</string>
+          </property>
+          <property name="background">
+           <brush brushstyle="SolidPattern">
+            <color alpha="255">
+             <red>138</red>
+             <green>226</green>
+             <blue>52</blue>
+            </color>
+           </brush>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Check</string>
+          </property>
+          <property name="text">
+           <string>tgeo_elemento_linea contiene dati</string>
+          </property>
+          <property name="text">
+           <string>Fallito</string>
+          </property>
+          <property name="background">
+           <brush brushstyle="SolidPattern">
+            <color alpha="255">
+             <red>239</red>
+             <green>41</green>
+             <blue>41</blue>
+            </color>
+           </brush>
+          </property>
+         </item>
+        </item>
+       </widget>
+      </item>
+     </layout>
+    </item>
+   </layout>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

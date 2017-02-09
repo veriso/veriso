@@ -41,6 +41,7 @@ from qgis.core import QgsProject
 from qgis.gui import QgsMessageBar
 
 from veriso.modules.tools.defects_list import DefectsListDock
+from veriso.modules.tools.check_results import CheckResultsDock
 from veriso.base.utils.utils import tr, get_projects, dynamic_import
 
 
@@ -90,6 +91,9 @@ class VeriSO(object):
 
         # Prepare defects list dock
         self._create_defects_list_dock()
+
+        #Prepare check results dock
+        self._create_check_results_dock()
 
         # Qt offers some themes which you also can change in QGIS settings.
         # Since the background color of the menu toolbar can be different than
@@ -306,6 +310,7 @@ class VeriSO(object):
             self.defects_list_dock.setVisible(True)
             self.defects_list_dock.raise_()
 
+
     def _create_defects_list_dock(self):
         """Create dockwidget and tabify it with the legend."""
 
@@ -318,3 +323,13 @@ class VeriSO(object):
                 legend_tab, self.defects_list_dock)
         self.defects_list_dock.setVisible(True)
         self.defects_list_dock.raise_()
+
+    def _create_check_results_dock(self):
+        '''Create check results dockwidget'''
+        self.CheckResultsDock = CheckResultsDock(self.iface)
+        self.CheckResultsDock.setObjectName('CheckResultsDock')
+        self.iface.addDockWidget(Qt.RightDockWidgetArea, self.CheckResultsDock)
+        self.CheckResultsDock.clear_results()
+        self.CheckResultsDock.setVisible(True)
+        self.CheckResultsDock.raise_()
+
