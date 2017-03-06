@@ -261,10 +261,10 @@ class ComplexCheck(ComplexCheckBase):
 
             text_item_found = False
             items = self.iface.mapCanvas().scene().items()
-            for i in range (len(items)):
+            for i in range(len(items)):
                 try:
-                    name =  items[i].data(0)
-                    if name.toString() == "LokalisationsInfo":
+                    name = items[i].data(0)
+                    if str(name) == "LokalisationsInfo":
                         text_item = items[i]
                         text_item_found = True
                 except Exception, e:
