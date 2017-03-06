@@ -48,6 +48,8 @@ class OptionsDialog(QDialog, FORM_CLASS):
                 self.settings.value("options/general/projects_database"))
         self.lineEditProjectsRootDir.setText(
                 self.settings.value("options/general/projects_root_directory"))
+        self.chkTopicsTablesMenu.setChecked(self.settings.value(
+                "options/general/topics_tables_menu", False, type=bool))
 
         self.lineEditImportJar.setText(
                 self.settings.value("options/import/jar"))
@@ -195,6 +197,9 @@ class OptionsDialog(QDialog, FORM_CLASS):
 
         self.settings.setValue("options/general/projects_root_directory",
                                self.lineEditProjectsRootDir.text().strip())
+
+        self.settings.setValue("options/general/topics_tables_menu",
+                               self.chkTopicsTablesMenu.isChecked())
 
         self.settings.setValue("options/import/jar",
                                self.lineEditImportJar.text().strip())

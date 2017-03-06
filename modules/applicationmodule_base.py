@@ -59,9 +59,10 @@ class ApplicationModuleBase(QObject):
         self.do_init_checks_menu()
         self.do_init_defects_menu()
         self.defects_list_dock.clear()
-        # TODO (MB) is this really the requirement?
-        # Entfernen des Reiters "Tables"
-        # self.do_init_topics_tables_menu()
+        show_topic_tables_menu = QSettings("CatAIS", "VeriSO").value(
+                "options/general/topics_tables_menu", False, type=bool)
+        if show_topic_tables_menu:
+            self.do_init_topics_tables_menu()
         self.do_init_baselayer_menu()
 
     def do_init_checks_menu(self):
