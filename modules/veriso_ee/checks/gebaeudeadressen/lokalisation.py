@@ -332,9 +332,9 @@ class ComplexCheck(ComplexCheckBase):
                 inaenderung = feature.attributes()[inaenderung_idx]
                 art = feature.attributes()[art_idx]
 
-                map_extent = self.canvas.extent()
-                x = map_extent.xMinimum()
-                y = map_extent.yMaximum()
+            map_extent = self.canvas.extent()
+            x = map_extent.xMinimum()
+            y = map_extent.yMaximum()
 
             text_item_found = False
             items = list(self.iface.mapCanvas().scene().items())
