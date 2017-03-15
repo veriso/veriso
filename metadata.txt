@@ -11,7 +11,7 @@ name=VeriSO
 qgisMinimumVersion=2.8
 qgisMaximumVersion=3.99
 description=Verification application module for Interlis data.
-version=0.4
+version=0.5
 author=Stefan Ziegler and OPENGIS.ch
 email=info@opengis.ch
 
