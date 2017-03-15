@@ -26,18 +26,15 @@ from __future__ import absolute_import
 
 import os.path
 
-import time
-
 try:
     from builtins import object, str
 except ImportError:
     raise ImportError('Please install the python future package')
 from qgis.PyQt.QtCore import (QCoreApplication, Qt, QSettings, QTranslator,
                               qVersion)
-from qgis.PyQt.QtGui import QApplication, QPalette, QWidget
+from qgis.PyQt.QtGui import QApplication, QPalette
 from qgis.PyQt.QtWidgets import QAction, QMenu, QMenuBar, QSizePolicy
 
-from qgis.core import QgsProject
 from qgis.gui import QgsMessageBar
 
 from veriso.modules.tools.defects_list import DefectsListDock
@@ -310,7 +307,6 @@ class VeriSO(object):
             self.defects_list_dock.setVisible(True)
             self.defects_list_dock.raise_()
 
-
     def _create_defects_list_dock(self):
         """Create dockwidget and tabify it with the legend."""
 
@@ -325,7 +321,8 @@ class VeriSO(object):
         self.defects_list_dock.raise_()
 
     def _create_check_results_dock(self):
-        '''Create check results dockwidget'''
+        """Create check results dockwidget"""
+
         self.CheckResultsDock = CheckResultsDock(self.iface)
         self.CheckResultsDock.setObjectName('CheckResultsDock')
         self.iface.addDockWidget(Qt.RightDockWidgetArea, self.CheckResultsDock)
