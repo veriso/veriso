@@ -25,6 +25,7 @@ class ApplicationModule(ApplicationModuleBase):
                         'readonly': True,
                         'config': {"Editable": False}},
             'topic': {'widget': 'Enumeration',
+                      'default': 'Bodenbedeckung',
                       'alias': 'Topic:'},
             'bezeichnung': {
                 'widget': 'Enumeration',
@@ -33,8 +34,9 @@ class ApplicationModule(ApplicationModuleBase):
                 },
             'bemerkung': {
                 'widget': 'TextEdit',
+                'default': 'Meine super bemerkung',
                 'alias': 'Bemekung:',
-                'config': {"IsMultiline": True}
+                    'config': {"IsMultiline": True}
             },
             'datum': {'widget': 'Hidden'},
             'bemerkung_nfg': {

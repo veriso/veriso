@@ -5,7 +5,7 @@ import traceback
 from builtins import str
 from qgis.PyQt.QtCore import QObject, QSettings
 from qgis.PyQt.QtWidgets import QApplication
-from qgis.core import QgsProject, QgsVectorLayer
+from qgis.core import QgsProject, QgsVectorLayer, QgsEditFormConfig
 from qgis.gui import QgsMessageBar
 
 from veriso.base.utils.loadlayer import LoadLayer
@@ -129,9 +129,25 @@ class LoadDefectsBase(QObject):
         return loaded_layers
 
     def _load_defect_layer(self, layer):
+
+        combo_box_code = ("    if {0}.currentIndex() == -1:\n"
+                          "        i = {0}.findText('{1}')\n"
+                          "        {0}.setCurrentIndex(i)\n")
+        line_edit_code = ("    if {0}.text() in ['', 'NULL']:\n"
+                          "        {0}.setText('{1}')\n")
+        text_edit_code = ("    if {0}.toPlainText() in ['', 'NULL']:\n"
+                          "        {0}.setPlainText('{1}')\n")
+        widget_type_map = {'Enumeration': ['QComboBox', combo_box_code],
+                           'TextEdit': ['QLineEdit', line_edit_code],
+                           'PlainTextEdit': ['QPlainTextEdit', text_edit_code]}
+
+        code_imports = []
+        generated_code = ''
+
         loaded_layer = self.layer_loader.load(layer)
         if loaded_layer:
             loaded_layer.setEditorLayout(QgsVectorLayer.GeneratedLayout)
+            edit_form_config = loaded_layer.editFormConfig()
             for field_name in layer['fields']:
                 field = layer['fields'][field_name]
                 idx = loaded_layer.fieldNameIndex(field_name)
@@ -141,9 +157,39 @@ class LoadDefectsBase(QObject):
 
                 if 'widget' in field:
                     loaded_layer.setEditorWidgetV2(
-                            idx, tr(field['widget']))
+                            idx, field['widget'])
+                if 'default' in field:
+
+                    try:
+                        loaded_layer.setDefaultValueExpression(
+                                idx, "'%s'" % field['default'])
+                    except AttributeError:
+
+                        if field['widget'] in widget_type_map:
+                            widget = field['widget']
+                            try:
+                                multiline = field['config']['IsMultiline']
+                            except KeyError:
+                                multiline = False
+                            if multiline:
+                                widget = 'PlainTextEdit'
+                            widget_type = widget_type_map[widget][0]
+                            widget_code = widget_type_map[widget][1]
+                            if widget_type not in code_imports:
+                                code_imports.append(widget_type)
+
+                            widget_name = 'widget_{}'.format(field_name)
+                            default_value = field['default']
+                            code = ("    {0} = dialog.findChild({1}, '{2}')\n".format(widget_name,
+                                                      widget_type,
+                                                      field_name))
+
+                            code += widget_code.format(
+                                    widget_name, default_value)
+                            generated_code += code
+
                 if 'readonly' in field:
-                    loaded_layer.editFormConfig().setReadOnly(
+                    edit_form_config.setReadOnly(
                             idx, field['readonly'])
                 if 'config' in field:
                     # See gui/editorwidgets/ for all the parameters.
@@ -151,6 +197,30 @@ class LoadDefectsBase(QObject):
                 if 'writable_only_by' in field:
                     if not db_user_has_role(
                             self.dbuser, field['writable_only_by']):
-                        loaded_layer.editFormConfig().setReadOnly(idx, True)
+                        edit_form_config.setReadOnly(idx, True)
+
+            if code_imports:
+                code = ("# -*- coding: utf-8 -*-\n"
+                        "from PyQt4.QtGui import %s\n"
+                        "def form_open(dialog, layer, feature):\n")\
+                       % ', '.join(code_imports)
+                code += generated_code
+                edit_form_config.setInitFunction('form_open')
+                edit_form_config.setInitCode(code)
+                edit_form_config.setInitCodeSource(
+                        QgsEditFormConfig.CodeSourceDialog)
 
             return loaded_layer
+
+
+from PyQt4.QtGui import QLineEdit, QComboBox
+
+
+def form_open(dialog, layer, feature):
+    widget_bemerkung = dialog.findChild(QLineEdit, 'bemerkung')
+    if widget_bemerkung or widget_bemerkung.text() == 'NULL':
+        widget_bemerkung.setText('Meine super bemerkung')
+    widget_topic = dialog.findChild(QComboBox, 'topic')
+    if widget_topic.currentIndex() == -1:
+        i = widget_topic.findText('Bodenbedeckung')
+        widget_topic.setCurrentIndex(i)
