@@ -211,16 +211,3 @@ class LoadDefectsBase(QObject):
                         QgsEditFormConfig.CodeSourceDialog)
 
             return loaded_layer
-
-
-from PyQt4.QtGui import QLineEdit, QComboBox
-
-
-def form_open(dialog, layer, feature):
-    widget_bemerkung = dialog.findChild(QLineEdit, 'bemerkung')
-    if widget_bemerkung or widget_bemerkung.text() == 'NULL':
-        widget_bemerkung.setText('Meine super bemerkung')
-    widget_topic = dialog.findChild(QComboBox, 'topic')
-    if widget_topic.currentIndex() == -1:
-        i = widget_topic.findText('Bodenbedeckung')
-        widget_topic.setCurrentIndex(i)

@@ -34,7 +34,6 @@ class ApplicationModule(ApplicationModuleBase):
                 },
             'bemerkung': {
                 'widget': 'TextEdit',
-                'default': 'Meine super bemerkung',
                 'alias': 'Bemekung:',
                     'config': {"IsMultiline": True}
             },
