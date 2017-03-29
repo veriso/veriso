@@ -1,7 +1,7 @@
 # coding=utf-8
 from __future__ import absolute_import, print_function
 
-import os
+import os, sys
 import shutil
 from builtins import next, range, str
 from qgis.PyQt.QtCore import QDateTime, QDir, QFileInfo, \
@@ -18,7 +18,8 @@ from veriso.base.utils.utils import (open_psql_db, open_sqlite_db,
                                      get_projects_db, get_modules_dir,
                                      yaml_load_file, tr,
                                      get_subdirs, jre_version, get_ui_class,
-                                     db_user_has_role, get_absolute_path)
+                                     db_user_has_role, get_absolute_path,
+                                     win_which)
 from veriso.base.utils.exceptions import VerisoError
 
 
@@ -503,7 +504,11 @@ class ImportProjectDialog(QDialog, FORM_CLASS):
         self.report_progress("Info: java %s" % ' '.join(arguments))
 
         try:
-            self.process.start("java", arguments)
+            if(sys.platform =='win32'):
+                j = win_which('java.exe')
+                self.process.start(j, arguments)
+            else:
+                self.process.start("java", arguments)
         except Exception as e:
             self.restore_cursor()
             message = "Could not start import process."
@@ -524,7 +529,10 @@ class ImportProjectDialog(QDialog, FORM_CLASS):
         self.show_output(error)
 
     def show_output(self, byte_array):
-        unicode_text = byte_array.data().decode('utf-8')
+        if(sys.platform == 'win32'):
+            unicode_text = byte_array.data().decode('ISO-8859-1')
+        else:
+            unicode_text = byte_array.data().decode('utf-8')
         self.report_progress(unicode_text)
 
     def finish_import(self, exit_code):

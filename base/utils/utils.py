@@ -1,6 +1,6 @@
 # coding=utf-8
 import importlib
-import os
+import os, sys
 import yaml
 import subprocess
 from builtins import next
@@ -292,8 +292,13 @@ def tr(message, context='VeriSO', disambig=None, encoding=None):
 
 def jre_version():
     try:
-        version = subprocess.check_output(
-            ['java', '-version'], stderr=subprocess.STDOUT)
+        if(sys.platform == 'win32'):
+            j = win_which('java.exe')
+            version = subprocess.check_output(
+                [j, '-version'], shell=True, stdin=subprocess.PIPE, stderr=subprocess.STDOUT)
+        else:
+             version = subprocess.check_output(
+                 ['java', '-version'], stderr=subprocess.STDOUT)
         return version
     except:
         return None
@@ -357,3 +362,38 @@ def get_absolute_path(path):
     if not os.path.isfile(filename):
         raise VerisoError('File not found at %s' % filename)
     return filename
+
+# This function is like the linux which command for windows
+def win_which(program):
+    def is_exe(fpath):
+        return os.path.isfile(fpath) and os.access(fpath, os.X_OK)
+    fpath, fname = os.path.split(program)
+    if fpath:
+        if is_exe(program):
+            return program
+    else:
+        for path in win_getenv_system("PATH").split(os.pathsep):
+            path = path.strip('"')
+            exe_file = os.path.join(path, program)
+            if is_exe(exe_file):
+                return exe_file
+    return None
+
+# This function gets a system variable
+# it was necessary to use this instead of os.environ["PATH"] because QGIS overwrites the path variable
+# the win32 libraries appear not to be part of the standard python install, but they are included in the 
+# python version that comes with QGIS
+def win_getenv_system(varname, default=''):
+    import win32api
+    import win32con
+    v = default
+    try:
+        rkey = win32api.RegOpenKey(win32con.HKEY_LOCAL_MACHINE, 'SYSTEM\\CurrentControlSet\\Control\\Session Manager\\Environment')
+        try:
+            v = str(win32api.RegQueryValueEx(rkey, varname)[0])
+            v = win32api.ExpandEnvironmentStrings(v)
+        except:
+            pass
+    finally:
+        win32api.RegCloseKey(rkey)
+    return v
