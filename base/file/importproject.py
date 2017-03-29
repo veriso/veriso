@@ -486,9 +486,11 @@ class ImportProjectDialog(QDialog, FORM_CLASS):
         arguments.append("ogc_fid")
         arguments.append("--importTid")
         arguments.append("--createGeomIdx")
-        #arguments.append("--createEnumTabs")
-        arguments.append("--createEnumColAsItfCode")
-        arguments.append("--createEnumTxtCol")
+        if self.app_module == 'veriti':
+            arguments.append("--createEnumTabs")
+        else:
+            arguments.append("--createEnumColAsItfCode")
+            arguments.append("--createEnumTxtCol")
         arguments.append("--nameByTopic")
         arguments.append("--strokeArcs")
         arguments.append(self.itf)
