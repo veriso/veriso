@@ -82,6 +82,8 @@ class ApplicationModuleBase(QObject):
 
         menubar = self.get_checks_menubar(check_topics)
         self.toolbar.insertWidget(self.beforeAction, menubar)
+        if(sys.platform == 'darwin'):
+            self.menubar.setNativeMenuBar(False)
 
     def get_checks_menubar(self, check_topics):
         menubar = QMenuBar(self.toolbar)
@@ -208,6 +210,8 @@ class ApplicationModuleBase(QObject):
 
         menubar.addMenu(menu)
         self.toolbar.insertWidget(self.beforeAction, menubar)
+        if(sys.platform == 'darwin'):
+            self.menubar.setNativeMenuBar(False)
 
     def do_show_baselayer(self, layer):
         """Load a baselayer into map canvas.
@@ -271,6 +275,8 @@ class ApplicationModuleBase(QObject):
 
         menubar.addMenu(menu)
         self.toolbar.insertWidget(self.beforeAction, menubar)
+        if(sys.platform == 'darwin'):
+            self.menubar.setNativeMenuBar(False)
 
     def do_show_single_topic_layer(self, layer):
         """Loads an interlis table from the database

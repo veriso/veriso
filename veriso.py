@@ -30,6 +30,8 @@ try:
     from builtins import object, str
 except ImportError:
     raise ImportError('Please install the python future package')
+
+import sys
 from qgis.PyQt.QtCore import (QCoreApplication, Qt, QSettings, QTranslator,
                               qVersion)
 from qgis.PyQt.QtGui import QApplication, QPalette
@@ -186,7 +188,14 @@ class VeriSO(object):
         self.toolbar.addWidget(self.menubar_defects)
         self.toolbar.addWidget(self.menubar_settings)
 
-
+        # for OSX compatibility. Without setNativeMenuBar(False) the veriso menu
+        # will not appear
+        if(sys.platform == 'darwin'):
+            self.menubar_projects.setNativeMenuBar(False)
+            self.menubar_file.setNativeMenuBar(False)
+            self.menubar_defects.setNativeMenuBar(False)
+            self.menubar_settings.setNativeMenuBar(False)
+            
         # Initial load of project menu entries.
         self.do_load_projects_database()
 
