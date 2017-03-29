@@ -69,6 +69,7 @@ class VeriSO(object):
         self.menubar_file = None
         self.menu_file = None
         self.import_project = None
+        self.export_project = None
         self.delete_project = None
         self.menubar_settings = None
         self.menu_projects = None
@@ -78,6 +79,7 @@ class VeriSO(object):
         self.defects_list_action = None
         self.options = None
         self.import_dlg = None
+        self.export_dlg = None
         self.delete_dlg = None
         self.options_dlg = None
         self.max_scale = None
@@ -137,10 +139,13 @@ class VeriSO(object):
         self.import_project = QAction(tr("Import project"),
                                       self.iface.mainWindow())
         self.import_project.triggered.connect(self.do_import_project)
+        self.export_project = QAction(tr("Export project"),
+                                      self.iface.mainWindow())
+        self.export_project.triggered.connect(self.do_export_project)
         self.delete_project = QAction(tr("Delete project"),
                                       self.iface.mainWindow())
         self.delete_project.triggered.connect(self.do_delete_project)
-        self.menu_file.addActions([self.import_project, self.delete_project])
+        self.menu_file.addActions([self.import_project, self.export_project, self.delete_project])
         self.menubar_file.addMenu(self.menu_file)
 
         # defects
@@ -191,6 +196,14 @@ class VeriSO(object):
         if self.import_dlg.init_gui():
             self.import_dlg.show()
             self.import_dlg.projectsDatabaseHasChanged.connect(
+                    self.do_load_projects_database)
+
+    def do_export_project(self):
+        from .base.file.exportproject import ExportProjectDialog
+        self.export_dlg = ExportProjectDialog(self.iface)
+        if self.export_dlg.init_gui():
+            self.export_dlg.show()
+            self.export_dlg.projectsDatabaseHasChanged.connect(
                     self.do_load_projects_database)
 
     def do_delete_project(self):
