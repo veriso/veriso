@@ -17,7 +17,7 @@
    <item>
     <widget class="QGroupBox" name="groupBox">
      <property name="title">
-      <string>Import data </string>
+      <string>Export data </string>
      </property>
      <property name="flat">
       <bool>false</bool>

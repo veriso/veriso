@@ -122,6 +122,9 @@ class VeriSO(object):
         self.toolbar.setSizePolicy(
                 QSizePolicy(QSizePolicy.Minimum, QSizePolicy.Minimum))
 
+        if(sys.platform == 'darwin'):
+            foobar = QMenuBar()
+
         # projects
         self.menubar_projects = QMenuBar()
         self.menubar_projects.setObjectName("VeriSO.Main.ProjectsMenuBar")
@@ -183,6 +186,8 @@ class VeriSO(object):
         self.menubar_settings.addMenu(self.menu_settings)
 
         # Add menus to toolbar.
+        if(sys.platform == 'darwin'):
+            self.toolbar.addWidget(foobar)
         self.toolbar.addWidget(self.menubar_projects)
         self.toolbar.addWidget(self.menubar_file)
         self.toolbar.addWidget(self.menubar_defects)
