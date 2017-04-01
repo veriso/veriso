@@ -364,6 +364,7 @@ def get_absolute_path(path):
     return filename
 
 # This function is like the linux which command for windows
+# http://gis.stackexchange.com/questions/107204/system-variable-path-overwritten-in-qgis/156510#156510
 def win_which(program):
     def is_exe(fpath):
         return os.path.isfile(fpath) and os.access(fpath, os.X_OK)

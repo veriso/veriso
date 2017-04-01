@@ -5,7 +5,8 @@ import os, sys
 import shutil
 from builtins import next, range, str
 from qgis.PyQt.QtCore import QDateTime, QDir, QFileInfo, \
-    QProcess, QRegExp, QSettings, Qt, pyqtSignal, pyqtSignature, pyqtSlot
+    QProcess, QRegExp, QSettings, Qt, pyqtSignal, pyqtSignature, pyqtSlot, \
+    QTextCodec
 from qgis.PyQt.QtGui import QRegExpValidator
 from qgis.PyQt.QtSql import QSqlQuery
 from qgis.PyQt.QtWidgets import QApplication, QDialog, QDialogButtonBox, \
@@ -531,10 +532,10 @@ class ImportProjectDialog(QDialog, FORM_CLASS):
         self.show_output(error)
 
     def show_output(self, byte_array):
-        if(sys.platform == 'win32'):
-            unicode_text = byte_array.data().decode('ISO-8859-1')
-        else:
-            unicode_text = byte_array.data().decode('utf-8')
+
+        codec = QTextCodec.codecForLocale()
+        unicode_text = codec.toUnicode(byte_array)
+
         self.report_progress(unicode_text)
 
     def finish_import(self, exit_code):
@@ -585,10 +586,10 @@ class ImportProjectDialog(QDialog, FORM_CLASS):
             raise VerisoError(message)
 
     def create_project_directory(self):
-        """Creates a directory with the same name as the project (db schema) 
+        """Creates a directory with the same name as the project (db schema)
         in the project root directory. This will be for exports, maps etc.
         It emits a projects database changed signal.
-        
+
         Returns:
           False: If the directory could not be created. Otherwise True.
         """

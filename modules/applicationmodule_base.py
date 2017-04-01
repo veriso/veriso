@@ -65,6 +65,10 @@ class ApplicationModuleBase(QObject):
             self.do_init_topics_tables_menu()
         self.do_init_baselayer_menu()
 
+        if(sys.platform == 'darwin'):
+            self.iface.mainWindow().menuBar().setNativeMenuBar(False)
+            self.iface.mainWindow().menuBar().setNativeMenuBar(True)
+
     def do_init_checks_menu(self):
         """Initialize checks menu.
         """
@@ -162,10 +166,10 @@ class ApplicationModuleBase(QObject):
 
     def do_init_baselayer_menu(self):
         """Initialize baselayer menu:
-        
+
         Adds the menu and reads all baselayers from the yaml file
         and adds them into the menu.
-        
+
         Language support is working!
         """
         menubar = QMenuBar(self.toolbar)
@@ -215,7 +219,7 @@ class ApplicationModuleBase(QObject):
 
     def do_show_baselayer(self, layer):
         """Load a baselayer into map canvas.
-        
+
         Uses an universal 'load layer' method.
         """
         QApplication.setOverrideCursor(Qt.WaitCursor)
@@ -235,7 +239,7 @@ class ApplicationModuleBase(QObject):
         Topics and tables are sorted alphanumerically. I'm not sure if ili2pg
         saves enough
         information in the database to find out the interlis model order.
-        
+
         At the moment there is no locale support here.
         Seems to be not very handy without mapping tables anyway...
         """

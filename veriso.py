@@ -23,6 +23,7 @@
  ***************************************************************************/
 """
 from __future__ import absolute_import
+from future.utils import native
 
 import os.path
 
@@ -122,6 +123,7 @@ class VeriSO(object):
         self.toolbar.setSizePolicy(
                 QSizePolicy(QSizePolicy.Minimum, QSizePolicy.Minimum))
 
+        # trick for OSX compatibility
         if(sys.platform == 'darwin'):
             foobar = QMenuBar()
 
@@ -200,9 +202,13 @@ class VeriSO(object):
             self.menubar_file.setNativeMenuBar(False)
             self.menubar_defects.setNativeMenuBar(False)
             self.menubar_settings.setNativeMenuBar(False)
-            
+
         # Initial load of project menu entries.
         self.do_load_projects_database()
+
+        if(sys.platform == 'darwin'):
+            self.iface.mainWindow().menuBar().setNativeMenuBar(False)
+            self.iface.mainWindow().menuBar().setNativeMenuBar(True)
 
     def do_import_project(self):
         from .base.file.importproject import ImportProjectDialog
@@ -266,28 +272,32 @@ class VeriSO(object):
                             self.do_load_project(active_project))
 
     def do_load_project(self, project):
-        self.settings.setValue("project/id", str(project["id"]))
-        self.settings.setValue("project/displayname",
-                               str(project["displayname"]))
-        self.settings.setValue("project/appmodule", str(project["appmodule"]))
-        self.settings.setValue("project/appmodulename",
-                               str(project["appmodulename"]))
-        self.settings.setValue("project/ilimodelname",
-                               str(project["ilimodelname"]))
-        self.settings.setValue("project/epsg", str(project["epsg"]))
-        self.settings.setValue("project/provider", str(project["provider"]))
-        self.settings.setValue("project/dbhost", str(project["dbhost"]))
-        self.settings.setValue("project/dbport", str(project["dbport"]))
-        self.settings.setValue("project/dbname", str(project["dbname"]))
-        self.settings.setValue("project/dbschema", str(project["dbschema"]))
-        self.settings.setValue("project/dbuser", str(project["dbuser"]))
-        self.settings.setValue("project/dbpwd", str(project["dbpwd"]))
-        self.settings.setValue("project/dbadmin", str(project["dbadmin"]))
-        self.settings.setValue("project/dbadminpwd", str(project["dbadminpwd"]))
-        self.settings.setValue("project/projectdir", str(project["projectdir"]))
-        self.settings.setValue("project/max_scale", project["max_scale"])
+        # verified on osx, str(project[...]) return future.newstring, that
+        # QSettings doesn't use it correctly. With native, use of standard
+        # python string is forced.
 
-        module_name = str(project["appmodule"]).lower()
+        self.settings.setValue("project/id", native(str(project["id"])))
+        self.settings.setValue("project/displayname",
+                               native(str(project["displayname"])))
+        self.settings.setValue("project/appmodule", native(str(project["appmodule"])))
+        self.settings.setValue("project/appmodulename",
+                               native(str(project["appmodulename"])))
+        self.settings.setValue("project/ilimodelname",
+                               native(str(project["ilimodelname"])))
+        self.settings.setValue("project/epsg", native(str(project["epsg"])))
+        self.settings.setValue("project/provider", native(str(project["provider"])))
+        self.settings.setValue("project/dbhost", native(str(project["dbhost"])))
+        self.settings.setValue("project/dbport", native(str(project["dbport"])))
+        self.settings.setValue("project/dbname", native(str(project["dbname"])))
+        self.settings.setValue("project/dbschema", native(str(project["dbschema"])))
+        self.settings.setValue("project/dbuser", native(str(project["dbuser"])))
+        self.settings.setValue("project/dbpwd", native(str(project["dbpwd"])))
+        self.settings.setValue("project/dbadmin", native(str(project["dbadmin"])))
+        self.settings.setValue("project/dbadminpwd", native(str(project["dbadminpwd"])))
+        self.settings.setValue("project/projectdir", native(str(project["projectdir"])))
+        self.settings.setValue("project/max_scale", native(str(project["max_scale"])))
+
+        module_name = project["appmodule"].lower()
         try:
             module_name = "veriso.modules." + module_name + ".applicationmodule"
             module = dynamic_import(module_name)
