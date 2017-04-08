@@ -55,6 +55,7 @@ class ApplicationModuleBase(QObject):
         """Initialize all the additional menus.
         this method is the entry point when a new project is loaded
         """
+ 
         self.clean_gui()
         self.do_init_checks_menu()
         self.do_init_defects_menu()
@@ -295,8 +296,8 @@ class ApplicationModuleBase(QObject):
     def do_show_topic(self, topic):
         """Loads all interlis tables of a topic (from
         the database) into the map canvas.
-        
-        Uses an universal 'load layer' method.        
+
+        Uses an universal 'load layer' method.
         """
         layers = get_layers_from_topic(topic)
         for layer in layers:
@@ -306,7 +307,7 @@ class ApplicationModuleBase(QObject):
         """Inititializes the defects menu:
         - load defects
         - export defects
-        
+
         Export defects uses some external python excel library.
         """
         menubar = self.toolbar.findChild(

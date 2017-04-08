@@ -30,7 +30,7 @@ class ExportProjectDialog(QDialog, FORM_CLASS):
         self.okButton = self.buttonBox.button(QDialogButtonBox.Ok)
         self.okButton.setText("Export")
         self.settings = QSettings("CatAIS", "VeriSO")
-        
+
         # members
         self.modules = None
         self.app_module = None
@@ -82,7 +82,7 @@ class ExportProjectDialog(QDialog, FORM_CLASS):
             "ITF (*.itf *.ITF)")
         file_info = QFileInfo(file_path)
         self.lineEditOutputFile.setText(file_info.absoluteFilePath())
-        
+
     def accept(self):
 
         """Collecting all the stuff we need to know to start the import process.
@@ -308,7 +308,7 @@ class ExportProjectDialog(QDialog, FORM_CLASS):
         output = self.textEditExportOutput.toPlainText()
         if output.find("Info: ...export done") < 0 or output.find(
                 "compiler failed") >= 0:
-            message = "Import process not successfully finished."
+            message = "Export process not successfully finished."
             raise VerisoError(message)
 
     def report_progress(self, text, color=None):
@@ -333,8 +333,7 @@ class ExportProjectDialog(QDialog, FORM_CLASS):
             self.textEditExportOutput.appendPlainText(
                     "%s\n" % text.rstrip("\n "))
         self.textEditExportOutput.ensureCursorVisible()
-        
-        
+
     def restore_cursor(self):
         QApplication.restoreOverrideCursor()
         self.buttonBox.setEnabled(True)
