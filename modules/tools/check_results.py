@@ -6,6 +6,8 @@ from qgis.PyQt.QtCore import pyqtSlot, Qt, QObject, SIGNAL
 from qgis.core import QgsFeatureRequest
 from veriso.base.utils.utils import (get_ui_class)
 import sip
+import sys
+import traceback
 
 FORM_CLASS = get_ui_class('check_results.ui')
 
@@ -44,7 +46,6 @@ class CheckResultsDock(QDockWidget, FORM_CLASS):
         else:
             itm.setBackgroundColor(2, QColor(255, 0, 0, 127))
 
-
         self.treeWidget.addTopLevelItem(itm)
         self.result_parent = itm
 
@@ -75,3 +76,17 @@ class CheckResultsDock(QDockWidget, FORM_CLASS):
 
     def on_treeWidget_itemDoubleClicked(self, item):
         print('on_treeWidget_clicked ', item.text(0), ' ', item.text(1), '', item.text(2))
+
+        vincolo = 'veriso.modules.veriti.checks.vincoli.'
+        vincolo += item.text(0)[0].lower() + item.text(0)[1:].replace(' ', '_').strip()
+        print('vincolo ', vincolo)
+        try:
+            _temp = __import__(vincolo, globals(), locals(), ['ComplexCheck'])
+            c = _temp.ComplexCheck(self.iface)
+            c.run()
+
+        except Exception, e:
+            exc_type, exc_value, exc_traceback = sys.exc_info()
+            print('Error ', str(e))
+
+
