@@ -1,8 +1,9 @@
 from __future__ import absolute_import, print_function
 
-from qgis.PyQt.QtGui import QDockWidget, QTreeWidgetItem, QColor
-from PyQt4 import QtCore
-
+from qgis.PyQt.QtGui import QDockWidget, QTreeWidgetItem, QColor, QTreeWidget
+#from PyQt4 import QtCore
+from qgis.PyQt.QtCore import pyqtSlot, Qt, QObject, SIGNAL
+from qgis.core import QgsFeatureRequest
 from veriso.base.utils.utils import (get_ui_class)
 import sip
 
@@ -22,7 +23,7 @@ class CheckResultsDock(QDockWidget, FORM_CLASS):
         self.setupUi(self)
         self.iface = iface
         self.message_bar = self.iface.messageBar()
-        self.layer = None
+        #self.layer = None
         self._gui_elements = [
             self.treeWidget
         ]
@@ -33,7 +34,7 @@ class CheckResultsDock(QDockWidget, FORM_CLASS):
     def add_result(self, fields):
         """Add a parent result
         """
-        found_items = self.treeWidget.findItems(fields[0], QtCore.Qt.MatchExactly)
+        found_items = self.treeWidget.findItems(fields[0], Qt.MatchExactly)
         if len(found_items) > 0:
             self.treeWidget.takeTopLevelItem(self.treeWidget.indexOfTopLevelItem(found_items[0]))
 
@@ -48,6 +49,29 @@ class CheckResultsDock(QDockWidget, FORM_CLASS):
         self.result_parent = itm
 
     def add_child(self, fields):
-        """Add a child result to the last inserted parente
+        """Add a child result to the last inserted parent
         """
         QTreeWidgetItem(self.result_parent, fields)
+
+    def select_features(self, id_list):
+        # get all loaded layers
+        layers = self.iface.legendInterface().layers()
+
+        for layer in layers:
+            features_it = layer.getFeatures(
+                QgsFeatureRequest().setFilterExpression(
+                    u'"ogc_fid" in ({})'.format(
+                        ', '.join(id_list))))
+            # select the wrong features
+            layer.setSelectedFeatures([ f.id() for f in features_it ])
+
+            # set visible only the layers with wrong features
+            if layer.selectedFeatureCount():
+                self.iface.legendInterface().setLayerVisible(
+                    layer, True)
+            else:
+                self.iface.legendInterface().setLayerVisible(
+                    layer, False)
+
+    def on_treeWidget_itemDoubleClicked(self, item):
+        print('on_treeWidget_clicked ', item.text(0), ' ', item.text(1), '', item.text(2))
