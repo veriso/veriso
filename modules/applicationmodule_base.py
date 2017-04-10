@@ -250,7 +250,7 @@ class ApplicationModuleBase(QObject):
                 QSizePolicy(QSizePolicy.Minimum, QSizePolicy.Minimum))
         menu = QMenu(menubar)
         menu.setTitle(_translate(self.module, "Tables", None))
-
+        print('module', self.module)
         topics = get_topics_tables(self.module_name)
         if not topics:
             message = "Something went wrong catching the topics/tables list " \
@@ -286,7 +286,7 @@ class ApplicationModuleBase(QObject):
     def do_show_single_topic_layer(self, layer):
         """Loads an interlis table from the database
         into the map canvas.
-        
+
         Uses an universal 'load layer' method.
         """
         layer["type"] = str(self.provider)
