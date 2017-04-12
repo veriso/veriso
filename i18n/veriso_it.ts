@@ -305,6 +305,29 @@
     </message>
 </context>
 <context>
+    <name>ExportProject</name>
+    <message>
+        <location filename="Ui_exportproject.py" line="1"/>
+        <source>Export Project</source>
+        <translation>Esporta progetto</translation>
+    </message>
+    <message>
+        <location filename="Ui_exportproject.py"/>
+        <source>Export data</source>
+        <translation>Dati esportazione</translation>
+    </message>
+    <message>
+        <location filename="Ui_exportproject.py" line="1"/>
+        <source>Project:</source>
+        <translation>Progetto:</translation>
+    </message>
+    <message>
+        <location filename="Ui_exportproject.py" line="1"/>
+        <source>Browse</source>
+        <translation>Cerca</translation>
+    </message>
+</context>
+<context>
     <name>ExportDefects</name>
     <message>
         <location filename="exportdefects.py" line="46"/>
