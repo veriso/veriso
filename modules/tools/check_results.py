@@ -75,7 +75,7 @@ class CheckResultsDock(QDockWidget, FORM_CLASS):
                     layer, False)
 
     def on_treeWidget_itemDoubleClicked(self, item):
-        print('on_treeWidget_clicked ', item.text(0), ' ', item.text(1), '', item.text(2))
+        #print('on_treeWidget_clicked ', item.text(0), ' ', item.text(1), '', item.text(2))
 
         vincolo = 'veriso.modules.veriti.checks.vincoli.'
         vincolo += item.text(0)[0].lower() + item.text(0)[1:].replace(' ', '_').strip()
