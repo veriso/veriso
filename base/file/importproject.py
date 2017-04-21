@@ -489,6 +489,7 @@ class ImportProjectDialog(QDialog, FORM_CLASS):
         arguments.append("--createGeomIdx")
         if self.app_module == 'veriti':
             arguments.append("--createEnumTabs")
+            arguments.append("--createFk")
         else:
             arguments.append("--createEnumColAsItfCode")
             arguments.append("--createEnumTxtCol")
