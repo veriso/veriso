@@ -23,6 +23,7 @@
  ***************************************************************************/
 """
 from __future__ import absolute_import
+from future.utils import native
 
 import os.path
 
@@ -30,6 +31,8 @@ try:
     from builtins import object, str
 except ImportError:
     raise ImportError('Please install the python future package')
+
+import sys
 from qgis.PyQt.QtCore import (QCoreApplication, Qt, QSettings, QTranslator,
                               qVersion)
 from qgis.PyQt.QtGui import QApplication, QPalette
@@ -69,6 +72,7 @@ class VeriSO(object):
         self.menubar_file = None
         self.menu_file = None
         self.import_project = None
+        self.export_project = None
         self.delete_project = None
         self.menubar_settings = None
         self.menu_projects = None
@@ -78,6 +82,7 @@ class VeriSO(object):
         self.defects_list_action = None
         self.options = None
         self.import_dlg = None
+        self.export_dlg = None
         self.delete_dlg = None
         self.options_dlg = None
         self.max_scale = None
@@ -118,6 +123,10 @@ class VeriSO(object):
         self.toolbar.setSizePolicy(
                 QSizePolicy(QSizePolicy.Minimum, QSizePolicy.Minimum))
 
+        # trick for OSX compatibility
+        if(sys.platform == 'darwin'):
+            foobar = QMenuBar()
+
         # projects
         self.menubar_projects = QMenuBar()
         self.menubar_projects.setObjectName("VeriSO.Main.ProjectsMenuBar")
@@ -137,10 +146,13 @@ class VeriSO(object):
         self.import_project = QAction(tr("Import project"),
                                       self.iface.mainWindow())
         self.import_project.triggered.connect(self.do_import_project)
+        self.export_project = QAction(tr("Export project"),
+                                      self.iface.mainWindow())
+        self.export_project.triggered.connect(self.do_export_project)
         self.delete_project = QAction(tr("Delete project"),
                                       self.iface.mainWindow())
         self.delete_project.triggered.connect(self.do_delete_project)
-        self.menu_file.addActions([self.import_project, self.delete_project])
+        self.menu_file.addActions([self.import_project, self.export_project, self.delete_project])
         self.menubar_file.addMenu(self.menu_file)
 
         # defects
@@ -176,14 +188,27 @@ class VeriSO(object):
         self.menubar_settings.addMenu(self.menu_settings)
 
         # Add menus to toolbar.
+        if(sys.platform == 'darwin'):
+            self.toolbar.addWidget(foobar)
         self.toolbar.addWidget(self.menubar_projects)
         self.toolbar.addWidget(self.menubar_file)
         self.toolbar.addWidget(self.menubar_defects)
         self.toolbar.addWidget(self.menubar_settings)
 
+        # for OSX compatibility. Without setNativeMenuBar(False) the veriso menu
+        # will not appear
+        if(sys.platform == 'darwin'):
+            self.menubar_projects.setNativeMenuBar(False)
+            self.menubar_file.setNativeMenuBar(False)
+            self.menubar_defects.setNativeMenuBar(False)
+            self.menubar_settings.setNativeMenuBar(False)
 
         # Initial load of project menu entries.
         self.do_load_projects_database()
+
+        if(sys.platform == 'darwin'):
+            self.iface.mainWindow().menuBar().setNativeMenuBar(False)
+            self.iface.mainWindow().menuBar().setNativeMenuBar(True)
 
     def do_import_project(self):
         from .base.file.importproject import ImportProjectDialog
@@ -191,6 +216,14 @@ class VeriSO(object):
         if self.import_dlg.init_gui():
             self.import_dlg.show()
             self.import_dlg.projectsDatabaseHasChanged.connect(
+                    self.do_load_projects_database)
+
+    def do_export_project(self):
+        from .base.file.exportproject import ExportProjectDialog
+        self.export_dlg = ExportProjectDialog(self.iface)
+        if self.export_dlg.init_gui():
+            self.export_dlg.show()
+            self.export_dlg.projectsDatabaseHasChanged.connect(
                     self.do_load_projects_database)
 
     def do_delete_project(self):
@@ -239,28 +272,32 @@ class VeriSO(object):
                             self.do_load_project(active_project))
 
     def do_load_project(self, project):
-        self.settings.setValue("project/id", str(project["id"]))
-        self.settings.setValue("project/displayname",
-                               str(project["displayname"]))
-        self.settings.setValue("project/appmodule", str(project["appmodule"]))
-        self.settings.setValue("project/appmodulename",
-                               str(project["appmodulename"]))
-        self.settings.setValue("project/ilimodelname",
-                               str(project["ilimodelname"]))
-        self.settings.setValue("project/epsg", str(project["epsg"]))
-        self.settings.setValue("project/provider", str(project["provider"]))
-        self.settings.setValue("project/dbhost", str(project["dbhost"]))
-        self.settings.setValue("project/dbport", str(project["dbport"]))
-        self.settings.setValue("project/dbname", str(project["dbname"]))
-        self.settings.setValue("project/dbschema", str(project["dbschema"]))
-        self.settings.setValue("project/dbuser", str(project["dbuser"]))
-        self.settings.setValue("project/dbpwd", str(project["dbpwd"]))
-        self.settings.setValue("project/dbadmin", str(project["dbadmin"]))
-        self.settings.setValue("project/dbadminpwd", str(project["dbadminpwd"]))
-        self.settings.setValue("project/projectdir", str(project["projectdir"]))
-        self.settings.setValue("project/max_scale", project["max_scale"])
+        # verified on osx, str(project[...]) return future.newstring, that
+        # QSettings doesn't use it correctly. With native, use of standard
+        # python string is forced.
 
-        module_name = str(project["appmodule"]).lower()
+        self.settings.setValue("project/id", native(str(project["id"])))
+        self.settings.setValue("project/displayname",
+                               native(str(project["displayname"])))
+        self.settings.setValue("project/appmodule", native(str(project["appmodule"])))
+        self.settings.setValue("project/appmodulename",
+                               native(str(project["appmodulename"])))
+        self.settings.setValue("project/ilimodelname",
+                               native(str(project["ilimodelname"])))
+        self.settings.setValue("project/epsg", native(str(project["epsg"])))
+        self.settings.setValue("project/provider", native(str(project["provider"])))
+        self.settings.setValue("project/dbhost", native(str(project["dbhost"])))
+        self.settings.setValue("project/dbport", native(str(project["dbport"])))
+        self.settings.setValue("project/dbname", native(str(project["dbname"])))
+        self.settings.setValue("project/dbschema", native(str(project["dbschema"])))
+        self.settings.setValue("project/dbuser", native(str(project["dbuser"])))
+        self.settings.setValue("project/dbpwd", native(str(project["dbpwd"])))
+        self.settings.setValue("project/dbadmin", native(str(project["dbadmin"])))
+        self.settings.setValue("project/dbadminpwd", native(str(project["dbadminpwd"])))
+        self.settings.setValue("project/projectdir", native(str(project["projectdir"])))
+        self.settings.setValue("project/max_scale", native(str(project["max_scale"])))
+
+        module_name = project["appmodule"].lower()
         try:
             module_name = "veriso.modules." + module_name + ".applicationmodule"
             module = dynamic_import(module_name)
