@@ -160,10 +160,10 @@ class ApplicationModuleBase(QObject):
 
     def do_init_baselayer_menu(self):
         """Initialize baselayer menu:
-        
+
         Adds the menu and reads all baselayers from the yaml file
         and adds them into the menu.
-        
+
         Language support is working!
         """
         menubar = QMenuBar(self.toolbar)
@@ -211,7 +211,7 @@ class ApplicationModuleBase(QObject):
 
     def do_show_baselayer(self, layer):
         """Load a baselayer into map canvas.
-        
+
         Uses an universal 'load layer' method.
         """
         QApplication.setOverrideCursor(Qt.WaitCursor)
@@ -231,7 +231,7 @@ class ApplicationModuleBase(QObject):
         Topics and tables are sorted alphanumerically. I'm not sure if ili2pg
         saves enough
         information in the database to find out the interlis model order.
-        
+
         At the moment there is no locale support here.
         Seems to be not very handy without mapping tables anyway...
         """
@@ -275,7 +275,7 @@ class ApplicationModuleBase(QObject):
     def do_show_single_topic_layer(self, layer):
         """Loads an interlis table from the database
         into the map canvas.
-        
+
         Uses an universal 'load layer' method.
         """
         layer["type"] = str(self.provider)
@@ -285,8 +285,8 @@ class ApplicationModuleBase(QObject):
     def do_show_topic(self, topic):
         """Loads all interlis tables of a topic (from
         the database) into the map canvas.
-        
-        Uses an universal 'load layer' method.        
+
+        Uses an universal 'load layer' method.
         """
         layers = get_layers_from_topic(topic)
         for layer in layers:
@@ -295,9 +295,11 @@ class ApplicationModuleBase(QObject):
     def do_init_defects_menu(self):
         """Inititializes the defects menu:
         - load defects
+        - import defects
         - export defects
-        
-        Export defects uses some external python excel library.
+
+        Import and Export defects use some external python excel library.
+        xlsxwriter
         """
         menubar = self.toolbar.findChild(
                 QMenuBar, 'VeriSO.Main.LoadDefectsMenuBar')
@@ -309,6 +311,14 @@ class ApplicationModuleBase(QObject):
                          self.iface.mainWindow())
         action.setObjectName("VeriSOModule.LoadDefectsAction")
         action.triggered.connect(self.do_load_defects_wrapper)
+        menu.addAction(action)
+
+        action = QAction(
+                QCoreApplication.translate(
+                        self.module, "Import defects layer"),
+                self.iface.mainWindow())
+        action.setObjectName("VeriSOModule.ImportDefectsAction")
+        action.triggered.connect(self.do_import_defects)
         menu.addAction(action)
 
         action = QAction(
@@ -331,6 +341,22 @@ class ApplicationModuleBase(QObject):
         defects_module = dynamic_import(defects_module)
         d = defects_module.LoadDefectsBase(self.iface, self.module_name)
         return d.run()
+
+    def do_import_defects(self):
+        print('siamo quiiiii')
+        from veriso.modules.tools.importdefects import ImportDefectsDialog
+        self.import_defects_dlg = ImportDefectsDialog(self.iface)
+        if self.import_defects_dlg.init_gui():
+            print('init_gui')
+            self.import_defects_dlg.show()
+            #self.import_defects_dlg._exec()
+
+
+        #defects_module = 'veriso.modules.tools.importdefects'
+        #defects_module = dynamic_import(defects_module)
+        #d = defects_module.ImportDefects(self.iface, self.module,
+        #                                 self.module_name)
+        #d.run()
 
     def do_export_defects(self):
         defects_module = 'veriso.modules.tools.exportdefects'

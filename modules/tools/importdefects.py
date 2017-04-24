@@ -2,22 +2,114 @@
 import os
 from builtins import range, str
 
-from qgis.PyQt.QtCore import QDir, QObject, QSettings
-from qgis.core import QgsDataSourceURI, QgsMessageLog, QgsVectorLayer
+from openpyxl import load_workbook
+
+from qgis.PyQt.QtCore import QDateTime, QDir, QFileInfo, \
+    QProcess, QRegExp, QSettings, Qt, pyqtSignal, pyqtSignature, pyqtSlot
+
+from qgis.core import QgsApplication, QgsDataSourceURI, QgsMessageLog, QgsVectorLayer
 from qgis.gui import QgsMessageBar
 
 from qgis.PyQt.QtCore import QDateTime
-from veriso.base.utils.utils import tr
 
+from qgis.PyQt.QtWidgets import QApplication, QDialog, QDialogButtonBox, \
+    QFileDialog
 
-class ExportDefects(QObject):
-    def __init__(self, iface, module, tr_tag):
-        QObject.__init__(self)
+from veriso.base.utils.utils import (open_psql_db, open_sqlite_db,
+                                     get_projects_db, get_modules_dir,
+                                     yaml_load_file, tr,
+                                     get_subdirs, get_ui_class,
+                                     db_user_has_role, get_absolute_path)
+
+FORM_CLASS = get_ui_class('importdefects.ui')
+
+class ImportDefectsDialog(QDialog, FORM_CLASS):
+    def __init__(self, iface, parent = None):
+        QDialog.__init__(self, parent)
+        self.setupUi(self)
         self.iface = iface
         self.message_bar = self.iface.messageBar()
 
-        self.tr_tag = tr_tag  # "VeriSO_V+D_Defects" or "VeriSO_EE_Defects"
+        self.okButton = self.buttonBox.button(QDialogButtonBox.Ok)
+        self.okButton.setText('Import')
 
+        settings = QSettings("CatAIS", "VeriSO")
+        self.input_xlsx_path = settings.value("project/projectdir")
+
+    def init_gui(self):
+        print('init_gui in ImportDefectsDialog')
+        return True
+
+    def accept(self):
+        print('accept')
+
+        xlsx = self.lineEditDefectsFile.text().strip()
+        load_checked = self.load_defects_check.isChecked()
+
+        print('file:', xlsx)
+        print('load_defects_check:', load_checked)
+
+        if xlsx == "":
+            self.message_bar.pushWarning("VeriSO",
+                                         tr("No Defects file set."))
+            return
+
+        self.read_excel(xlsx)
+        #TODO cursore mouse
+        #TODO chiudere la finestra
+
+    def read_excel(self, xlsx_file):
+        self.wb = load_workbook(filename = xlsx_file, read_only = True)
+        header_list_punkte, rows_list_punkte = self.read_sheet(u'Mängelliste (Punkte)')
+        header_list_linien, rows_list_linien = self.read_sheet(u'Mängelliste (Linien)')
+        header_list_polygone, rows_list_polygone = self.read_sheet(u'Mängelliste (Polygone)')
+
+        print('header polygone', header_list_polygone)
+        print('rows_polygone', rows_list_polygone)
+        print(self.create_query('veribe3', 't_maengel_polygon', header_list_polygone, rows_list_polygone))
+
+    def read_sheet(self, sheet_name):
+        sheet = self.wb[sheet_name]
+
+        # list of dictionaries. A dictionary per row with key = column header
+        rows_list = []
+        header_list = []
+
+        # check if the cells are in the original positions
+        if(sheet['A5'].value != 'ogc_fid'):
+            print('Wrong Excel file')
+            #TODO error message & quit
+        else:
+            # get the column names (row 5)
+            for cell in sheet[5]:
+                header_list.append(sheet.cell(column = cell.column, row = 5).value)
+
+            #TODO traduzione degli header?
+            # get the rows from the row 6 (column header is row 5)
+            for i in range(6, sheet.max_row + 1):
+                values_list = []
+                row = sheet[i]
+                for cell in row:
+                    values_list.append(cell.value)
+                rows_list.append(values_list)
+
+        return header_list, rows_list
+
+    def create_query(self, db_schema, table_name, header_list, rows_list):
+        query = 'INSERT INTO '+db_schema+'.'+table_name+'('
+        # don't write ogc_fid and coordinates
+        query += ', '.join(header_list[1:11])
+        query += ', ' + 'the_geom)'
+        query += ' VALUES '
+        query += '(\''
+        query += '), (\''.join(['\', \''.join([str(value) for value in row[1:11]]) + '\', ST_GeomFromText(\''+row[-1]+'\', 2056)' for row in rows_list]) 
+        query += ')'
+
+        #TODO decimali numeri, formato data, ...
+        return query
+
+
+    #TODO eliminare
     def run(self):
         try:
             import xlsxwriter
@@ -194,9 +286,6 @@ class ExportDefects(QObject):
             worksheet_points.write(4, i + 2,
                                    tr("X-Koordinate", self.tr_tag, None),
                                    fmt_italic)
-            worksheet_points.write(4, i + 3,
-                                   tr("WKT", self.tr_tag, None),
-                                   fmt_italic)
 
             iterator = vlayer_points.getFeatures()
             j = 0
@@ -220,7 +309,6 @@ class ExportDefects(QObject):
 
                 worksheet_points.write(5 + j, k, point.x(), fmt_3dec)
                 worksheet_points.write(5 + j, k + 1, point.y(), fmt_3dec)
-                worksheet_points.write(5 + j, k + 2, geom.exportToWkt())
                 j += 1
 
             # Create the worksheet for the line defects.
@@ -255,9 +343,6 @@ class ExportDefects(QObject):
             worksheet_lines.write(4, i + 3,
                                   tr(u"Länge [hm]", self.tr_tag, None),
                                   fmt_italic)
-            worksheet_lines.write(4, i + 4,
-                                  tr('WKT', self.tr_tag, None),
-                                  fmt_italic)
 
             iterator = vlayer_lines.getFeatures()
             j = 0
@@ -282,7 +367,6 @@ class ExportDefects(QObject):
                 worksheet_lines.write(5 + j, k, point.x(), fmt_3dec)
                 worksheet_lines.write(5 + j, k + 1, point.y(), fmt_3dec)
                 worksheet_lines.write(5 + j, k + 2, geom.length(), fmt_2dec)
-                worksheet_lines.write(5 + j, k + 3, geom.exportToWkt())
                 j += 1
 
             # Create the worksheet for the polygon defects.
@@ -321,9 +405,6 @@ class ExportDefects(QObject):
             worksheet_polygons.write(4, i + 4,
                                      tr(u"Umfang [hm]", self.tr_tag, None),
                                      fmt_italic)
-            worksheet_polygons.write(4, i + 5,
-                                     tr('WKT', self.tr_tag, None),
-                                     fmt_italic)
 
             iterator = vlayer_polygons.getFeatures()
             j = 0
@@ -351,7 +432,6 @@ class ExportDefects(QObject):
                                          fmt_2dec)
                 worksheet_polygons.write(5 + j, k + 3, geom.length(),
                                          fmt_2dec)
-                worksheet_polygons.write(5 + j, k + 4, geom.exportToWkt())
                 j += 1
 
             # Close excel file.
@@ -372,3 +452,16 @@ class ExportDefects(QObject):
                                          duration=0)
             QgsMessageLog.logMessage(str(e), "VeriSO", QgsMessageLog.CRITICAL)
             return
+
+
+    # noinspection PyPep8Naming,PyPep8Naming
+    @pyqtSignature("on_btnBrowseDefectsFile_clicked()")
+    def on_btnBrowseDefectsFile_clicked(self):
+        file_path = QFileDialog.getOpenFileName(
+                self,
+                tr("Choose defects file"),
+                self.input_xlsx_path,
+                "XLSX (*.xlsx)")
+        file_info = QFileInfo(file_path)
+        self.lineEditDefectsFile.setText(file_info.absoluteFilePath())
+
