@@ -354,20 +354,10 @@ class ApplicationModuleBase(QObject):
         return d.run()
 
     def do_import_defects(self):
-        print('siamo quiiiii')
         from veriso.modules.tools.importdefects import ImportDefectsDialog
         self.import_defects_dlg = ImportDefectsDialog(self.iface)
         if self.import_defects_dlg.init_gui():
-            print('init_gui')
             self.import_defects_dlg.show()
-            #self.import_defects_dlg._exec()
-
-
-        #defects_module = 'veriso.modules.tools.importdefects'
-        #defects_module = dynamic_import(defects_module)
-        #d = defects_module.ImportDefects(self.iface, self.module,
-        #                                 self.module_name)
-        #d.run()
 
     def do_export_defects(self):
         defects_module = 'veriso.modules.tools.exportdefects'
