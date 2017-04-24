@@ -55,6 +55,7 @@ class ApplicationModuleBase(QObject):
         """Initialize all the additional menus.
         this method is the entry point when a new project is loaded
         """
+ 
         self.clean_gui()
         self.do_init_checks_menu()
         self.do_init_defects_menu()
@@ -64,6 +65,10 @@ class ApplicationModuleBase(QObject):
         if show_topic_tables_menu:
             self.do_init_topics_tables_menu()
         self.do_init_baselayer_menu()
+
+        if(sys.platform == 'darwin'):
+            self.iface.mainWindow().menuBar().setNativeMenuBar(False)
+            self.iface.mainWindow().menuBar().setNativeMenuBar(True)
 
     def do_init_checks_menu(self):
         """Initialize checks menu.
@@ -82,6 +87,8 @@ class ApplicationModuleBase(QObject):
 
         menubar = self.get_checks_menubar(check_topics)
         self.toolbar.insertWidget(self.beforeAction, menubar)
+        if(sys.platform == 'darwin'):
+            menubar.setNativeMenuBar(False)
 
     def get_checks_menubar(self, check_topics):
         menubar = QMenuBar(self.toolbar)
@@ -160,10 +167,10 @@ class ApplicationModuleBase(QObject):
 
     def do_init_baselayer_menu(self):
         """Initialize baselayer menu:
-        
+
         Adds the menu and reads all baselayers from the yaml file
         and adds them into the menu.
-        
+
         Language support is working!
         """
         menubar = QMenuBar(self.toolbar)
@@ -208,10 +215,12 @@ class ApplicationModuleBase(QObject):
 
         menubar.addMenu(menu)
         self.toolbar.insertWidget(self.beforeAction, menubar)
+        if(sys.platform == 'darwin'):
+            menubar.setNativeMenuBar(False)
 
     def do_show_baselayer(self, layer):
         """Load a baselayer into map canvas.
-        
+
         Uses an universal 'load layer' method.
         """
         QApplication.setOverrideCursor(Qt.WaitCursor)
@@ -231,7 +240,7 @@ class ApplicationModuleBase(QObject):
         Topics and tables are sorted alphanumerically. I'm not sure if ili2pg
         saves enough
         information in the database to find out the interlis model order.
-        
+
         At the moment there is no locale support here.
         Seems to be not very handy without mapping tables anyway...
         """
@@ -271,11 +280,13 @@ class ApplicationModuleBase(QObject):
 
         menubar.addMenu(menu)
         self.toolbar.insertWidget(self.beforeAction, menubar)
+        if(sys.platform == 'darwin'):
+            menubar.setNativeMenuBar(False)
 
     def do_show_single_topic_layer(self, layer):
         """Loads an interlis table from the database
         into the map canvas.
-        
+
         Uses an universal 'load layer' method.
         """
         layer["type"] = str(self.provider)
@@ -285,8 +296,8 @@ class ApplicationModuleBase(QObject):
     def do_show_topic(self, topic):
         """Loads all interlis tables of a topic (from
         the database) into the map canvas.
-        
-        Uses an universal 'load layer' method.        
+
+        Uses an universal 'load layer' method.
         """
         layers = get_layers_from_topic(topic)
         for layer in layers:
@@ -296,7 +307,7 @@ class ApplicationModuleBase(QObject):
         """Inititializes the defects menu:
         - load defects
         - export defects
-        
+
         Export defects uses some external python excel library.
         """
         menubar = self.toolbar.findChild(
