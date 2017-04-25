@@ -63,6 +63,11 @@ class ImportDefectsDialog(QDialog, FORM_CLASS):
         xlsx = self.lineEditDefectsFile.text().strip()
         load_checked = self.load_defects_check.isChecked()
 
+        header_list_punkte, rows_list_punkte = '', ''
+        header_list_linien, rows_list_linien = '', ''
+        header_list_polygone, rows_list_polygone = '', ''
+
+
         if xlsx == '':
             self.message_bar.pushWarning("VeriSO",
                                          tr("No Defects file set."))
@@ -70,9 +75,15 @@ class ImportDefectsDialog(QDialog, FORM_CLASS):
 
         self.wb = load_workbook(filename = xlsx, read_only = True)
 
-        header_list_punkte, rows_list_punkte = self.read_sheet(u'Mängelliste (Punkte)')
-        header_list_linien, rows_list_linien = self.read_sheet(u'Mängelliste (Linien)')
-        header_list_polygone, rows_list_polygone = self.read_sheet(u'Mängelliste (Polygone)')
+        try:
+            header_list_punkte, rows_list_punkte = self.read_sheet(u'Mängelliste (Punkte)')
+            header_list_linien, rows_list_linien = self.read_sheet(u'Mängelliste (Linien)')
+            header_list_polygone, rows_list_polygone = self.read_sheet(u'Mängelliste (Polygone)')
+        except WrongExcelError as e:
+            self.iface.messageBar().pushMessage('Wrong Excel file', e.value,
+                                                level=QgsMessageBar.CRITICAL, duration=5)
+            QApplication.restoreOverrideCursor()
+            return
 
         punkte_query = self.create_query('t_maengel_punkt', header_list_punkte, rows_list_punkte)
         linien_query = self.create_query('t_maengel_linie', header_list_linien, rows_list_linien)
@@ -101,6 +112,7 @@ class ImportDefectsDialog(QDialog, FORM_CLASS):
             exc_type, exc_value, exc_traceback = sys.exc_info()
             self.iface.messageBar().pushMessage("Error",
                 str(traceback.format_exc(exc_traceback)), level=QgsMessageBar.CRITICAL, duration=5)
+            return
 
         QApplication.restoreOverrideCursor()
 
@@ -115,14 +127,12 @@ class ImportDefectsDialog(QDialog, FORM_CLASS):
 
         # check if the cells are in the original positions
         if(sheet['A5'].value != 'ogc_fid'):
-            print('Wrong Excel file')
-            #TODO error message & quit
+             raise WrongExcelError('Wrong Excel file, cell A5 is not equal to \'ogc_fid\'')
         else:
             # get the column names (row 5)
             for cell in sheet[5]:
                 header_list.append(sheet.cell(column = cell.column, row = 5).value)
 
-            #TODO traduzione degli header?
             # get the rows from the row 6 (column header is row 5)
             for i in range(6, sheet.max_row + 1):
                 values_list = []
@@ -157,12 +167,8 @@ class ImportDefectsDialog(QDialog, FORM_CLASS):
             self.db.setPassword(self.db_pwd)
             self.db.open()
 
-        except Exception:
-            QApplication.restoreOverrideCursor()
-            exc_type, exc_value, exc_traceback = sys.exc_info()
-            self.iface.messageBar().pushMessage(
-                "Error", str(traceback.format_exc(exc_traceback)), level=QgsMessageBar.CRITICAL, duration=5)
-        QApplication.restoreOverrideCursor()
+        except Exception as e:
+            raise e
 
     def execute_query(self, sql):
         query = QSqlQuery(self.db)
@@ -170,7 +176,7 @@ class ImportDefectsDialog(QDialog, FORM_CLASS):
         res = query.exec_(sql)
 
         if(res == False):
-            raise Exception(query.lastError().text())
+            raise QueryExecutionError(query.lastError().text())
 
     # noinspection PyPep8Naming,PyPep8Naming
     @pyqtSignature("on_btnBrowseDefectsFile_clicked()")
@@ -182,4 +188,16 @@ class ImportDefectsDialog(QDialog, FORM_CLASS):
                 "XLSX (*.xlsx)")
         file_info = QFileInfo(file_path)
         self.lineEditDefectsFile.setText(file_info.absoluteFilePath())
+
+class QueryExecutionError(Exception):
+    def __init__(self, value):
+        self.value = value
+        def __str__(self):
+            return repr(self.value)
+
+class WrongExcelError(Exception):
+    def __init__(self, value):
+        self.value = value
+        def __str__(self):
+            return repr(self.value)
 
