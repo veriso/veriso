@@ -31,11 +31,12 @@ from veriso.base.utils.utils import dynamic_import
 FORM_CLASS = get_ui_class('importdefects.ui')
 
 class ImportDefectsDialog(QDialog, FORM_CLASS):
-    def __init__(self, iface, parent = None):
-        QDialog.__init__(self, parent)
+    def __init__(self, iface, defects_list_dock):
+        QDialog.__init__(self, None)
         self.setupUi(self)
         self.iface = iface
         self.message_bar = self.iface.messageBar()
+        self.defects_list_dock = defects_list_dock
 
         self.okButton = self.buttonBox.button(QDialogButtonBox.Ok)
         self.okButton.setText('Import')
@@ -103,7 +104,8 @@ class ImportDefectsDialog(QDialog, FORM_CLASS):
                 defects_module = 'veriso.modules.loaddefects_base'
                 defects_module = dynamic_import(defects_module)
                 d = defects_module.LoadDefectsBase(self.iface, self.module_name)
-                d.run()
+                defects_layers = d.run()
+                self.defects_list_dock.load_layers(defects_layers)
 
             QApplication.restoreOverrideCursor()
 
