@@ -194,6 +194,9 @@ class ExportDefects(QObject):
             worksheet_points.write(4, i + 2,
                                    tr("X-Koordinate", self.tr_tag, None),
                                    fmt_italic)
+            worksheet_points.write(4, i + 3,
+                                   tr("WKT", self.tr_tag, None),
+                                   fmt_italic)
 
             iterator = vlayer_points.getFeatures()
             j = 0
@@ -219,6 +222,7 @@ class ExportDefects(QObject):
 
                 worksheet_points.write(5 + j, k, point.x(), fmt_3dec)
                 worksheet_points.write(5 + j, k + 1, point.y(), fmt_3dec)
+                worksheet_points.write(5 + j, k + 2, geom.exportToWkt())
                 j += 1
 
             # Create the worksheet for the line defects.
@@ -253,6 +257,9 @@ class ExportDefects(QObject):
             worksheet_lines.write(4, i + 3,
                                   tr(u"Länge [hm]", self.tr_tag, None),
                                   fmt_italic)
+            worksheet_lines.write(4, i + 4,
+                                  tr('WKT', self.tr_tag, None),
+                                  fmt_italic)
 
             iterator = vlayer_lines.getFeatures()
             j = 0
@@ -279,6 +286,7 @@ class ExportDefects(QObject):
                 worksheet_lines.write(5 + j, k, point.x(), fmt_3dec)
                 worksheet_lines.write(5 + j, k + 1, point.y(), fmt_3dec)
                 worksheet_lines.write(5 + j, k + 2, geom.length(), fmt_2dec)
+                worksheet_lines.write(5 + j, k + 3, geom.exportToWkt())
                 j += 1
 
             # Create the worksheet for the polygon defects.
@@ -317,6 +325,9 @@ class ExportDefects(QObject):
             worksheet_polygons.write(4, i + 4,
                                      tr(u"Umfang [hm]", self.tr_tag, None),
                                      fmt_italic)
+            worksheet_polygons.write(4, i + 5,
+                                     tr('WKT', self.tr_tag, None),
+                                     fmt_italic)
 
             iterator = vlayer_polygons.getFeatures()
             j = 0
@@ -346,6 +357,7 @@ class ExportDefects(QObject):
                                          fmt_2dec)
                 worksheet_polygons.write(5 + j, k + 3, geom.length(),
                                          fmt_2dec)
+                worksheet_polygons.write(5 + j, k + 4, geom.exportToWkt())
                 j += 1
 
             # Close excel file.

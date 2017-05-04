@@ -306,9 +306,11 @@ class ApplicationModuleBase(QObject):
     def do_init_defects_menu(self):
         """Inititializes the defects menu:
         - load defects
+        - import defects
         - export defects
 
-        Export defects uses some external python excel library.
+        Import and Export defects use some external python excel library.
+        xlsxwriter, openpyxl
         """
         menubar = self.toolbar.findChild(
                 QMenuBar, 'VeriSO.Main.LoadDefectsMenuBar')
@@ -320,6 +322,14 @@ class ApplicationModuleBase(QObject):
                          self.iface.mainWindow())
         action.setObjectName("VeriSOModule.LoadDefectsAction")
         action.triggered.connect(self.do_load_defects_wrapper)
+        menu.addAction(action)
+
+        action = QAction(
+                QCoreApplication.translate(
+                        self.module, "Import defects layer"),
+                self.iface.mainWindow())
+        action.setObjectName("VeriSOModule.ImportDefectsAction")
+        action.triggered.connect(self.do_import_defects)
         menu.addAction(action)
 
         action = QAction(
@@ -342,6 +352,12 @@ class ApplicationModuleBase(QObject):
         defects_module = dynamic_import(defects_module)
         d = defects_module.LoadDefectsBase(self.iface, self.module_name)
         return d.run()
+
+    def do_import_defects(self):
+        from veriso.modules.tools.importdefects import ImportDefectsDialog
+        self.import_defects_dlg = ImportDefectsDialog(self.iface, self.defects_list_dock)
+        if self.import_defects_dlg.init_gui():
+            self.import_defects_dlg.show()
 
     def do_export_defects(self):
         defects_module = 'veriso.modules.tools.exportdefects'
