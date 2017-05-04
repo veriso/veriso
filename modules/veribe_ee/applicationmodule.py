@@ -26,45 +26,48 @@ class ApplicationModule(ApplicationModuleBase):
                         'config': {"Editable": False}},
             'topic': {'widget': 'Enumeration',
                       'default': 'Bodenbedeckung',
-                      'alias': 'Topic:'},
+                      'alias': 'Topic:',
+                      'writable_only_by': ['agi', 'avor']
+                      },
             'bezeichnung': {
                 'widget': 'Enumeration',
                 'alias': 'Bezeichnung:',
-                'writable_only_by': ['geometerbuero']
+                'writable_only_by': ['agi', 'avor']
                 },
             'bemerkung': {
                 'widget': 'TextEdit',
                 'alias': 'Bemekung:',
-                    'config': {"IsMultiline": True}
+                    'config': {"IsMultiline": True},
+                'writable_only_by': ['agi', 'avor']
             },
             'datum': {'widget': 'Hidden'},
             'bemerkung_nfg': {
                 'widget': 'TextEdit',
                 'alias': 'Bemekung NFG:',
                 'config': {"IsMultiline": True},
-                'writable_only_by': ['geometerbuero']
+                'writable_only_by': ['agi', 'geometer']
             },
             'forstorgan': {
                 'widget': 'Enumeration',
                 'alias': 'Forstorgan:',
-                'writable_only_by': ['forst']
+                'writable_only_by': ['agi', 'forst']
             },
             'bemerkung_forst': {
                 'widget': 'TextEdit',
                 'alias': 'Bemekung Forst:',
                 'config': {"IsMultiline": True},
-                'writable_only_by': ['forst']
+                'writable_only_by': ['agi', 'forst']
             },
             'verifikation': {
                 'widget': 'Enumeration',
                 'alias': 'Verifikation:',
-                'writable_only_by': ['verifikation']
+                'writable_only_by': ['agi']
             },
             'bemerkung_verifikation': {
                 'widget': 'TextEdit',
                 'alias': 'Bemekung Verifikation:',
                 'config': {"IsMultiline": True},
-                'writable_only_by': ['verifikation']
+                'writable_only_by': ['agi']
             },
             'erledigt': {
                 'widget': 'CheckBox',
@@ -73,7 +76,7 @@ class ApplicationModule(ApplicationModuleBase):
                     'CheckedState': 't',
                     'UncheckedState': 'f'
                 },
-                'writable_only_by': ['geometerbuero']
+                'writable_only_by': ['agi']
             }
         }
 

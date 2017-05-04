@@ -1392,6 +1392,7 @@ GRANT SELECT ON TABLE $$DBSCHEMA.v_uebriger_gebaeudeteil_isolierte_punkte TO $$U
 
 CREATE TYPE $$DBSCHEMA.avor_bezeichnung AS ENUM
 (
+''0-PNF1: In PNF1 beurteilt und entschieden nicht zu bearbeiten'',
 ''1-Waldgrenzen: Kontrolle und Beurteilung'',
 ''2-Übr. best. Fläche entlang Bäche, Bahn, Autobahn bereinigen'',
 ''3-Wytweiden: Definition durch Waldabteilung'',
@@ -1413,18 +1414,20 @@ CREATE TYPE $$DBSCHEMA.avor_bezeichnung AS ENUM
 ''19-Löschen von überflüssigen Bodenbedeckungsgrenzen'',
 ''20-Gebäude < 6 m2 evt. löschen'',
 ''21-neue BB ausscheiden, BB Art ändern, BB Abgrenzung anpassen'',
-''22-fehlendes Silo, Wasserbecken, Gebäude etc.'',
-''23-fehlende Brücke, Mast, schm. Weg, eing. Gewässer, Tunnel'',
-''24-Diverses'',
-''25-In PNF 1 beurteilt und entschieden nicht zu bearbeiten''
+''22-fehlendes Silo / Wasserbecken / Gebäude etc.'',
+''23-fehlende Brücke/ Mast/ schm. Weg/ eing. Gewässer/ Tunnel'',
+''24-Gebäude vorhanden / unterierdisch?'',
+''25-Bodenbedeckung löschen'',
+''26-Einzelobjekt löschen'',
+''27-Diverses''
 );
 
-
 -- The following table create assume these roles are available
--- CREATE ROLE geometerbuero;
--- CREATE ROLE forst;
--- CREATE ROLE agi;
--- CREATE ROLE olpnf;
+--CREATE ROLE agi WITH LOGIN;
+--CREATE ROLE geometer WITH LOGIN;
+--CREATE ROLE forst WITH LOGIN;
+--CREATE ROLE avor WITH LOGIN;
+
 
 CREATE TABLE $$DBSCHEMA.t_maengel_punkt
 (
@@ -1443,7 +1446,20 @@ CREATE TABLE $$DBSCHEMA.t_maengel_punkt
  CONSTRAINT t_maengel_punkt_pkey PRIMARY KEY (ogc_fid)
 )
 WITH (OIDS=FALSE);
-GRANT ALL ON TABLE $$DBSCHEMA.t_maengel_punkt TO $$USER;
+--GRANT ALL ON TABLE $$DBSCHEMA.t_maengel_punkt TO $$USER;
+
+REVOKE ALL PRIVILEGES ON $$DBSCHEMA.t_maengel_punkt FROM agi;
+REVOKE ALL PRIVILEGES ON $$DBSCHEMA.t_maengel_punkt FROM geometer;
+REVOKE ALL PRIVILEGES ON $$DBSCHEMA.t_maengel_punkt FROM forst;
+REVOKE ALL PRIVILEGES ON $$DBSCHEMA.t_maengel_punkt FROM avor;
+
+GRANT SELECT, UPDATE, INSERT, DELETE ON $$DBSCHEMA.t_maengel_punkt TO agi;
+GRANT SELECT, UPDATE(bemerkung_nfg) ON $$DBSCHEMA.t_maengel_punkt TO geometer;
+GRANT SELECT, UPDATE(forstorgan, bemerkung_forst) ON $$DBSCHEMA.t_maengel_punkt TO forst;
+GRANT SELECT, UPDATE(topic, bezeichnung, bemerkung), INSERT, DELETE ON $$DBSCHEMA.t_maengel_punkt TO avor;
+
+GRANT USAGE ON $$DBSCHEMA.t_maengel_punkt_ogc_fid_seq TO agi;
+GRANT USAGE ON $$DBSCHEMA.t_maengel_punkt_ogc_fid_seq TO avor;
 
 -- LINES
 CREATE TABLE $$DBSCHEMA.t_maengel_linie
@@ -1463,8 +1479,20 @@ CREATE TABLE $$DBSCHEMA.t_maengel_linie
  CONSTRAINT t_maengel_linie_pkey PRIMARY KEY (ogc_fid)
 )
 WITH (OIDS=FALSE);
-GRANT ALL ON TABLE $$DBSCHEMA.t_maengel_linie TO $$USER;
+--GRANT ALL ON TABLE $$DBSCHEMA.t_maengel_linie TO $$USER;
 
+REVOKE ALL PRIVILEGES ON $$DBSCHEMA.t_maengel_linie FROM agi;
+REVOKE ALL PRIVILEGES ON $$DBSCHEMA.t_maengel_linie FROM geometer;
+REVOKE ALL PRIVILEGES ON $$DBSCHEMA.t_maengel_linie FROM forst;
+REVOKE ALL PRIVILEGES ON $$DBSCHEMA.t_maengel_linie FROM avor;
+
+GRANT SELECT, UPDATE, INSERT, DELETE ON $$DBSCHEMA.t_maengel_linie TO agi;
+GRANT SELECT, UPDATE(bemerkung_nfg) ON $$DBSCHEMA.t_maengel_linie TO geometer;
+GRANT SELECT, UPDATE(forstorgan, bemerkung_forst) ON $$DBSCHEMA.t_maengel_linie TO forst;
+GRANT SELECT, UPDATE(topic, bezeichnung, bemerkung), INSERT, DELETE ON $$DBSCHEMA.t_maengel_linie TO avor;
+
+GRANT USAGE ON $$DBSCHEMA.t_maengel_linie_ogc_fid_seq TO agi;
+GRANT USAGE ON $$DBSCHEMA.t_maengel_linie_ogc_fid_seq TO avor;
 
 CREATE TABLE $$DBSCHEMA.t_maengel_polygon
 (
@@ -1483,7 +1511,21 @@ CREATE TABLE $$DBSCHEMA.t_maengel_polygon
  CONSTRAINT t_maengel_polygon_pkey PRIMARY KEY (ogc_fid)
 )
 WITH (OIDS=FALSE);
-GRANT ALL ON TABLE $$DBSCHEMA.t_maengel_polygon TO $$USER;',5,'allow defects list
+--GRANT ALL ON TABLE $$DBSCHEMA.t_maengel_polygon TO $$USER;
+REVOKE ALL PRIVILEGES ON $$DBSCHEMA.t_maengel_polygon FROM agi;
+REVOKE ALL PRIVILEGES ON $$DBSCHEMA.t_maengel_polygon FROM geometer;
+REVOKE ALL PRIVILEGES ON $$DBSCHEMA.t_maengel_polygon FROM forst;
+REVOKE ALL PRIVILEGES ON $$DBSCHEMA.t_maengel_polygon FROM avor;
+
+GRANT SELECT, UPDATE, INSERT, DELETE ON $$DBSCHEMA.t_maengel_polygon TO agi;
+GRANT SELECT, UPDATE(bemerkung_nfg) ON $$DBSCHEMA.t_maengel_polygon TO geometer;
+GRANT SELECT, UPDATE(forstorgan, bemerkung_forst) ON $$DBSCHEMA.t_maengel_polygon TO forst;
+GRANT SELECT, UPDATE(topic, bezeichnung, bemerkung), INSERT, DELETE ON $$DBSCHEMA.t_maengel_polygon TO avor;
+
+GRANT USAGE ON $$DBSCHEMA.t_maengel_polygon_ogc_fid_seq TO agi;
+GRANT USAGE ON $$DBSCHEMA.t_maengel_polygon_ogc_fid_seq TO avor;
+
+',5,'allow defects list
 ',NULL,1),
  (99,'CREATE TABLE $$DBSCHEMA.t_topics_tables AS
 

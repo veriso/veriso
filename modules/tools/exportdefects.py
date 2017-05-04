@@ -6,7 +6,7 @@ from qgis.PyQt.QtCore import QDir, QObject, QSettings
 from qgis.core import QgsDataSourceURI, QgsMessageLog, QgsVectorLayer
 from qgis.gui import QgsMessageBar
 
-from qgis.PyQt.QtCore import QDateTime
+from qgis.PyQt.QtCore import QDateTime, QPyNullVariant
 from veriso.base.utils.utils import tr
 
 
@@ -212,6 +212,8 @@ class ExportDefects(QObject):
                         # <class 'PyQt4.QtCore.QDateTime'> in write()
                         fmt = fmt_date
                         attr = attr.toPyDateTime()
+                    elif type(attr) == QPyNullVariant:
+                        attr = None
                     worksheet_points.write(5 + j, k, attr, fmt)
                     k += 1
 
@@ -269,6 +271,8 @@ class ExportDefects(QObject):
                         # <class 'PyQt4.QtCore.QDateTime'> in write()
                         fmt = fmt_date
                         attr = attr.toPyDateTime()
+                    elif type(attr) == QPyNullVariant:
+                        attr = None
                     worksheet_lines.write(5 + j, k, attr, fmt)
                     k += 1
 
@@ -331,6 +335,8 @@ class ExportDefects(QObject):
                         # <class 'PyQt4.QtCore.QDateTime'> in write()
                         fmt = fmt_date
                         attr = attr.toPyDateTime()
+                    elif type(attr) == QPyNullVariant:
+                        attr = None
                     worksheet_polygons.write(5 + j, k, attr, fmt)
                     k += 1
 
