@@ -31,8 +31,6 @@ class TestUtils(TestCase):
                           self.settings.value("options/general/projects_database"))
         self.assertEquals(self.dialog.lineEditProjectsRootDir.text(),
                           self.settings.value("options/general/projects_root_directory"))
-        self.assertEquals(self.dialog.lineEditImportJar.text(),
-                          self.settings.value("options/import/jar"))
 
         vm_arguments = self.settings.value("options/import/vm_arguments")
         if vm_arguments == "" or not vm_arguments or vm_arguments is None:
@@ -51,14 +49,6 @@ class TestUtils(TestCase):
         lst_items = [i.text() for i in self.dialog.listWidgetModelRepos.findItems("", Qt.MatchContains)]
         self.assertEquals(lst_items[0], 'http://www.catais.org/models/')
         self.assertEquals(lst_items[1], 'http://models.geo.admin.ch/')
-
-    @patch('qgis.PyQt.QtWidgets.QFileDialog.getOpenFileName')
-    def test_on_btnBrowseImportJar_clicked(self, mock_getOpenFileName):
-        '''test Button Browse Import Jar'''
-        mock_getOpenFileName.return_value = "/foo/bar.jar"
-        button = self.dialog.btnBrowseImportJar
-        button.click()
-        self.assertEquals(self.dialog.lineEditImportJar.text(), "/foo/bar.jar")
 
     @patch('qgis.PyQt.QtWidgets.QFileDialog.getOpenFileName')
     def test_on_btnBrowseProjectsDatabase_clicked(self, mock_getOpenFileName):

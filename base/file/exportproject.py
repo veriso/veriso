@@ -120,7 +120,6 @@ class ExportProjectDialog(QDialog, FORM_CLASS):
                 break
             i += 1
 
-        import_jar = self.settings.value("options/import/jar", "")
         import_vm_arguments = self.settings.value("options/import/vm_arguments", "")
 
         # Check if we have everything we need.
@@ -194,11 +193,6 @@ class ExportProjectDialog(QDialog, FORM_CLASS):
                     "Missing database administrator password parameter."))
             return
 
-        if import_jar == "":
-            self.message_bar.pushWarning("VeriSO",
-                                         tr("No jar file set for import."))
-            return
-
         if jre_version() is None:
             self.message_bar.pushWarning("VeriSO",
                                          tr("No java runtime detected."))
@@ -212,6 +206,8 @@ class ExportProjectDialog(QDialog, FORM_CLASS):
         vm_arguments_list = import_vm_arguments.split(" ")
         for arg in vm_arguments_list:
             arguments.append(arg)
+
+        import_jar = os.path.dirname(__file__) + '/../../lib/ili2pg-3.6.1/ili2pg.jar'
 
         arguments.append("-jar")
         arguments.append(import_jar)
