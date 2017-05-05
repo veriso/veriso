@@ -36,8 +36,6 @@ class OptionsDialog(QDialog, FORM_CLASS):
                 self.projects_database).absolutePath()
         self.projects_root_directory = self.settings.value(
                 "options/general/projects_root_directory")
-        self.import_jar = self.settings.value("options/import/jar")
-        self.import_jar_path = QFileInfo(self.import_jar).absolutePath()
 
     # noinspection PyPep8Naming
     def init_gui(self):
@@ -51,8 +49,6 @@ class OptionsDialog(QDialog, FORM_CLASS):
         self.chkTopicsTablesMenu.setChecked(self.settings.value(
                 "options/general/topics_tables_menu", False, type=bool))
 
-        self.lineEditImportJar.setText(
-                self.settings.value("options/import/jar"))
         vm_arguments = self.settings.value("options/import/vm_arguments")
         if vm_arguments == "" or not vm_arguments or vm_arguments is None:
             self.plainTextEditImportVMArguments.insertPlainText(
@@ -81,14 +77,6 @@ class OptionsDialog(QDialog, FORM_CLASS):
         QWidget.setTabOrder(self.lineEditDbUserPwd, self.lineEditDbAdmin)
         QWidget.setTabOrder(self.lineEditDbAdmin, self.lineEditDbAdminPwd)
 
-    @pyqtSignature("on_btnBrowseImportJar_clicked()")
-    def on_btnBrowseImportJar_clicked(self):
-        file_path = QFileDialog.getOpenFileName(self,
-                                                tr("Open import jar file"),
-                                                self.import_jar_path,
-                                                "jar (*.jar *.JAR)")
-        file_info = QFileInfo(file_path)
-        self.lineEditImportJar.setText(file_info.absoluteFilePath())
 
     @pyqtSignature("on_btnBrowseProjectsDatabase_clicked()")
     def on_btnBrowseProjectsDatabase_clicked(self):
@@ -201,8 +189,6 @@ class OptionsDialog(QDialog, FORM_CLASS):
         self.settings.setValue("options/general/topics_tables_menu",
                                self.chkTopicsTablesMenu.isChecked())
 
-        self.settings.setValue("options/import/jar",
-                               self.lineEditImportJar.text().strip())
         self.settings.setValue(
                 "options/import/vm_arguments",
                 self.plainTextEditImportVMArguments.toPlainText().strip())
