@@ -66,6 +66,7 @@ class ImportProjectDialog(QDialog, FORM_CLASS):
         self.projects_root_directory = None
         self.process = None
         self.ignore_postprocessing_errors = False
+        self.ignore_ili2pg_errors = False
 
     def init_gui(self):
         """Initialize the dialog:
@@ -334,8 +335,11 @@ class ImportProjectDialog(QDialog, FORM_CLASS):
         self.projects_root_directory = self.settings.value(
                 "options/general/projects_root_directory", "")
 
+        self.ignore_ili2pg_errors = self.settings.value(
+            "options/import/ignore_ili2pg_errors", False, type=bool)
+
         self.ignore_postprocessing_errors = self.settings.value(
-            "options/general/ignore_postprocessing_errors", False, type=bool)
+            "options/import/ignore_postprocessing_errors", False, type=bool)
         
         import_vm_arguments = self.settings.value("options/import/vm_arguments",
                                                   "")
@@ -581,8 +585,9 @@ class ImportProjectDialog(QDialog, FORM_CLASS):
         :return:
         """
         output = self.textEditImportOutput.toPlainText()
-        if output.find("Info: ...import done") < 0 or output.find(
-                "compiler failed") >= 0:
+        if (not self.ignore_ili2pg_errors) and (
+                output.find("Info: ...import done") < 0 or output.find(
+                "compiler failed") >= 0):
             message = "Import process not successfully finished."
             raise VerisoError(message)
 

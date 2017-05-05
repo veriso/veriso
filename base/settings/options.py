@@ -49,8 +49,11 @@ class OptionsDialog(QDialog, FORM_CLASS):
         self.chkTopicsTablesMenu.setChecked(self.settings.value(
                 "options/general/topics_tables_menu", False, type=bool))
 
+        self.chkIgnoreIli2pgErrors.setChecked(self.settings.value(
+            "options/import/ignore_ili2pg_errors", False, type=bool))
+
         self.chkIgnorePostprocessingErrors.setChecked(self.settings.value(
-                "options/general/ignore_postprocessing_errors", False, type=bool))
+                "options/import/ignore_postprocessing_errors", False, type=bool))
 
         vm_arguments = self.settings.value("options/import/vm_arguments")
         if vm_arguments == "" or not vm_arguments or vm_arguments is None:
@@ -192,7 +195,10 @@ class OptionsDialog(QDialog, FORM_CLASS):
         self.settings.setValue("options/general/topics_tables_menu",
                                self.chkTopicsTablesMenu.isChecked())
 
-        self.settings.setValue("options/general/ignore_postprocessing_errors",
+        self.settings.setValue("options/import/ignore_ili2pg_errors",
+                               self.chkIgnoreIli2pgErrors.isChecked())
+
+        self.settings.setValue("options/import/ignore_postprocessing_errors",
                                self.chkIgnorePostprocessingErrors.isChecked())
 
         self.settings.setValue(
