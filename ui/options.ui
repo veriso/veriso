@@ -29,7 +29,7 @@
       <enum>QTabWidget::Rounded</enum>
      </property>
      <property name="currentIndex">
-      <number>1</number>
+      <number>0</number>
      </property>
      <property name="elideMode">
       <enum>Qt::ElideLeft</enum>
@@ -125,6 +125,13 @@
            <widget class="QCheckBox" name="chkTopicsTablesMenu">
             <property name="text">
              <string>Show DB Tables in menu</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="chkIgnorePostprocessingErrors">
+            <property name="text">
+             <string>Ingore postprocessing errors</string>
             </property>
            </widget>
           </item>

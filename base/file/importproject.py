@@ -65,6 +65,7 @@ class ImportProjectDialog(QDialog, FORM_CLASS):
         self.max_scale = None
         self.projects_root_directory = None
         self.process = None
+        self.ignore_postprocessing_errors = False
 
     def init_gui(self):
         """Initialize the dialog:
@@ -333,6 +334,9 @@ class ImportProjectDialog(QDialog, FORM_CLASS):
         self.projects_root_directory = self.settings.value(
                 "options/general/projects_root_directory", "")
 
+        self.ignore_postprocessing_errors = self.settings.value(
+            "options/general/ignore_postprocessing_errors", False, type=bool)
+        
         import_vm_arguments = self.settings.value("options/import/vm_arguments",
                                                   "")
         # Check if we have everything we need.
@@ -704,7 +708,8 @@ class ImportProjectDialog(QDialog, FORM_CLASS):
                         "Error: ...postprocessing completed with errors",
                         "red"
                 )
-                raise Exception()
+                if not self.ignore_postprocessing_errors:
+                    raise Exception()
             self.report_progress("Info: ...postprocessing completed")
 
             db.close
