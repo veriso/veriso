@@ -2,8 +2,10 @@
 
 from __future__ import absolute_import, print_function
 
-import sys
+import sys, os
 import traceback
+from collections import OrderedDict
+
 from builtins import str
 from qgis.PyQt.QtCore import QCoreApplication, QObject, QSettings, Qt
 from qgis.PyQt.QtWidgets import QAction, QApplication, QMenu, QMenuBar, \
@@ -14,7 +16,7 @@ from qgis.gui import QgsMessageBar
 from veriso.base.utils.module import (get_topics_tables, get_baselayers,
                                       get_check_topics, get_layers_from_topic)
 from veriso.base.utils.loadlayer import LoadLayer
-from veriso.base.utils.utils import dynamic_import
+from veriso.base.utils.utils import dynamic_import, get_modules_dir, get_subdirs, yaml_load_file
 
 # Translation was a pain in the a...
 # Umlaute from files etc.
@@ -43,6 +45,8 @@ class ApplicationModuleBase(QObject):
         self.provider = self.settings.value("project/provider")
         self.module = self.settings.value("project/appmodule")
         self.module_name = self.settings.value("project/appmodulename")
+
+        self.module_extended = self.get_extended_module_name()
 
         self.defects_layers = {}
         self.defects_list_dock = veriso.defects_list_dock
@@ -74,7 +78,13 @@ class ApplicationModuleBase(QObject):
         """Initialize checks menu.
         """
         try:
-            check_topics = get_check_topics(self.module)
+            check_topics = OrderedDict()
+
+            # Load first the checks from the extended module
+            if(self.module_extended):
+                check_topics.update(get_check_topics(self.module_extended))
+
+            check_topics.update(get_check_topics(self.module))
         except:
             message = "Something went wrong reading check topics from" \
                       "yaml file"
@@ -151,8 +161,20 @@ class ApplicationModuleBase(QObject):
         return menubar
 
     def do_show_complex_check(self, folder, check):
-        module = "veriso.modules.%s.checks.%s.%s" % (
-            self.module, folder, check["file"])
+
+        modules_dir = os.path.join(get_modules_dir())
+        module_dir = os.path.join(
+            modules_dir, self.module_name.lower(), 'checks', folder)
+
+        # Search first in the module, if the check doesn't exist, try in the
+        # extended module
+        if (os.path.exists(module_dir)):
+            module = "veriso.modules.%s.checks.%s.%s" % (
+                self.module, folder, check["file"])
+        else:
+            module = "veriso.modules.%s.checks.%s.%s" % (
+                self.module_extended, folder, check["file"])
+
         try:
             module = dynamic_import(module)
             c = module.ComplexCheck(self.iface)
@@ -409,3 +431,20 @@ class ApplicationModuleBase(QObject):
             object_name = action.objectName()
             if object_name[0:12] == "VeriSOModule" or action.isSeparator():
                 menu.removeAction(action)
+
+    def get_extended_module_name(self):
+        """
+        # Read into module.yml to see if the module extends another module        
+        :return: the name of the extended module 
+        """
+        modules_dir = os.path.join(get_modules_dir())
+        module_file = os.path.join(
+            modules_dir, self.module_name.lower(), 'module.yml')
+
+        if os.path.isfile(module_file):
+            module_yaml = yaml_load_file(module_file)
+
+            if module_yaml.has_key('extends'):
+                return module_yaml['extends']
+
+        return None

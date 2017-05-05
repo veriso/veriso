@@ -1,0 +1,7 @@
+---
+displayname: VeriVD
+extends: veribe_ee
+ilimodels:
+- ilimodel: MD01MOVDMN95V24
+  referenceframe: LV95
+  epsg: '2056'

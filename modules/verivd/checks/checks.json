@@ -1,0 +1,13 @@
+{  
+   "checks":[  
+      {  
+         "topic":{  
+            "de":"Vincoli",
+            "fr":"Vincoli"
+         },
+         "file":"topic_vincoli"
+      }
+
+
+   ]
+}
