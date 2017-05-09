@@ -353,13 +353,18 @@ class ImportProjectDialog(QDialog, FORM_CLASS):
                                          + str(
                                                  self.projects_database))
             return
-
+        print('self.itf', self.itf)
         if self.itf == "":
-            self.message_bar.pushWarning("VeriSO",
+
+            # in veriti, if no itf file is set, use a "empty" default itf file
+            if self.app_module == 'veriti':
+                self.itf = os.path.dirname(__file__)+"/../../modules/veriti/varia/default.itf"
+            else:
+                self.message_bar.pushWarning("VeriSO",
                                          tr(
                                                  "No Interlis transfer file "
                                                  "set."))
-            return
+                return
 
         if self.ili == "":
             self.message_bar.pushWarning("VeriSO",
