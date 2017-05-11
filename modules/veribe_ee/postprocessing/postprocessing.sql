@@ -1389,7 +1389,12 @@ GRANT SELECT ON TABLE $$DBSCHEMA.v_uebriger_gebaeudeteil_isolierte_punkte TO $$U
  ''i.O.'',
  ''nicht bereinigen''
 );
-
+CREATE TYPE $$DBSCHEMA.maengel_abrechnung AS ENUM
+(
+''PNF'',
+''LNF'',
+''Fehler''
+);
 CREATE TYPE $$DBSCHEMA.avor_bezeichnung AS ENUM
 (
 ''0-PNF1: In PNF1 beurteilt und entschieden nicht zu bearbeiten'',
@@ -1434,6 +1439,7 @@ CREATE TABLE $$DBSCHEMA.t_maengel_punkt
  ogc_fid serial NOT NULL,
  topic $$DBSCHEMA.maengel_topic,
  bezeichnung $$DBSCHEMA.avor_bezeichnung,
+ abrechnung $$DBSCHEMA.maengel_abrechnung,
  bemerkung varchar,
  datum timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
  bemerkung_nfg text,
@@ -1467,6 +1473,7 @@ CREATE TABLE $$DBSCHEMA.t_maengel_linie
  ogc_fid serial NOT NULL,
  topic $$DBSCHEMA.maengel_topic,
  bezeichnung $$DBSCHEMA.avor_bezeichnung,
+ abrechnung $$DBSCHEMA.maengel_abrechnung,
  bemerkung varchar,
  datum timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
  bemerkung_nfg text,
@@ -1499,6 +1506,7 @@ CREATE TABLE $$DBSCHEMA.t_maengel_polygon
  ogc_fid serial NOT NULL,
  topic $$DBSCHEMA.maengel_topic,
  bezeichnung $$DBSCHEMA.avor_bezeichnung,
+ abrechnung $$DBSCHEMA.maengel_abrechnung,
  bemerkung varchar,
  datum timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
  bemerkung_nfg text,

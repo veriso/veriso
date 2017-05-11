@@ -133,11 +133,11 @@ class ImportDefectsDialog(QDialog, FORM_CLASS):
     def create_query(self, table_name, header_list, rows_list):
         query = 'INSERT INTO '+self.db_schema+'.'+table_name+'('
         # don't write ogc_fid and coordinates
-        query += ', '.join(header_list[1:11])
+        query += ', '.join(header_list[1:12])
         query += ', ' + 'the_geom)'
         query += ' VALUES '
         query += '(\''
-        query += '), (\''.join(['\', \''.join([str(value) for value in row[1:11]])
+        query += '), (\''.join(['\', \''.join([str(value) for value in row[1:12]])
                                 + '\', ST_GeomFromText(\''+row[-1]+'\', 2056)' for row in rows_list])
         query += ')'
         return query
