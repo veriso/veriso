@@ -1,16 +1,10 @@
 <!DOCTYPE qgis PUBLIC 'http://mrcc.com/qgis.dtd' 'SYSTEM'>
-<qgis version="2.18.6" simplifyAlgorithm="0" minimumScale="100000" maximumScale="1e+08" simplifyDrawingHints="1" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" readOnly="0" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+<qgis version="2.17.0" simplifyAlgorithm="0" minimumScale="100000" maximumScale="1e+08" simplifyDrawingHints="1" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
   <edittypes>
-    <edittype widgetv2type="TextEdit" name="ogc_fid">
-      <widgetv2config IsMultiline="0" fieldEditable="0" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
+    <edittype widgetv2type="Hidden" name="ogc_fid">
+      <widgetv2config fieldEditable="1" constraint="" labelOnTop="0" constraintDescription="" notNull="0"/>
     </edittype>
     <edittype widgetv2type="Enumeration" name="topic">
-      <widgetv2config fieldEditable="1" constraint="" labelOnTop="0" constraintDescription="" notNull="0"/>
-    </edittype>
-    <edittype widgetv2type="Enumeration" name="bezeichnung">
-      <widgetv2config fieldEditable="1" constraint="" labelOnTop="0" constraintDescription="" notNull="0"/>
-    </edittype>
-    <edittype widgetv2type="Enumeration" name="abrechnung">
       <widgetv2config fieldEditable="1" constraint="" labelOnTop="0" constraintDescription="" notNull="0"/>
     </edittype>
     <edittype widgetv2type="TextEdit" name="bemerkung">
@@ -18,24 +12,6 @@
     </edittype>
     <edittype widgetv2type="Hidden" name="datum">
       <widgetv2config fieldEditable="1" constraint="" labelOnTop="0" constraintDescription="" notNull="0"/>
-    </edittype>
-    <edittype widgetv2type="TextEdit" name="bemerkung_nfg">
-      <widgetv2config IsMultiline="1" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
-    </edittype>
-    <edittype widgetv2type="Enumeration" name="forstorgan">
-      <widgetv2config fieldEditable="1" constraint="" labelOnTop="0" constraintDescription="" notNull="0"/>
-    </edittype>
-    <edittype widgetv2type="TextEdit" name="bemerkung_forst">
-      <widgetv2config IsMultiline="1" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
-    </edittype>
-    <edittype widgetv2type="Enumeration" name="verifikation">
-      <widgetv2config fieldEditable="1" constraint="" labelOnTop="0" constraintDescription="" notNull="0"/>
-    </edittype>
-    <edittype widgetv2type="TextEdit" name="bemerkung_verifikation">
-      <widgetv2config IsMultiline="1" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
-    </edittype>
-    <edittype widgetv2type="CheckBox" name="erledigt">
-      <widgetv2config fieldEditable="1" UncheckedState="f" constraint="" CheckedState="t" labelOnTop="0" constraintDescription="" notNull="0"/>
     </edittype>
   </edittypes>
   <renderer-v2 forceraster="0" symbollevels="0" type="singleSymbol" enableorderby="0">
@@ -90,8 +66,8 @@
     <property key="labeling/fieldName" value=""/>
     <property key="labeling/fitInPolygonOnly" value="false"/>
     <property key="labeling/fontCapitals" value="0"/>
-    <property key="labeling/fontFamily" value="Cantarell"/>
-    <property key="labeling/fontItalic" value="false"/>
+    <property key="labeling/fontFamily" value="Ubuntu"/>
+    <property key="labeling/fontItalic" value="true"/>
     <property key="labeling/fontLetterSpacing" value="0"/>
     <property key="labeling/fontLimitPixelSize" value="false"/>
     <property key="labeling/fontMaxPixelSize" value="10000"/>
@@ -101,7 +77,7 @@
     <property key="labeling/fontSizeMapUnitScale" value="0,0,0,0,0,0"/>
     <property key="labeling/fontStrikeout" value="false"/>
     <property key="labeling/fontUnderline" value="false"/>
-    <property key="labeling/fontWeight" value="50"/>
+    <property key="labeling/fontWeight" value="63"/>
     <property key="labeling/fontWordSpacing" value="0"/>
     <property key="labeling/formatNumbers" value="false"/>
     <property key="labeling/isExpression" value="true"/>
@@ -117,7 +93,7 @@
     <property key="labeling/minFeatureSize" value="0"/>
     <property key="labeling/multilineAlign" value="4294967295"/>
     <property key="labeling/multilineHeight" value="1"/>
-    <property key="labeling/namedStyle" value="Regular"/>
+    <property key="labeling/namedStyle" value="Medium Italic"/>
     <property key="labeling/obstacle" value="true"/>
     <property key="labeling/obstacleFactor" value="1"/>
     <property key="labeling/obstacleType" value="0"/>
@@ -200,8 +176,8 @@
     <property key="labeling/xOffset" value="0"/>
     <property key="labeling/yOffset" value="0"/>
     <property key="labeling/zIndex" value="0"/>
-    <property key="variableNames"/>
-    <property key="variableValues"/>
+    <property key="variableNames" value="_fields_"/>
+    <property key="variableValues" value=""/>
   </customproperties>
   <blendMode>0</blendMode>
   <featureBlendMode>0</featureBlendMode>
@@ -231,7 +207,6 @@
   <SingleCategoryDiagramRenderer diagramType="Histogram" sizeLegend="0" attributeLegend="1">
     <DiagramCategory penColor="#000000" labelPlacementMethod="XHeight" penWidth="0" diagramOrientation="Up" sizeScale="0,0,0,0,0,0" minimumSize="0" barWidth="5" penAlpha="255" maxScaleDenominator="1e+08" backgroundColor="#ffffff" transparency="0" width="15" scaleDependency="Area" backgroundAlpha="255" angleOffset="1440" scaleBasedVisibility="0" enabled="0" height="15" lineSizeScale="0,0,0,0,0,0" sizeType="MM" lineSizeType="MM" minScaleDenominator="100000">
       <fontProperties description="Ubuntu,11,-1,5,50,0,0,0,0,0" style=""/>
-      <attribute field="" color="#000000" label=""/>
     </DiagramCategory>
     <symbol alpha="1" clip_to_extent="1" type="marker" name="sizeSymbol">
       <layer pass="0" class="SimpleMarker" locked="0">
@@ -261,16 +236,8 @@
   <aliases>
     <alias field="ogc_fid" index="0" name=""/>
     <alias field="topic" index="1" name="Topic:"/>
-    <alias field="bezeichnung" index="2" name="Bezeichnung:"/>
-    <alias field="abrechnung" index="3" name="Abrechnung:"/>
-    <alias field="bemerkung" index="4" name="Bemekung:"/>
-    <alias field="datum" index="5" name=""/>
-    <alias field="bemerkung_nfg" index="6" name="Bemekung NFG:"/>
-    <alias field="forstorgan" index="7" name="Forstorgan:"/>
-    <alias field="bemerkung_forst" index="8" name="Bemekung Forst:"/>
-    <alias field="verifikation" index="9" name="Verifikation:"/>
-    <alias field="bemerkung_verifikation" index="10" name="Bemekung Verifikation:"/>
-    <alias field="erledigt" index="11" name="Erledigt:"/>
+    <alias field="bemerkung" index="2" name="Bemerkung:"/>
+    <alias field="datum" index="3" name=""/>
   </aliases>
   <excludeAttributesWMS/>
   <excludeAttributesWFS/>
@@ -282,14 +249,6 @@
       <column width="-1" hidden="0" type="field" name="bemerkung"/>
       <column width="-1" hidden="0" type="field" name="datum"/>
       <column width="-1" hidden="1" type="actions"/>
-      <column width="-1" hidden="0" type="field" name="bezeichnung"/>
-      <column width="-1" hidden="0" type="field" name="abrechnung"/>
-      <column width="-1" hidden="0" type="field" name="bemerkung_nfg"/>
-      <column width="-1" hidden="0" type="field" name="forstorgan"/>
-      <column width="-1" hidden="0" type="field" name="bemerkung_forst"/>
-      <column width="-1" hidden="0" type="field" name="verifikation"/>
-      <column width="-1" hidden="0" type="field" name="bemerkung_verifikation"/>
-      <column width="-1" hidden="0" type="field" name="erledigt"/>
     </columns>
   </attributetableconfig>
   <editform></editform>
@@ -320,20 +279,5 @@ def my_form_open(dialog, layer, feature):
     <rowstyles/>
     <fieldstyles/>
   </conditionalstyles>
-  <defaults>
-    <default field="ogc_fid" expression=""/>
-    <default field="topic" expression="'Bodenbedeckung'"/>
-    <default field="bezeichnung" expression=""/>
-    <default field="abrechnung" expression="'PNF'"/>
-    <default field="bemerkung" expression=""/>
-    <default field="datum" expression=""/>
-    <default field="bemerkung_nfg" expression=""/>
-    <default field="forstorgan" expression=""/>
-    <default field="bemerkung_forst" expression=""/>
-    <default field="verifikation" expression=""/>
-    <default field="bemerkung_verifikation" expression=""/>
-    <default field="erledigt" expression=""/>
-  </defaults>
-  <previewExpression>COALESCE( "ogc_fid", '&lt;NULL>' )</previewExpression>
   <layerGeometryType>2</layerGeometryType>
 </qgis>

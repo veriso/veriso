@@ -28,12 +28,18 @@ class ApplicationModule(ApplicationModuleBase):
                       'default': 'Bodenbedeckung',
                       'alias': 'Topic:',
                       'writable_only_by': ['agi', 'avor']
-                      },
+            },
             'bezeichnung': {
                 'widget': 'Enumeration',
                 'alias': 'Bezeichnung:',
                 'writable_only_by': ['agi', 'avor']
-                },
+            },
+            'abrechnung':{
+                'widget': 'Enumeration',
+                'default': 'PNF',
+                'alias': 'Abrechnung:',
+                'writable_only_by': ['agi', 'avor']
+            },
             'bemerkung': {
                 'widget': 'TextEdit',
                 'alias': 'Bemekung:',
