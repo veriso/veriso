@@ -42,14 +42,14 @@ class ApplicationModule(ApplicationModuleBase):
             },
             'bemerkung': {
                 'widget': 'TextEdit',
-                'alias': 'Bemekung:',
+                'alias': 'Bemerkung AVOR:',
                     'config': {"IsMultiline": True},
                 'writable_only_by': ['agi', 'avor']
             },
             'datum': {'widget': 'Hidden'},
             'bemerkung_nfg': {
                 'widget': 'TextEdit',
-                'alias': 'Bemekung NFG:',
+                'alias': 'Bemerkung NFG:',
                 'config': {"IsMultiline": True},
                 'writable_only_by': ['agi', 'geometer']
             },
@@ -60,7 +60,7 @@ class ApplicationModule(ApplicationModuleBase):
             },
             'bemerkung_forst': {
                 'widget': 'TextEdit',
-                'alias': 'Bemekung Forst:',
+                'alias': 'Bemerkung Forst:',
                 'config': {"IsMultiline": True},
                 'writable_only_by': ['agi', 'forst']
             },
@@ -71,7 +71,7 @@ class ApplicationModule(ApplicationModuleBase):
             },
             'bemerkung_verifikation': {
                 'widget': 'TextEdit',
-                'alias': 'Bemekung Verifikation:',
+                'alias': 'Bemerkung Verifikation:',
                 'config': {"IsMultiline": True},
                 'writable_only_by': ['agi']
             },

@@ -218,7 +218,7 @@ class ComplexCheck(ComplexCheckBase):
             layer["group"] = group
             layer["sql"] = ""
             layer["key"] = "ogc_fid"
-            layer["style"] = ""
+            #layer["style"] = ""
             vlayer = self.layer_loader.load(layer, False, True)
 
 

@@ -45,8 +45,8 @@ class ComplexCheck(ComplexCheckBase):
             group += " (" + str(project_id) + ")"
             
             # Layernamen hier definieren:
-            lokalisation = _translate("VeriSO_EE_Geb_LokTest", "Lokalisation Lokalisationstest", None) 
-            strassenstueck_geometrie = _translate("VeriSO_EE_Geb_LokTest", "Strassenstueck (geometrie) Lokalisationstest", None)  
+            lokalisation = _translate("VeriSO_EE_Geb_LokTest", "Lokalisation Lokalisationstest", None)
+            strassenstueck_geometrie = _translate("VeriSO_EE_Geb_LokTest", "Strassenstueck (geometrie) Lokalisationstest", None)
             strassenstueck_anfangspunkt = _translate("VeriSO_EE_Geb_LokTest", "Strassenstueck (anfangspunkt) Lokalisationstest", None)  
             benanntesgebiet = _translate("VeriSO_EE_Geb_LokTest", "Benanntes Gebiet Lokalisationstest", None)  
             gebaeudeeingang = _translate("VeriSO_EE_Geb_LokTest", "Gebaeudeeingang Lokalisationstest", None)  
@@ -58,13 +58,14 @@ class ComplexCheck(ComplexCheckBase):
             if not vlayer_lokalisation:
                 layer = {}
                 layer["type"] = "postgres"
-                layer["title"] = _translate("VeriSO_EE_gebaeudeadressen_lokalisation","Lokalisation", None)
+                layer["title"] = _translate("VeriSO_EE_gebaeudeadressen_lokalisation","Lokalisation Lokalisationstest", None)
                 layer["featuretype"] = "gebaeudeadressen_lokalisation"
                 layer["key"] = "ogc_fid"            
-                layer["sql"] = "t_ili_tid = '-1'"
+                layer["sql"] = "ogc_fid = '-1'"
                 layer["readonly"] = True
                 layer["group"] = group
                 vlayer_lokalisation = self.layer_loader.load(layer)
+                print('vlayer_lokalisation', vlayer_lokalisation.getFeatures())
 
             vlayer_strassenstueck_geometrie = self.getVectorLayerByName(strassenstueck_geometrie)
             if not vlayer_strassenstueck_geometrie:
@@ -192,7 +193,7 @@ class ComplexCheck(ComplexCheckBase):
             vlayer_strassenstueck_anfangspunkt.setSubsetString("(strassenstueck_von = '"+str(benannte)+"')")
             vlayer_benanntesgebiet.setSubsetString("(benanntesgebiet_von = '"+str(benannte)+"')")
             vlayer_gebaeudeeingang.setSubsetString("(gebaeudeeingang_von = '"+str(benannte)+"')")
-            vlayer_lokalisation.setSubsetString("(t_ili_tid = '"+str(benannte)+"')")
+            vlayer_lokalisation.setSubsetString("(ogc_fid = '" + str(benannte) + "')")
             vlayer_shortestline.setSubsetString("(lok_tid = '"+str(benannte)+"')")
             vlayer_hausnummerpos.setSubsetString("(lok_tid = '"+str(benannte)+"')")
 
@@ -238,20 +239,23 @@ class ComplexCheck(ComplexCheckBase):
 
             # only one feature is selected
             for feature in iter:
+                print('in for')
                 prinzip_idx = vlayer_lokalisation.fieldNameIndex("nummerierungsprinzip_txt")
                 attributeprovisorisch_idx = vlayer_lokalisation.fieldNameIndex("attributeprovisorisch_txt")
                 offiziell_idx = vlayer_lokalisation.fieldNameIndex("istoffiziellebezeichnung_txt")
                 status_idx = vlayer_lokalisation.fieldNameIndex("status_txt")
                 inaenderung_idx = vlayer_lokalisation.fieldNameIndex("inaenderung_txt")
                 art_idx = vlayer_lokalisation.fieldNameIndex("art_txt")
-                
+
+                print('prinzip_idx', prinzip_idx)
                 if prinzip_idx == -1 or attributeprovisorisch_idx == -1 or offiziell_idx == -1 or status_idx == -1 or inaenderung_idx == -1 or art_idx == -1:
                     self.iface.messageBar().pushMessage("Error",  _translate("VeriSO_EE_Geb_LokTest", "Field not found.", None), level=QgsMessageBar.CRITICAL, duration=10)                                                                        
                     QApplication.restoreOverrideCursor()
                     return
 
                 prinzip = feature.attributes()[prinzip_idx]
-                attributeprovisorisch = feature.attributes()[attributeprovisorisch_idx]            
+                print('prinzip', prinzip)
+                attributeprovisorisch = feature.attributes()[attributeprovisorisch_idx]
                 offiziell = feature.attributes()[offiziell_idx]
                 status = feature.attributes()[status_idx]
                 inaenderung = feature.attributes()[inaenderung_idx]

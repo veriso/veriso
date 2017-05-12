@@ -606,7 +606,7 @@ GRANT ALL ON TABLE $$DBSCHEMA.einzelobjekte_linienelement_v TO $$USER;',2,'Was i
  (39,'CREATE OR REPLACE VIEW $$DBSCHEMA.einzelobjekte_objektnamepos_v AS
  SELECT einzelobjekte_objektname.aname, einzelobjekte_objektnamepos.pos, einzelobjekte_objektnamepos.ogc_fid
    FROM $$DBSCHEMA.einzelobjekte_objektname, $$DBSCHEMA.einzelobjekte_objektnamepos
-  WHERE einzelobjekte_objektname.t_ili_tid::text = einzelobjekte_objektnamepos.objektnamepos_von::text;
+  WHERE einzelobjekte_objektname.ogc_fid::text = einzelobjekte_objektnamepos.objektnamepos_von::text;
 
 ALTER TABLE $$DBSCHEMA.einzelobjekte_objektnamepos_v
   OWNER TO $$USER;
@@ -1462,7 +1462,7 @@ REVOKE ALL PRIVILEGES ON $$DBSCHEMA.t_maengel_punkt FROM avor;
 GRANT SELECT, UPDATE, INSERT, DELETE ON $$DBSCHEMA.t_maengel_punkt TO agi;
 GRANT SELECT, UPDATE(bemerkung_nfg) ON $$DBSCHEMA.t_maengel_punkt TO geometer;
 GRANT SELECT, UPDATE(forstorgan, bemerkung_forst) ON $$DBSCHEMA.t_maengel_punkt TO forst;
-GRANT SELECT, UPDATE(topic, bezeichnung, bemerkung), INSERT, DELETE ON $$DBSCHEMA.t_maengel_punkt TO avor;
+GRANT SELECT, UPDATE(topic, bezeichnung, bemerkung, abrechnung), INSERT, DELETE ON $$DBSCHEMA.t_maengel_punkt TO avor;
 
 GRANT USAGE ON $$DBSCHEMA.t_maengel_punkt_ogc_fid_seq TO agi;
 GRANT USAGE ON $$DBSCHEMA.t_maengel_punkt_ogc_fid_seq TO avor;
@@ -1496,7 +1496,7 @@ REVOKE ALL PRIVILEGES ON $$DBSCHEMA.t_maengel_linie FROM avor;
 GRANT SELECT, UPDATE, INSERT, DELETE ON $$DBSCHEMA.t_maengel_linie TO agi;
 GRANT SELECT, UPDATE(bemerkung_nfg) ON $$DBSCHEMA.t_maengel_linie TO geometer;
 GRANT SELECT, UPDATE(forstorgan, bemerkung_forst) ON $$DBSCHEMA.t_maengel_linie TO forst;
-GRANT SELECT, UPDATE(topic, bezeichnung, bemerkung), INSERT, DELETE ON $$DBSCHEMA.t_maengel_linie TO avor;
+GRANT SELECT, UPDATE(topic, bezeichnung, bemerkung, abrechnung), INSERT, DELETE ON $$DBSCHEMA.t_maengel_linie TO avor;
 
 GRANT USAGE ON $$DBSCHEMA.t_maengel_linie_ogc_fid_seq TO agi;
 GRANT USAGE ON $$DBSCHEMA.t_maengel_linie_ogc_fid_seq TO avor;
@@ -1528,7 +1528,7 @@ REVOKE ALL PRIVILEGES ON $$DBSCHEMA.t_maengel_polygon FROM avor;
 GRANT SELECT, UPDATE, INSERT, DELETE ON $$DBSCHEMA.t_maengel_polygon TO agi;
 GRANT SELECT, UPDATE(bemerkung_nfg) ON $$DBSCHEMA.t_maengel_polygon TO geometer;
 GRANT SELECT, UPDATE(forstorgan, bemerkung_forst) ON $$DBSCHEMA.t_maengel_polygon TO forst;
-GRANT SELECT, UPDATE(topic, bezeichnung, bemerkung), INSERT, DELETE ON $$DBSCHEMA.t_maengel_polygon TO avor;
+GRANT SELECT, UPDATE(topic, bezeichnung, bemerkung, abrechnung), INSERT, DELETE ON $$DBSCHEMA.t_maengel_polygon TO avor;
 
 GRANT USAGE ON $$DBSCHEMA.t_maengel_polygon_ogc_fid_seq TO agi;
 GRANT USAGE ON $$DBSCHEMA.t_maengel_polygon_ogc_fid_seq TO avor;
