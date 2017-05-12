@@ -99,7 +99,7 @@ class ComplexCheck(ComplexCheckBase):
             layer["key"] = "ogc_fid"            
             layer["sql"] = ""
             layer["group"] = group
-            layer["style"] = "bodenbedeckung/eo_punkt_ortho.qml"
+            layer["style"] = "bodenbedeckung/eo_punk_ortho.qml"
             vlayerEOPkt = self.layer_loader.load(layer)
 
 

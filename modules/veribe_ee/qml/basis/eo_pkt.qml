@@ -22,28 +22,26 @@
   </edittypes>
   <renderer-v2 attr="art_txt" symbollevels="0" type="categorizedSymbol">
     <categories>
-      <category render="true" symbol="0" value="" label="restliche EO-Arten"/>
+      <category render="true" symbol="0" value="" label="Restliche EO-Arten"/>
       <category render="true" symbol="1" value="Denkmal" label="Denkmal"/>
       <category render="true" symbol="2" value="Quelle" label="Quelle"/>
-      <category render="true" symbol="3" value="einzelner_Fels" label="einzelner_Fels"/>
-      <category render="true" symbol="4" value="Mast_Antenne" label="Mast_Antenne"/>
+      <category render="true" symbol="3" value="einzelner_Fels" label="Einzelner Fels"/>
+      <category render="true" symbol="4" value="Mast_Antenne" label="Mast Antenne"/>
       <category render="true" symbol="5" value="Aussichtsturm" label="Aussichtsturm"/>
-      <category render="true" symbol="6" value="wichtiger_Einzelbaum" label="wichtiger_Einzelbaum"/>
+      <category render="true" symbol="6" value="wichtiger_Einzelbaum" label="Wichtiger Einzelbaum"/>
       <category render="true" symbol="7" value="Bezugspunkt" label="Bezugspunkt"/>
-      <category render="true" symbol="8" value="weitere" label="weitere"/>
+      <category render="true" symbol="8" value="weitere" label="Weitere"/>
     </categories>
     <symbols>
       <symbol alpha="1" type="marker" name="0">
         <layer pass="0" class="SimpleMarker" locked="0">
           <prop k="angle" v="0"/>
-          <prop k="color" v="255,0,127,255"/>
+          <prop k="color" v="#000000"/>
           <prop k="horizontal_anchor_point" v="1"/>
-          <prop k="name" v="circle"/>
           <prop k="offset" v="0,0"/>
           <prop k="offset_map_unit_scale" v="0,0"/>
           <prop k="offset_unit" v="MM"/>
-          <prop k="outline_color" v="255,0,0,255"/>
-          <prop k="outline_style" v="solid"/>
+          <prop k="outline_color" v="#000000"/>
           <prop k="outline_width" v="0"/>
           <prop k="outline_width_map_unit_scale" v="0,0"/>
           <prop k="outline_width_unit" v="MM"/>
@@ -55,140 +53,133 @@
         </layer>
       </symbol>
       <symbol alpha="1" type="marker" name="1">
-        <layer pass="0" class="SvgMarker" locked="0">
+        <layer pass="0" class="SimpleMarker" locked="0">
           <prop k="angle" v="0"/>
-          <prop k="color" v="#000000"/>
+          <prop k="color" v="#0f1bff"/>
           <prop k="horizontal_anchor_point" v="1"/>
-          <prop k="name" v="av/grundbuchplan/symbol_k_denkmal.svg"/>
           <prop k="offset" v="0,0"/>
           <prop k="offset_map_unit_scale" v="0,0"/>
           <prop k="offset_unit" v="MM"/>
           <prop k="outline_color" v="#000000"/>
-          <prop k="outline_width" v="1"/>
+          <prop k="outline_width" v="0"/>
           <prop k="outline_width_map_unit_scale" v="0,0"/>
           <prop k="outline_width_unit" v="MM"/>
           <prop k="scale_method" v="area"/>
-          <prop k="size" v="5"/>
+          <prop k="size" v="2"/>
           <prop k="size_map_unit_scale" v="0,0"/>
           <prop k="size_unit" v="MM"/>
           <prop k="vertical_anchor_point" v="1"/>
         </layer>
       </symbol>
       <symbol alpha="1" type="marker" name="2">
-        <layer pass="0" class="SvgMarker" locked="0">
+        <layer pass="0" class="SimpleMarker" locked="0">
           <prop k="angle" v="0"/>
-          <prop k="color" v="#000000"/>
+          <prop k="color" v="#0facff"/>
           <prop k="horizontal_anchor_point" v="1"/>
-          <prop k="name" v="av/grundbuchplan/symbol_i_quelle_wasseraustritt.svg"/>
           <prop k="offset" v="0,0"/>
           <prop k="offset_map_unit_scale" v="0,0"/>
           <prop k="offset_unit" v="MM"/>
           <prop k="outline_color" v="#000000"/>
-          <prop k="outline_width" v="1"/>
+          <prop k="outline_width" v="0"/>
           <prop k="outline_width_map_unit_scale" v="0,0"/>
           <prop k="outline_width_unit" v="MM"/>
           <prop k="scale_method" v="area"/>
-          <prop k="size" v="5"/>
+          <prop k="size" v="2"/>
           <prop k="size_map_unit_scale" v="0,0"/>
           <prop k="size_unit" v="MM"/>
           <prop k="vertical_anchor_point" v="1"/>
         </layer>
       </symbol>
       <symbol alpha="1" type="marker" name="3">
-        <layer pass="0" class="SvgMarker" locked="0">
+        <layer pass="0" class="SimpleMarker" locked="0">
           <prop k="angle" v="0"/>
-          <prop k="color" v="#000000"/>
+          <prop k="color" v="#a0a0a0"/>
           <prop k="horizontal_anchor_point" v="1"/>
-          <prop k="name" v="av/grundbuchplan/symbol_g_einzelner_fels.svg"/>
           <prop k="offset" v="0,0"/>
           <prop k="offset_map_unit_scale" v="0,0"/>
           <prop k="offset_unit" v="MM"/>
           <prop k="outline_color" v="#000000"/>
-          <prop k="outline_width" v="1"/>
+          <prop k="outline_width" v="0"/>
           <prop k="outline_width_map_unit_scale" v="0,0"/>
           <prop k="outline_width_unit" v="MM"/>
           <prop k="scale_method" v="area"/>
-          <prop k="size" v="5"/>
+          <prop k="size" v="2"/>
           <prop k="size_map_unit_scale" v="0,0"/>
           <prop k="size_unit" v="MM"/>
           <prop k="vertical_anchor_point" v="1"/>
         </layer>
       </symbol>
       <symbol alpha="1" type="marker" name="4">
-        <layer pass="0" class="SvgMarker" locked="0">
+        <layer pass="0" class="SimpleMarker" locked="0">
           <prop k="angle" v="0"/>
-          <prop k="color" v="#000000"/>
+          <prop k="color" v="#121112"/>
           <prop k="horizontal_anchor_point" v="1"/>
-          <prop k="name" v="av/grundbuchplan/symbol_h_mast_antenne.svg"/>
           <prop k="offset" v="0,0"/>
           <prop k="offset_map_unit_scale" v="0,0"/>
           <prop k="offset_unit" v="MM"/>
           <prop k="outline_color" v="#000000"/>
-          <prop k="outline_width" v="1"/>
+          <prop k="outline_width" v="0"/>
           <prop k="outline_width_map_unit_scale" v="0,0"/>
           <prop k="outline_width_unit" v="MM"/>
           <prop k="scale_method" v="area"/>
-          <prop k="size" v="5"/>
+          <prop k="size" v="2"/>
           <prop k="size_map_unit_scale" v="0,0"/>
           <prop k="size_unit" v="MM"/>
           <prop k="vertical_anchor_point" v="1"/>
         </layer>
       </symbol>
       <symbol alpha="1" type="marker" name="5">
-        <layer pass="0" class="SvgMarker" locked="0">
+        <layer pass="0" class="SimpleMarker" locked="0">
           <prop k="angle" v="0"/>
-          <prop k="color" v="#000000"/>
+          <prop k="color" v="#121112"/>
           <prop k="horizontal_anchor_point" v="1"/>
-          <prop k="name" v="av/grundbuchplan/symbol_p_aussichtsturm.svg"/>
           <prop k="offset" v="0,0"/>
           <prop k="offset_map_unit_scale" v="0,0"/>
           <prop k="offset_unit" v="MM"/>
           <prop k="outline_color" v="#000000"/>
-          <prop k="outline_width" v="1"/>
+          <prop k="outline_width" v="0"/>
           <prop k="outline_width_map_unit_scale" v="0,0"/>
           <prop k="outline_width_unit" v="MM"/>
           <prop k="scale_method" v="area"/>
-          <prop k="size" v="5"/>
+          <prop k="size" v="2"/>
           <prop k="size_map_unit_scale" v="0,0"/>
           <prop k="size_unit" v="MM"/>
           <prop k="vertical_anchor_point" v="1"/>
         </layer>
       </symbol>
       <symbol alpha="1" type="marker" name="6">
-        <layer pass="0" class="SvgMarker" locked="0">
+        <layer pass="0" class="SimpleMarker" locked="0">
           <prop k="angle" v="0"/>
-          <prop k="color" v="#000000"/>
+          <prop k="color" v="#12ae12"/>
           <prop k="horizontal_anchor_point" v="1"/>
-          <prop k="name" v="av/grundbuchplan/symbol_o_wichtiger_einzelbaum.svg"/>
           <prop k="offset" v="0,0"/>
           <prop k="offset_map_unit_scale" v="0,0"/>
           <prop k="offset_unit" v="MM"/>
           <prop k="outline_color" v="#000000"/>
-          <prop k="outline_width" v="1"/>
+          <prop k="outline_width" v="0"/>
           <prop k="outline_width_map_unit_scale" v="0,0"/>
           <prop k="outline_width_unit" v="MM"/>
           <prop k="scale_method" v="area"/>
-          <prop k="size" v="5"/>
+          <prop k="size" v="2"/>
           <prop k="size_map_unit_scale" v="0,0"/>
           <prop k="size_unit" v="MM"/>
           <prop k="vertical_anchor_point" v="1"/>
         </layer>
       </symbol>
       <symbol alpha="1" type="marker" name="7">
-        <layer pass="0" class="SvgMarker" locked="0">
+        <layer pass="0" class="SimpleMarker" locked="0">
           <prop k="angle" v="0"/>
-          <prop k="color" v="#000000"/>
+          <prop k="color" v="#ff0000"/>
           <prop k="horizontal_anchor_point" v="1"/>
-          <prop k="name" v="av/grundbuchplan/symbol_q_bezugspunkt.svg"/>
           <prop k="offset" v="0,0"/>
           <prop k="offset_map_unit_scale" v="0,0"/>
           <prop k="offset_unit" v="MM"/>
           <prop k="outline_color" v="#000000"/>
-          <prop k="outline_width" v="1"/>
+          <prop k="outline_width" v="0"/>
           <prop k="outline_width_map_unit_scale" v="0,0"/>
           <prop k="outline_width_unit" v="MM"/>
           <prop k="scale_method" v="area"/>
-          <prop k="size" v="5"/>
+          <prop k="size" v="2"/>
           <prop k="size_map_unit_scale" v="0,0"/>
           <prop k="size_unit" v="MM"/>
           <prop k="vertical_anchor_point" v="1"/>
@@ -197,19 +188,18 @@
       <symbol alpha="1" type="marker" name="8">
         <layer pass="0" class="SimpleMarker" locked="0">
           <prop k="angle" v="0"/>
-          <prop k="color" v="255,0,0,255"/>
+          <prop k="color" v="#000000"/>
           <prop k="horizontal_anchor_point" v="1"/>
           <prop k="name" v="circle"/>
           <prop k="offset" v="0,0"/>
           <prop k="offset_map_unit_scale" v="0,0"/>
           <prop k="offset_unit" v="MM"/>
-          <prop k="outline_color" v="255,0,0,255"/>
-          <prop k="outline_style" v="solid"/>
+          <prop k="outline_color" v="#000000"/>
           <prop k="outline_width" v="0"/>
           <prop k="outline_width_map_unit_scale" v="0,0"/>
           <prop k="outline_width_unit" v="MM"/>
           <prop k="scale_method" v="area"/>
-          <prop k="size" v="3"/>
+          <prop k="size" v="2"/>
           <prop k="size_map_unit_scale" v="0,0"/>
           <prop k="size_unit" v="MM"/>
           <prop k="vertical_anchor_point" v="1"/>
@@ -220,14 +210,12 @@
       <symbol alpha="1" type="marker" name="0">
         <layer pass="0" class="SimpleMarker" locked="0">
           <prop k="angle" v="0"/>
-          <prop k="color" v="86,59,184,255"/>
           <prop k="horizontal_anchor_point" v="1"/>
           <prop k="name" v="circle"/>
           <prop k="offset" v="0,0"/>
           <prop k="offset_map_unit_scale" v="0,0"/>
           <prop k="offset_unit" v="MM"/>
-          <prop k="outline_color" v="0,0,0,255"/>
-          <prop k="outline_style" v="solid"/>
+          <prop k="outline_color" v="#000000"/>
           <prop k="outline_width" v="0"/>
           <prop k="outline_width_map_unit_scale" v="0,0"/>
           <prop k="outline_width_unit" v="MM"/>

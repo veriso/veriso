@@ -23,7 +23,7 @@
   <label>1</label>
   <labelfield>name</labelfield>
   <labelattributes>
-    <label fieldname="name" text="Beschriftung"/>
+    <label fieldname="aname" text="Beschriftung"/>
     <family fieldname="" name="Ubuntu"/>
     <size fieldname="" units="mu" value="20"/>
     <bold fieldname="" on="0"/>

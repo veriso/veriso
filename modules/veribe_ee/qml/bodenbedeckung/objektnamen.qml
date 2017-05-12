@@ -22,7 +22,7 @@
   <label>1</label>
   <labelfield>name</labelfield>
   <labelattributes>
-    <label fieldname="name" text="Beschriftung"/>
+    <label fieldname="aname" text="Beschriftung"/>
     <family fieldname="" name="Cantarell"/>
     <size fieldname="" units="pt" value="12"/>
     <bold fieldname="" on="0"/>
