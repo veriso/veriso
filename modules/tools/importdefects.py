@@ -1,11 +1,12 @@
 # coding=utf-8
 import os
+import os.path
 import sys
 import traceback
 import shapefile
 
 
-from builtins import range, str
+from builtins import range
 
 from openpyxl import load_workbook
 
@@ -18,7 +19,6 @@ from qgis.core import QgsApplication, QgsDataSourceURI, QgsMessageLog, QgsVector
 from qgis.gui import QgsMessageBar
 
 from qgis.PyQt.QtCore import QDateTime
-
 from qgis.PyQt.QtWidgets import QApplication, QDialog, QDialogButtonBox, \
     QFileDialog
 
@@ -70,11 +70,19 @@ class ImportDefectsDialog(QDialog, FORM_CLASS):
         if file_to_import == '':
             self.message_bar.pushWarning("VeriSO",
                                          tr("No Defects file set."))
+            QApplication.restoreOverrideCursor()
             return
 
-        #TODO testare il tipo di file importato se excel o shp o errore
-        #self.import_xlsx()
-        self.import_shp(file_to_import, load_checked)
+        extension = os.path.splitext(file_to_import)[1]
+        if(extension == '.xlsx'):
+            self.import_xlsx(file_to_import, load_checked)
+        elif(extension == '.shp'):
+            self.import_shp(file_to_import, load_checked)
+        else:
+            self.message_bar.pushWarning("VeriSO",
+                                         tr("File must be .xlsx or .shp"))
+            QApplication.restoreOverrideCursor()
+            return
 
         QApplication.restoreOverrideCursor()
         self.close()
@@ -86,8 +94,6 @@ class ImportDefectsDialog(QDialog, FORM_CLASS):
 
         sf = shapefile.Reader(shp)
 
-        # TODO capire il tipo di geometria
-
         # Skip the first field (deletion flag)
         fields = sf.fields[1:]
         header_list = []
@@ -98,29 +104,50 @@ class ImportDefectsDialog(QDialog, FORM_CLASS):
             f_name = f[0].lower()
             header_list.append(f_name)
 
-        shape_records = (shp_rec for shp_rec in sf.iterShapeRecords())
+        shape_records = (shp_rec for shp_rec in sf.iterShapeRecords())                           
 
         for sr in shape_records:
             row = []
             shape = sr.shape
-            x, y = shape.points[0]
-            for r in sr.record:
-                print('type', type(str(r)))
-                row.append(str(r))
 
-            row.append('POINT({} {})'.format(x, y))
+            for r in sr.record:
+                row.append(str(r).decode('utf-8'))
+
+            if (sf.shapeType == 1):
+                points_str = ''.join(str(shape.points)).replace('[', '').replace(']', '').replace(',', '')
+                row.append('POINT({})'.format(points_str))
+            elif (sf.shapeType == 5):
+                points_str = ''.join(str(shape.points)).replace('[', '').replace(']', '').replace('), (',',').replace(
+                    ', ', ' ')
+                row.append('POLYGON({})'.format(points_str))
+            elif (sf.shapeType == 3):
+                points_str = ''.join(str(shape.points)).replace('[(', '').replace(')]', '').replace('), (', ',').replace(
+                    ', ', ' ')
+                row.append('LINESTRING({})'.format(points_str))
+                
             rows_list.append(row)
 
         self.open_db()
 
-        if len(rows_list) > 0:
+        if (sf.shapeType == 1):
             query_points = self.create_query('t_maengel_punkt', header_list, rows_list)
-            print('query', query_points)
+            self.execute_query(query_points)
+        elif (sf.shapeType == 5):
+            query_points = self.create_query('t_maengel_polygon', header_list, rows_list)
+            self.execute_query(query_points)
+        elif (sf.shapeType == 3):
+            query_points = self.create_query('t_maengel_linie', header_list, rows_list)
             self.execute_query(query_points)
 
         self.db.close()
         self.iface.messageBar().pushInfo("VeriSo", "Defects imported from Shapefile")
 
+        if load_checked:
+            defects_module = 'veriso.modules.loaddefects_base'
+            defects_module = dynamic_import(defects_module)
+            d = defects_module.LoadDefectsBase(self.iface, self.module_name)
+            defects_layers = d.run()
+            self.defects_list_dock.load_layers(defects_layers)
 
     def import_xlsx(self, xlsx, load_checked):
 
@@ -154,6 +181,7 @@ class ImportDefectsDialog(QDialog, FORM_CLASS):
 
 
     def read_sheet(self, sheet_name):
+        from builtins import str
         sheet = self.wb[sheet_name]
 
         # list of lists. A list per row
@@ -175,7 +203,7 @@ class ImportDefectsDialog(QDialog, FORM_CLASS):
                 values_list = []
                 row = sheet[i]
                 for cell in row:
-                    values_list.append(cell.value)
+                    values_list.append(str(cell.value))
                 rows_list.append(values_list)
 
         return header_list, rows_list
@@ -186,10 +214,24 @@ class ImportDefectsDialog(QDialog, FORM_CLASS):
         query += ', '.join(header_list[1:12])
         query += ', ' + 'the_geom)'
         query += ' VALUES '
-        query += '(\''
-        query += '), (\''.join(['\', \''.join([str(value) for value in row[1:12]])
-                                + '\', ST_GeomFromText(\''+row[-1]+'\', 2056)' for row in rows_list])
-        query += ')'
+
+        for i in rows_list:
+            query += '('
+            for j in range(1, 12):
+                query += '\''
+
+                query += i[j]
+                query += '\','
+            query += 'ST_GeomFromText(\''+i[-1]+'\', 2056)'
+            query += '),'
+        
+        query = query[:-1]
+
+        #query += '(\''
+        #query += '), (\''.join(['\', \''.join([value for value in row[1:12]])
+        #                        + '\', ST_GeomFromText(\''+row[-1]+'\', 2056)' for row in rows_list])
+        #query += ')'
+
         return query
 
     def open_db(self):
