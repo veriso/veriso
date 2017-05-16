@@ -33,7 +33,7 @@ class OptionsDialog(QDialog, FORM_CLASS):
         self.projects_database = self.settings.value(
                 "options/general/projects_database")
         self.projects_database_path = QFileInfo(
-                self.projects_database).absolutePath()
+                self.projects_database).absolutePath()                          
         self.projects_root_directory = self.settings.value(
                 "options/general/projects_root_directory")
 

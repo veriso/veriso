@@ -2,6 +2,7 @@
 import os
 import sys
 import traceback
+import shapefile
 
 
 from builtins import range, str
@@ -63,13 +64,65 @@ class ImportDefectsDialog(QDialog, FORM_CLASS):
     def accept(self):
         QApplication.setOverrideCursor(Qt.WaitCursor)
 
-        xlsx = self.lineEditDefectsFile.text().strip()
+        file_to_import = self.lineEditDefectsFile.text().strip()
         load_checked = self.load_defects_check.isChecked()
 
-        if xlsx == '':
+        if file_to_import == '':
             self.message_bar.pushWarning("VeriSO",
                                          tr("No Defects file set."))
             return
+
+        #TODO testare il tipo di file importato se excel o shp o errore
+        #self.import_xlsx()
+        self.import_shp(file_to_import, load_checked)
+
+        QApplication.restoreOverrideCursor()
+        self.close()
+
+
+    def import_shp(self, shp, load_checked):
+        shp =  self.lineEditDefectsFile.text().strip()
+        load_checked = self.load_defects_check.isChecked()
+
+        sf = shapefile.Reader(shp)
+
+        # TODO capire il tipo di geometria
+
+        # Skip the first field (deletion flag)
+        fields = sf.fields[1:]
+        header_list = []
+        rows_list = []
+
+        for i in range(len(fields)):
+            f = fields[i]
+            f_name = f[0].lower()
+            header_list.append(f_name)
+
+        shape_records = (shp_rec for shp_rec in sf.iterShapeRecords())
+
+        for sr in shape_records:
+            row = []
+            shape = sr.shape
+            x, y = shape.points[0]
+            for r in sr.record:
+                print('type', type(str(r)))
+                row.append(str(r))
+
+            row.append('POINT({} {})'.format(x, y))
+            rows_list.append(row)
+
+        self.open_db()
+
+        if len(rows_list) > 0:
+            query_points = self.create_query('t_maengel_punkt', header_list, rows_list)
+            print('query', query_points)
+            self.execute_query(query_points)
+
+        self.db.close()
+        self.iface.messageBar().pushInfo("VeriSo", "Defects imported from Shapefile")
+
+
+    def import_xlsx(self, xlsx, load_checked):
 
         self.wb = load_workbook(filename = xlsx, read_only = True)
 
@@ -90,7 +143,7 @@ class ImportDefectsDialog(QDialog, FORM_CLASS):
             self.execute_query(query_polygons)
 
         self.db.close()
-        self.iface.messageBar().pushInfo("VeriSo", "Defects imported")
+        self.iface.messageBar().pushInfo("VeriSo", "Defects imported from Excel file")
 
         if load_checked:
             defects_module = 'veriso.modules.loaddefects_base'
@@ -99,14 +152,11 @@ class ImportDefectsDialog(QDialog, FORM_CLASS):
             defects_layers = d.run()
             self.defects_list_dock.load_layers(defects_layers)
 
-        QApplication.restoreOverrideCursor()
-
-        self.close()
 
     def read_sheet(self, sheet_name):
         sheet = self.wb[sheet_name]
 
-        # list of lists. A list per row with key = column header
+        # list of lists. A list per row
         rows_list = []
         header_list = []
 
@@ -172,7 +222,7 @@ class ImportDefectsDialog(QDialog, FORM_CLASS):
                 self,
                 tr("Choose defects file"),
                 self.input_xlsx_path,
-                "XLSX (*.xlsx)")
+                "Defects layer (*.xlsx *.shp)")
         file_info = QFileInfo(file_path)
         self.lineEditDefectsFile.setText(file_info.absoluteFilePath())
 
