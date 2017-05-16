@@ -29,7 +29,7 @@ class ApplicationModule(ApplicationModuleBase):
                       'alias': 'Topic:',
                       'writable_only_by': ['agi', 'avor']
             },
-            'bezeichnung': {
+            'bezeichnun': {
                 'widget': 'Enumeration',
                 'alias': 'Bezeichnung:',
                 'writable_only_by': ['agi', 'avor']
@@ -40,14 +40,14 @@ class ApplicationModule(ApplicationModuleBase):
                 'alias': 'Abrechnung:',
                 'writable_only_by': ['agi', 'avor']
             },
-            'bemerkung': {
+            'bem_avor': {
                 'widget': 'TextEdit',
                 'alias': 'Bemerkung AVOR:',
-                    'config': {"IsMultiline": True},
+                'config': {"IsMultiline": True},
                 'writable_only_by': ['agi', 'avor']
             },
             'datum': {'widget': 'Hidden'},
-            'bemerkung_nfg': {
+            'bem_nfg': {
                 'widget': 'TextEdit',
                 'alias': 'Bemerkung NFG:',
                 'config': {"IsMultiline": True},
@@ -58,18 +58,18 @@ class ApplicationModule(ApplicationModuleBase):
                 'alias': 'Forstorgan:',
                 'writable_only_by': ['agi', 'forst']
             },
-            'bemerkung_forst': {
+            'bem_forst': {
                 'widget': 'TextEdit',
                 'alias': 'Bemerkung Forst:',
                 'config': {"IsMultiline": True},
                 'writable_only_by': ['agi', 'forst']
             },
-            'verifikation': {
+            'verifikati': {
                 'widget': 'Enumeration',
                 'alias': 'Verifikation:',
                 'writable_only_by': ['agi']
             },
-            'bemerkung_verifikation': {
+            'bem_verifi': {
                 'widget': 'TextEdit',
                 'alias': 'Bemerkung Verifikation:',
                 'config': {"IsMultiline": True},
