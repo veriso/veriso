@@ -25,33 +25,33 @@
   </edittypes>
   <renderer-v2 attr="art_txt" symbollevels="0" type="categorizedSymbol">
     <categories>
-      <category render="true" symbol="0" value="befestigt.Bahn" label="Befestigt Bahn"/>
-      <category render="true" symbol="1" value="befestigt.Strasse_Weg" label="Befestigt Strasse Weg"/>
-      <category render="true" symbol="2" value="befestigt.Trottoir" label="Befestigt Trottoir"/>
-      <category render="true" symbol="3" value="befestigt.uebrige_befestigte" label="Befestigt uebrige befestigte"/>
-      <category render="true" symbol="4" value="befestigt.Verkehrsinsel" label="Befestigt Verkehrsinsel"/>
-      <category render="true" symbol="5" value="befestigt.Wasserbecken" label="Befestigt Wasserbecken"/>
-      <category render="true" symbol="6" value="bestockt.geschlossener_Wald" label="Bestockt geschlossener Wald"/>
+      <category render="true" symbol="0" value="befestigt.Bahn" label="befestigt.Bahn"/>
+      <category render="true" symbol="1" value="befestigt.Strasse_Weg" label="befestigt.Strasse_Weg"/>
+      <category render="true" symbol="2" value="befestigt.Trottoir" label="befestigt.Trottoir"/>
+      <category render="true" symbol="3" value="befestigt.uebrige_befestigte" label="befestigt.uebrige_befestigte"/>
+      <category render="true" symbol="4" value="befestigt.Verkehrsinsel" label="befestigt.Verkehrsinsel"/>
+      <category render="true" symbol="5" value="befestigt.Wasserbecken" label="befestigt.Wasserbecken"/>
+      <category render="true" symbol="6" value="bestockt.geschlossener_Wald" label="bestockt.geschlossener_Wald"/>
       <category render="true" symbol="7" value="Gebaeude" label="Gebaeude"/>
-      <category render="true" symbol="8" value="Gewaesser.fliessendes" label="Gewaesser fliessendes"/>
-      <category render="true" symbol="9" value="Gewaesser.stehendes" label="Gewaesser stehendes"/>
-      <category render="true" symbol="10" value="humusiert.Acker_Wiese_Weide" label="Humusiert Acker Wiese Weide"/>
-      <category render="true" symbol="11" value="humusiert.Gartenanlage" label="Humusiert Gartenanlage"/>
-      <category render="true" symbol="12" value="humusiert.uebrige_humusierte" label="Humusiert uebrige humusierte"/>
-      <category render="true" symbol="13" value="vegetationslos.Abbau_Deponie" label="Vegetationslos Abbau Deponie"/>
-      <category render="true" symbol="14" value="Gewaesser.Schilfguertel" label="Gewaesser Schilfguertel"/>
-      <category render="true" symbol="15" value="bestockt.uebrige_bestockte" label="Bestockt uebrige bestockte"/>
-      <category render="true" symbol="16" value="befestigt.Flugplatz" label="Befestigt Flugplatz"/>
-      <category render="true" symbol="17" value="vegetationslos.Fels" label="Vegetationslos Fels"/>
-      <category render="true" symbol="18" value="vegetationslos.Geroell_Sand" label="Vegetationslos Geroell Sand"/>
-      <category render="true" symbol="19" value="vegetationslos.Gletscher_Firn" label="Vegetationslos Gletscher Firn"/>
-      <category render="true" symbol="20" value="vegetationslos.uebrige_vegetationslose" label="Vegetationslos uebrige vegetationslose"/>
+      <category render="true" symbol="8" value="Gewaesser.fliessendes" label="Gewaesser.fliessendes"/>
+      <category render="true" symbol="9" value="Gewaesser.stehendes" label="Gewaesser.stehendes"/>
+      <category render="true" symbol="10" value="humusiert.Acker_Wiese_Weide" label="humusiert.Acker_Wiese_Weide"/>
+      <category render="true" symbol="11" value="humusiert.Gartenanlage" label="humusiert.Gartenanlage"/>
+      <category render="true" symbol="12" value="humusiert.uebrige_humusierte" label="humusiert.uebrige_humusierte"/>
+      <category render="true" symbol="13" value="vegetationslos.Abbau_Deponie" label="vegetationslos.Abbau_Deponie"/>
+      <category render="true" symbol="14" value="Gewaesser.Schilfguertel" label="Gewaesser.Schilfguertel"/>
+      <category render="true" symbol="15" value="bestockt.uebrige_bestockte" label="bestockt.uebrige_bestockte"/>
+      <category render="true" symbol="16" value="befestigt.Flugplatz" label="befestigt.Flugplatz"/>
+      <category render="true" symbol="17" value="vegetationslos.Fels" label="vegetationslos.Fels"/>
+      <category render="true" symbol="18" value="vegetationslos.Geroell_Sand" label="vegetationslos.Geroell_Sand"/>
+      <category render="true" symbol="19" value="vegetationslos.Gletscher_Firn" label="vegetationslos.Gletscher_Firn"/>
+      <category render="true" symbol="20" value="vegetationslos.uebrige_vegetationslose" label="vegetationslos.uebrige_vegetationslose"/>
       <category render="true" symbol="21" value="" label="FALSCHE ART"/>
-      <category render="true" symbol="22" value="bestockt.Wytweide.Wytweide_dicht" label="Bestockt Wytweide dicht"/>
-      <category render="true" symbol="23" value="bestockt.Wytweide.Wytweide_offen" label="Bestockt Wytweide offen"/>
-      <category render="true" symbol="24" value="humusiert.Hoch_Flachmoor" label="Humusiert Hoch Flachmoor"/>
-      <category render="true" symbol="25" value="humusiert.Intensivkultur.Reben" label="Humusiert Intensivkultur Reben"/>
-      <category render="true" symbol="26" value="humusiert.Intensivkultur.uebrige_Intensivkultur" label="Humusiert Intensivkultur uebrige Intensivkultur"/>
+      <category render="true" symbol="22" value="bestockt.Wytweide.Wytweide_dicht" label="bestockt.Wytweide.Wytweide_dicht"/>
+      <category render="true" symbol="23" value="bestockt.Wytweide.Wytweide_offen" label="bestockt.Wytweide.Wytweide_offen"/>
+      <category render="true" symbol="24" value="humusiert.Hoch_Flachmoor" label="humusiert.Hoch_Flachmoor"/>
+      <category render="true" symbol="25" value="humusiert.Intensivkultur.Reben" label="humusiert.Intensivkultur.Reben"/>
+      <category render="true" symbol="26" value="humusiert.Intensivkultur.uebrige_Intensivkultur" label="humusiert.Intensivkultur.uebrige_Intensivkultur"/>
     </categories>
     <symbols>
       <symbol alpha="0.498039" type="fill" name="0">
@@ -145,18 +145,38 @@
         </layer>
       </symbol>
       <symbol alpha="0.494118" type="fill" name="14">
-        <layer pass="0" class="SimpleFill" locked="0">
-          <prop k="border_width_map_unit_scale" v="0,0"/>
-          <prop k="color" v="193,218,255,255"/>
-          <prop k="joinstyle" v="bevel"/>
-          <prop k="offset" v="0,0"/>
-          <prop k="offset_map_unit_scale" v="0,0"/>
-          <prop k="offset_unit" v="MM"/>
+        <layer pass="0" class="SVGFill" locked="0">
+          <prop k="angle" v="0"/>
+          <prop k="color" v="0,0,0,255"/>
           <prop k="outline_color" v="0,0,0,255"/>
-          <prop k="outline_style" v="solid"/>
-          <prop k="outline_width" v="0.26"/>
+          <prop k="outline_width" v="0.3"/>
+          <prop k="outline_width_map_unit_scale" v="0,0"/>
           <prop k="outline_width_unit" v="MM"/>
-          <prop k="style" v="diagonal_x"/>
+          <prop k="pattern_width_map_unit_scale" v="0,0"/>
+          <prop k="pattern_width_unit" v="MM"/>
+          <prop k="svgFile" v="av/grundbuchplan/symbol_c_schilfguertel.svg"/>
+          <prop k="svg_outline_width_map_unit_scale" v="0,0"/>
+          <prop k="svg_outline_width_unit" v="MM"/>
+          <prop k="width" v="8"/>
+          <symbol alpha="1" type="line" name="@14@0">
+            <layer pass="0" class="SimpleLine" locked="0">
+              <prop k="capstyle" v="square"/>
+              <prop k="customdash" v="5;2"/>
+              <prop k="customdash_map_unit_scale" v="0,0"/>
+              <prop k="customdash_unit" v="MM"/>
+              <prop k="draw_inside_polygon" v="0"/>
+              <prop k="joinstyle" v="bevel"/>
+              <prop k="line_color" v="0,0,0,255"/>
+              <prop k="line_style" v="solid"/>
+              <prop k="line_width" v="0.26"/>
+              <prop k="line_width_unit" v="MM"/>
+              <prop k="offset" v="0"/>
+              <prop k="offset_map_unit_scale" v="0,0"/>
+              <prop k="offset_unit" v="MM"/>
+              <prop k="use_custom_dash" v="0"/>
+              <prop k="width_map_unit_scale" v="0,0"/>
+            </layer>
+          </symbol>
         </layer>
       </symbol>
       <symbol alpha="0.470588" type="fill" name="15">
@@ -190,33 +210,107 @@
         </layer>
       </symbol>
       <symbol alpha="1" type="fill" name="17">
-        <layer pass="0" class="SimpleFill" locked="0">
-          <prop k="border_width_map_unit_scale" v="0,0"/>
-          <prop k="color" v="96,96,96,255"/>
+        <layer pass="0" class="SVGFill" locked="0">
+          <prop k="angle" v="0"/>
+          <prop k="color" v="0,0,0,255"/>
+          <prop k="outline_color" v="0,0,0,255"/>
+          <prop k="outline_width" v="0.3"/>
+          <prop k="outline_width_map_unit_scale" v="0,0"/>
+          <prop k="outline_width_unit" v="MM"/>
+          <prop k="pattern_width_map_unit_scale" v="0,0"/>
+          <prop k="pattern_width_unit" v="MM"/>
+          <prop k="svgFile" v="av/grundbuchplan/symbol_1_fels_geroell.svg"/>
+          <prop k="svg_outline_width_map_unit_scale" v="0,0"/>
+          <prop k="svg_outline_width_unit" v="MM"/>
+          <prop k="width" v="8"/>
+          <symbol alpha="1" type="line" name="@17@0">
+            <layer pass="0" class="SimpleLine" locked="0">
+              <prop k="capstyle" v="square"/>
+              <prop k="customdash" v="5;2"/>
+              <prop k="customdash_map_unit_scale" v="0,0"/>
+              <prop k="customdash_unit" v="MM"/>
+              <prop k="draw_inside_polygon" v="0"/>
+              <prop k="joinstyle" v="bevel"/>
+              <prop k="line_color" v="0,0,0,255"/>
+              <prop k="line_style" v="solid"/>
+              <prop k="line_width" v="0.26"/>
+              <prop k="line_width_unit" v="MM"/>
+              <prop k="offset" v="0"/>
+              <prop k="offset_map_unit_scale" v="0,0"/>
+              <prop k="offset_unit" v="MM"/>
+              <prop k="use_custom_dash" v="0"/>
+              <prop k="width_map_unit_scale" v="0,0"/>
+            </layer>
+          </symbol>
+        </layer>
+        <layer pass="0" class="SimpleLine" locked="0">
+          <prop k="capstyle" v="square"/>
+          <prop k="customdash" v="5;2"/>
+          <prop k="customdash_map_unit_scale" v="0,0"/>
+          <prop k="customdash_unit" v="MM"/>
+          <prop k="draw_inside_polygon" v="0"/>
           <prop k="joinstyle" v="bevel"/>
-          <prop k="offset" v="0,0"/>
+          <prop k="line_color" v="0,0,0,255"/>
+          <prop k="line_style" v="solid"/>
+          <prop k="line_width" v="0.26"/>
+          <prop k="line_width_unit" v="MM"/>
+          <prop k="offset" v="0"/>
           <prop k="offset_map_unit_scale" v="0,0"/>
           <prop k="offset_unit" v="MM"/>
-          <prop k="outline_color" v="0,0,0,255"/>
-          <prop k="outline_style" v="solid"/>
-          <prop k="outline_width" v="0.26"/>
-          <prop k="outline_width_unit" v="MM"/>
-          <prop k="style" v="solid"/>
+          <prop k="use_custom_dash" v="0"/>
+          <prop k="width_map_unit_scale" v="0,0"/>
         </layer>
       </symbol>
       <symbol alpha="1" type="fill" name="18">
-        <layer pass="0" class="SimpleFill" locked="0">
-          <prop k="border_width_map_unit_scale" v="0,0"/>
-          <prop k="color" v="69,69,69,255"/>
+        <layer pass="0" class="SVGFill" locked="0">
+          <prop k="angle" v="0"/>
+          <prop k="color" v="0,0,0,255"/>
+          <prop k="outline_color" v="0,0,0,255"/>
+          <prop k="outline_width" v="0.3"/>
+          <prop k="outline_width_map_unit_scale" v="0,0"/>
+          <prop k="outline_width_unit" v="MM"/>
+          <prop k="pattern_width_map_unit_scale" v="0,0"/>
+          <prop k="pattern_width_unit" v="MM"/>
+          <prop k="svgFile" v="av/grundbuchplan/symbol_2_geroell.svg"/>
+          <prop k="svg_outline_width_map_unit_scale" v="0,0"/>
+          <prop k="svg_outline_width_unit" v="MM"/>
+          <prop k="width" v="10"/>
+          <symbol alpha="1" type="line" name="@18@0">
+            <layer pass="0" class="SimpleLine" locked="0">
+              <prop k="capstyle" v="square"/>
+              <prop k="customdash" v="5;2"/>
+              <prop k="customdash_map_unit_scale" v="0,0"/>
+              <prop k="customdash_unit" v="MM"/>
+              <prop k="draw_inside_polygon" v="0"/>
+              <prop k="joinstyle" v="bevel"/>
+              <prop k="line_color" v="0,0,0,255"/>
+              <prop k="line_style" v="solid"/>
+              <prop k="line_width" v="0.26"/>
+              <prop k="line_width_unit" v="MM"/>
+              <prop k="offset" v="0"/>
+              <prop k="offset_map_unit_scale" v="0,0"/>
+              <prop k="offset_unit" v="MM"/>
+              <prop k="use_custom_dash" v="0"/>
+              <prop k="width_map_unit_scale" v="0,0"/>
+            </layer>
+          </symbol>
+        </layer>
+        <layer pass="0" class="SimpleLine" locked="0">
+          <prop k="capstyle" v="square"/>
+          <prop k="customdash" v="5;2"/>
+          <prop k="customdash_map_unit_scale" v="0,0"/>
+          <prop k="customdash_unit" v="MM"/>
+          <prop k="draw_inside_polygon" v="0"/>
           <prop k="joinstyle" v="bevel"/>
-          <prop k="offset" v="0,0"/>
+          <prop k="line_color" v="0,0,0,255"/>
+          <prop k="line_style" v="solid"/>
+          <prop k="line_width" v="0.26"/>
+          <prop k="line_width_unit" v="MM"/>
+          <prop k="offset" v="0"/>
           <prop k="offset_map_unit_scale" v="0,0"/>
           <prop k="offset_unit" v="MM"/>
-          <prop k="outline_color" v="0,0,0,255"/>
-          <prop k="outline_style" v="solid"/>
-          <prop k="outline_width" v="0.26"/>
-          <prop k="outline_width_unit" v="MM"/>
-          <prop k="style" v="dense7"/>
+          <prop k="use_custom_dash" v="0"/>
+          <prop k="width_map_unit_scale" v="0,0"/>
         </layer>
       </symbol>
       <symbol alpha="1" type="fill" name="19">
@@ -310,67 +404,90 @@
         </layer>
       </symbol>
       <symbol alpha="1" type="fill" name="24">
-        <layer pass="0" class="SimpleFill" locked="0">
-          <prop k="border_width_map_unit_scale" v="0,0"/>
-          <prop k="color" v="0,50,255,255"/>
-          <prop k="joinstyle" v="bevel"/>
-          <prop k="offset" v="0,0"/>
-          <prop k="offset_map_unit_scale" v="0,0"/>
-          <prop k="offset_unit" v="MM"/>
+        <layer pass="0" class="SVGFill" locked="0">
+          <prop k="angle" v="0"/>
+          <prop k="color" v="0,0,0,255"/>
           <prop k="outline_color" v="0,0,0,255"/>
-          <prop k="outline_style" v="solid"/>
-          <prop k="outline_width" v="0.26"/>
+          <prop k="outline_width" v="0.3"/>
+          <prop k="outline_width_map_unit_scale" v="0,0"/>
           <prop k="outline_width_unit" v="MM"/>
-          <prop k="style" v="dense6"/>
+          <prop k="pattern_width_map_unit_scale" v="0,0"/>
+          <prop k="pattern_width_unit" v="MM"/>
+          <prop k="svgFile" v="av/grundbuchplan/symbol_d_moor.svg"/>
+          <prop k="svg_outline_width_map_unit_scale" v="0,0"/>
+          <prop k="svg_outline_width_unit" v="MM"/>
+          <prop k="width" v="10"/>
+          <symbol alpha="1" type="line" name="@24@0">
+            <layer pass="0" class="SimpleLine" locked="0">
+              <prop k="capstyle" v="square"/>
+              <prop k="customdash" v="5;2"/>
+              <prop k="customdash_map_unit_scale" v="0,0"/>
+              <prop k="customdash_unit" v="MM"/>
+              <prop k="draw_inside_polygon" v="0"/>
+              <prop k="joinstyle" v="bevel"/>
+              <prop k="line_color" v="0,0,0,255"/>
+              <prop k="line_style" v="solid"/>
+              <prop k="line_width" v="0.26"/>
+              <prop k="line_width_unit" v="MM"/>
+              <prop k="offset" v="0"/>
+              <prop k="offset_map_unit_scale" v="0,0"/>
+              <prop k="offset_unit" v="MM"/>
+              <prop k="use_custom_dash" v="0"/>
+              <prop k="width_map_unit_scale" v="0,0"/>
+            </layer>
+          </symbol>
         </layer>
       </symbol>
       <symbol alpha="1" type="fill" name="25">
-        <layer pass="0" class="SimpleFill" locked="0">
-            <prop k="border_width_map_unit_scale" v="0,0,0,0,0,0"/>
-            <prop k="color" v="164,220,63,255"/>
-            <prop k="joinstyle" v="bevel"/>
-            <prop k="offset" v="0,0"/>
-            <prop k="offset_map_unit_scale" v="0,0,0,0,0,0"/>
-            <prop k="offset_unit" v="MM"/>
-            <prop k="outline_color" v="0,0,0,255"/>
-            <prop k="outline_style" v="solid"/>
-            <prop k="outline_width" v="0.26"/>
-            <prop k="outline_width_unit" v="MM"/>
-            <prop k="style" v="solid"/>
+        <layer pass="0" class="SVGFill" locked="0">
+          <prop k="angle" v="0"/>
+          <prop k="color" v="0,0,0,255"/>
+          <prop k="outline_color" v="0,0,0,255"/>
+          <prop k="outline_width" v="0.3"/>
+          <prop k="outline_width_map_unit_scale" v="0,0"/>
+          <prop k="outline_width_unit" v="MM"/>
+          <prop k="pattern_width_map_unit_scale" v="0,0"/>
+          <prop k="pattern_width_unit" v="MM"/>
+          <prop k="svgFile" v="av/grundbuchplan/symbol_b_reben.svg"/>
+          <prop k="svg_outline_width_map_unit_scale" v="0,0"/>
+          <prop k="svg_outline_width_unit" v="MM"/>
+          <prop k="width" v="7"/>
+          <symbol alpha="1" type="line" name="@25@0">
+            <layer pass="0" class="SimpleLine" locked="0">
+              <prop k="capstyle" v="square"/>
+              <prop k="customdash" v="5;2"/>
+              <prop k="customdash_map_unit_scale" v="0,0"/>
+              <prop k="customdash_unit" v="MM"/>
+              <prop k="draw_inside_polygon" v="0"/>
+              <prop k="joinstyle" v="bevel"/>
+              <prop k="line_color" v="0,0,0,255"/>
+              <prop k="line_style" v="solid"/>
+              <prop k="line_width" v="0.26"/>
+              <prop k="line_width_unit" v="MM"/>
+              <prop k="offset" v="0"/>
+              <prop k="offset_map_unit_scale" v="0,0"/>
+              <prop k="offset_unit" v="MM"/>
+              <prop k="use_custom_dash" v="0"/>
+              <prop k="width_map_unit_scale" v="0,0"/>
+            </layer>
+          </symbol>
         </layer>
-        <layer pass="0" class="LinePatternFill" locked="0">
-            <prop k="angle" v="90"/>
-            <prop k="color" v="16,198,0,255"/>
-            <prop k="distance" v="1.4"/>
-            <prop k="distance_map_unit_scale" v="0,0,0,0,0,0"/>
-            <prop k="distance_unit" v="MM"/>
-            <prop k="line_width" v="0.26"/>
-            <prop k="line_width_map_unit_scale" v="0,0,0,0,0,0"/>
-            <prop k="line_width_unit" v="MM"/>
-            <prop k="offset" v="0"/>
-            <prop k="offset_map_unit_scale" v="0,0,0,0,0,0"/>
-            <prop k="offset_unit" v="MM"/>
-            <prop k="outline_width_map_unit_scale" v="0,0,0,0,0,0"/>
-            <prop k="outline_width_unit" v="MM"/>
-            <symbol alpha="1" clip_to_extent="1" type="line" name="@vigna@1">
-                <layer pass="0" class="SimpleLine" locked="0">
-                    <prop k="capstyle" v="square"/>
-                    <prop k="customdash" v="3;2"/>
-                    <prop k="customdash_map_unit_scale" v="0,0,0,0,0,0"/>
-                    <prop k="customdash_unit" v="MM"/>
-                    <prop k="draw_inside_polygon" v="0"/>
-                    <prop k="joinstyle" v="bevel"/>
-                    <prop k="line_color" v="1,23,0,255"/>
-                    <prop k="line_style" v="dash"/>
-                    <prop k="line_width" v="0"/>
-                    <prop k="line_width_unit" v="MM"/>
-                    <prop k="offset" v="0"/>
-                    <prop k="offset_map_unit_scale" v="0,0,0,0,0,0"/>
-                    <prop k="offset_unit" v="MM"/>
-                    <prop k="use_custom_dash" v="1"/>
-                    <prop k="width_map_unit_scale" v="0,0,0,0,0,0"/>
-                </layer>
-            </symbol>
+        <layer pass="0" class="SimpleLine" locked="0">
+          <prop k="capstyle" v="square"/>
+          <prop k="customdash" v="5;2"/>
+          <prop k="customdash_map_unit_scale" v="0,0"/>
+          <prop k="customdash_unit" v="MM"/>
+          <prop k="draw_inside_polygon" v="0"/>
+          <prop k="joinstyle" v="bevel"/>
+          <prop k="line_color" v="0,0,0,255"/>
+          <prop k="line_style" v="solid"/>
+          <prop k="line_width" v="0.26"/>
+          <prop k="line_width_unit" v="MM"/>
+          <prop k="offset" v="0"/>
+          <prop k="offset_map_unit_scale" v="0,0"/>
+          <prop k="offset_unit" v="MM"/>
+          <prop k="use_custom_dash" v="0"/>
+          <prop k="width_map_unit_scale" v="0,0"/>
         </layer>
       </symbol>
       <symbol alpha="1" type="fill" name="26">
