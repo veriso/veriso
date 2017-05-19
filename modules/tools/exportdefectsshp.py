@@ -92,15 +92,11 @@ class ExportDefectsShp(QObject):
             vlayer_points = QgsVectorLayer(uri.uri(), "Maengel (Punkte)",
                                            "postgres")
 
-            uri = QgsDataSourceURI()
-            uri.setConnection(db_host, db_port, db_name, db_user, db_pwd)
             uri.setDataSource(db_schema, "t_maengel_linie", "the_geom", "",
                               "ogc_fid")
             vlayer_lines = QgsVectorLayer(uri.uri(), "Maengel (Linien)",
                                           "postgres")
 
-            uri = QgsDataSourceURI()
-            uri.setConnection(db_host, db_port, db_name, db_user, db_pwd)
             uri.setDataSource(db_schema, "t_maengel_polygon", "the_geom", "",
                               "ogc_fid")
             vlayer_polygons = QgsVectorLayer(uri.uri(), "Maengel (Linien)",
@@ -143,46 +139,9 @@ class ExportDefectsShp(QObject):
                                 None))
                 return
 
-            filename = QDir.convertSeparators(
-                QDir.cleanPath(os.path.join(project_dir, "maengel_punkt.shp")))
-
-            error = QgsVectorFileWriter.writeAsVectorFormat(vlayer_points, filename, None, None,
-                                                            "ESRI Shapefile")
-            if error == QgsVectorFileWriter.NoError:
-                self.message_bar.pushInfo("Information",
-                                          tr(
-                                              "Defect(s) written: ",
-                                              self.tr_tag,
-                                              None) + str(
-                                              filename))
-
-            filename = QDir.convertSeparators(
-                QDir.cleanPath(os.path.join(project_dir, "maengel_linie.shp")))
-
-            error = QgsVectorFileWriter.writeAsVectorFormat(vlayer_lines, filename, None, None,
-                                                            "ESRI Shapefile")
-            if error == QgsVectorFileWriter.NoError:
-                self.message_bar.pushInfo("Information",
-                                          tr(
-                                              "Defect(s) written: ",
-                                              self.tr_tag,
-                                              None) + str(
-                                              filename))
-
-            filename = QDir.convertSeparators(
-                QDir.cleanPath(os.path.join(project_dir, "maengel_polygon.shp")))
-
-            error = QgsVectorFileWriter.writeAsVectorFormat(vlayer_polygons, filename, None, None,
-                                                            "ESRI Shapefile")
-
-            if error == QgsVectorFileWriter.NoError:
-                self.message_bar.pushInfo("Information",
-                                          tr(
-                                              "Defect(s) written: ",
-                                              self.tr_tag,
-                                              None) + str(
-                                              filename))
-
+            self.write_file(project_dir, "maengel_punkt.shp", vlayer_points)
+            self.write_file(project_dir, "maengel_linie.shp", vlayer_lines)
+            self.write_file(project_dir, "maengel_polygon.shp", vlayer_polygons)
 
         except Exception as e:
             message = "Error while writing defects file."
@@ -193,3 +152,17 @@ class ExportDefectsShp(QObject):
                                          duration=0)
             QgsMessageLog.logMessage(str(e), "VeriSO", QgsMessageLog.CRITICAL)
             return
+
+    def write_file(self,  project_dir, shp_filename, layer):
+        filename = QDir.convertSeparators(
+            QDir.cleanPath(os.path.join(project_dir, shp_filename)))
+
+        error = QgsVectorFileWriter.writeAsVectorFormat(layer, filename, None, None,
+                                                        "ESRI Shapefile")
+        if error == QgsVectorFileWriter.NoError:
+            self.message_bar.pushInfo("Information",
+                                      tr(
+                                          "Defect(s) written: ",
+                                          self.tr_tag,
+                                          None) + str(
+                                          filename))
