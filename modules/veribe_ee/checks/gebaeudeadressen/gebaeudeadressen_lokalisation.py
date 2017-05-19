@@ -65,7 +65,6 @@ class ComplexCheck(ComplexCheckBase):
                 layer["readonly"] = True
                 layer["group"] = group
                 vlayer_lokalisation = self.layer_loader.load(layer)
-                print('vlayer_lokalisation', vlayer_lokalisation.getFeatures())
 
             vlayer_strassenstueck_geometrie = self.getVectorLayerByName(strassenstueck_geometrie)
             if not vlayer_strassenstueck_geometrie:
@@ -239,7 +238,6 @@ class ComplexCheck(ComplexCheckBase):
 
             # only one feature is selected
             for feature in iter:
-                print('in for')
                 prinzip_idx = vlayer_lokalisation.fieldNameIndex("nummerierungsprinzip_txt")
                 attributeprovisorisch_idx = vlayer_lokalisation.fieldNameIndex("attributeprovisorisch_txt")
                 offiziell_idx = vlayer_lokalisation.fieldNameIndex("istoffiziellebezeichnung_txt")
@@ -247,14 +245,12 @@ class ComplexCheck(ComplexCheckBase):
                 inaenderung_idx = vlayer_lokalisation.fieldNameIndex("inaenderung_txt")
                 art_idx = vlayer_lokalisation.fieldNameIndex("art_txt")
 
-                print('prinzip_idx', prinzip_idx)
                 if prinzip_idx == -1 or attributeprovisorisch_idx == -1 or offiziell_idx == -1 or status_idx == -1 or inaenderung_idx == -1 or art_idx == -1:
                     self.iface.messageBar().pushMessage("Error",  _translate("VeriSO_EE_Geb_LokTest", "Field not found.", None), level=QgsMessageBar.CRITICAL, duration=10)                                                                        
                     QApplication.restoreOverrideCursor()
                     return
 
                 prinzip = feature.attributes()[prinzip_idx]
-                print('prinzip', prinzip)
                 attributeprovisorisch = feature.attributes()[attributeprovisorisch_idx]
                 offiziell = feature.attributes()[offiziell_idx]
                 status = feature.attributes()[status_idx]
@@ -279,7 +275,6 @@ class ComplexCheck(ComplexCheckBase):
             if not text_item_found:
                 text_item = QgsTextAnnotationItem(self.canvas)
                 text_item.setData(0, "LokalisationsInfo")
-
 
             text_item.setMapPositionFixed(False)
             text_item.setFrameBorderWidth(0.0)   
@@ -307,7 +302,6 @@ class ComplexCheck(ComplexCheckBase):
             exc_type, exc_value, exc_traceback = sys.exc_info()
             self.iface.messageBar().pushMessage("Error", str(traceback.format_exc(exc_traceback)), level=QgsMessageBar.CRITICAL, duration=5)                    
         QApplication.restoreOverrideCursor()      
-
 
     # Return QgsVectorLayer from a layer name ( as string )
     # (c) Carson Farmer / fTools
