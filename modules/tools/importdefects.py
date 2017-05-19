@@ -1,42 +1,27 @@
 # coding=utf-8
 import os
 import os.path
-import sys
-import traceback
-import shapefile
-
 
 from builtins import range
-
 from openpyxl import load_workbook
-
-from qgis.PyQt.QtCore import QDateTime, QDir, QFileInfo, \
-    QProcess, QRegExp, QSettings, Qt, pyqtSignal, pyqtSignature, pyqtSlot
-
+from qgis.PyQt.QtCore import QFileInfo, \
+    QSettings, Qt, pyqtSignature
 from qgis.PyQt.QtSql import QSqlDatabase, QSqlQuery
-
-from qgis.core import QgsApplication, QgsDataSourceURI, QgsMessageLog, QgsVectorLayer
-from qgis.gui import QgsMessageBar
-
-from qgis.PyQt.QtCore import QDateTime
 from qgis.PyQt.QtWidgets import QApplication, QDialog, QDialogButtonBox, \
     QFileDialog
-
-from veriso.base.utils.utils import (open_psql_db, open_sqlite_db,
-                                     get_projects_db, get_modules_dir,
-                                     yaml_load_file, tr,
-                                     get_subdirs, get_ui_class,
-                                     db_user_has_role, get_absolute_path)
-
-from veriso.base.utils.utils import dynamic_import
+from qgis.core import QgsMapLayerRegistry, \
+    edit
 from veriso.base.utils.exceptions import VerisoErrorWithBar
+from veriso.base.utils.utils import (tr,
+                                     get_ui_class)
 
 FORM_CLASS = get_ui_class('importdefects.ui')
 
 class ImportDefectsDialog(QDialog, FORM_CLASS):
-    def __init__(self, iface, defects_list_dock):
+    def __init__(self, application_module, iface, defects_list_dock):
         QDialog.__init__(self, None)
         self.setupUi(self)
+        self.application_module = application_module
         self.iface = iface
         self.message_bar = self.iface.messageBar()
         self.defects_list_dock = defects_list_dock
@@ -65,7 +50,6 @@ class ImportDefectsDialog(QDialog, FORM_CLASS):
         QApplication.setOverrideCursor(Qt.WaitCursor)
 
         file_to_import = self.lineEditDefectsFile.text().strip()
-        load_checked = self.load_defects_check.isChecked()
 
         if file_to_import == '':
             self.message_bar.pushWarning("VeriSO",
@@ -75,9 +59,9 @@ class ImportDefectsDialog(QDialog, FORM_CLASS):
 
         extension = os.path.splitext(file_to_import)[1]
         if(extension == '.xlsx'):
-            self.import_xlsx(file_to_import, load_checked)
+            self.import_xlsx(file_to_import)
         elif(extension == '.shp'):
-            self.import_shp(file_to_import, load_checked)
+            self.import_shp(file_to_import)
         else:
             self.message_bar.pushWarning("VeriSO",
                                          tr("File must be .xlsx or .shp"))
@@ -87,69 +71,28 @@ class ImportDefectsDialog(QDialog, FORM_CLASS):
         QApplication.restoreOverrideCursor()
         self.close()
 
+    def import_shp(self, shp):
+        shp = self.lineEditDefectsFile.text().strip()
+        lr = QgsMapLayerRegistry.instance()
 
-    def import_shp(self, shp, load_checked):
-        shp =  self.lineEditDefectsFile.text().strip()
-        load_checked = self.load_defects_check.isChecked()
+        tmp_layer = self.iface.addVectorLayer(shp, 'tmp_imported_shp', 'ogr')
+        self.application_module.do_load_defects_wrapper()
 
-        sf = shapefile.Reader(shp)
+        defect_layers = [lr.mapLayersByName(u'Mängelliste (Punkte)')[0],
+                         lr.mapLayersByName(u'Mängelliste (Linien)')[0],
+                         lr.mapLayersByName(u'Mängelliste (Polygone)')[0]]
 
-        # Skip the first field (deletion flag)
-        fields = sf.fields[1:]
-        header_list = []
-        rows_list = []
+        for feat in tmp_layer.getFeatures():
+            feat.setAttribute('ogc_fid', None)
 
-        for i in range(len(fields)):
-            f = fields[i]
-            f_name = f[0].lower()
-            header_list.append(f_name)
+            with edit(defect_layers[tmp_layer.geometryType()]):
+                defect_layers[tmp_layer.geometryType()].addFeature(feat)
 
-        shape_records = (shp_rec for shp_rec in sf.iterShapeRecords())                           
+        QgsMapLayerRegistry.instance().removeMapLayers([tmp_layer.id()])
 
-        for sr in shape_records:
-            row = []
-            shape = sr.shape
-
-            for r in sr.record:
-                row.append(str(r).decode('utf-8'))
-
-            if (sf.shapeType == 1):
-                points_str = ''.join(str(shape.points)).replace('[', '').replace(']', '').replace(',', '')
-                row.append('POINT({})'.format(points_str))
-            elif (sf.shapeType == 5):
-                points_str = ''.join(str(shape.points)).replace('[', '').replace(']', '').replace('), (',',').replace(
-                    ', ', ' ')
-                row.append('POLYGON({})'.format(points_str))
-            elif (sf.shapeType == 3):
-                points_str = ''.join(str(shape.points)).replace('[(', '').replace(')]', '').replace('), (', ',').replace(
-                    ', ', ' ')
-                row.append('LINESTRING({})'.format(points_str))
-                
-            rows_list.append(row)
-
-        self.open_db()
-
-        if (sf.shapeType == 1):
-            query_points = self.create_query('t_maengel_punkt', header_list, rows_list)
-            self.execute_query(query_points)
-        elif (sf.shapeType == 5):
-            query_points = self.create_query('t_maengel_polygon', header_list, rows_list)
-            self.execute_query(query_points)
-        elif (sf.shapeType == 3):
-            query_points = self.create_query('t_maengel_linie', header_list, rows_list)
-            self.execute_query(query_points)
-
-        self.db.close()
         self.iface.messageBar().pushInfo("VeriSo", "Defects imported from Shapefile")
 
-        if load_checked:
-            defects_module = 'veriso.modules.loaddefects_base'
-            defects_module = dynamic_import(defects_module)
-            d = defects_module.LoadDefectsBase(self.iface, self.module_name)
-            defects_layers = d.run()
-            self.defects_list_dock.load_layers(defects_layers)
-
-    def import_xlsx(self, xlsx, load_checked):
+    def import_xlsx(self, xlsx):
 
         self.wb = load_workbook(filename = xlsx, read_only = True)
 
@@ -172,13 +115,7 @@ class ImportDefectsDialog(QDialog, FORM_CLASS):
         self.db.close()
         self.iface.messageBar().pushInfo("VeriSo", "Defects imported from Excel file")
 
-        if load_checked:
-            defects_module = 'veriso.modules.loaddefects_base'
-            defects_module = dynamic_import(defects_module)
-            d = defects_module.LoadDefectsBase(self.iface, self.module_name)
-            defects_layers = d.run()
-            self.defects_list_dock.load_layers(defects_layers)
-
+        self.application_module.do_load_defects_wrapper()
 
     def read_sheet(self, sheet_name):
         from builtins import str
@@ -267,4 +204,3 @@ class ImportDefectsDialog(QDialog, FORM_CLASS):
                 "Defects layer (*.xlsx *.shp)")
         file_info = QFileInfo(file_path)
         self.lineEditDefectsFile.setText(file_info.absoluteFilePath())
-

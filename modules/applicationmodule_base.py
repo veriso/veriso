@@ -385,7 +385,7 @@ class ApplicationModuleBase(QObject):
 
     def do_import_defects(self):
         from veriso.modules.tools.importdefects import ImportDefectsDialog
-        self.import_defects_dlg = ImportDefectsDialog(self.iface, self.defects_list_dock)
+        self.import_defects_dlg = ImportDefectsDialog(self, self.iface, self.defects_list_dock)
         if self.import_defects_dlg.init_gui():
             self.import_defects_dlg.show()
 
