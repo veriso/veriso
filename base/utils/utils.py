@@ -238,11 +238,14 @@ def get_projects_db(force_filepath=None):
     :return: a db object
     :rtype: QSqlDatabase
     """
+    settings = QSettings("CatAIS", "VeriSO")
+
+    if settings.value("options/general/use_pg_projects_database", False, type=bool):
+        return get_default_db()
 
     if force_filepath is not None:
         filepath = force_filepath
     else:
-        settings = QSettings("CatAIS", "VeriSO")
         filepath = settings.value("options/general/projects_database", "")
     return open_sqlite_db(filepath, 'projects_db')
 
