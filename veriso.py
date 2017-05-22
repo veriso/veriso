@@ -286,15 +286,23 @@ class VeriSO(object):
                                native(str(project["ilimodelname"])))
         self.settings.setValue("project/epsg", native(str(project["epsg"])))
         self.settings.setValue("project/provider", native(str(project["provider"])))
-        self.settings.setValue("project/dbhost", native(str(project["dbhost"])))
-        self.settings.setValue("project/dbport", native(str(project["dbport"])))
-        self.settings.setValue("project/dbname", native(str(project["dbname"])))
+        if 'dbhost' in project:
+            self.settings.setValue("project/dbhost", native(str(project["dbhost"])))
+        if 'dbport' in project:
+            self.settings.setValue("project/dbport", native(str(project["dbport"])))
+        if 'dbname' in project:
+            self.settings.setValue("project/dbname", native(str(project["dbname"])))
         self.settings.setValue("project/dbschema", native(str(project["dbschema"])))
-        self.settings.setValue("project/dbuser", native(str(project["dbuser"])))
-        self.settings.setValue("project/dbpwd", native(str(project["dbpwd"])))
-        self.settings.setValue("project/dbadmin", native(str(project["dbadmin"])))
-        self.settings.setValue("project/dbadminpwd", native(str(project["dbadminpwd"])))
-        self.settings.setValue("project/projectdir", native(str(project["projectdir"])))
+        if 'dbuser' in project:
+            self.settings.setValue("project/dbuser", native(str(project["dbuser"])))
+        if 'dbpwd' in project:
+            self.settings.setValue("project/dbpwd", native(str(project["dbpwd"])))
+        if 'dbadmin' in project:
+            self.settings.setValue("project/dbadmin", native(str(project["dbadmin"])))
+        if 'dbadminpwd' in project:
+            self.settings.setValue("project/dbadminpwd", native(str(project["dbadminpwd"])))
+        if 'projectdir' in project:
+            self.settings.setValue("project/projectdir", native(str(project["projectdir"])))
         self.settings.setValue("project/max_scale", native(str(project["max_scale"])))
 
         module_name = project["appmodule"].lower()

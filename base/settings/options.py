@@ -48,6 +48,10 @@ class OptionsDialog(QDialog, FORM_CLASS):
                 self.settings.value("options/general/projects_database"))
         self.lineEditProjectsRootDir.setText(
                 self.settings.value("options/general/projects_root_directory"))
+
+        self.chkPgProjectsDb.setChecked(self.settings.value(
+            "options/general/use_pg_projects_database", False, type=bool))
+
         self.chkTopicsTablesMenu.setChecked(self.settings.value(
                 "options/general/topics_tables_menu", False, type=bool))
 
@@ -199,6 +203,11 @@ class OptionsDialog(QDialog, FORM_CLASS):
 
         self.settings.setValue("options/general/projects_root_directory",
                                self.lineEditProjectsRootDir.text().strip())
+
+        self.settings.setValue("options/general/use_pg_projects_database",
+                               self.chkPgProjectsDb.isChecked())
+
+        self.projectsDatabaseHasChanged.emit()
 
         self.settings.setValue("options/general/topics_tables_menu",
                                self.chkTopicsTablesMenu.isChecked())
