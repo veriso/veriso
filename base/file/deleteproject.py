@@ -10,7 +10,7 @@ from qgis.PyQt.QtWidgets import QApplication, QDialog, QDialogButtonBox
 from qgis.gui import QgsMessageBar
 
 from veriso.base.utils.utils import open_psql_db, get_projects_db, \
-    get_projects, tr, get_ui_class
+    get_projects, tr, get_ui_class, get_default_db
 from veriso.base.utils.exceptions import VerisoError
 
 FORM_CLASS = get_ui_class('deleteproject.ui')
@@ -21,6 +21,7 @@ class DeleteProjectDialog(QDialog, FORM_CLASS):
 
     def __init__(self, iface, parent=None):
         QDialog.__init__(self, parent)
+        self.settings = QSettings("CatAIS", "VeriSO")
         self.setupUi(self)
         self.iface = iface
         self.message_bar = self.iface.messageBar()
@@ -62,21 +63,22 @@ class DeleteProjectDialog(QDialog, FORM_CLASS):
             return
 
         db_schema = str(self.cBoxProject.itemData(current_index))
+        self.db_schema = db_schema
 
         # Get the connections parameters from the projects list we created in
-        #  the init_gui method.
-        i = 0
-        for project in self.projects:
-            if db_schema == str(project["dbschema"]):
-                self.db_host = str(project["dbhost"])
-                self.db_name = str(project["dbname"])
-                self.db_port = str(project["dbport"])
-                self.db_schema = db_schema
-                self.db_admin = str(project["dbadmin"])
-                self.db_admin_pwd = str(project["dbadminpwd"])
-                self.project_index = i
-                break
-            i += 1
+        #  the init_gui method. Only when using sqlite projects.db
+        if not self.settings.value("options/general/use_pg_projects_database", False, type=bool):
+            i = 0
+            for project in self.projects:
+                if db_schema == str(project["dbschema"]):
+                    self.db_host = str(project["dbhost"])
+                    self.db_name = str(project["dbname"])
+                    self.db_port = str(project["dbport"])
+                    self.db_admin = str(project["dbadmin"])
+                    self.db_admin_pwd = str(project["dbadminpwd"])
+                    self.project_index = i
+                    break
+                i += 1
 
         QApplication.setOverrideCursor(Qt.WaitCursor)
         self.buttonBox.setEnabled(False)
@@ -99,6 +101,41 @@ class DeleteProjectDialog(QDialog, FORM_CLASS):
         self.restore_cursor()
 
     def update_project_database(self):
+
+        if self.settings.value("options/general/use_pg_projects_database", False, type=bool):
+            return self.update_project_database_pg()
+        return self.update_project_database_sqlite()
+
+    def update_project_database_pg(self):
+        """Deletes the deleted project from the postgres project table.
+
+        Returns:
+          False: If something went wrong. Otherwise True.
+        """
+        try:
+            db = get_projects_db()
+
+            sql = "DELETE FROM veriso_conf.project WHERE id = '%s';" % (
+                self.db_schema)
+
+            query = db.exec_(sql)
+
+            if not query.isActive():
+                message = "Error while reading from projects database."
+                raise VerisoError(
+                    message,
+                    long_message=QSqlQuery.lastError(query).text())
+
+            db.close()
+            del db
+
+            return True
+
+        except Exception as e:
+            message = "Something went wrong while updating projects database."
+            raise VerisoError(message, e)
+
+    def update_project_database_sqlite(self):
         """Deletes the deleted project from the sqlite project database.
         
         Returns:
@@ -135,7 +172,10 @@ class DeleteProjectDialog(QDialog, FORM_CLASS):
           Otherwise True.
         """
         try:
-            db = open_psql_db(self.db_host, self.db_name, self.db_port,
+            if self.settings.value("options/general/use_pg_projects_database", False, type=bool):
+                db = get_default_db()
+            else:
+                db = open_psql_db(self.db_host, self.db_name, self.db_port,
                               self.db_admin, self.db_admin_pwd)
 
             sql = "BEGIN;"
