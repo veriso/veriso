@@ -99,8 +99,71 @@ def yaml_ordered_load(
             construct_mapping)
     return yaml.load(stream, OrderedLoader)
 
-
 def get_projects():
+    settings = QSettings("CatAIS", "VeriSO")
+    if settings.value("options/general/use_pg_projects_database", False, type=bool):
+        QgsMessageLog.logMessage('Using Postgres projects database', 'VeriSO', QgsMessageLog.INFO)
+        return get_projects_from_pg()
+    QgsMessageLog.logMessage('Using Sqlite projects database', 'VeriSO', QgsMessageLog.INFO)
+    return get_projects_from_sqlite()
+
+def get_projects_from_pg():
+    projects = []
+    error_message = "Error while reading from projects database."
+
+    try:
+        db = get_default_db()
+
+        sql = "SELECT * FROM veriso_conf.project;"
+
+        query = db.exec_(sql)
+
+        if not query.isActive():
+            QgsMessageLog.logMessage(tr(error_message), "VeriSO",
+                                     QgsMessageLog.CRITICAL)
+            QgsMessageLog.logMessage(str(QSqlQuery.lastError(query).text()),
+                                     "VeriSO", QgsMessageLog.CRITICAL)
+            return
+
+        record = query.record()
+        while next(query):
+            project = {
+                "id": str(query.value(record.indexOf("id"))),
+                "displayname": str(
+                    query.value(record.indexOf("displayname"))),
+                "dbschema": str(
+                    query.value(record.indexOf("displayname"))),
+                "provider": str(
+                    query.value(record.indexOf("provider"))),
+                "epsg": str(query.value(record.indexOf("epsg"))),
+                "max_scale": int(query.value(record.indexOf("max_scale"))),
+                "ilimodelname": str(
+                    query.value(record.indexOf("ilimodelname"))),
+                "appmodule": str(
+                    query.value(record.indexOf("appmodule"))),
+                "appmodulename": str(
+                    query.value(record.indexOf("appmodulename"))),
+                "datadate": str(
+                    query.value(record.indexOf("datadate"))),
+                "importdate": str(
+                    query.value(record.indexOf("importdate")))
+            }
+            projects.append(project)
+
+        db.close()
+        del db
+
+    except Exception as e:
+        QgsMessageLog.logMessage(
+            tr("Error while reading from projects database."),
+            "VeriSO",
+            QgsMessageLog.CRITICAL)
+        QgsMessageLog.logMessage(str(e), "VeriSO", QgsMessageLog.CRITICAL)
+        return
+
+    return projects
+
+def get_projects_from_sqlite():
     projects = []
     error_message = "Error while reading from projects database."
 
@@ -168,7 +231,6 @@ def get_projects():
         return
 
     return projects
-
 
 def get_projects_db(force_filepath=None):
     """

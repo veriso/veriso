@@ -20,7 +20,7 @@ from veriso.base.utils.utils import (open_psql_db, open_sqlite_db,
                                      yaml_load_file, tr,
                                      get_subdirs, jre_version, get_ui_class,
                                      db_user_has_role, get_absolute_path,
-                                     win_which)
+                                     win_which, get_default_db)
 from veriso.base.utils.exceptions import VerisoError
 
 
@@ -335,6 +335,9 @@ class ImportProjectDialog(QDialog, FORM_CLASS):
         self.projects_root_directory = self.settings.value(
                 "options/general/projects_root_directory", "")
 
+        self.use_pg_projects_database = self.settings.value(
+            "options/general/use_pg_projects_database")
+
         self.ignore_ili2pg_errors = self.settings.value(
             "options/import/ignore_ili2pg_errors", False, type=bool)
 
@@ -608,6 +611,102 @@ class ImportProjectDialog(QDialog, FORM_CLASS):
             raise VerisoError(message, e)
 
     def update_projects_database(self):
+        if self.use_pg_projects_database:
+            return self.update_projects_database_pg()
+        return self.update_projects_database()
+
+    def update_projects_database_pg(self):
+        """Updates the postgres projects database.
+
+        Returns:
+           False: When there an error occured. Otherswise True.
+        """
+
+        error_message = ("Something went wrong while updating projects "
+                         "database. You need to delete the database schema "
+                         "manually.")
+
+        try:
+            # Create a new projects database (schema and table on pg) if there is none
+
+            table_exists = False
+            schema_exists = False
+
+            db = get_default_db()
+
+            sql = "SELECT 1 FROM pg_namespace " \
+                  "WHERE nspname = 'veriso_conf'"
+            query = db.exec_(sql)
+
+            if query.size() > 0:
+                schema_exists = True
+
+                sql = "SELECT 1 FROM   pg_tables " \
+                      "WHERE  schemaname = 'veriso_conf' AND tablename = 'project'"
+                query = db.exec_(sql)
+                if query.size() > 0:
+                    table_exists = True
+
+            if not schema_exists:
+                sql = "CREATE SCHEMA veriso_conf"
+                query = db.exec_(sql)
+
+            if not table_exists:
+                print('in if not table_exists')
+                sql = "CREATE TABLE veriso_conf.project (" \
+                      "ogc_fid serial primary key, " \
+                      "id character varying, " \
+                      "displayname character varying," \
+                      "provider character varying, " \
+                      "epsg integer, " \
+                      "ilimodelname character varying, " \
+                      "appmodule character varying, " \
+                      "appmodulename character varying, " \
+                      "datadate timestamp, " \
+                      "notes character varying, " \
+                      "itf character varying, " \
+                      "max_scale integer default 0 " \
+                      ")"
+                query = db.exec_(sql)
+
+            values = (
+                self.db_schema,
+                self.db_schema,
+                self.epsg,
+                self.ili,
+                self.app_module,
+                self.app_module_name,
+                self.data_date,
+                self.notes,
+                self.itf,
+                self.max_scale
+            )
+            values = "VALUES ( "\
+                     "'%s', '%s', 'postgres', '%s', '%s', '%s', '%s', '%s', " \
+                     "'%s', '%s', '%s')" % values
+
+            sql = "INSERT INTO veriso_conf.project (id, displayname, " \
+                  "provider, epsg, ilimodelname, appmodule, appmodulename, " \
+                  "datadate, notes, itf, " \
+                  "max_scale)" + values
+
+            query = db.exec_(sql)
+
+            if not query.isActive():
+                message = "Error while updating projects database."
+                raise VerisoError(message, long_message=QSqlQuery.lastError(
+                        query).text())
+
+            db.close()
+
+            self.projectsDatabaseHasChanged.emit()
+
+            return True
+
+        except Exception as e:
+            raise VerisoError(error_message, e)
+
+    def update_projects_database_sqlite(self):
         """Updates the sqlite projects database.
         
         Returns:
