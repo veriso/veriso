@@ -164,7 +164,7 @@ class ApplicationModuleBase(QObject):
 
         modules_dir = os.path.join(get_modules_dir())
         module_dir = os.path.join(
-            modules_dir, self.module_name.lower(), 'checks', folder)
+            modules_dir, self.module, 'checks', folder)
 
         # Search first in the module, if the check doesn't exist, try in the
         # extended module
