@@ -45,8 +45,8 @@ class ComplexCheck(ComplexCheckBase):
             group += " (" + str(project_id) + ")"
             
             # Layernamen hier definieren:
-            lokalisation = _translate("VeriSO_EE_Geb_LokTest", "Lokalisation Lokalisationstest", None) 
-            strassenstueck_geometrie = _translate("VeriSO_EE_Geb_LokTest", "Strassenstueck (geometrie) Lokalisationstest", None)  
+            lokalisation = _translate("VeriSO_EE_Geb_LokTest", "Lokalisation Lokalisationstest", None)
+            strassenstueck_geometrie = _translate("VeriSO_EE_Geb_LokTest", "Strassenstueck (geometrie) Lokalisationstest", None)
             strassenstueck_anfangspunkt = _translate("VeriSO_EE_Geb_LokTest", "Strassenstueck (anfangspunkt) Lokalisationstest", None)  
             benanntesgebiet = _translate("VeriSO_EE_Geb_LokTest", "Benanntes Gebiet Lokalisationstest", None)  
             gebaeudeeingang = _translate("VeriSO_EE_Geb_LokTest", "Gebaeudeeingang Lokalisationstest", None)  
@@ -58,10 +58,10 @@ class ComplexCheck(ComplexCheckBase):
             if not vlayer_lokalisation:
                 layer = {}
                 layer["type"] = "postgres"
-                layer["title"] = _translate("VeriSO_EE_gebaeudeadressen_lokalisation","Lokalisation", None)
+                layer["title"] = _translate("VeriSO_EE_gebaeudeadressen_lokalisation","Lokalisation Lokalisationstest", None)
                 layer["featuretype"] = "gebaeudeadressen_lokalisation"
                 layer["key"] = "ogc_fid"            
-                layer["sql"] = "t_ili_tid = '-1'"
+                layer["sql"] = "ogc_fid = '-1'"
                 layer["readonly"] = True
                 layer["group"] = group
                 vlayer_lokalisation = self.layer_loader.load(layer)
@@ -192,7 +192,7 @@ class ComplexCheck(ComplexCheckBase):
             vlayer_strassenstueck_anfangspunkt.setSubsetString("(strassenstueck_von = '"+str(benannte)+"')")
             vlayer_benanntesgebiet.setSubsetString("(benanntesgebiet_von = '"+str(benannte)+"')")
             vlayer_gebaeudeeingang.setSubsetString("(gebaeudeeingang_von = '"+str(benannte)+"')")
-            vlayer_lokalisation.setSubsetString("(t_ili_tid = '"+str(benannte)+"')")
+            vlayer_lokalisation.setSubsetString("(ogc_fid = '" + str(benannte) + "')")
             vlayer_shortestline.setSubsetString("(lok_tid = '"+str(benannte)+"')")
             vlayer_hausnummerpos.setSubsetString("(lok_tid = '"+str(benannte)+"')")
 
@@ -244,14 +244,14 @@ class ComplexCheck(ComplexCheckBase):
                 status_idx = vlayer_lokalisation.fieldNameIndex("status_txt")
                 inaenderung_idx = vlayer_lokalisation.fieldNameIndex("inaenderung_txt")
                 art_idx = vlayer_lokalisation.fieldNameIndex("art_txt")
-                
+
                 if prinzip_idx == -1 or attributeprovisorisch_idx == -1 or offiziell_idx == -1 or status_idx == -1 or inaenderung_idx == -1 or art_idx == -1:
                     self.iface.messageBar().pushMessage("Error",  _translate("VeriSO_EE_Geb_LokTest", "Field not found.", None), level=QgsMessageBar.CRITICAL, duration=10)                                                                        
                     QApplication.restoreOverrideCursor()
                     return
 
                 prinzip = feature.attributes()[prinzip_idx]
-                attributeprovisorisch = feature.attributes()[attributeprovisorisch_idx]            
+                attributeprovisorisch = feature.attributes()[attributeprovisorisch_idx]
                 offiziell = feature.attributes()[offiziell_idx]
                 status = feature.attributes()[status_idx]
                 inaenderung = feature.attributes()[inaenderung_idx]
@@ -275,7 +275,6 @@ class ComplexCheck(ComplexCheckBase):
             if not text_item_found:
                 text_item = QgsTextAnnotationItem(self.canvas)
                 text_item.setData(0, "LokalisationsInfo")
-
 
             text_item.setMapPositionFixed(False)
             text_item.setFrameBorderWidth(0.0)   
@@ -303,7 +302,6 @@ class ComplexCheck(ComplexCheckBase):
             exc_type, exc_value, exc_traceback = sys.exc_info()
             self.iface.messageBar().pushMessage("Error", str(traceback.format_exc(exc_traceback)), level=QgsMessageBar.CRITICAL, duration=5)                    
         QApplication.restoreOverrideCursor()      
-
 
     # Return QgsVectorLayer from a layer name ( as string )
     # (c) Carson Farmer / fTools

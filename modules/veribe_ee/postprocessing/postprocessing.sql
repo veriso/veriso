@@ -606,7 +606,7 @@ GRANT ALL ON TABLE $$DBSCHEMA.einzelobjekte_linienelement_v TO $$USER;',2,'Was i
  (39,'CREATE OR REPLACE VIEW $$DBSCHEMA.einzelobjekte_objektnamepos_v AS
  SELECT einzelobjekte_objektname.aname, einzelobjekte_objektnamepos.pos, einzelobjekte_objektnamepos.ogc_fid
    FROM $$DBSCHEMA.einzelobjekte_objektname, $$DBSCHEMA.einzelobjekte_objektnamepos
-  WHERE einzelobjekte_objektname.t_ili_tid::text = einzelobjekte_objektnamepos.objektnamepos_von::text;
+  WHERE einzelobjekte_objektname.ogc_fid::text = einzelobjekte_objektnamepos.objektnamepos_von::text;
 
 ALTER TABLE $$DBSCHEMA.einzelobjekte_objektnamepos_v
   OWNER TO $$USER;
@@ -1358,7 +1358,7 @@ FROM $$DBSCHEMA.einzelobjekte_flaechenelement AS elem
 JOIN $$DBSCHEMA.einzelobjekte_einzelobjekt AS obj ON elem.flaechenelement_von = obj.ogc_fid
 LEFT JOIN
 (SELECT DISTINCT elem.ogc_fid FROM $$DBSCHEMA.einzelobjekte_flaechenelement AS elem
-JOIN $$DBSCHEMA.bodenbedeckung_boflaeche AS boden ON ST_Intersects(elem.geometrie, boden.geometrie)
+JOIN $$DBSCHEMA.bodenbedeckung_boflaeche AS boden ON ST_DWithin(ST_BUFFER(elem.geometrie, -0.05), boden.geometrie, 0)
 WHERE boden.art_txt = ''Gebaeude'') touches
 ON touches.ogc_fid = elem.ogc_fid WHERE touches.ogc_fid IS NULL AND obj.art_txt = ''uebriger_Gebaeudeteil'';
 GRANT SELECT ON TABLE $$DBSCHEMA.v_uebriger_gebaeudeteil_isolierte_flaeche TO $$USER;
@@ -1369,7 +1369,7 @@ FROM $$DBSCHEMA.einzelobjekte_linienelement AS elem
 JOIN $$DBSCHEMA.einzelobjekte_einzelobjekt AS obj ON elem.linienelement_von = obj.ogc_fid
 LEFT JOIN
 (SELECT DISTINCT elem.ogc_fid FROM $$DBSCHEMA.einzelobjekte_linienelement AS elem
-JOIN $$DBSCHEMA.bodenbedeckung_boflaeche AS boden ON ST_Intersects(elem.geometrie, boden.geometrie)
+JOIN $$DBSCHEMA.bodenbedeckung_boflaeche AS boden ON ST_DWithin(ST_BUFFER(elem.geometrie, -0.05), boden.geometrie, 0)
 WHERE boden.art_txt = ''Gebaeude'') touches
 ON touches.ogc_fid = elem.ogc_fid WHERE touches.ogc_fid IS NULL AND obj.art_txt = ''uebriger_Gebaeudeteil'';
 GRANT SELECT ON TABLE $$DBSCHEMA.v_uebriger_gebaeudeteil_isolierte_linien TO $$USER;
@@ -1380,7 +1380,7 @@ FROM $$DBSCHEMA.einzelobjekte_punktelement AS elem
 JOIN $$DBSCHEMA.einzelobjekte_einzelobjekt AS obj on elem.punktelement_von = obj.ogc_fid
 LEFT JOIN
 (SELECT DISTINCT elem.ogc_fid FROM $$DBSCHEMA.einzelobjekte_punktelement AS elem
-JOIN $$DBSCHEMA.bodenbedeckung_boflaeche AS boden ON ST_Intersects(elem.geometrie, boden.geometrie)
+JOIN $$DBSCHEMA.bodenbedeckung_boflaeche AS boden ON ST_DWithin(ST_BUFFER(elem.geometrie, -0.05), boden.geometrie, 0)
 WHERE boden.art_txt = ''Gebaeude'') touches
 ON touches.ogc_fid = elem.ogc_fid WHERE touches.ogc_fid IS NULL AND obj.art_txt = ''uebriger_Gebaeudeteil'';
 GRANT SELECT ON TABLE $$DBSCHEMA.v_uebriger_gebaeudeteil_isolierte_punkte TO $$USER;',5,'Was in table postprocessing',NULL,1),
@@ -1389,7 +1389,12 @@ GRANT SELECT ON TABLE $$DBSCHEMA.v_uebriger_gebaeudeteil_isolierte_punkte TO $$U
  ''i.O.'',
  ''nicht bereinigen''
 );
-
+CREATE TYPE $$DBSCHEMA.maengel_abrechnung AS ENUM
+(
+''PNF'',
+''LNF'',
+''Fehler''
+);
 CREATE TYPE $$DBSCHEMA.avor_bezeichnung AS ENUM
 (
 ''0-PNF1: In PNF1 beurteilt und entschieden nicht zu bearbeiten'',
@@ -1433,14 +1438,15 @@ CREATE TABLE $$DBSCHEMA.t_maengel_punkt
 (
  ogc_fid serial NOT NULL,
  topic $$DBSCHEMA.maengel_topic,
- bezeichnung $$DBSCHEMA.avor_bezeichnung,
- bemerkung varchar,
+ bezeichnun $$DBSCHEMA.avor_bezeichnung, --bezeichnung
+ abrechnung $$DBSCHEMA.maengel_abrechnung,
+ bem_avor varchar,
  datum timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
- bemerkung_nfg text,
+ bem_nfg text, --bemerkung_nfg
  forstorgan $$DBSCHEMA.maengel_bereinigen,
- bemerkung_forst text,
- verifikation $$DBSCHEMA.maengel_bereinigen,
- bemerkung_verifikation text,
+ bem_forst text, --bemerkung_forst
+ verifikati $$DBSCHEMA.maengel_bereinigen, --verifikation
+ bem_verifi text, --bemerkung_verifikation
  erledigt bool,
  the_geom geometry(POINT,$$EPSG),
  CONSTRAINT t_maengel_punkt_pkey PRIMARY KEY (ogc_fid)
@@ -1454,9 +1460,9 @@ REVOKE ALL PRIVILEGES ON $$DBSCHEMA.t_maengel_punkt FROM forst;
 REVOKE ALL PRIVILEGES ON $$DBSCHEMA.t_maengel_punkt FROM avor;
 
 GRANT SELECT, UPDATE, INSERT, DELETE ON $$DBSCHEMA.t_maengel_punkt TO agi;
-GRANT SELECT, UPDATE(bemerkung_nfg) ON $$DBSCHEMA.t_maengel_punkt TO geometer;
-GRANT SELECT, UPDATE(forstorgan, bemerkung_forst) ON $$DBSCHEMA.t_maengel_punkt TO forst;
-GRANT SELECT, UPDATE(topic, bezeichnung, bemerkung), INSERT, DELETE ON $$DBSCHEMA.t_maengel_punkt TO avor;
+GRANT SELECT, UPDATE(bem_nfg) ON $$DBSCHEMA.t_maengel_punkt TO geometer;
+GRANT SELECT, UPDATE(forstorgan, bem_forst) ON $$DBSCHEMA.t_maengel_punkt TO forst;
+GRANT SELECT, UPDATE(topic, bezeichnun, bem_avor, abrechnung), INSERT, DELETE ON $$DBSCHEMA.t_maengel_punkt TO avor;
 
 GRANT USAGE ON $$DBSCHEMA.t_maengel_punkt_ogc_fid_seq TO agi;
 GRANT USAGE ON $$DBSCHEMA.t_maengel_punkt_ogc_fid_seq TO avor;
@@ -1466,14 +1472,15 @@ CREATE TABLE $$DBSCHEMA.t_maengel_linie
 (
  ogc_fid serial NOT NULL,
  topic $$DBSCHEMA.maengel_topic,
- bezeichnung $$DBSCHEMA.avor_bezeichnung,
- bemerkung varchar,
+ bezeichnun $$DBSCHEMA.avor_bezeichnung, --bezeichnung
+ abrechnung $$DBSCHEMA.maengel_abrechnung,
+ bem_avor varchar,
  datum timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
- bemerkung_nfg text,
+ bem_nfg text, --bemerkung_nfg
  forstorgan $$DBSCHEMA.maengel_bereinigen,
- bemerkung_forst text,
- verifikation $$DBSCHEMA.maengel_bereinigen,
- bemerkung_verifikation text,
+ bem_forst text, --bemerkung_forst
+ verifikati $$DBSCHEMA.maengel_bereinigen, --verifikation
+ bem_verifi text, --bemerkung_verifikation
  erledigt bool,
  the_geom geometry(LINESTRING,$$EPSG),
  CONSTRAINT t_maengel_linie_pkey PRIMARY KEY (ogc_fid)
@@ -1487,9 +1494,9 @@ REVOKE ALL PRIVILEGES ON $$DBSCHEMA.t_maengel_linie FROM forst;
 REVOKE ALL PRIVILEGES ON $$DBSCHEMA.t_maengel_linie FROM avor;
 
 GRANT SELECT, UPDATE, INSERT, DELETE ON $$DBSCHEMA.t_maengel_linie TO agi;
-GRANT SELECT, UPDATE(bemerkung_nfg) ON $$DBSCHEMA.t_maengel_linie TO geometer;
-GRANT SELECT, UPDATE(forstorgan, bemerkung_forst) ON $$DBSCHEMA.t_maengel_linie TO forst;
-GRANT SELECT, UPDATE(topic, bezeichnung, bemerkung), INSERT, DELETE ON $$DBSCHEMA.t_maengel_linie TO avor;
+GRANT SELECT, UPDATE(bem_nfg) ON $$DBSCHEMA.t_maengel_linie TO geometer;
+GRANT SELECT, UPDATE(forstorgan, bem_forst) ON $$DBSCHEMA.t_maengel_linie TO forst;
+GRANT SELECT, UPDATE(topic, bezeichnun, bem_avor, abrechnung), INSERT, DELETE ON $$DBSCHEMA.t_maengel_linie TO avor;
 
 GRANT USAGE ON $$DBSCHEMA.t_maengel_linie_ogc_fid_seq TO agi;
 GRANT USAGE ON $$DBSCHEMA.t_maengel_linie_ogc_fid_seq TO avor;
@@ -1498,14 +1505,15 @@ CREATE TABLE $$DBSCHEMA.t_maengel_polygon
 (
  ogc_fid serial NOT NULL,
  topic $$DBSCHEMA.maengel_topic,
- bezeichnung $$DBSCHEMA.avor_bezeichnung,
- bemerkung varchar,
+ bezeichnun $$DBSCHEMA.avor_bezeichnung, --bezeichnung
+ abrechnung $$DBSCHEMA.maengel_abrechnung,
+ bem_avor varchar,
  datum timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
- bemerkung_nfg text,
+ bem_nfg text, --bemerkung_nfg
  forstorgan $$DBSCHEMA.maengel_bereinigen,
- bemerkung_forst text,
- verifikation $$DBSCHEMA.maengel_bereinigen,
- bemerkung_verifikation text,
+ bem_forst text, --bemerkung_forst
+ verifikati $$DBSCHEMA.maengel_bereinigen, --verifikation
+ bem_verifi text, --bemerkung_verifikation
  erledigt bool,
  the_geom geometry(POLYGON,$$EPSG),
  CONSTRAINT t_maengel_polygon_pkey PRIMARY KEY (ogc_fid)
@@ -1518,9 +1526,9 @@ REVOKE ALL PRIVILEGES ON $$DBSCHEMA.t_maengel_polygon FROM forst;
 REVOKE ALL PRIVILEGES ON $$DBSCHEMA.t_maengel_polygon FROM avor;
 
 GRANT SELECT, UPDATE, INSERT, DELETE ON $$DBSCHEMA.t_maengel_polygon TO agi;
-GRANT SELECT, UPDATE(bemerkung_nfg) ON $$DBSCHEMA.t_maengel_polygon TO geometer;
-GRANT SELECT, UPDATE(forstorgan, bemerkung_forst) ON $$DBSCHEMA.t_maengel_polygon TO forst;
-GRANT SELECT, UPDATE(topic, bezeichnung, bemerkung), INSERT, DELETE ON $$DBSCHEMA.t_maengel_polygon TO avor;
+GRANT SELECT, UPDATE(bem_nfg) ON $$DBSCHEMA.t_maengel_polygon TO geometer;
+GRANT SELECT, UPDATE(forstorgan, bem_forst) ON $$DBSCHEMA.t_maengel_polygon TO forst;
+GRANT SELECT, UPDATE(topic, bezeichnun, bem_avor, abrechnung), INSERT, DELETE ON $$DBSCHEMA.t_maengel_polygon TO avor;
 
 GRANT USAGE ON $$DBSCHEMA.t_maengel_polygon_ogc_fid_seq TO agi;
 GRANT USAGE ON $$DBSCHEMA.t_maengel_polygon_ogc_fid_seq TO avor;

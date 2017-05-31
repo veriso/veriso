@@ -67,7 +67,6 @@ class ComplexCheck(ComplexCheckBase):
             layer["style"] = "bodenbedeckung/bb.qml"
             vlayerBB = self.layer_loader.load(layer)
 
-
             layer = {}
             layer["type"] = "postgres"
             layer["title"] = _translate("VeriSO_EE_gruda","BEGID (BB)", None)
@@ -79,7 +78,6 @@ class ComplexCheck(ComplexCheckBase):
             layer["sql"] = ""
             layer["style"] = "gebaeudeadressen/BEGIDeo.qml"
             vlayer = self.layer_loader.load(layer, False, True)
-
 
             layer = {}
             layer["type"] = "postgres"
@@ -93,8 +91,6 @@ class ComplexCheck(ComplexCheckBase):
             layer["style"] = "gebaeudeadressen/BEGIDeo.qml"
             vlayer = self.layer_loader.load(layer, False, True)
 
-
-
             layer = {}
             layer["type"] = "postgres"
             layer["title"] = _translate("VeriSO_EE_gruda","Plangeometrie", None)
@@ -107,7 +103,6 @@ class ComplexCheck(ComplexCheckBase):
             layer["style"] = "planeinteilung/plangeometrie.qml"
             vlayer = self.layer_loader.load(layer, False, True)
 
-
             layer = {}
             layer["type"] = "postgres"
             layer["title"] = _translate("VeriSO_EE_gruda","Flurnamen", None)
@@ -119,7 +114,6 @@ class ComplexCheck(ComplexCheckBase):
             layer["group"] = group1
             layer["style"] = "nomenklatur/nomenklatur.qml"
             vlayer = self.layer_loader.load(layer, False, True)
-
 
             layer = {}
             layer["type"] = "postgres"
@@ -144,7 +138,6 @@ class ComplexCheck(ComplexCheckBase):
             layer["group"] = group3
             layer["style"] = "gemeindegrenze/gemeindegrenze.qml"
             vlayer = self.layer_loader.load(layer, False, True)
-
 
             layer = {}
             layer["type"] = "postgres"
@@ -178,8 +171,7 @@ class ComplexCheck(ComplexCheckBase):
             layer["sql"] = ""
             layer["group"] = group3
             layer["style"] = "liegenschaften/selbstrecht.qml"
-            vlayer = self.layer_loader.load(layer, False, True)
-
+            vlayer = self.layer_loader.load(layer)
 
             layer = {}
             layer["type"] = "postgres"
@@ -203,8 +195,7 @@ class ComplexCheck(ComplexCheckBase):
             layer["group"] = group3
             layer["sql"] = ""
             layer["style"] = "liegenschaften/liegenschaft.qml"
-            vlayer = self.layer_loader.load(layer, False, True)
-
+            vlayer = self.layer_loader.load(layer)
 
             layer = {}
             layer["type"] = "postgres"
@@ -288,7 +279,7 @@ class ComplexCheck(ComplexCheckBase):
             layer["sql"] = "Vollstaendigkeit=1"
             layer["group"] = group3
             layer["style"] = "liegenschaften/voll_ls.qml"
-            vlayerunvollLS = self.layer_loader.load(layer)
+            vlayerunvollLS = self.layer_loader.load(layer, False)
 
             layer = {}
             layer["type"] = "postgres"
@@ -300,7 +291,7 @@ class ComplexCheck(ComplexCheckBase):
             layer["sql"] = "Gueltigkeit=1"
             layer["group"] = group3
             layer["style"] = "liegenschaften/voll_ls.qml"
-            vlayerstreitigSDR = self.layer_loader.load(layer)
+            vlayerstreitigSDR = self.layer_loader.load(layer, False)
 
             layer = {}
             layer["type"] = "postgres"
@@ -312,10 +303,8 @@ class ComplexCheck(ComplexCheckBase):
             layer["sql"] = "Vollstaendigkeit=1"
             layer["group"] = group3
             layer["style"] = "liegenschaften/voll_ls.qml"
-            vlayerunvollSDR = self.layer_loader.load(layer)
+            vlayerunvollSDR = self.layer_loader.load(layer, False)
 
-
-            vlayerLunvollSDR = self.layer_loader.load(layer)
             layer = {}
             layer["type"] = "postgres"
             layer["title"] = _translate("VeriSO_EE_gruda","streitige Liegenschaften", None)
@@ -326,9 +315,7 @@ class ComplexCheck(ComplexCheckBase):
             layer["sql"] = "Gueltigkeit=1"
             layer["group"] = group3
             layer["style"] = "liegenschaften/voll_ls.qml"
-            vlayerstreitigLS = self.layer_loader.load(layer)
-
-
+            vlayerstreitigLS = self.layer_loader.load(layer, False)
 
             layer = {}
             layer["type"] = "postgres"
@@ -354,7 +341,6 @@ class ComplexCheck(ComplexCheckBase):
             layer["style"] = "gebaeudeadressen/ortschaft.qml"
             vlayerortschaft = self.layer_loader.load(layer)
 
-
             layer = {}
             layer["type"] = "postgres"
             layer["title"] = _translate("VeriSO_EE_gruda","benanntes Gebiet", None)
@@ -366,7 +352,6 @@ class ComplexCheck(ComplexCheckBase):
             layer["group"] = group4
             layer["style"] = "gebaeudeadressen/benanntesGebiet.qml"
             vlayerGeb = self.layer_loader.load(layer)
-
 
             layer = {}
             layer["type"] = "postgres"
@@ -481,4 +466,3 @@ class ComplexCheck(ComplexCheckBase):
             exc_type, exc_value, exc_traceback = sys.exc_info()
             self.iface.messageBar().pushMessage("Error", str(traceback.format_exc(exc_traceback)), level=QgsMessageBar.CRITICAL, duration=5)
         QApplication.restoreOverrideCursor()
-

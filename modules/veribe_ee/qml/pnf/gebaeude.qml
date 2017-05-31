@@ -1,16 +1,10 @@
 <!DOCTYPE qgis PUBLIC 'http://mrcc.com/qgis.dtd' 'SYSTEM'>
-<qgis version="2.18.6" simplifyAlgorithm="0" minimumScale="0" maximumScale="1e+08" simplifyDrawingHints="0" minLabelScale="1" maxLabelScale="1e+08" simplifyDrawingTol="1" readOnly="0" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+<qgis version="2.18.6" simplifyAlgorithm="0" minimumScale="0" maximumScale="1e+08" simplifyDrawingHints="1" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" readOnly="0" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
   <edittypes>
     <edittype widgetv2type="TextEdit" name="ogc_fid">
       <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
     </edittype>
     <edittype widgetv2type="TextEdit" name="t_ili_tid">
-      <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
-    </edittype>
-    <edittype widgetv2type="TextEdit" name="nummer">
-      <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
-    </edittype>
-    <edittype widgetv2type="TextEdit" name="betreiber">
       <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
     </edittype>
     <edittype widgetv2type="TextEdit" name="qualitaet">
@@ -25,36 +19,25 @@
     <edittype widgetv2type="TextEdit" name="art_txt">
       <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
     </edittype>
-    <edittype widgetv2type="TextEdit" name="punktart">
-      <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
-    </edittype>
-    <edittype widgetv2type="TextEdit" name="punktart_txt">
-      <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
-    </edittype>
     <edittype widgetv2type="TextEdit" name="entstehung">
       <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
     </edittype>
   </edittypes>
   <renderer-v2 forceraster="0" symbollevels="0" type="singleSymbol" enableorderby="0">
     <symbols>
-      <symbol alpha="1" clip_to_extent="1" type="marker" name="0">
-        <layer pass="0" class="SvgMarker" locked="0">
-          <prop k="angle" v="0"/>
-          <prop k="color" v="255,85,0,255"/>
-          <prop k="horizontal_anchor_point" v="1"/>
-          <prop k="name" v="backgrounds/background_triangle.svg"/>
+      <symbol alpha="1" clip_to_extent="1" type="fill" name="0">
+        <layer pass="0" class="SimpleFill" locked="0">
+          <prop k="border_width_map_unit_scale" v="0,0,0,0,0,0"/>
+          <prop k="color" v="213,29,37,255"/>
+          <prop k="joinstyle" v="bevel"/>
           <prop k="offset" v="0,0"/>
           <prop k="offset_map_unit_scale" v="0,0,0,0,0,0"/>
           <prop k="offset_unit" v="MM"/>
           <prop k="outline_color" v="0,0,0,255"/>
-          <prop k="outline_width" v="0.6"/>
-          <prop k="outline_width_map_unit_scale" v="0,0,0,0,0,0"/>
+          <prop k="outline_style" v="solid"/>
+          <prop k="outline_width" v="0.26"/>
           <prop k="outline_width_unit" v="MM"/>
-          <prop k="scale_method" v="diameter"/>
-          <prop k="size" v="6"/>
-          <prop k="size_map_unit_scale" v="0,0,0,0,0,0"/>
-          <prop k="size_unit" v="MM"/>
-          <prop k="vertical_anchor_point" v="1"/>
+          <prop k="style" v="solid"/>
         </layer>
       </symbol>
     </symbols>
@@ -73,7 +56,7 @@
     <property key="labeling/bufferColorB" value="255"/>
     <property key="labeling/bufferColorG" value="255"/>
     <property key="labeling/bufferColorR" value="255"/>
-    <property key="labeling/bufferDraw" value="true"/>
+    <property key="labeling/bufferDraw" value="false"/>
     <property key="labeling/bufferJoinStyle" value="128"/>
     <property key="labeling/bufferNoFill" value="false"/>
     <property key="labeling/bufferSize" value="1"/>
@@ -82,14 +65,14 @@
     <property key="labeling/bufferTransp" value="0"/>
     <property key="labeling/centroidInside" value="false"/>
     <property key="labeling/centroidWhole" value="false"/>
-    <property key="labeling/decimals" value="0"/>
+    <property key="labeling/decimals" value="3"/>
     <property key="labeling/displayAll" value="false"/>
     <property key="labeling/dist" value="0"/>
     <property key="labeling/distInMapUnits" value="false"/>
     <property key="labeling/distMapUnitScale" value="0,0,0,0,0,0"/>
-    <property key="labeling/drawLabels" value="true"/>
-    <property key="labeling/enabled" value="true"/>
-    <property key="labeling/fieldName" value=" 'Betreiber: ' || &quot;betreiber&quot;  ||  '\nQualität :' || &quot;qualitaet_txt&quot;  ||  '\nMedium (Art) :'  ||  &quot;art_txt&quot;  ||  '\nPunktart :'   || &quot;punktart_txt&quot; "/>
+    <property key="labeling/drawLabels" value="false"/>
+    <property key="labeling/enabled" value="false"/>
+    <property key="labeling/fieldName" value=""/>
     <property key="labeling/fitInPolygonOnly" value="false"/>
     <property key="labeling/fontCapitals" value="0"/>
     <property key="labeling/fontFamily" value="Cantarell"/>
@@ -117,7 +100,7 @@
     <property key="labeling/maxNumLabels" value="2000"/>
     <property key="labeling/mergeLines" value="false"/>
     <property key="labeling/minFeatureSize" value="0"/>
-    <property key="labeling/multilineAlign" value="3"/>
+    <property key="labeling/multilineAlign" value="4294967295"/>
     <property key="labeling/multilineHeight" value="1"/>
     <property key="labeling/namedStyle" value="Regular"/>
     <property key="labeling/obstacle" value="true"/>
@@ -125,9 +108,9 @@
     <property key="labeling/obstacleType" value="0"/>
     <property key="labeling/offsetType" value="0"/>
     <property key="labeling/placeDirectionSymbol" value="0"/>
-    <property key="labeling/placement" value="0"/>
-    <property key="labeling/placementFlags" value="0"/>
-    <property key="labeling/plussign" value="true"/>
+    <property key="labeling/placement" value="1"/>
+    <property key="labeling/placementFlags" value="10"/>
+    <property key="labeling/plussign" value="false"/>
     <property key="labeling/predefinedPositionOrder" value="TR,TL,BR,BL,R,L,TSR,BSR"/>
     <property key="labeling/preserveRotation" value="true"/>
     <property key="labeling/previewBkgrdColor" value="#ffffff"/>
@@ -258,19 +241,15 @@
     </symbol>
   </SingleCategoryDiagramRenderer>
   <DiagramLayerSettings yPosColumn="-1" showColumn="-1" linePlacementFlags="10" placement="0" dist="0" xPosColumn="-1" priority="0" obstacle="0" zIndex="0" showAll="1"/>
-  <annotationform>.</annotationform>
+  <annotationform></annotationform>
   <aliases>
     <alias field="ogc_fid" index="0" name=""/>
     <alias field="t_ili_tid" index="1" name=""/>
-    <alias field="nummer" index="2" name=""/>
-    <alias field="betreiber" index="3" name=""/>
-    <alias field="qualitaet" index="4" name=""/>
-    <alias field="qualitaet_txt" index="5" name=""/>
-    <alias field="art" index="6" name=""/>
-    <alias field="art_txt" index="7" name=""/>
-    <alias field="punktart" index="8" name=""/>
-    <alias field="punktart_txt" index="9" name=""/>
-    <alias field="entstehung" index="10" name=""/>
+    <alias field="qualitaet" index="2" name=""/>
+    <alias field="qualitaet_txt" index="3" name=""/>
+    <alias field="art" index="4" name=""/>
+    <alias field="art_txt" index="5" name=""/>
+    <alias field="entstehung" index="6" name=""/>
   </aliases>
   <excludeAttributesWMS/>
   <excludeAttributesWFS/>
@@ -279,19 +258,15 @@
     <columns>
       <column width="-1" hidden="0" type="field" name="ogc_fid"/>
       <column width="-1" hidden="0" type="field" name="t_ili_tid"/>
-      <column width="-1" hidden="0" type="field" name="nummer"/>
-      <column width="-1" hidden="0" type="field" name="betreiber"/>
       <column width="-1" hidden="0" type="field" name="qualitaet"/>
       <column width="-1" hidden="0" type="field" name="qualitaet_txt"/>
       <column width="-1" hidden="0" type="field" name="art"/>
       <column width="-1" hidden="0" type="field" name="art_txt"/>
-      <column width="-1" hidden="0" type="field" name="punktart"/>
-      <column width="-1" hidden="0" type="field" name="punktart_txt"/>
       <column width="-1" hidden="0" type="field" name="entstehung"/>
       <column width="-1" hidden="1" type="actions"/>
     </columns>
   </attributetableconfig>
-  <editform>.</editform>
+  <editform></editform>
   <editforminit/>
   <editforminitcodesource>0</editforminitcodesource>
   <editforminitfilepath></editforminitfilepath>
@@ -322,16 +297,12 @@ def my_form_open(dialog, layer, feature):
   <defaults>
     <default field="ogc_fid" expression=""/>
     <default field="t_ili_tid" expression=""/>
-    <default field="nummer" expression=""/>
-    <default field="betreiber" expression=""/>
     <default field="qualitaet" expression=""/>
     <default field="qualitaet_txt" expression=""/>
     <default field="art" expression=""/>
     <default field="art_txt" expression=""/>
-    <default field="punktart" expression=""/>
-    <default field="punktart_txt" expression=""/>
     <default field="entstehung" expression=""/>
   </defaults>
   <previewExpression></previewExpression>
-  <layerGeometryType>0</layerGeometryType>
+  <layerGeometryType>2</layerGeometryType>
 </qgis>

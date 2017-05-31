@@ -1,41 +1,27 @@
 # coding=utf-8
 import os
-import sys
-import traceback
+import os.path
 
-
-from builtins import range, str
-
+from builtins import range
 from openpyxl import load_workbook
-
-from qgis.PyQt.QtCore import QDateTime, QDir, QFileInfo, \
-    QProcess, QRegExp, QSettings, Qt, pyqtSignal, pyqtSignature, pyqtSlot
-
+from qgis.PyQt.QtCore import QFileInfo, \
+    QSettings, Qt, pyqtSignature
 from qgis.PyQt.QtSql import QSqlDatabase, QSqlQuery
-
-from qgis.core import QgsApplication, QgsDataSourceURI, QgsMessageLog, QgsVectorLayer
-from qgis.gui import QgsMessageBar
-
-from qgis.PyQt.QtCore import QDateTime
-
 from qgis.PyQt.QtWidgets import QApplication, QDialog, QDialogButtonBox, \
     QFileDialog
-
-from veriso.base.utils.utils import (open_psql_db, open_sqlite_db,
-                                     get_projects_db, get_modules_dir,
-                                     yaml_load_file, tr,
-                                     get_subdirs, get_ui_class,
-                                     db_user_has_role, get_absolute_path)
-
-from veriso.base.utils.utils import dynamic_import
+from qgis.core import QgsMapLayerRegistry, \
+    edit
 from veriso.base.utils.exceptions import VerisoErrorWithBar
+from veriso.base.utils.utils import (tr,
+                                     get_ui_class)
 
 FORM_CLASS = get_ui_class('importdefects.ui')
 
 class ImportDefectsDialog(QDialog, FORM_CLASS):
-    def __init__(self, iface, defects_list_dock):
+    def __init__(self, application_module, iface, defects_list_dock):
         QDialog.__init__(self, None)
         self.setupUi(self)
+        self.application_module = application_module
         self.iface = iface
         self.message_bar = self.iface.messageBar()
         self.defects_list_dock = defects_list_dock
@@ -63,13 +49,50 @@ class ImportDefectsDialog(QDialog, FORM_CLASS):
     def accept(self):
         QApplication.setOverrideCursor(Qt.WaitCursor)
 
-        xlsx = self.lineEditDefectsFile.text().strip()
-        load_checked = self.load_defects_check.isChecked()
+        file_to_import = self.lineEditDefectsFile.text().strip()
 
-        if xlsx == '':
+        if file_to_import == '':
             self.message_bar.pushWarning("VeriSO",
                                          tr("No Defects file set."))
+            QApplication.restoreOverrideCursor()
             return
+
+        extension = os.path.splitext(file_to_import)[1]
+        if(extension == '.xlsx'):
+            self.import_xlsx(file_to_import)
+        elif(extension == '.shp'):
+            self.import_shp(file_to_import)
+        else:
+            self.message_bar.pushWarning("VeriSO",
+                                         tr("File must be .xlsx or .shp"))
+            QApplication.restoreOverrideCursor()
+            return
+
+        QApplication.restoreOverrideCursor()
+        self.close()
+
+    def import_shp(self, shp):
+        shp = self.lineEditDefectsFile.text().strip()
+        lr = QgsMapLayerRegistry.instance()
+
+        tmp_layer = self.iface.addVectorLayer(shp, 'tmp_imported_shp', 'ogr')
+        self.application_module.do_load_defects_wrapper()
+
+        defect_layers = [lr.mapLayersByName(u'Mängelliste (Punkte)')[0],
+                         lr.mapLayersByName(u'Mängelliste (Linien)')[0],
+                         lr.mapLayersByName(u'Mängelliste (Polygone)')[0]]
+
+        for feat in tmp_layer.getFeatures():
+            feat.setAttribute('ogc_fid', None)
+
+            with edit(defect_layers[tmp_layer.geometryType()]):
+                defect_layers[tmp_layer.geometryType()].addFeature(feat)
+
+        QgsMapLayerRegistry.instance().removeMapLayers([tmp_layer.id()])
+
+        self.iface.messageBar().pushInfo("VeriSo", "Defects imported from Shapefile")
+
+    def import_xlsx(self, xlsx):
 
         self.wb = load_workbook(filename = xlsx, read_only = True)
 
@@ -90,23 +113,15 @@ class ImportDefectsDialog(QDialog, FORM_CLASS):
             self.execute_query(query_polygons)
 
         self.db.close()
-        self.iface.messageBar().pushInfo("VeriSo", "Defects imported")
+        self.iface.messageBar().pushInfo("VeriSo", "Defects imported from Excel file")
 
-        if load_checked:
-            defects_module = 'veriso.modules.loaddefects_base'
-            defects_module = dynamic_import(defects_module)
-            d = defects_module.LoadDefectsBase(self.iface, self.module_name)
-            defects_layers = d.run()
-            self.defects_list_dock.load_layers(defects_layers)
-
-        QApplication.restoreOverrideCursor()
-
-        self.close()
+        self.application_module.do_load_defects_wrapper()
 
     def read_sheet(self, sheet_name):
+        from builtins import str
         sheet = self.wb[sheet_name]
 
-        # list of lists. A list per row with key = column header
+        # list of lists. A list per row
         rows_list = []
         header_list = []
 
@@ -125,7 +140,7 @@ class ImportDefectsDialog(QDialog, FORM_CLASS):
                 values_list = []
                 row = sheet[i]
                 for cell in row:
-                    values_list.append(cell.value)
+                    values_list.append(str(cell.value))
                 rows_list.append(values_list)
 
         return header_list, rows_list
@@ -133,13 +148,27 @@ class ImportDefectsDialog(QDialog, FORM_CLASS):
     def create_query(self, table_name, header_list, rows_list):
         query = 'INSERT INTO '+self.db_schema+'.'+table_name+'('
         # don't write ogc_fid and coordinates
-        query += ', '.join(header_list[1:11])
+        query += ', '.join(header_list[1:12])
         query += ', ' + 'the_geom)'
         query += ' VALUES '
-        query += '(\''
-        query += '), (\''.join(['\', \''.join([str(value) for value in row[1:11]])
-                                + '\', ST_GeomFromText(\''+row[-1]+'\', 2056)' for row in rows_list])
-        query += ')'
+
+        for i in rows_list:
+            query += '('
+            for j in range(1, 12):
+                query += '\''
+
+                query += i[j]
+                query += '\','
+            query += 'ST_GeomFromText(\''+i[-1]+'\', 2056)'
+            query += '),'
+        
+        query = query[:-1]
+
+        #query += '(\''
+        #query += '), (\''.join(['\', \''.join([value for value in row[1:12]])
+        #                        + '\', ST_GeomFromText(\''+row[-1]+'\', 2056)' for row in rows_list])
+        #query += ')'
+
         return query
 
     def open_db(self):
@@ -172,7 +201,6 @@ class ImportDefectsDialog(QDialog, FORM_CLASS):
                 self,
                 tr("Choose defects file"),
                 self.input_xlsx_path,
-                "XLSX (*.xlsx)")
+                "Defects layer (*.xlsx *.shp)")
         file_info = QFileInfo(file_path)
         self.lineEditDefectsFile.setText(file_info.absoluteFilePath())
-
