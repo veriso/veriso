@@ -98,6 +98,9 @@ ENV/
 .idea/dictionaries
 .idea/vcs.xml
 .idea/jsLibraryMappings.xml
+.idea/dbnavigator.xml
+.idea/misc.xml
+.idea/veriso.iml
 
 # Sensitive or high-churn files:
 .idea/dataSources.ids
