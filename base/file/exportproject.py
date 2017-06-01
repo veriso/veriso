@@ -209,6 +209,9 @@ class ExportProjectDialog(QDialog, FORM_CLASS):
 
         import_jar = os.path.dirname(__file__) + '/../../lib/ili2pg-3.6.1/ili2pg.jar'
 
+        arguments.append("-Duser.country=CH")
+        arguments.append("-Duser.language=de")
+
         arguments.append("-jar")
         arguments.append(import_jar)
         arguments.append("--export")

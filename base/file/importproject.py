@@ -6,7 +6,7 @@ import shutil
 from builtins import next, range, str
 from qgis.PyQt.QtCore import QDateTime, QDir, QFileInfo, \
     QProcess, QRegExp, QSettings, Qt, pyqtSignal, pyqtSignature, pyqtSlot, \
-    QTextCodec
+    QTextCodec, QPyNullVariant
 from qgis.PyQt.QtGui import QRegExpValidator
 from qgis.PyQt.QtSql import QSqlQuery
 from qgis.PyQt.QtWidgets import QApplication, QDialog, QDialogButtonBox, \
@@ -332,6 +332,8 @@ class ImportProjectDialog(QDialog, FORM_CLASS):
 
         self.projects_database = self.settings.value(
                 "options/general/projects_database", "")
+        if type(self.projects_database) == QPyNullVariant:
+            self.projects_database ==  ""
         self.projects_root_directory = self.settings.value(
                 "options/general/projects_root_directory", "")
 
@@ -355,11 +357,16 @@ class ImportProjectDialog(QDialog, FORM_CLASS):
             return
 
         if self.itf == "":
-            self.message_bar.pushWarning("VeriSO",
+
+            # in veriti, if no itf file is set, use a "empty" default itf file
+            if self.app_module == 'veriti':
+                self.itf = os.path.dirname(__file__)+"/../../modules/veriti/varia/default.itf"
+            else:
+                self.message_bar.pushWarning("VeriSO",
                                          tr(
                                                  "No Interlis transfer file "
                                                  "set."))
-            return
+                return
 
         if self.ili == "":
             self.message_bar.pushWarning("VeriSO",
@@ -459,6 +466,9 @@ class ImportProjectDialog(QDialog, FORM_CLASS):
             arguments.append(arg)
 
         import_jar = os.path.dirname(__file__)+'/../../lib/ili2pg-3.6.1/ili2pg.jar'              
+
+        arguments.append("-Duser.country=CH")
+        arguments.append("-Duser.language=de")
 
         arguments.append("-jar")
         arguments.append(import_jar)

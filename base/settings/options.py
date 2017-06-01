@@ -5,7 +5,7 @@ from __future__ import absolute_import
 import os
 
 from qgis.PyQt.QtCore import (
-    QFileInfo, QRegExp, QSettings, pyqtSignal, pyqtSignature)
+    QFileInfo, QRegExp, QSettings, pyqtSignal, pyqtSignature, QPyNullVariant)
 from qgis.PyQt.QtGui import QRegExpValidator, QInputDialog, QLineEdit
 from qgis.PyQt.QtWidgets import QDialog, QDialogButtonBox, QFileDialog, QWidget
 
@@ -32,8 +32,9 @@ class OptionsDialog(QDialog, FORM_CLASS):
         self.settings = QSettings("CatAIS", "VeriSO")
         self.projects_database = self.settings.value(
                 "options/general/projects_database")
-        self.projects_database_path = QFileInfo(
-                self.projects_database).absolutePath()                          
+        if type(self.projects_database) != QPyNullVariant:
+            self.projects_database_path = QFileInfo(
+                self.projects_database).absolutePath()
         self.projects_root_directory = self.settings.value(
                 "options/general/projects_root_directory")
 
@@ -42,7 +43,8 @@ class OptionsDialog(QDialog, FORM_CLASS):
         self.lineEditDbPort.setValidator(
                 QRegExpValidator(QRegExp("[0-9]+"), self.lineEditDbPort))
 
-        self.lineEditProjectsDatabase.setText(
+        if type(self.projects_database) != QPyNullVariant:
+            self.lineEditProjectsDatabase.setText(
                 self.settings.value("options/general/projects_database"))
         self.lineEditProjectsRootDir.setText(
                 self.settings.value("options/general/projects_root_directory"))
@@ -72,7 +74,9 @@ class OptionsDialog(QDialog, FORM_CLASS):
                 self.settings.value("options/db/adminpwd"))
 
         default_repo = ['http://www.catais.org/models/',
-                        'http://models.geo.admin.ch/']
+                        'http://models.geo.admin.ch/',
+                        'http://models.geo.ti.ch/']
+
         self.listWidgetModelRepos.insertItems(0, self.settings.value(
                 "options/model_repositories/repositories", default_repo))
 
@@ -185,8 +189,12 @@ class OptionsDialog(QDialog, FORM_CLASS):
             item.setText(text)
 
     def accept(self):
-        self.settings.setValue("options/general/projects_database",
+        if type(self.projects_database) != QPyNullVariant:
+            self.settings.setValue("options/general/projects_database",
                                self.lineEditProjectsDatabase.text().strip())
+        else:
+            self.settings.setValue("options/general/projects_database","")
+
         self.projectsDatabaseHasChanged.emit()
 
         self.settings.setValue("options/general/projects_root_directory",
