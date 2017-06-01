@@ -26,7 +26,7 @@ baselayer:
     de: Gewässer des Kantons Bern
     fr: Eaux du canton de Berne
   url: http://www.geoservice.apps.be.ch/geoservice2/services/a42geo/a42geo_gewaesserwms_d_fk/MapServer/WMSServer?
-  layers: GEODB.GN5_GN5ROUTE_B,GEODB.GN5_DOLUNG,GEODB.GN5_GN5ROUTE
+  layers: GEODB.GNBE_GNBELA,GEODB.GNBE_GNBEAB,GEODB.GNBE_GNBEAB_B
   format: image/png
 - type: wms
   title:
@@ -185,3 +185,9 @@ baselayer:
   url: http://wms.geo.admin.ch/?
   layers: ch.swisstopo-vd.ortschaftenverzeichnis_plz
   format: image/jpeg
+  title:
+    de: Orthophoto Region Bern
+    fr: Orthophoto Région Berne
+  url: http://www.geoservice.apps.be.ch/geoservice2/services/a42geo/a42geo_verisowms_d_fk/MapServer/WMSServer?
+  layers: GEODB.OBERN_OBERN_MOSAIC
+  format: image/png

@@ -88,7 +88,7 @@ class ComplexCheck(ComplexCheckBase):
             layer["key"] = "ogc_fid"            
             layer["sql"] = "lagezuv=1"
             layer["group"] = group
-            layer["style"] = ""
+            #layer["style"] = ""
             vlayerunzuv = self.layer_loader.load(layer, False, False)
             unzuv = vlayerunzuv.featureCount()
 

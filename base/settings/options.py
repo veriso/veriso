@@ -76,7 +76,7 @@ class OptionsDialog(QDialog, FORM_CLASS):
         default_repo = ['http://www.catais.org/models/',
                         'http://models.geo.admin.ch/',
                         'http://models.geo.ti.ch/']
-        
+
         self.listWidgetModelRepos.insertItems(0, self.settings.value(
                 "options/model_repositories/repositories", default_repo))
 
@@ -194,7 +194,7 @@ class OptionsDialog(QDialog, FORM_CLASS):
                                self.lineEditProjectsDatabase.text().strip())
         else:
             self.settings.setValue("options/general/projects_database","")
-            
+
         self.projectsDatabaseHasChanged.emit()
 
         self.settings.setValue("options/general/projects_root_directory",

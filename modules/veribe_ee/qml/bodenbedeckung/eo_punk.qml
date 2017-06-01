@@ -178,7 +178,7 @@
       <lowervalue>40</lowervalue>
       <uppervalue>0</uppervalue>
       <label>Bezugspunkt</label>
-      <pointsymbol>svg:/symbol/Cross4.svg</pointsymbol>
+      <pointsymbol>svg:/crosses/Cross4.svg</pointsymbol>
       <pointsize>6</pointsize>
       <pointsizeunits>pixels</pointsizeunits>
       <rotationclassificationfieldname></rotationclassificationfieldname>

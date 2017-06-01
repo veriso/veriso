@@ -46,7 +46,7 @@
     <edittype widgetv2type="TextEdit" name="rot">
       <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
     </edittype>
-    <edittype widgetv2type="TextEdit" name="name">
+    <edittype widgetv2type="TextEdit" name="aname">
       <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
     </edittype>
   </edittypes>
@@ -104,7 +104,7 @@
     <property key="labeling/distMapUnitMaxScale" value="0"/>
     <property key="labeling/distMapUnitMinScale" value="0"/>
     <property key="labeling/enabled" value="true"/>
-    <property key="labeling/fieldName" value="name"/>
+    <property key="labeling/fieldName" value="aname"/>
     <property key="labeling/fontBold" value="false"/>
     <property key="labeling/fontCapitals" value="0"/>
     <property key="labeling/fontFamily" value="Sans Serif"/>

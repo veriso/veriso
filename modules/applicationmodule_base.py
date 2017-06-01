@@ -164,7 +164,7 @@ class ApplicationModuleBase(QObject):
 
         modules_dir = os.path.join(get_modules_dir())
         module_dir = os.path.join(
-            modules_dir, self.module_name.lower(), 'checks', folder)
+            modules_dir, self.module, 'checks', folder)
 
         # Search first in the module, if the check doesn't exist, try in the
         # extended module
@@ -356,10 +356,18 @@ class ApplicationModuleBase(QObject):
 
         action = QAction(
                 QCoreApplication.translate(
-                        self.module, "Export defects layer"),
+                        self.module, "Export defects layer .xlsx"),
                 self.iface.mainWindow())
         action.setObjectName("VeriSOModule.ExportDefectsAction")
         action.triggered.connect(self.do_export_defects)
+        menu.addAction(action)
+
+        action = QAction(
+                QCoreApplication.translate(
+                        self.module, "Export defects layer .shp"),
+                self.iface.mainWindow())
+        action.setObjectName("VeriSOModule.ExportDefectsShpAction")
+        action.triggered.connect(self.do_export_defects_shp)
         menu.addAction(action)
 
         menubar.addMenu(menu)
@@ -377,7 +385,7 @@ class ApplicationModuleBase(QObject):
 
     def do_import_defects(self):
         from veriso.modules.tools.importdefects import ImportDefectsDialog
-        self.import_defects_dlg = ImportDefectsDialog(self.iface, self.defects_list_dock)
+        self.import_defects_dlg = ImportDefectsDialog(self, self.iface, self.defects_list_dock)
         if self.import_defects_dlg.init_gui():
             self.import_defects_dlg.show()
 
@@ -385,6 +393,13 @@ class ApplicationModuleBase(QObject):
         defects_module = 'veriso.modules.tools.exportdefects'
         defects_module = dynamic_import(defects_module)
         d = defects_module.ExportDefects(self.iface, self.module,
+                                         self.module_name)
+        d.run()
+
+    def do_export_defects_shp(self):
+        defects_module = 'veriso.modules.tools.exportdefectsshp'
+        defects_module = dynamic_import(defects_module)
+        d = defects_module.ExportDefectsShp(self.iface, self.module,
                                          self.module_name)
         d.run()
 

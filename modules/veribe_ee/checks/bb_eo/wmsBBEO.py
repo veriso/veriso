@@ -52,7 +52,7 @@ class ComplexCheck(ComplexCheckBase):
             layer["format"] ="image/png"
             #layer["crs"] ="EPSG:21781"
             layer["sql"] = ""
-            layer["style"] = ""
+            #layer["style"] = ""
             vlayer = self.layer_loader.load(layer)
             layer = {} 
             layer["type"] = "wms"
@@ -63,7 +63,7 @@ class ComplexCheck(ComplexCheckBase):
             layer["format"] ="image/png"
             #layer["crs"] ="EPSG:21781"
             layer["sql"] = ""
-            layer["style"] = ""
+            #layer["style"] = ""
             vlayer = self.layer_loader.load(layer)
             layer = {} 
             layer["type"] = "wms"
@@ -74,18 +74,18 @@ class ComplexCheck(ComplexCheckBase):
             layer["format"] ="image/png"
             #layer["crs"] ="EPSG:21781"
             layer["sql"] = ""
-            layer["style"] = ""
+            #layer["style"] = ""
             vlayer = self.layer_loader.load(layer)
             layer = {} 
             layer["type"] = "wms"
             layer["group"] = group
             layer["title"] = _translate("VeriSO_EE_wmsBBEO", "GN5", None)
             layer["url"] ="http://www.geoservice.apps.be.ch/geoservice2/services/a42geo/a42geo_gewaesserwms_d_fk/MapServer/WMSServer?"
-            layer["layers"] ="GEODB.GN5_GN5ROUTE_B,GEODB.GN5_DOLUNG,GEODB.GN5_GN5ROUTE"
+            layer["layers"] ="GEODB.GNBE_GNBELA,GEODB.GNBE_GNBEAB,GEODB.GNBE_GNBEAB_B"
             layer["format"] ="image/png"
             #layer["crs"] ="EPSG:21781"
             layer["sql"] = ""
-            layer["style"] = ""
+            #layer["style"] = ""
             vlayer = self.layer_loader.load(layer)
             layer = {} 
             layer["type"] = "wms"
@@ -96,7 +96,7 @@ class ComplexCheck(ComplexCheckBase):
             layer["format"] ="image/png"
             #layer["crs"] ="EPSG:21781"
             layer["sql"] = ""
-            layer["style"] = ""
+            #layer["style"] = ""
             vlayer = self.layer_loader.load(layer)
  
         except Exception:
