@@ -333,12 +333,12 @@ class ImportProjectDialog(QDialog, FORM_CLASS):
         self.projects_database = self.settings.value(
                 "options/general/projects_database", "")
         if type(self.projects_database) == QPyNullVariant:
-            self.projects_database ==  ""
+            self.projects_database = ""
         self.projects_root_directory = self.settings.value(
                 "options/general/projects_root_directory", "")
 
         self.use_pg_projects_database = self.settings.value(
-            "options/general/use_pg_projects_database")
+            "options/general/use_pg_projects_database", False, type=bool)
 
         self.ignore_ili2pg_errors = self.settings.value(
             "options/import/ignore_ili2pg_errors", False, type=bool)
@@ -623,7 +623,7 @@ class ImportProjectDialog(QDialog, FORM_CLASS):
     def update_projects_database(self):
         if self.use_pg_projects_database:
             return self.update_projects_database_pg()
-        return self.update_projects_database()
+        return self.update_projects_database_sqlite()
 
     def update_projects_database_pg(self):
         """Updates the postgres projects database.
@@ -662,7 +662,6 @@ class ImportProjectDialog(QDialog, FORM_CLASS):
                 query = db.exec_(sql)
 
             if not table_exists:
-                print('in if not table_exists')
                 sql = "CREATE TABLE veriso_conf.project (" \
                       "ogc_fid serial primary key, " \
                       "id character varying, " \

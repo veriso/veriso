@@ -199,8 +199,6 @@ class OptionsDialog(QDialog, FORM_CLASS):
         else:
             self.settings.setValue("options/general/projects_database","")
 
-        self.projectsDatabaseHasChanged.emit()
-
         self.settings.setValue("options/general/projects_root_directory",
                                self.lineEditProjectsRootDir.text().strip())
 
