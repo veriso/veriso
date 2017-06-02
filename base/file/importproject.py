@@ -333,7 +333,7 @@ class ImportProjectDialog(QDialog, FORM_CLASS):
         self.projects_database = self.settings.value(
                 "options/general/projects_database", "")
         if type(self.projects_database) == QPyNullVariant:
-            self.projects_database ==  ""
+            self.projects_database =  ""
         self.projects_root_directory = self.settings.value(
                 "options/general/projects_root_directory", "")
 
