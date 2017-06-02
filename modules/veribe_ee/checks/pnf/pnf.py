@@ -6,6 +6,7 @@ from qgis.gui import *
 
 import sys
 import traceback
+from os.path import expanduser
 
 
 try:
@@ -38,6 +39,8 @@ class ComplexCheck(ComplexCheckBase):
             self.iface.messageBar().pushMessage("Error",  _translate("VeriSO_EE_PNF", "project_id not set", None), level=QgsMessageBar.CRITICAL, duration=5)
             return
 
+        home = expanduser("~")
+
         QApplication.setOverrideCursor(Qt.WaitCursor)
         try:
             group_eo_allgemein = _translate("VeriSO_EE_PNF", "EO Allgemein", None)
@@ -53,6 +56,33 @@ class ComplexCheck(ComplexCheckBase):
             # Mängel
             # Call the menu action.
             self.iface.mainWindow().findChild(QAction, 'VeriSOModule.LoadDefectsAction').activate(QAction.Trigger)
+
+            # Laufende Operate
+            layer = {
+                'type': 'ogr',
+                'title': _translate('VeriSO_EE_PNF', 'Laufende operate_20_03_2017', None),
+                'url': home + '/Desktop/Share/Baselayers/laufende_operate_20_03_2017.shp',
+                'style': 'pnf/laufende_operate.qml'
+            }
+            vlayer = self.layer_loader.load(layer, True, True)
+
+            # PNF2016 TS1 TS2
+            layer = {
+                'type': 'ogr',
+                'title': _translate('VeriSO_EE_PNF', 'PNF2016_TS1_TS2', None),
+                'url': home + '/Desktop/Share/Baselayers/PNF2016_TS1_TS2.shp',
+                'style': 'pnf/pnf2016.qml'
+            }
+            vlayer = self.layer_loader.load(layer, False, True)
+
+            # OBERN NETZ 2016
+            layer = {
+                'type': 'ogr',
+                'title': _translate('VeriSO_EE_PNF', 'OBERN_NETZ_2016_1', None),
+                'url': home + '/Desktop/Share/Baselayers/OBERN_NETZBERN_2016_01.shp',
+                'style': 'pnf/obern_netz.qml'
+            }
+            vlayer = self.layer_loader.load(layer, False, True)
 
             # Wanderwege
             layer = {
@@ -410,6 +440,15 @@ class ComplexCheck(ComplexCheckBase):
                 "style": "liegenschaften/nr_sdr_teil.qml"
             }
             vlayer = self.layer_loader.load(layer)
+
+            # PNFBE21 HINWEISE V1
+            layer = {
+                'type': 'gdal',
+                'title': _translate('VeriSO_EE_PNF', 'PNFBE21_HINWEISE_V1', None),
+                'url': home + '/Desktop/Share/Baselayers/PNFBE21_HINWEISE_V1.tif',
+                'style': 'pnf/pnfbe21.qml'
+            }
+            vlayer = self.layer_loader.load(layer, False, True)
 
             # AV EO Linien
             layer = {
