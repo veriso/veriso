@@ -126,7 +126,7 @@
               </property>
              </widget>
             </item>
-            <item row="1" column="0">
+            <item row="1" column="0" colspan="3">
              <widget class="QCheckBox" name="chkPgProjectsDb">
               <property name="text">
                <string>Use Postgres table instead</string>

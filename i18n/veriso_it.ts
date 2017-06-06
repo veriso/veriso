@@ -432,6 +432,11 @@
         <source>Model name: </source>
         <translation>Nome del modello:</translation>
     </message>
+    <message>
+        <location filename="Ui_importproject.py"/>
+        <source>Lock scale</source>
+        <translation>Blocca scala:</translation>
+    </message>
 </context>
 <context>
     <name>Options</name>
@@ -456,6 +461,11 @@
         <translation>Banca dati dei progetti:</translation>
     </message>
     <message>
+        <location filename="Ui_options.py"/>
+        <source>Use Postgres table instead</source>
+        <translation>Usa tabella Postgres come db dei progetti</translation>
+    </message>
+    <message>
         <location filename="Ui_options.py" line="226"/>
         <source>Browse</source>
         <translation>Scegli</translation>
@@ -469,6 +479,16 @@
         <location filename="Ui_options.py" line="222"/>
         <source>Test projects database</source>
         <translation>Test banca dati dei progetti</translation>
+    </message>
+    <message>
+        <location filename="Ui_options.py"/>
+        <source>UI options</source>
+        <translation>Opzioni UI</translation>
+    </message>
+    <message>
+        <location filename="Ui_options.py"/>
+        <source>Show DB Tables in menu</source>
+        <translation>Mostra tabelle DB nel menu</translation>
     </message>
     <message>
         <location filename="Ui_options.py" line="228"/>
@@ -489,6 +509,21 @@
         <location filename="Ui_options.py" line="227"/>
         <source>VM arguments</source>
         <translation>Argomenti VM</translation>
+    </message>
+    <message>
+        <location filename="Ui_options.py"/>
+        <source>Import options</source>
+        <translation>Opzioni import</translation>
+    </message>
+    <message>
+        <location filename="Ui_options.py"/>
+        <source>Ignore ili2pg errors</source>
+        <translation>Ignora errori ili2pg</translation>
+    </message>
+        <message>
+        <location filename="Ui_options.py"/>
+        <source>Ignore postprocessing errors</source>
+        <translation>Ignora errori postprocessing</translation>
     </message>
     <message>
         <location filename="Ui_options.py" line="238"/>
