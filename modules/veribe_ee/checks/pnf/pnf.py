@@ -55,12 +55,23 @@ class ComplexCheck(ComplexCheckBase):
             # Call the menu action.
             self.iface.mainWindow().findChild(QAction, 'VeriSOModule.LoadDefectsAction').activate(QAction.Trigger)
 
+            # Arbeitsraster 500
+            layer = {
+                'type': 'ogr',
+                'title': _translate('VeriSO_EE_PNF', 'Arbeitsraster 500', None),
+                # specific file path defined by customer
+                'url': '/share/Share/Baselayers/Arbeitsraster_500_Intersect.shp',
+                'style': 'pnf/arbeitsraster.qml'
+            }
+            vlayer = self.layer_loader.load(layer, False, True)
+
             # Laufende Operate
             layer = {
                 'type': 'ogr',
-                'title': _translate('VeriSO_EE_PNF', 'Laufende operate_20_03_2017', None),
-                'url': os.path.join(os.sep, 'share', 'Share', 'Baselayers',
-                                    'laufende_operate_20_03_2017.shp'),
+                'title': _translate('VeriSO_EE_PNF', 'Laufende operate', None),
+                # specific file path defined by customer, symlink is resolved so QGIS can find the other
+                # supporting files (.shx, .dbf, ...)
+                'url': os.path.realpath('/share/Share/Baselayers/laufende_operate_last.shp'),
                 'style': 'pnf/laufende_operate.qml'
             }
             vlayer = self.layer_loader.load(layer, True, True)
@@ -68,19 +79,21 @@ class ComplexCheck(ComplexCheckBase):
             # PNF2016 TS1 TS2
             layer = {
                 'type': 'ogr',
-                'title': _translate('VeriSO_EE_PNF', 'PNF2016_TS1_TS2', None),
-                'url': os.path.join(os.sep, 'share', 'Share', 'Baselayers',
-                                    'PNF2016_TS1_TS2.shp'),
-                'style': 'pnf/pnf2016.qml'
+                'title': _translate('VeriSO_EE_PNF', 'PNF_TS1_TS2', None),
+                # specific file path defined by customer, symlink is resolved so QGIS can find the other
+                # supporting files (.shx, .dbf, ...)
+                'url': os.path.realpath('/share/Share/Baselayers/PNF_TS1_TS2_last.shp'),
+                'style': 'pnf/pnf.qml'
             }
             vlayer = self.layer_loader.load(layer, False, True)
 
             # OBERN NETZ 2016
             layer = {
                 'type': 'ogr',
-                'title': _translate('VeriSO_EE_PNF', 'OBERN_NETZ_2016_1', None),
-                'url': os.path.join(os.sep, 'share', 'Share', 'Baselayers',
-                                    'OBERN_NETZBERN_2016_01.shp'),
+                'title': _translate('VeriSO_EE_PNF', 'OBERN_NETZ', None),
+                # specific file path defined by customer, symlink is resolved so QGIS can find the other
+                # supporting files (.shx, .dbf, ...)
+                'url': os.path.realpath('/share/Share/Baselayers/OBERN_NETZBERN_last.shp'),
                 'style': 'pnf/obern_netz.qml'
             }
             vlayer = self.layer_loader.load(layer, False, True)
@@ -445,9 +458,9 @@ class ComplexCheck(ComplexCheckBase):
             # PNFBE21 HINWEISE V1
             layer = {
                 'type': 'gdal',
-                'title': _translate('VeriSO_EE_PNF', 'PNFBE21_HINWEISE_V1', None),
-                'url': os.path.join(os.sep, 'share', 'Share', 'Baselayers',
-                                    'PNFBE21_HINWEISE_V1.tif'),
+                'title': _translate('VeriSO_EE_PNF', 'PNFBE21_HINWEISE', None),
+                # specific file path defined by customer
+                'url': '/share/Share/Baselayers/PNFBE21_HINWEISE_last.tif',
                 'style': 'pnf/pnfbe21.qml'
             }
             vlayer = self.layer_loader.load(layer, False, True)
