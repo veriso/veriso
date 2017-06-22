@@ -110,6 +110,7 @@ def get_projects():
 def get_projects_from_pg():
     projects = []
     error_message = "Error while reading from projects database."
+    settings = QSettings("CatAIS", "VeriSO")
 
     try:
         db = get_default_db()
@@ -146,7 +147,15 @@ def get_projects_from_pg():
                 "datadate": str(
                     query.value(record.indexOf("datadate"))),
                 "importdate": str(
-                    query.value(record.indexOf("importdate")))
+                    query.value(record.indexOf("importdate"))),
+                "dbhost": str(settings.value("options/db/host")),
+                "dbname": str(settings.value("options/db/name")),
+                "dbport": str(settings.value("options/db/port")),
+                "dbuser": str(settings.value("options/db/user")),
+                "dbpwd": str(settings.value("options/db/pwd")),
+                "dbadmin": str(settings.value("options/db/admin")),
+                "dbadminpwd": str(settings.value("options/db/adminpwd"))
+                
             }
             projects.append(project)
 
