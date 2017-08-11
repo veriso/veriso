@@ -1,6 +1,3 @@
-[submodule "modules/veribe"]
-	path = modules/veribe
-	url = git@gitlab.com:opengisch/veribe.git
 [submodule "modules/veriti"]
 	path = modules/veriti
-	url = https://gitlab.com/opengisch/veriti.git
+	url = git@github.com:opengisch/VeriTI.git
