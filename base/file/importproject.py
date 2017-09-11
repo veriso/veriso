@@ -364,6 +364,7 @@ class ImportProjectDialog(QDialog, FORM_CLASS):
             # in veriti, if no itf file is set, use a "empty" default itf file
             if self.app_module == 'veriti':
                 self.itf = os.path.dirname(__file__)+"/../../modules/veriti/varia/default.itf"
+                self.settings.setValue("file/import/input_itf_path","/")
             else:
                 self.message_bar.pushWarning("VeriSO",
                                          tr(
