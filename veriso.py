@@ -52,7 +52,8 @@ try:
 
     addTestModule(test_module, "VeriTi")
 except Exception as e:
-    raise(e)
+    # Raise exception ONLY when testing the plugin, not in prod
+    # raise(e)
     pass
 
 class VeriSO(object):
