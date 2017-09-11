@@ -44,6 +44,16 @@ from veriso.modules.tools.defects_list import DefectsListDock
 from veriso.modules.tools.check_results import CheckResultsDock
 from veriso.base.utils.utils import tr, get_projects, dynamic_import
 
+# Register into QGIS Tester plugin. To know more see
+# https://github.com/boundlessgeo/qgis-tester-plugin
+try:
+    from qgistester.tests import addTestModule
+    from veriso.modules.veriti.test import test_module
+
+    addTestModule(test_module, "VeriTi")
+except Exception as e:
+    raise(e)
+    pass
 
 class VeriSO(object):
     def __init__(self, iface):
