@@ -1200,13 +1200,13 @@ FROM
   $$DBSCHEMA.tseinteilung_toleranzstufe as ts
 WHERE
   ST_Intersects (gp.geometrie,ts.geometrie)=true',3,'Was in table inserts',NULL,1),
- (84,'INSERT INTO $$DBSCHEMA.z_liegenschaft_flaeche (tid, liegenschaft_von, nummerteilgrundstueck, geometrie,flaechenmass, flaeche, qualitaet, qualitaet_txt)
+ (84,'INSERT INTO $$DBSCHEMA.z_liegenschaft_flaeche (tid, liegenschaft_von, nummerteilgrundstueck, geometrie,flaechenmass, flaeche)
 SELECT t_ili_tid, liegenschaft_von, nummerteilgrundstueck, geometrie,
-       flaechenmass, st_area(geometrie) as flaeche, qualitaet, qualitaet_txt
+       flaechenmass, st_area(geometrie) as flaeche
   FROM $$DBSCHEMA.liegenschaften_liegenschaft',3,'Was in table inserts',NULL,1),
- (85,'INSERT INTO $$DBSCHEMA.z_selbstrecht_flaeche (tid, selbstrecht_von, nummerteilgrundstueck, geometrie,flaechenmass, flaeche, qualitaet, qualitaet_txt)
+ (85,'INSERT INTO $$DBSCHEMA.z_selbstrecht_flaeche (tid, selbstrecht_von, nummerteilgrundstueck, geometrie,flaechenmass, flaeche)
 SELECT t_ili_tid, selbstrecht_von, nummerteilgrundstueck, geometrie,
-       flaechenmass, st_area(geometrie) as flaeche, qualitaet, qualitaet_txt
+       flaechenmass, st_area(geometrie) as flaeche
   FROM $$DBSCHEMA.liegenschaften_selbstrecht',3,'Was in table inserts',NULL,1),
  (86,'INSERT INTO $$DBSCHEMA.z_hgp_ls_linie (ogc_fid, geometrie)
 select * from(
@@ -1309,7 +1309,7 @@ FROM
 WHERE
   liegenschaften_grundstueck.gesamteflaechenmass >0 AND
   liegenschaften_grundstueck.ogc_fid::text = liegenschaften_selbstrecht.selbstrecht_von::text AND
-  liegenschaften_teilsrpos.teilsrpos_von::text = liegenschaften_selbstrecht.ogc_fid::text',3,'Was in table inserts',NULL,1),
+  liegenschaften_teilsrpos.teilsrpos_von::text = liegenschaften_selbstrecht.ogc_fid::text',3,'Was in table inserts',NULL,0),
  (92,'INSERT INTO $$DBSCHEMA.z_nr_gs (nbident,nummer,egris_egrid,gueltigkeit,gueltigkeit_txt,vollstaendigkeit,vollstaendigkeit_txt,art,art_txt,gesamteflaechenmass,nummerteilgrundstueck,Pos,lin)
 SELECT DISTINCT
   liegenschaften_grundstueck.nbident,
@@ -1332,7 +1332,7 @@ FROM
 WHERE
   liegenschaften_grundstueck.gesamteflaechenmass >0 AND
   liegenschaften_grundstueck.ogc_fid::text = liegenschaften_liegenschaft.liegenschaft_von::text AND
-  liegenschaften_teillspos.teillspos_von::text = liegenschaften_liegenschaft.ogc_fid::text',3,'Was in table inserts',NULL,1),
+  liegenschaften_teillspos.teillspos_von::text = liegenschaften_liegenschaft.ogc_fid::text',3,'Was in table inserts',NULL,0),
  (93,'INSERT INTO $$DBSCHEMA.z_objektnummer_pos (nummer,gwr_egid,nbident,pos,ori,groesse,vali_txt,vali,hali_txt,hali,groesse_txt)
 SELECT
   einzelobjekte_objektnummer.nummer,
@@ -1350,7 +1350,7 @@ FROM
   $$DBSCHEMA.einzelobjekte_objektnummer,
   $$DBSCHEMA.einzelobjekte_objektnummerpos
 WHERE
-  einzelobjekte_objektnummer.ogc_fid::text = einzelobjekte_objektnummerpos.objektnummerpos_von::text',3,'Was in table inserts',NULL,1),
+  einzelobjekte_objektnummer.ogc_fid::text = einzelobjekte_objektnummerpos.objektnummerpos_von::text',3,'Was in table inserts',NULL,0),
  (94,'INSERT INTO $$DBSCHEMA.z_gebaeudenummer_pos (nummer,gwr_egid,nbident,pos,ori,groesse,vali_txt,vali,hali_txt,hali,groesse_txt)
 SELECT
   bodenbedeckung_gebaeudenummer.nummer,
@@ -1368,7 +1368,7 @@ FROM
   $$DBSCHEMA.bodenbedeckung_gebaeudenummer,
   $$DBSCHEMA.bodenbedeckung_gebaeudenummerpos
 WHERE
-  bodenbedeckung_gebaeudenummer.ogc_fid::text = bodenbedeckung_gebaeudenummerpos.gebaeudenummerpos_von::text',3,'Was in table inserts',NULL,1),
+  bodenbedeckung_gebaeudenummer.ogc_fid::text = bodenbedeckung_gebaeudenummerpos.gebaeudenummerpos_von::text',3,'Was in table inserts',NULL,0),
  (95,'INSERT INTO $$DBSCHEMA.t_gebaeudeadressen_spinnennetz (ogc_fid, tid, line, hausnummer)
 SELECT distinct a.ogc_fid, a.t_ili_tid, ST_GeometryFromText((((((((''LINESTRING(''::text || ST_X(a.lage)::text) || '' ''::text) || ST_Y(a.lage)::text) || '',''::text) || ST_X(c.pos)::text) || '' ''::text) || ST_Y(c.pos)::text) || '')''::text, $$EPSG) AS line, a.hausnummer
 
