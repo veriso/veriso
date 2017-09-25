@@ -7,5 +7,8 @@ ilimodels:
 - ilimodel: DM01AVCH24LV95D
   referenceframe: LV95
   epsg: '2056'
+- ilimodel: MD01MOVDMN95V24_TEST_DE
+  referenceframe: LV95
+  epsg: '2056'
 can_configure_max_scale_role:
   - agi

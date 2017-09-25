@@ -47,6 +47,9 @@ class ApplicationModuleBase(QObject):
         self.module_name = self.settings.value("project/appmodulename")
 
         self.module_extended = self.get_extended_module_name()
+        self.settings.setValue(
+            "project/extended_appmodulename",
+            self.module_extended)
 
         self.defects_layers = {}
         self.defects_list_dock = veriso.defects_list_dock
@@ -294,7 +297,8 @@ class ApplicationModuleBase(QObject):
 
             layers = get_layers_from_topic(topic)
             for my_layer in layers:
-                action = QAction(my_layer["title"], self.iface.mainWindow())
+                action = QAction(my_layer["title"],
+                                 self.iface.mainWindow())
                 topic_menu.addAction(action)
                 action.triggered.connect(
                         lambda checked, layer=my_layer:

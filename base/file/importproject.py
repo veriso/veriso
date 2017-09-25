@@ -3,6 +3,7 @@ from __future__ import absolute_import, print_function
 
 import os, sys
 import shutil
+import tempfile
 from builtins import next, range, str
 from qgis.PyQt.QtCore import QDateTime, QDir, QFileInfo, \
     QProcess, QRegExp, QSettings, Qt, pyqtSignal, pyqtSignature, pyqtSlot, \
@@ -513,7 +514,26 @@ class ImportProjectDialog(QDialog, FORM_CLASS):
             arguments.append("--createEnumTxtCol")
         arguments.append("--nameByTopic")
         arguments.append("--strokeArcs")
-        arguments.append(self.itf)
+
+        # Translate itf file for VeriVD
+        if self.app_module == 'verivd':
+            from veriso.opengisch_utils.interlis.itf_translator \
+                .itf_translator_MD01MOVD import ITFTranslatorMD01MOVD
+
+            translator = ITFTranslatorMD01MOVD(self.itf)
+            tmp_translated_itf = tempfile.NamedTemporaryFile(
+                prefix='verivd_', suffix='.itf', delete=False)
+            tmp_translated_itf.close()
+            print(tmp_translated_itf.name)
+
+            translator.translate(
+                tmp_translated_itf.name,
+                translator.LANGUAGE_FR,
+                translator.LANGUAGE_DE
+            )
+            arguments.append(tmp_translated_itf.name)
+        else:
+            arguments.append(self.itf)
 
         self.process = QProcess()
         self.process.readyReadStandardOutput.connect(self.read_output)

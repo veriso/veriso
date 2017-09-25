@@ -27,6 +27,8 @@ class LoadLayer(QObject):
         module_name = settings.value("project/appmodule")
         self.check_parameter('module name', module_name)
 
+        extended_module_name = settings.value("project/extended_appmodulename")
+
         epsg = settings.value("project/epsg")
         self.check_parameter('epsg', epsg)
 
@@ -111,7 +113,11 @@ class LoadLayer(QObject):
                 else:
                     my_layer_node.setExpanded(True)
 
-                self.set_style(module_name, loaded_layer, layer_definition)
+                if extended_module_name:
+                    self.set_style(
+                        extended_module_name, loaded_layer, layer_definition)
+                else:
+                    self.set_style(module_name, loaded_layer, layer_definition)
                 self.set_transparency(loaded_layer, layer_definition)
 
             return loaded_layer

@@ -5,3 +5,7 @@
 [submodule "modules/verivd"]
 	path = modules/verivd
 	url = git@github.com:opengisch/verivd.git
+
+[submodule "opengisch_utils"]
+	path = opengisch_utils
+	url = git@github.com:opengisch/opengisch_utils.git
