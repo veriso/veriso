@@ -61,7 +61,7 @@ class ComplexCheck(ComplexCheckBase):
                 layer["title"] = _translate("VeriSO_EE_gebaeudeadressen_lokalisation","Lokalisation", None)
                 layer["featuretype"] = "gebaeudeadressen_lokalisation"
                 layer["key"] = "ogc_fid"            
-                layer["sql"] = "tid = '-1'"
+                layer["sql"] = "ogc_fid = '-1'"
                 layer["readonly"] = True
                 layer["group"] = group
                 vlayer_lokalisation = self.layer_loader.load(layer)
@@ -178,21 +178,26 @@ class ComplexCheck(ComplexCheckBase):
             idx = ids.index(id)
             
             benannte_idx = vlayer_lokalisationsname.fieldNameIndex("benannte")
-            text_idx = vlayer_lokalisationsname.fieldNameIndex("text")
+            text_idx = vlayer_lokalisationsname.fieldNameIndex("atext")
             
             if benannte_idx == -1 or text_idx == -1:
-                self.iface.messageBar().pushMessage("Error",  _translate("VeriSO_EE_Geb_LokTest", "Field _benannte_ or _text_ not found.", None), level=QgsMessageBar.CRITICAL, duration=10)                                                    
+                self.iface.messageBar().pushMessage(
+                    "Error",
+                    _translate(
+                        "VeriSO_EE_Geb_LokTest", "Field _benannte_ or _atext_ "
+                        "not found.", None),
+                    level=QgsMessageBar.CRITICAL, duration=10)
                 QApplication.restoreOverrideCursor()
                 return
 
-            benannte =  feat.attributes()[benannte_idx]
+            benannte = str(feat.attributes()[benannte_idx])
             lokalisationsname = feat.attributes()[text_idx]
         
             vlayer_strassenstueck_geometrie.setSubsetString("(strassenstueck_von = '"+benannte+"')")
             vlayer_strassenstueck_anfangspunkt.setSubsetString("(strassenstueck_von = '"+benannte+"')")
             vlayer_benanntesgebiet.setSubsetString("(benanntesgebiet_von = '"+benannte+"')")
             vlayer_gebaeudeeingang.setSubsetString("(gebaeudeeingang_von = '"+benannte+"')")
-            vlayer_lokalisation.setSubsetString("(tid = '"+benannte+"')")
+            vlayer_lokalisation.setSubsetString("(ogc_fid = '"+benannte+"')")
             vlayer_shortestline.setSubsetString("(lok_tid = '"+benannte+"')")
             vlayer_hausnummerpos.setSubsetString("(lok_tid = '"+benannte+"')")
 
@@ -233,7 +238,11 @@ class ComplexCheck(ComplexCheckBase):
             self.iface.mapCanvas().refresh()                
             
             iter = vlayer_lokalisation.getFeatures()
-            
+
+            x, y = 0.0, 0.0
+            prinzip, attributeprovisorisch, offiziell, status, inaenderung, \
+            art = "","","","","",""
+
             # only one feature is selected
             for feature in iter:
                 prinzip_idx = vlayer_lokalisation.fieldNameIndex("nummerierungsprinzip_txt")

@@ -88,7 +88,7 @@ class ComplexCheck(ComplexCheckBase):
             layer["key"] = "ogc_fid"            
             layer["sql"] = "lagezuv=1"
             layer["group"] = group
-            layer["style"] = ""
+            # layer["style"] = ""
             vlayerunzuv = self.layer_loader.load(layer, False, False)
             unzuv = vlayerunzuv.featureCount()
 
@@ -160,7 +160,8 @@ class ComplexCheck(ComplexCheckBase):
             layer["readonly"] = True 
             layer["featuretype"] = "z_v_gp_ts"
             layer["geom"] = "geometrie"
-            layer["key"] = "ogc_fid"            
+            layer["key"] = "ogc_fid"
+            layer["sql"] = ""
             layer["sql"] = "(exaktdefiniert = 0 AND ((art <2  AND lagegen  > 5) OR (art = 2 AND lagegen > 7) OR (art = 3 AND lagegen > 15) OR (art = 4 AND lagegen > 35))) OR (exaktdefiniert = 1 AND ((art <2  AND lagegen  > 20) OR (art = 2 AND lagegen > 35) OR (art = 3 AND lagegen > 75) OR (art = 4 AND lagegen >  150)))"
             layer["group"] = group
             layer["style"] = "liegenschaften/GP_TS_Gen.qml"

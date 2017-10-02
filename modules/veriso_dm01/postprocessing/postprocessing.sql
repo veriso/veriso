@@ -337,7 +337,7 @@ GRANT ALL ON TABLE $$DBSCHEMA.z_grenzen TO $$USER;',1,'Was in table tables',NULL
   tid character varying,
   entstehung character varying,
   identifikator character varying,
-  geometrie geometry,
+  geometrie geometry(Point,$$EPSG),
   lagegen double precision,
   lagezuv integer,
   lagezuv_txt character varying,
@@ -351,10 +351,10 @@ GRANT ALL ON TABLE $$DBSCHEMA.z_grenzen TO $$USER;',1,'Was in table tables',NULL
   gem_bfs integer,
   los integer,
   lieferdatum date,
-  CONSTRAINT z_v_gp_ts_2_pkey PRIMARY KEY (ogc_fid )
+  CONSTRAINT z_v_gp_ts_pkey PRIMARY KEY (ogc_fid )
 )
 WITH (
-  OIDS=FALSE
+  OIDS=TRUE
 );
 ALTER TABLE $$DBSCHEMA.z_v_gp_ts
   OWNER TO $$USER;
@@ -1287,9 +1287,8 @@ SELECT
 WHERE
   st_intersects(nomenklatur_flurname.geometrie, liegenschaften_liegenschaft.geometrie)=true and
   ST_IsValid(st_intersection(nomenklatur_flurname.geometrie, liegenschaften_liegenschaft.geometrie))=true',3,'Was in table inserts',NULL,1),
- (91,'INSERT INTO $$DBSCHEMA.z_nr_gs (nbident,nummer,egris_egrid,gueltigkeit,gueltigkeit_txt,vollstaendigkeit,vollstaendigkeit_txt,art,art_txt,gesamteflaechenmass,nummerteilgrundstueck,Pos,lin)
+ (91,'INSERT INTO $$DBSCHEMA.z_nr_gs (nummer,egris_egrid,gueltigkeit,gueltigkeit_txt,vollstaendigkeit,vollstaendigkeit_txt,art,art_txt,gesamteflaechenmass,nummerteilgrundstueck)
 SELECT DISTINCT
-  liegenschaften_grundstueck.nbident,
   liegenschaften_grundstueck.nummer,
   liegenschaften_grundstueck.egris_egrid,
   liegenschaften_grundstueck.gueltigkeit,
@@ -1299,20 +1298,15 @@ SELECT DISTINCT
   liegenschaften_grundstueck.art,
   liegenschaften_grundstueck.art_txt,
   liegenschaften_grundstueck.gesamteflaechenmass,
-  liegenschaften_selbstrecht.nummerteilgrundstueck,
-  liegenschaften_teilsrpos.pos,
-  (case(st_contains(liegenschaften_selbstrecht.geometrie,liegenschaften_teilsrpos.pos))when false then 1 else 0 end) as Lin
+  liegenschaften_selbstrecht.nummerteilgrundstueck
 FROM
   $$DBSCHEMA.liegenschaften_selbstrecht,
-  $$DBSCHEMA.liegenschaften_grundstueck,
-  $$DBSCHEMA.liegenschaften_teilsrpos
+  $$DBSCHEMA.liegenschaften_grundstueck
 WHERE
   liegenschaften_grundstueck.gesamteflaechenmass >0 AND
-  liegenschaften_grundstueck.ogc_fid::text = liegenschaften_selbstrecht.selbstrecht_von::text AND
-  liegenschaften_teilsrpos.teilsrpos_von::text = liegenschaften_selbstrecht.ogc_fid::text',3,'Was in table inserts',NULL,0),
- (92,'INSERT INTO $$DBSCHEMA.z_nr_gs (nbident,nummer,egris_egrid,gueltigkeit,gueltigkeit_txt,vollstaendigkeit,vollstaendigkeit_txt,art,art_txt,gesamteflaechenmass,nummerteilgrundstueck,Pos,lin)
+  liegenschaften_grundstueck.ogc_fid::text = liegenschaften_selbstrecht.selbstrecht_von::text',3,'Was in table inserts',NULL,1),
+ (92,'INSERT INTO $$DBSCHEMA.z_nr_gs (nummer,egris_egrid,gueltigkeit,gueltigkeit_txt,vollstaendigkeit,vollstaendigkeit_txt,art,art_txt,gesamteflaechenmass,nummerteilgrundstueck)
 SELECT DISTINCT
-  liegenschaften_grundstueck.nbident,
   liegenschaften_grundstueck.nummer,
   liegenschaften_grundstueck.egris_egrid,
   liegenschaften_grundstueck.gueltigkeit,
@@ -1322,22 +1316,17 @@ SELECT DISTINCT
   liegenschaften_grundstueck.art,
   liegenschaften_grundstueck.art_txt,
   liegenschaften_grundstueck.gesamteflaechenmass,
-  liegenschaften_liegenschaft.nummerteilgrundstueck,
-  liegenschaften_teillspos.pos,
-  (case(st_contains(liegenschaften_liegenschaft.geometrie,liegenschaften_teillspos.pos)) when false Then 1 else 0 end) as Lin
+  liegenschaften_liegenschaft.nummerteilgrundstueck
 FROM
   $$DBSCHEMA.liegenschaften_liegenschaft,
-  $$DBSCHEMA.liegenschaften_grundstueck,
-  $$DBSCHEMA.liegenschaften_teillspos
+  $$DBSCHEMA.liegenschaften_grundstueck
 WHERE
   liegenschaften_grundstueck.gesamteflaechenmass >0 AND
-  liegenschaften_grundstueck.ogc_fid::text = liegenschaften_liegenschaft.liegenschaft_von::text AND
-  liegenschaften_teillspos.teillspos_von::text = liegenschaften_liegenschaft.ogc_fid::text',3,'Was in table inserts',NULL,0),
- (93,'INSERT INTO $$DBSCHEMA.z_objektnummer_pos (nummer,gwr_egid,nbident,pos,ori,groesse,vali_txt,vali,hali_txt,hali,groesse_txt)
+  liegenschaften_grundstueck.ogc_fid::text = liegenschaften_liegenschaft.liegenschaft_von::text',3,'Was in table inserts',NULL,1),
+ (93,'INSERT INTO $$DBSCHEMA.z_objektnummer_pos (nummer,gwr_egid,pos,ori,groesse,vali_txt,vali,hali_txt,hali,groesse_txt)
 SELECT
   einzelobjekte_objektnummer.nummer,
   einzelobjekte_objektnummer.gwr_egid,
-  einzelobjekte_objektnummer.nbident,
   einzelobjekte_objektnummerpos.pos,
   einzelobjekte_objektnummerpos.ori,
   einzelobjekte_objektnummerpos.groesse,
@@ -1350,12 +1339,11 @@ FROM
   $$DBSCHEMA.einzelobjekte_objektnummer,
   $$DBSCHEMA.einzelobjekte_objektnummerpos
 WHERE
-  einzelobjekte_objektnummer.ogc_fid::text = einzelobjekte_objektnummerpos.objektnummerpos_von::text',3,'Was in table inserts',NULL,0),
- (94,'INSERT INTO $$DBSCHEMA.z_gebaeudenummer_pos (nummer,gwr_egid,nbident,pos,ori,groesse,vali_txt,vali,hali_txt,hali,groesse_txt)
+  einzelobjekte_objektnummer.ogc_fid::text = einzelobjekte_objektnummerpos.objektnummerpos_von::text',3,'Was in table inserts',NULL,1),
+ (94,'INSERT INTO $$DBSCHEMA.z_gebaeudenummer_pos (nummer,gwr_egid,pos,ori,groesse,vali_txt,vali,hali_txt,hali,groesse_txt)
 SELECT
   bodenbedeckung_gebaeudenummer.nummer,
   bodenbedeckung_gebaeudenummer.gwr_egid,
-  bodenbedeckung_gebaeudenummer.nbident,
   bodenbedeckung_gebaeudenummerpos.pos,
   bodenbedeckung_gebaeudenummerpos.ori,
   bodenbedeckung_gebaeudenummerpos.groesse,
@@ -1368,7 +1356,7 @@ FROM
   $$DBSCHEMA.bodenbedeckung_gebaeudenummer,
   $$DBSCHEMA.bodenbedeckung_gebaeudenummerpos
 WHERE
-  bodenbedeckung_gebaeudenummer.ogc_fid::text = bodenbedeckung_gebaeudenummerpos.gebaeudenummerpos_von::text',3,'Was in table inserts',NULL,0),
+  bodenbedeckung_gebaeudenummer.ogc_fid::text = bodenbedeckung_gebaeudenummerpos.gebaeudenummerpos_von::text',3,'Was in table inserts',NULL,1),
  (95,'INSERT INTO $$DBSCHEMA.t_gebaeudeadressen_spinnennetz (ogc_fid, tid, line, hausnummer)
 SELECT distinct a.ogc_fid, a.t_ili_tid, ST_GeometryFromText((((((((''LINESTRING(''::text || ST_X(a.lage)::text) || '' ''::text) || ST_Y(a.lage)::text) || '',''::text) || ST_X(c.pos)::text) || '' ''::text) || ST_Y(c.pos)::text) || '')''::text, $$EPSG) AS line, a.hausnummer
 
