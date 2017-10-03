@@ -1395,6 +1395,11 @@ CREATE TYPE $$DBSCHEMA.maengel_abrechnung AS ENUM
 ''LNF'',
 ''Fehler''
 );
+CREATE TYPE $$DBSCHEMA.maengel_verifikation AS ENUM
+(
+''Ja'',
+''Nein''
+);
 CREATE TYPE $$DBSCHEMA.avor_bezeichnung AS ENUM
 (
 ''0-PNF1: In PNF1 beurteilt und entschieden nicht zu bearbeiten'',
@@ -1417,14 +1422,13 @@ CREATE TYPE $$DBSCHEMA.avor_bezeichnung AS ENUM
 ''17-Bereinigung an Gemeinde- oder Losgrenzen (Differenzen zu BB)'',
 ''18-Einzelobjekte: Bereinigung gemäss Handbuch'',
 ''19-Löschen von überflüssigen Bodenbedeckungsgrenzen'',
-''20-Gebäude < 6 m2 evt. löschen'',
-''21-neue BB ausscheiden, BB Art ändern, BB Abgrenzung anpassen'',
-''22-fehlendes Silo / Wasserbecken / Gebäude etc.'',
-''23-fehlende Brücke/ Mast/ schm. Weg/ eing. Gewässer/ Tunnel'',
-''24-Gebäude vorhanden / unterierdisch?'',
-''25-Bodenbedeckung löschen'',
-''26-Einzelobjekt löschen'',
-''27-Diverses''
+''20-neue BB ausscheiden, BB Art ändern, BB Abgrenzung anpassen'',
+''21-fehlendes Silo / Wasserbecken / Gebäude etc.'',
+''22-fehlende Brücke/ Mast/ schm. Weg/ eing. Gewässer/ Tunnel'',
+''23-Gebäude vorhanden / unterierdisch?'',
+''24-Bodenbedeckung löschen'',
+''25-Einzelobjekt löschen'',
+''26-Diverses''
 );
 
 -- The following table create assume these roles are available
@@ -1445,7 +1449,7 @@ CREATE TABLE $$DBSCHEMA.t_maengel_punkt
  bem_nfg text, --bemerkung_nfg
  forstorgan $$DBSCHEMA.maengel_bereinigen,
  bem_forst text, --bemerkung_forst
- verifikati $$DBSCHEMA.maengel_bereinigen, --verifikation
+ verifikati $$DBSCHEMA.maengel_verifikation, --verifikation
  bem_verifi text, --bemerkung_verifikation
  erledigt bool,
  the_geom geometry(POINT,$$EPSG),
@@ -1479,7 +1483,7 @@ CREATE TABLE $$DBSCHEMA.t_maengel_linie
  bem_nfg text, --bemerkung_nfg
  forstorgan $$DBSCHEMA.maengel_bereinigen,
  bem_forst text, --bemerkung_forst
- verifikati $$DBSCHEMA.maengel_bereinigen, --verifikation
+ verifikati $$DBSCHEMA.maengel_verifikation, --verifikation
  bem_verifi text, --bemerkung_verifikation
  erledigt bool,
  the_geom geometry(LINESTRING,$$EPSG),
@@ -1512,7 +1516,7 @@ CREATE TABLE $$DBSCHEMA.t_maengel_polygon
  bem_nfg text, --bemerkung_nfg
  forstorgan $$DBSCHEMA.maengel_bereinigen,
  bem_forst text, --bemerkung_forst
- verifikati $$DBSCHEMA.maengel_bereinigen, --verifikation
+ verifikati $$DBSCHEMA.maengel_verifikation, --verifikation
  bem_verifi text, --bemerkung_verifikation
  erledigt bool,
  the_geom geometry(POLYGON,$$EPSG),
