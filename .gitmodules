@@ -1,3 +1,11 @@
 [submodule "modules/veriti"]
 	path = modules/veriti
 	url = git@github.com:opengisch/VeriTI.git
+
+[submodule "modules/verivd"]
+	path = modules/verivd
+	url = git@github.com:opengisch/verivd.git
+
+[submodule "opengisch_utils"]
+	path = opengisch_utils
+	url = git@github.com:opengisch/opengisch_utils.git
