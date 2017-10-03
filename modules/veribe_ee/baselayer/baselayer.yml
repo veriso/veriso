@@ -191,3 +191,17 @@ baselayer:
   url: http://www.geoservice.apps.be.ch/geoservice2/services/a42geo/a42geo_verisowms_d_fk/MapServer/WMSServer?
   layers: GEODB.OBERN_OBERN_MOSAIC
   format: image/png
+- type: wms
+  title:
+    de: Waldgrenzen OEREBK
+    fr: Waldgrenzen OEREBK
+  url: http://www.geoservice.apps.be.ch/geoservice1/services/a42pub1/a42pub_oereb_wms_d_fk/MapServer/WmsServer?
+  layers: GEODB.NPLWALD_WAFW
+  format: image/png
+- type: wms
+  title:
+    de: DTM50 BE
+    fr: DTM50 BE
+  url: https://www.geoservice.apps.be.ch/geoservice2/services/a42geo/a42geo_hoehenwms_d_fk/MapServer/WMSServer?
+  layers: GEODB.LDTM50CM_LTRELIEF
+  format: image/png
