@@ -19,6 +19,26 @@ class LoadLayer(QObject):
         self.canvas = self.iface.mapCanvas()
         self.root = QgsProject.instance().layerTreeRoot()
 
+        settings = QSettings("CatAIS", "VeriSO")
+        module_name = settings.value("project/appmodule")
+        print('module_name {}'.format(module_name))
+        # TODO check if in verivd module
+        if module_name == 'verivd':
+            from veriso.opengisch_utils.qgis.layers_translator \
+                .layers_translator \
+                import QgisLayersTranslator, Dictionary
+            import os
+
+            dictionary_path = "modules/%s/" % (module_name)
+
+            dictionary_file = os.path.join(
+                dictionary_path, 'translations_verivd.yml')
+
+            verivd_dictionary = Dictionary(get_absolute_path(dictionary_file))
+
+            self.layers_translator = QgisLayersTranslator(
+                self.iface, verivd_dictionary)
+
     def load(self, layer_definition, visible=True, collapsed_legend=False,
              collapsed_group=False):
 
@@ -48,6 +68,12 @@ class LoadLayer(QObject):
                 # QgsMapLayerRegistry.instance().addMapLayer(loaded_layer)
                 if group:  # Layer soll in eine bestimmte Gruppe hinzugefügt
                     # werden.
+
+                    # TODO remove, only for test
+                    if group.startswith('BB Allgemein'):
+                        group = 'FR_Gruppetto'
+
+                    # ---
                     QgsMapLayerRegistry.instance().addMapLayer(loaded_layer,
                                                                False)
                     my_group_node = self.root.findGroup(group)
@@ -119,6 +145,19 @@ class LoadLayer(QObject):
                 else:
                     self.set_style(module_name, loaded_layer, layer_definition)
                 self.set_transparency(loaded_layer, layer_definition)
+
+            if module_name == 'verivd':
+            # if verivd, translate the layers
+
+                if type(loaded_layer) is QgsVectorLayer:
+                    self.layers_translator.translate_layer_style_categories(
+                        loaded_layer)
+                    self.layers_translator.translate_layer_attribute_alias(
+                        loaded_layer)
+                    self.layers_translator.update_layer_style_categories_legend(
+                        loaded_layer, self.iface)
+
+                self.layers_translator.translate_layer_name(loaded_layer)
 
             return loaded_layer
         except VerisoErrorWithBar:
