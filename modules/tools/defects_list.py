@@ -115,14 +115,15 @@ class DefectsListDock(QDockWidget, FORM_CLASS):
         request = QgsFeatureRequest(fid)
         feature = self.layer.getFeatures(request).next()
 
-        self.iface.openFeatureForm(self.layer,
-                                   feature,
-                                   updateFeatureOnly=False,
-                                   showModal=True)
         self.layer.setSelectedFeatures([fid])
 
         self.iface.mapCanvas().zoomToSelected(self.layer)
         self.iface.mapCanvas().refresh()
+
+        self.iface.openFeatureForm(self.layer,
+                                   feature,
+                                   updateFeatureOnly=False,
+                                   showModal=True)
 
     @pyqtSlot()
     def on_next_button_clicked(self):
