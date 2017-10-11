@@ -6,6 +6,7 @@ from builtins import next, range, str
 
 from qgis.PyQt.QtCore import pyqtSlot, Qt
 from qgis.PyQt.QtGui import QTableWidgetItem, QDockWidget
+from PyQt4.QtCore import QDateTime
 
 from qgis.core import QgsFeatureRequest
 
@@ -75,7 +76,11 @@ class DefectsListDock(QDockWidget, FORM_CLASS):
             self.defects_list.insertRow(row)
             column = 0
             for field in fields:
-                item = QTableWidgetItem(str(feature[field]))
+
+                if type(feature[field]) is QDateTime:
+                    item = QTableWidgetItem(feature[field].toString())
+                else:
+                    item = QTableWidgetItem(str(feature[field]))
                 item.setData(Qt.UserRole, feature.id())
                 self.defects_list.setItem(row, column, item)
                 column += 1
