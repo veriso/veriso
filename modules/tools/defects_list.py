@@ -82,6 +82,7 @@ class DefectsListDock(QDockWidget, FORM_CLASS):
                 else:
                     item = QTableWidgetItem(str(feature[field]))
                 item.setData(Qt.UserRole, feature.id())
+                item.setFlags(Qt.ItemIsSelectable | Qt.ItemIsEnabled)
                 self.defects_list.setItem(row, column, item)
                 column += 1
             row += 1
