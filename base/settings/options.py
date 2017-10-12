@@ -95,8 +95,8 @@ class OptionsDialog(QDialog, FORM_CLASS):
             self.lineEditDbAdminPwd.setText(
                 self.settings.value("options/db/adminpwd"))
 
-        default_repo = ['http://www.catais.org/models/',
-                        'http://models.geo.admin.ch/',
+        default_repo = ['http://models.geo.admin.ch/',
+                        'http://models.geo.be.ch/',
                         'http://models.geo.ti.ch/']
 
         self.listWidgetModelRepos.insertItems(0, self.settings.value(
