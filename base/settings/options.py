@@ -68,13 +68,31 @@ class OptionsDialog(QDialog, FORM_CLASS):
         else:
             self.plainTextEditImportVMArguments.insertPlainText(vm_arguments)
 
-        self.lineEditDbHost.setText(self.settings.value("options/db/host"))
-        self.lineEditDbDatabase.setText(self.settings.value("options/db/name"))
-        self.lineEditDbPort.setText(self.settings.value("options/db/port"))
-        self.lineEditDbUser.setText(self.settings.value("options/db/user"))
-        self.lineEditDbUserPwd.setText(self.settings.value("options/db/pwd"))
-        self.lineEditDbAdmin.setText(self.settings.value("options/db/admin"))
-        self.lineEditDbAdminPwd.setText(
+        self.lineEditDbHost.setText("")
+        self.lineEditDbDatabase.setText("")
+        self.lineEditDbPort.setText("")
+        self.lineEditDbUser.setText("")
+        self.lineEditDbUserPwd.setText("")
+        self.lineEditDbAdmin.setText("")
+        self.lineEditDbAdminPwd.setText("")
+
+        if self.settings.value("options/db/host") != QPyNullVariant:
+            self.lineEditDbHost.setText(self.settings.value("options/db/host"))
+        if self.settings.value("options/db/name") != QPyNullVariant:
+            self.lineEditDbDatabase.setText(
+                self.settings.value("options/db/name"))
+        if self.settings.value("options/db/port") != QPyNullVariant:
+            self.lineEditDbPort.setText(self.settings.value("options/db/port"))
+        if self.settings.value("options/db/user") != QPyNullVariant:
+            self.lineEditDbUser.setText(self.settings.value("options/db/user"))
+        if self.settings.value("options/db/pwd") != QPyNullVariant:
+            self.lineEditDbUserPwd.setText(
+                self.settings.value("options/db/pwd"))
+        if self.settings.value("options/db/admin") != QPyNullVariant:
+            self.lineEditDbAdmin.setText(
+                self.settings.value("options/db/admin"))
+        if self.settings.value("options/db/adminpwd") != QPyNullVariant:
+            self.lineEditDbAdminPwd.setText(
                 self.settings.value("options/db/adminpwd"))
 
         default_repo = ['http://www.catais.org/models/',
