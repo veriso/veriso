@@ -2,14 +2,18 @@
 
 from __future__ import absolute_import, print_function
 
+import unicodedata
+
 from builtins import next, range, str
 
 from qgis.PyQt.QtCore import pyqtSlot, Qt
 from qgis.PyQt.QtGui import QTableWidgetItem, QDockWidget
-from PyQt4.QtCore import QDateTime
+from PyQt4.QtCore import QDateTime, QSettings
 
 from qgis.core import QgsFeatureRequest
 
+from veriso.modules.tools.defect_list_columns_choice import (
+    DefectsListColumnsChoice)
 from veriso.base.utils.utils import (get_ui_class)
 
 FORM_CLASS = get_ui_class('defect_list.ui')
@@ -33,10 +37,13 @@ class DefectsListDock(QDockWidget, FORM_CLASS):
             self.unfinished_fields_combo,
             self.previous_button,
             self.next_button,
-            self.defects_list
+            self.defects_list,
+            self.columns_choice_button
         ]
 
         self._toggle_gui_elements(False)
+
+        self.settings = QSettings("CatAIS", "VeriSO")
 
     def clear(self):
         self.layer = None
@@ -67,7 +74,14 @@ class DefectsListDock(QDockWidget, FORM_CLASS):
         if self.layer is None:
             return
         self._clear_defects_list()
-        fields = [f.name() for f in self.layer.pendingFields()]
+
+        excluded_fields = self._get_excluded_columns_list()
+
+        fields = []
+        for f in self.layer.pendingFields():
+            if not f.name() in excluded_fields:
+                fields.append(f.name())
+
         self.defects_list.setColumnCount(len(fields))
         self.defects_list.setHorizontalHeaderLabels(fields)
 
@@ -87,6 +101,25 @@ class DefectsListDock(QDockWidget, FORM_CLASS):
                 column += 1
             row += 1
         self.defects_list.resizeColumnsToContents()
+
+    def _get_excluded_columns_list(self):
+        """Load from the settings the list of columns to hide in the defect list
+        for the layer
+
+        :return list: a list with the excluded field names"""
+
+        # Normalize the layer name to ascii, to be used as part of the
+        # setting key
+        layer_name_normalized = unicodedata.normalize(
+            'NFD', self.layer.name()).encode('ascii', 'ignore').decode('ascii')
+
+        excluded_fields = self.settings.value(
+            'defect_list/excluded_fields_{}'.format(layer_name_normalized))
+
+        if not excluded_fields:
+            excluded_fields = []
+
+        return excluded_fields
 
     def _toggle_gui_elements(self, enable):
         for element in self._gui_elements:
@@ -168,3 +201,13 @@ class DefectsListDock(QDockWidget, FORM_CLASS):
     def on_unfinished_only_check_toggled(self, state):
         self.unfinished_fields_combo.setEnabled(state)
         self._refresh_defects_list()
+
+    @pyqtSlot()
+    def on_columns_choice_button_clicked(self):
+        """Open the dialog to set the visibility of the fields in the table
+        """
+        
+        self.defects_list_columns_choice_dialog = DefectsListColumnsChoice(
+            self.layer, self)
+        self.defects_list_columns_choice_dialog.setVisible(True)
+        self.defects_list_columns_choice_dialog.raise_()

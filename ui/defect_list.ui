@@ -16,7 +16,31 @@
   <widget class="QWidget" name="dockWidgetContents">
    <layout class="QVBoxLayout" name="verticalLayout">
     <item>
-     <widget class="QComboBox" name="layers_combo"/>
+     <layout class="QHBoxLayout" name="horizontalLayout_2">
+      <item>
+       <widget class="QComboBox" name="layers_combo">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+       </widget>
+      </item>
+      <item alignment="Qt::AlignRight">
+       <widget class="QPushButton" name="columns_choice_button">
+        <property name="baseSize">
+         <size>
+          <width>0</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>Hide columns</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
     </item>
     <item>
      <widget class="QCheckBox" name="unfinished_only_check">
@@ -61,6 +85,9 @@
     </item>
     <item>
      <widget class="QTableWidget" name="defects_list">
+      <property name="enabled">
+       <bool>true</bool>
+      </property>
       <property name="selectionMode">
        <enum>QAbstractItemView::SingleSelection</enum>
       </property>
