@@ -18,7 +18,11 @@
   </property>
   <layout class="QGridLayout" name="gridLayout">
    <item row="0" column="0">
-    <widget class="QTableWidget" name="columns_table"/>
+    <widget class="QTableWidget" name="columns_table">
+     <attribute name="horizontalHeaderStretchLastSection">
+      <bool>true</bool>
+     </attribute>
+    </widget>
    </item>
    <item row="1" column="0">
     <widget class="QDialogButtonBox" name="buttonBox">

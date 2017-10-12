@@ -44,6 +44,7 @@ class DefectsListColumnsChoice(QDialog, FORM_CLASS):
         self.settings = QSettings("CatAIS", "VeriSO")
 
         self._load_fields_table()
+        self.adjustSize()
 
     def _load_fields_table(self):
         """Populate the table with the fields and the checkboxes
