@@ -55,7 +55,6 @@ class LoadLayer(QObject):
         try:
             loaded_layer = self._load(epsg, layer_definition)
 
-
             if not loaded_layer.isValid():
                 # str(layer['title']) throws some ascii out of range error...
                 error = layer_definition['title'] + tr(" is not valid layer.")
@@ -68,10 +67,11 @@ class LoadLayer(QObject):
                 # QgsMapLayerRegistry.instance().addMapLayer(loaded_layer)
                 if group:  # Layer soll in eine bestimmte Gruppe hinzugefügt
                     # werden.
-
-                    # TODO remove, only for test
-                    if group.startswith('BB Allgemein'):
-                        group = 'FR_Gruppetto'
+                    # TODO
+                    if module_name == 'verivd':
+                        group \
+                            = self.layers_translator.translate_layer_group_name(
+                                loaded_layer.name(), group)
 
                     # ---
                     QgsMapLayerRegistry.instance().addMapLayer(loaded_layer,
@@ -130,7 +130,6 @@ class LoadLayer(QObject):
                     my_layer_node = self.root.addLayer(loaded_layer)
 
                 my_layer_node.setVisible(Qt.Unchecked)
-
                 if visible:
                     my_layer_node.setVisible(Qt.Checked)
 
@@ -145,7 +144,6 @@ class LoadLayer(QObject):
                 else:
                     self.set_style(module_name, loaded_layer, layer_definition)
                 self.set_transparency(loaded_layer, layer_definition)
-
             if module_name == 'verivd':
             # if verivd, translate the layers
 
@@ -156,9 +154,7 @@ class LoadLayer(QObject):
                         loaded_layer)
                     self.layers_translator.update_layer_style_categories_legend(
                         loaded_layer, self.iface)
-
                 self.layers_translator.translate_layer_name(loaded_layer)
-
             return loaded_layer
         except VerisoErrorWithBar:
             return
