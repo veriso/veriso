@@ -468,7 +468,8 @@ class ImportProjectDialog(QDialog, FORM_CLASS):
         for arg in vm_arguments_list:
             arguments.append(arg)
 
-        import_jar = os.path.dirname(__file__)+'/../../lib/ili2pg-3.6.1/ili2pg.jar'              
+        import_jar = os.path.dirname(
+            __file__)+'/../../lib/ili2pg-3.10.7/ili2pg.jar'
 
         arguments.append("-Duser.country=CH")
         arguments.append("-Duser.language=de")
