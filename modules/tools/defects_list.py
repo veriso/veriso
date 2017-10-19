@@ -90,9 +90,11 @@ class DefectsListDock(QDockWidget, FORM_CLASS):
             self.defects_list.insertRow(row)
             column = 0
             for field in fields:
-
                 if type(feature[field]) is QDateTime:
                     item = QTableWidgetItem(feature[field].toString())
+                elif type(feature[field]) is long \
+                        or type(feature[field]) is int:
+                    item = QCustomTableWidgetItem(str(feature[field]))
                 else:
                     item = QTableWidgetItem(str(feature[field]))
                 item.setData(Qt.UserRole, feature.id())
@@ -211,3 +213,22 @@ class DefectsListDock(QDockWidget, FORM_CLASS):
             self.layer, self)
         self.defects_list_columns_choice_dialog.setVisible(True)
         self.defects_list_columns_choice_dialog.raise_()
+
+
+class QCustomTableWidgetItem (QTableWidgetItem):
+    """Custom Table Widget Item used to sort in number order instead of
+    alphabetical order (i.e. 1, 2, ..., 10 instead of 1, 10, 2, ...
+
+    Source https://stackoverflow.com/a/25539830
+    """
+
+    def __init__(self, value):
+        super(QCustomTableWidgetItem, self).__init__(value)
+
+    def __lt__(self, other):
+        if isinstance(other, QCustomTableWidgetItem):
+            self_data_value = float(self.data(Qt.EditRole))
+            other_data_value = float(other.data(Qt.EditRole))
+            return self_data_value < other_data_value
+        else:
+            return QTableWidgetItem.__lt__(self, other)
