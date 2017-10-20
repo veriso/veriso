@@ -337,6 +337,8 @@ class ImportProjectDialog(QDialog, FORM_CLASS):
         self.projects_root_directory = self.settings.value(
                 "options/general/projects_root_directory", "")
 
+        import_jar = self.settings.value("options/import/jar", "")
+
         self.use_pg_projects_database = self.settings.value(
             "options/general/use_pg_projects_database", False, type=bool)
 
@@ -468,8 +470,10 @@ class ImportProjectDialog(QDialog, FORM_CLASS):
         for arg in vm_arguments_list:
             arguments.append(arg)
 
-        import_jar = os.path.dirname(
-            __file__)+'/../../lib/ili2pg-3.10.7/ili2pg.jar'
+        if import_jar == "":
+            import_jar = os.path.join(
+                os.path.dirname(__file__),
+                '..', '..', 'lib', 'ili2pg-3.10.7', 'ili2pg.jar')
 
         arguments.append("-Duser.country=CH")
         arguments.append("-Duser.language=de")
