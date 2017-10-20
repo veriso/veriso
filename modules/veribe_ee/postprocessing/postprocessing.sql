@@ -1173,7 +1173,7 @@ SELECT t_ili_tid, selbstrecht_von, nummerteilgrundstueck, geometrie,
   FROM $$DBSCHEMA.liegenschaften_selbstrecht',3,'Was in table inserts',NULL,1),
  (86,'INSERT INTO $$DBSCHEMA.z_hgp_ls_linie (ogc_fid, geometrie)
 select * from(
-SELECT
+SELECT DISTINCT
  gemeindegrenzen_hoheitsgrenzpunkt.ogc_fid,  st_CollectionExtract(gemeindegrenzen_hoheitsgrenzpunkt.geometrie,1) as geometrie
  FROM $$DBSCHEMA.gemeindegrenzen_gemeindegrenze, $$DBSCHEMA.gemeindegrenzen_hoheitsgrenzpunkt
  WHERE st_touches(gemeindegrenzen_gemeindegrenze.geometrie, gemeindegrenzen_hoheitsgrenzpunkt.geometrie) IS False) as foo where geometrytype(geometrie) = ''POINT''',3,'Was in table inserts',NULL,1),
