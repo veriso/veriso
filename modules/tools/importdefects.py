@@ -140,7 +140,10 @@ class ImportDefectsDialog(QDialog, FORM_CLASS):
                 values_list = []
                 row = sheet[i]
                 for cell in row:
-                    values_list.append(str(cell.value))
+                    if not cell.value:
+                        values_list.append(None)
+                    else:
+                        values_list.append(str(cell.value))
                 rows_list.append(values_list)
 
         return header_list, rows_list
@@ -155,10 +158,12 @@ class ImportDefectsDialog(QDialog, FORM_CLASS):
         for i in rows_list:
             query += '('
             for j in range(1, 12):
-                query += '\''
-
-                query += i[j]
-                query += '\','
+                if not i[j]:
+                    query += 'NULL,'
+                else:
+                    query += '\''
+                    query += i[j]
+                    query += '\','
             query += 'ST_GeomFromText(\''+i[-1]+'\', 2056)'
             query += '),'
         
@@ -187,6 +192,17 @@ class ImportDefectsDialog(QDialog, FORM_CLASS):
 
     def execute_query(self, sql):
         query = QSqlQuery(self.db)
+
+        # ##########
+
+        import unicodedata
+        norm_sql = unicodedata.normalize(
+            'NFD', sql).encode('ascii','ignore').decode('ascii')
+
+        print('query: {}'.format(norm_sql))
+
+        # ###################33
+
 
         res = query.exec_(sql)
 
