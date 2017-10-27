@@ -136,11 +136,11 @@ class ImportDefectsDialog(QDialog, FORM_CLASS):
             for i in range(1, sheet.max_column + 1):
                 header_list.append(sheet.cell(column=i, row=5).value)
 
-            for row in sheet.iter_rows(
-                    min_row=6, max_col=sheet.max_column,
-                    max_row=sheet.max_row):
+            for row in range(6, sheet.max_row + 1):
                 values_list = []
-                for cell in row:
+
+                for column in range(1, sheet.max_column + 1):
+                    cell = sheet.cell(column=column, row=row)
                     if not cell.value:
                         values_list.append(None)
                     else:
