@@ -132,13 +132,14 @@ class ImportDefectsDialog(QDialog, FORM_CLASS):
             raise VerisoErrorWithBar(self.iface.messageBar(), e)
         else:
             # get the column names (row 5)
-            for cell in sheet[5]:
-                header_list.append(sheet.cell(column = cell.column, row = 5).value)
 
-            # get the rows from the row 6 (column header is row 5)
-            for i in range(6, sheet.max_row + 1):
+            for i in range(1, sheet.max_column + 1):
+                header_list.append(sheet.cell(column=i, row=5).value)
+
+            for row in sheet.iter_rows(
+                    min_row=6, max_col=sheet.max_column,
+                    max_row=sheet.max_row):
                 values_list = []
-                row = sheet[i]
                 for cell in row:
                     if not cell.value:
                         values_list.append(None)
@@ -169,11 +170,6 @@ class ImportDefectsDialog(QDialog, FORM_CLASS):
         
         query = query[:-1]
 
-        #query += '(\''
-        #query += '), (\''.join(['\', \''.join([value for value in row[1:12]])
-        #                        + '\', ST_GeomFromText(\''+row[-1]+'\', 2056)' for row in rows_list])
-        #query += ')'
-
         return query
 
     def open_db(self):
@@ -192,17 +188,6 @@ class ImportDefectsDialog(QDialog, FORM_CLASS):
 
     def execute_query(self, sql):
         query = QSqlQuery(self.db)
-
-        # ##########
-
-        import unicodedata
-        norm_sql = unicodedata.normalize(
-            'NFD', sql).encode('ascii','ignore').decode('ascii')
-
-        print('query: {}'.format(norm_sql))
-
-        # ###################33
-
 
         res = query.exec_(sql)
 
