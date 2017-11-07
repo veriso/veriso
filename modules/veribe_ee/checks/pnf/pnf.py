@@ -87,17 +87,6 @@ class ComplexCheck(ComplexCheckBase):
             }
             vlayer = self.layer_loader.load(layer, False, True)
 
-            # OBERN NETZ 2016
-            layer = {
-                'type': 'ogr',
-                'title': _translate('VeriSO_EE_PNF', 'OBERN_NETZ', None),
-                # specific file path defined by customer, symlink is resolved so QGIS can find the other
-                # supporting files (.shx, .dbf, ...)
-                'url': os.path.realpath('/share/Share/Baselayers/OBERN_NETZBERN_last.shp'),
-                'style': 'pnf/obern_netz.qml'
-            }
-            vlayer = self.layer_loader.load(layer, False, True)
-
             # Wanderwege
             layer = {
                 'type': 'wms',
@@ -465,6 +454,16 @@ class ComplexCheck(ComplexCheckBase):
             }
             vlayer = self.layer_loader.load(layer, False, True)
 
+            # Waldgrenzen
+            layer = {
+                'type': 'wms',
+                'title': _translate('VeriSO_EE_PNF', 'Waldgrenzen', None),
+                'url': 'https://www.geoservice.apps.be.ch/geoservice1/services/a42pub1/a42pub_oereb_wms_d_fk/MapServer/WmsServer?',
+                'layers': 'GEODB.NPLWALD_WAFW',
+                'format': 'image/png'
+            }
+            vlayer = self.layer_loader.load(layer, True, True)
+
             # AV EO Linien
             layer = {
                 'type': 'wms',
@@ -513,6 +512,16 @@ class ComplexCheck(ComplexCheckBase):
                 'url': 'http://wms.swisstopo.admin.ch/wss/httpauth/swisstopowms?',
                 'layers': 'ch.swisstopo.swissimage',
                 'format': 'image/jpeg',
+            }
+            vlayer = self.layer_loader.load(layer, False, True)
+
+            # DTM-Relief
+            layer = {
+                'type': 'wms',
+                'title': _translate('VeriSO_EE_PNF', 'DTM-Relief', None),
+                'url': 'https://www.geoservice.apps.be.ch/geoservice2/services/a42geo/a42geo_hoehenwms_d_fk/MapServer/WMSServer?',
+                'layers': 'GEODB.LDTM50CM_LTRELIEF,GEODB.LDTM50CM_LTHOEHE',
+                'format': 'image/png'
             }
             vlayer = self.layer_loader.load(layer, False, True)
 
