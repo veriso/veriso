@@ -8,13 +8,13 @@ CREATE TABLE "postprocessing" (
 	apply INTEGER DEFAULT 1,
 	PRIMARY KEY(ogc_fid)
 );
-INSERT INTO `postprocessing` (ogc_fid,sql_query,order,comment,lang,apply) VALUES (1,'CREATE TYPE $$DBSCHEMA.maengel_topic AS ENUM 
+INSERT INTO `postprocessing` (ogc_fid,sql_query,order,comment,lang,apply) VALUES (1,'CREATE TYPE $$DBSCHEMA.maengel_topic AS ENUM
 (
- ''Bodenbedeckung'', 
+ ''Bodenbedeckung'',
  ''Einzelobjekte''
  );',1,'German enum type for t_maengel_topic.','de',1),
- (2,'CREATE TYPE $$DBSCHEMA.maengel_topic AS ENUM 
-(''Couverture_du_sol'', 
+ (2,'CREATE TYPE $$DBSCHEMA.maengel_topic AS ENUM
+(''Couverture_du_sol'',
  ''Objets_divers''
  );',1,'French enum type for t_maengel_topic','fr',1),
  (3,'CREATE TABLE $$DBSCHEMA.t_maengel_topics
@@ -1086,20 +1086,20 @@ AND a.gebaeudeeingang_von = b.gebaeudeeingang_von;',3,'Was in table inserts',NUL
  (79,'INSERT INTO $$DBSCHEMA.z_v_bb_ts  (geometrie,bb_ogc_fid, bb_art, bb_art_txt, ts_ogc_fid,ts_art, ts_art_txt,flaeche)
 (select * from
 (SELECT
-  ST_Multi(ST_CollectionExtract(ST_intersection(ts.geometrie,bb.geometrie),3)) as geometrie,
+  ST_Multi(ST_CollectionExtract(ST_intersection(ST_MakeValid(ts.geometrie),ST_MakeValid(bb.geometrie)),3)) as geometrie,
   bb.ogc_fid as bb_ogc_fid,
   bb.art as bb_art,
   bb.art_txt as bb_art_txt,
   ts.ogc_fid as ts_ogc_fid,
   ts.art as ts_art,
   ts.art_txt as ts_art_txt,
- st_area (ST_intersection(ts.geometrie,bb.geometrie)) as flaeche
+ st_area (ST_intersection(ST_MakeValid(ts.geometrie),ST_MakeValid(bb.geometrie))) as flaeche
 FROM
 $$DBSCHEMA.bodenbedeckung_boflaeche as bb,
 $$DBSCHEMA.tseinteilung_toleranzstufe as ts
 WHERE
-st_isValid(St_Intersection (bb.geometrie,ts.geometrie))=true and
-  St_Intersects (bb.geometrie,ts.geometrie)=true) as foo
+ST_IsValid(St_Intersection(ST_MakeValid(bb.geometrie), ST_MakeValid(ts.geometrie)))=true and
+St_Intersects(ST_MakeValid(bb.geometrie), ST_MakeValid(ts.geometrie))=true) as foo
 WHERE (geometrytype(geometrie) = ''POLYGON'' OR geometrytype(geometrie) = ''MULTIPOLYGON'') AND NOT ST_IsEmpty(geometrie))',3,'Was in table inserts',NULL,1),
  (80,'INSERT INTO $$DBSCHEMA.z_grenzen (ogc_fid, geometrie)
 SELECT DISTINCT b.ogc_fid,b.geometrie
@@ -1137,14 +1137,14 @@ SELECT
   liegenschaften_liegenschaft.liegenschaft_von,
   liegenschaften_liegenschaft.nummerteilgrundstueck,
   liegenschaften_liegenschaft.flaechenmass,
-  ST_Multi(ST_CollectionExtract(ST_intersection(bodenbedeckung_boflaeche.geometrie,liegenschaften_liegenschaft.geometrie),3)) as geometrie,
-  ST_area (ST_intersection(bodenbedeckung_boflaeche.geometrie,liegenschaften_liegenschaft.geometrie)) as flaeche,
-ST_area (liegenschaften_liegenschaft.geometrie) as ls_flaeche
+  ST_Multi(ST_CollectionExtract(ST_intersection(ST_MakeValid(bodenbedeckung_boflaeche.geometrie),ST_MakeValid(liegenschaften_liegenschaft.geometrie)),3)) as geometrie,
+  ST_area (ST_intersection(ST_MakeValid(bodenbedeckung_boflaeche.geometrie),ST_MakeValid(liegenschaften_liegenschaft.geometrie))) as flaeche,
+ST_area (ST_MakeValid(liegenschaften_liegenschaft.geometrie)) as ls_flaeche
 FROM
   $$DBSCHEMA.bodenbedeckung_boflaeche,
   $$DBSCHEMA.liegenschaften_liegenschaft
 WHERE
-  ST_intersects(bodenbedeckung_boflaeche.geometrie,liegenschaften_liegenschaft.geometrie)=true --and
+  ST_intersects(ST_MakeValid(bodenbedeckung_boflaeche.geometrie),ST_MakeValid(liegenschaften_liegenschaft.geometrie))=true --and
   --geometrytype(ST_intersection(bodenbedeckung_boflaeche.geometrie,liegenschaften_liegenschaft.geometrie)) = ''POLYGON''
  ) as foo
  WHERE (geometrytype(geometrie) = ''POLYGON'' OR geometrytype(geometrie) = ''MULTIPOLYGON'') AND NOT ST_IsEmpty(geometrie)',3,'Was in table inserts',NULL,1),
@@ -1551,18 +1551,18 @@ FROM
  SELECT a.ogc_fid as basket_ogc_fid, substring(topic, position(''.'' in topic) + 1) as topic
  FROM $$DBSCHEMA.t_ili2db_import_basket as a, $$DBSCHEMA.t_ili2db_basket as b
  WHERE a.basket = b.ogc_fid
- 
+
 ) as basket,
 (
  SELECT ogc_fid, import_basket, class_name, sql_name, ili_name, g.f_geometry_column
  FROM
  (
   SELECT d.ogc_fid, d.import_basket, e.class_name, e.sql_name, e.ili_name
-  FROM 
+  FROM
   $$DBSCHEMA.t_ili2db_import_object as d,
   (
    SELECT substring(class_name, position(''.'' in class_name) + 1) as class_name, lower(sqlname) as sql_name, iliname as ili_name
-   FROM 
+   FROM
    (
     SELECT substring("class", position(''.'' in "class") + 1) as class_name, sqlname, iliname
     FROM $$DBSCHEMA.t_ili2db_import_object as a, $$DBSCHEMA.t_ili2db_classname as b
@@ -1571,21 +1571,21 @@ FROM
   ) as e
   WHERE e.ili_name = d."class"
  ) as classes
- LEFT OUTER JOIN 
+ LEFT OUTER JOIN
  (
-  SELECT * 
+  SELECT *
   FROM geometry_columns
   WHERE f_table_schema = ''$$DBSCHEMA''
  ) as g
  ON classes.sql_name = g.f_table_name
  ORDER BY classes.import_basket
-) as foo 
+) as foo
 WHERE basket.basket_ogc_fid = foo.import_basket
 ORDER BY basket_ogc_fid, class_name
 
 ) as bar,
 (
- SELECT a.attname, i.indrelid 
+ SELECT a.attname, i.indrelid
  FROM pg_index as i
  JOIN pg_attribute a ON a.attrelid = i.indrelid AND a.attnum = ANY(i.indkey)
  WHERE i.indisprimary
