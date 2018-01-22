@@ -75,11 +75,9 @@ class CheckResultsDock(QDockWidget, FORM_CLASS):
                     layer, False)
 
     def on_treeWidget_itemDoubleClicked(self, item):
-        #print('on_treeWidget_clicked ', item.text(0), ' ', item.text(1), '', item.text(2))
 
         vincolo = 'veriso.modules.veriti.checks.vincoli.'
         vincolo += item.text(0)[0].lower() + item.text(0)[1:].replace(' ', '_').strip()
-        print('vincolo ', vincolo)
         try:
             _temp = __import__(vincolo, globals(), locals(), ['ComplexCheck'])
             c = _temp.ComplexCheck(self.iface)
@@ -87,6 +85,5 @@ class CheckResultsDock(QDockWidget, FORM_CLASS):
 
         except Exception, e:
             exc_type, exc_value, exc_traceback = sys.exc_info()
-            print('Error ', str(e))
-
+            raise(e)
 

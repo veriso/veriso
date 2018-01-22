@@ -271,10 +271,29 @@ class ExportProjectDialog(QDialog, FORM_CLASS):
         self.show_output(error)
 
     def show_output(self, byte_array):
-        if(sys.platform == 'win32'):
-            unicode_text = byte_array.data().decode('ISO-8859-1')
-        else:
-            unicode_text = byte_array.data().decode('utf-8')
+        """Print the output from the passed byte_array"""
+
+        # Maybe not very elegant but in almost one situation on OSX the old
+        # solution didn't worked and I didn't found an accurate way to get the
+        # correct encoding to use
+
+        encodings_to_try = ['utf-8', 'ISO-8859-1']
+
+        unicode_text = 'Unable to decode output'
+
+        for encoding in encodings_to_try:
+            try:
+                unicode_text = byte_array.data().decode(encoding)
+                break
+            except:
+                continue
+
+        #if(sys.platform == 'win32'):
+        #    unicode_text = byte_array.data().decode('ISO-8859-1')
+        #else:
+        #    unicode_text = byte_array.data().decode('utf-8')
+        #unicode_text = byte_array.data()
+
         self.report_progress(unicode_text)
 
     def finish_import(self, exit_code):
