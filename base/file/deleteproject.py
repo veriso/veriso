@@ -1,13 +1,11 @@
 # coding=utf-8
-from __future__ import absolute_import
 
 import os
 import shutil
-from builtins import str
 from qgis.PyQt.QtCore import Qt, pyqtSignal, QSettings
 from qgis.PyQt.QtSql import QSqlQuery
 from qgis.PyQt.QtWidgets import QApplication, QDialog, QDialogButtonBox
-from qgis.gui import QgsMessageBar
+from qgis.core import Qgis
 
 from veriso.base.utils.utils import open_psql_db, get_projects_db, \
     get_projects, tr, get_ui_class, get_default_db
@@ -67,7 +65,8 @@ class DeleteProjectDialog(QDialog, FORM_CLASS):
 
         # Get the connections parameters from the projects list we created in
         #  the init_gui method. Only when using sqlite projects.db
-        if not self.settings.value("options/general/use_pg_projects_database", False, type=bool):
+        if not self.settings.value("options/general/use_pg_projects_database",
+                                   False, type=bool):
             i = 0
             for project in self.projects:
                 if db_schema == str(project["dbschema"]):
@@ -90,7 +89,7 @@ class DeleteProjectDialog(QDialog, FORM_CLASS):
         except VerisoError as e:
             self.restore_cursor()
             self.message_bar.pushMessage("VeriSO", tr(str(e)),
-                                         QgsMessageBar.CRITICAL, duration=0)
+                                         Qgis.Critical, duration=0)
         else:
             self.projectsDatabaseHasChanged.emit()
             self.init_gui()
@@ -102,7 +101,8 @@ class DeleteProjectDialog(QDialog, FORM_CLASS):
 
     def update_project_database(self):
 
-        if self.settings.value("options/general/use_pg_projects_database", False, type=bool):
+        if self.settings.value("options/general/use_pg_projects_database",
+                               False, type=bool):
             return self.update_project_database_pg()
         return self.update_project_database_sqlite()
 
@@ -137,7 +137,7 @@ class DeleteProjectDialog(QDialog, FORM_CLASS):
 
     def update_project_database_sqlite(self):
         """Deletes the deleted project from the sqlite project database.
-        
+
         Returns:
           False: If something went wrong. Otherwise True.
         """
@@ -152,8 +152,8 @@ class DeleteProjectDialog(QDialog, FORM_CLASS):
             if not query.isActive():
                 message = "Error while reading from projects database."
                 raise VerisoError(
-                        message,
-                        long_message=QSqlQuery.lastError(query).text())
+                    message,
+                    long_message=QSqlQuery.lastError(query).text())
 
             db.close()
             del db
@@ -166,17 +166,18 @@ class DeleteProjectDialog(QDialog, FORM_CLASS):
 
     def delete_data_in_database(self):
         """Deletes the project (= database schema) in the database.
-        
+
         Returns:
           False: If something went wrong with deleting in the database.
           Otherwise True.
         """
         try:
-            if self.settings.value("options/general/use_pg_projects_database", False, type=bool):
+            if self.settings.value("options/general/use_pg_projects_database",
+                                   False, type=bool):
                 db = get_default_db()
             else:
                 db = open_psql_db(self.db_host, self.db_name, self.db_port,
-                              self.db_admin, self.db_admin_pwd)
+                                  self.db_admin, self.db_admin_pwd)
 
             sql = "BEGIN;"
             sql += "DROP SCHEMA IF EXISTS %s CASCADE;" % self.db_schema
@@ -208,7 +209,7 @@ class DeleteProjectDialog(QDialog, FORM_CLASS):
         """
         try:
             projects_root_directory = QSettings("CatAIS", "VeriSO").value(
-                    "options/general/projects_root_directory")
+                "options/general/projects_root_directory")
             path = os.path.join(str(projects_root_directory),
                                 str(self.db_schema))
             shutil.rmtree(path)

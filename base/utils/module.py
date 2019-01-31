@@ -1,10 +1,9 @@
 # coding=utf-8
 import os
-from builtins import next
 from collections import OrderedDict
 from qgis.PyQt.QtCore import QSettings
 from qgis.PyQt.QtSql import QSqlQuery
-from qgis.core import QgsMessageLog
+from qgis.core import QgsMessageLog, Qgis
 
 from veriso.base.utils.utils import tr, dynamic_import
 from veriso.base.utils.exceptions import VerisoError
@@ -32,8 +31,7 @@ def get_layers_from_topic(topic):
             "type": "postgres", "featuretype": table,
             "key": topic["primary_keys"][i],
             "geom": topic["geometry_columns"][i], "group": topic["topic"],
-            "title": topic["class_names"][i]
-        }
+            "title": topic["class_names"][i]}
         i += 1
         # If there is more than one geometry column in the table
         # the name of the geometry columns is written in brackets
@@ -81,16 +79,16 @@ def get_topics_tables(module_name):
         if not query.isActive():
             message = "Error while reading from database."
             QgsMessageLog.logMessage(tr(message), module_name,
-                                     QgsMessageLog.CRITICAL)
+                                     Qgis.Critical)
             QgsMessageLog.logMessage(
-                    str(QSqlQuery.lastError(query).text()),
-                    module_name,
-                    QgsMessageLog.CRITICAL)
+                str(QSqlQuery.lastError(query).text()),
+                module_name,
+                Qgis.Critical)
             return
 
         topics = []
         record = query.record()
-        while next(query):
+        while query.next():
             topic = {"topic": str(query.value(record.indexOf("topic")))}
 
             tables = []
@@ -129,9 +127,9 @@ def get_topics_tables(module_name):
         message = "Something went wrong catching the topics tables list " \
                   "from the database."
         QgsMessageLog.logMessage(tr(message), module_name,
-                                 QgsMessageLog.CRITICAL)
+                                 Qgis.Critical)
         QgsMessageLog.logMessage(str(e), module_name,
-                                 QgsMessageLog.CRITICAL)
+                                 Qgis.Critical)
         return
 
 
@@ -143,16 +141,16 @@ def get_baselayers(module_name):
       False.
     """
     filename = os.path.join(
-            get_modules_dir(),
-            module_name,
-            "baselayer",
-            "baselayer.yml")
+        get_modules_dir(),
+        module_name,
+        "baselayer",
+        "baselayer.yml")
     try:
         baselayers = yaml_load_file(filename)
         return baselayers
     except Exception as e:
         QgsMessageLog.logMessage(str(e), module_name,
-                                 QgsMessageLog.CRITICAL)
+                                 Qgis.Critical)
         return
 
 
@@ -167,7 +165,7 @@ def get_check_topics(module_name):
     """
 
     topics_dir = os.path.join(
-            get_modules_dir(), module_name, 'checks')
+        get_modules_dir(), module_name, 'checks')
 
     checks = []
     for topic_dir in get_subdirs(topics_dir):
@@ -185,7 +183,9 @@ def get_check_topics(module_name):
         locale = 'en'
     try:
         topics = OrderedDict()
-        checks = sorted(checks, key=lambda k: k['topic'])
+        # In Python3 OrderedDict can't be compared with another OrderedDict
+        # checks = sorted(checks,
+        #                 key=lambda k: k['topic'])
         for check in checks:
             topic = check["topic"]
             topic_dir = check["topic_dir"]
@@ -204,7 +204,7 @@ def get_check_topics(module_name):
 
                 # dinamically get the checks based on the available files
                 checks_from_files = get_checks_from_files(
-                        module_name, topic_dir)
+                    module_name, topic_dir)
                 try:
                     my_topic = topic[locale]
                     my_check = OrderedDict()
@@ -225,6 +225,7 @@ def get_check_topics(module_name):
                     topics[my_check["topic"]] = my_check
         return topics
     except Exception as e:
+        print(str(e))
         raise VerisoError(str(e), e, tag=module_name)
 
 
@@ -276,7 +277,8 @@ def get_checks_from_files(module_name, topic_dir, modules_dir=None):
             check['name'] = 'separator'
             # checks.append(check)
 
-    checks = sorted(checks, key=lambda k: k['name'])
+    # In Python3 OrderedDict can't be compared with another OrderedDict
+    # checks = sorted(checks, key=lambda k: k['name'])
     return checks
 
 

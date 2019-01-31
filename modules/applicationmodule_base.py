@@ -1,35 +1,26 @@
 # -*- coding: utf-8 -*-
 
-from __future__ import absolute_import, print_function
-
-import sys, os
+import sys
+import os
 import traceback
 from collections import OrderedDict
-
-from builtins import str
 from qgis.PyQt.QtCore import QCoreApplication, QObject, QSettings, Qt
 from qgis.PyQt.QtWidgets import QAction, QApplication, QMenu, QMenuBar, \
     QSizePolicy
-from qgis.core import QgsMessageLog
-from qgis.gui import QgsMessageBar
+from qgis.core import QgsMessageLog, Qgis
 
 from veriso.base.utils.module import (get_topics_tables, get_baselayers,
                                       get_check_topics, get_layers_from_topic)
 from veriso.base.utils.loadlayer import LoadLayer
-from veriso.base.utils.utils import dynamic_import, get_modules_dir, get_subdirs, yaml_load_file
+from veriso.base.utils.utils import dynamic_import, get_modules_dir, yaml_load_file
 
 # Translation was a pain in the a...
 # Umlaute from files etc.
 # This seems to work.
-try:
-    _encoding = QApplication.UnicodeUTF8
 
 
-    def _translate(context, text, disambig):
-        return QApplication.translate(context, text, disambig, _encoding)
-except AttributeError:
-    def _translate(context, text, disambig):
-        return QApplication.translate(context, text, disambig)
+def _translate(context, text, disambig):
+    return QApplication.translate(context, text, disambig)
 
 
 class ApplicationModuleBase(QObject):
@@ -59,13 +50,13 @@ class ApplicationModuleBase(QObject):
         """Initialize all the additional menus.
         this method is the entry point when a new project is loaded
         """
- 
+
         self.clean_gui()
         self.do_init_checks_menu()
         self.do_init_defects_menu()
         self.defects_list_dock.clear()
         show_topic_tables_menu = QSettings("CatAIS", "VeriSO").value(
-                "options/general/topics_tables_menu", False, type=bool)
+            "options/general/topics_tables_menu", False, type=bool)
         if show_topic_tables_menu:
             self.do_init_topics_tables_menu()
         self.do_init_baselayer_menu()
@@ -91,7 +82,7 @@ class ApplicationModuleBase(QObject):
             self.message_bar.pushMessage("Error",
                                          _translate(self.module, message,
                                                     None),
-                                         level=QgsMessageBar.CRITICAL,
+                                         level=Qgis.Critical,
                                          duration=0)
             return
 
@@ -104,7 +95,7 @@ class ApplicationModuleBase(QObject):
         menubar = QMenuBar(self.toolbar)
         menubar.setObjectName("VeriSOModule.LoadChecksMenuBar")
         menubar.setSizePolicy(
-                QSizePolicy(QSizePolicy.Minimum, QSizePolicy.Minimum))
+            QSizePolicy(QSizePolicy.Minimum, QSizePolicy.Minimum))
         menu = QMenu(menubar)
         menu.setTitle(_translate(self.module, "Checks", None))
 
@@ -115,8 +106,8 @@ class ApplicationModuleBase(QObject):
                 message = "The topic %s has no valid checks: skiping." % (
                     check_topic)
                 self.message_bar.pushWarning(
-                        "Warning",
-                        _translate(self.module, message, None))
+                    "Warning",
+                    _translate(self.module, message, None))
 
                 # this topic has no valid checks
                 continue
@@ -152,10 +143,10 @@ class ApplicationModuleBase(QObject):
                     single_check_menu.addAction(action)
                     topic_dir = check_topics[check_topic]['topic_dir']
                     action.triggered.connect(
-                            lambda checked,
-                            complex_check=check,
-                            folder=topic_dir:
-                            self.do_show_complex_check(folder, complex_check))
+                        lambda checked,
+                        complex_check=check,
+                        folder=topic_dir:
+                        self.do_show_complex_check(folder, complex_check))
 
         menubar.addMenu(menu)
         return menubar
@@ -183,8 +174,8 @@ class ApplicationModuleBase(QObject):
             exc_type, exc_value, exc_traceback = sys.exc_info()
             self.message_bar.pushMessage(self.module_name,
                                          str(traceback.format_exc(
-                                                 exc_traceback)),
-                                         QgsMessageBar.CRITICAL, duration=0)
+                                             exc_traceback)),
+                                         Qgis.Critical, duration=0)
             return
 
     def do_init_baselayer_menu(self):
@@ -198,7 +189,7 @@ class ApplicationModuleBase(QObject):
         menubar = QMenuBar(self.toolbar)
         menubar.setObjectName("VeriSOModule.LoadBaselayerMenuBar")
         menubar.setSizePolicy(
-                QSizePolicy(QSizePolicy.Minimum, QSizePolicy.Minimum))
+            QSizePolicy(QSizePolicy.Minimum, QSizePolicy.Minimum))
         menu = QMenu(menubar)
         menu.setTitle(_translate(self.module, "Baselayer", None))
 
@@ -210,7 +201,7 @@ class ApplicationModuleBase(QObject):
             self.message_bar.pushMessage("Error",
                                          _translate(self.module, message,
                                                     None),
-                                         level=QgsMessageBar.CRITICAL,
+                                         level=Qgis.Critical,
                                          duration=0)
             return
 
@@ -232,8 +223,8 @@ class ApplicationModuleBase(QObject):
             action = QAction(baselayer_title, self.iface.mainWindow())
             menu.addAction(action)
             action.triggered.connect(
-                    lambda checked, layer=baselayer: self.do_show_baselayer(
-                            layer))
+                lambda checked, layer=baselayer: self.do_show_baselayer(
+                    layer))
 
         menubar.addMenu(menu)
         self.toolbar.insertWidget(self.beforeAction, menubar)
@@ -252,7 +243,7 @@ class ApplicationModuleBase(QObject):
         except Exception as e:
             QApplication.restoreOverrideCursor()
             QgsMessageLog.logMessage(str(e), self.module_name,
-                                     QgsMessageLog.CRITICAL)
+                                     Qgis.Critical)
             return
 
         QApplication.restoreOverrideCursor()
@@ -269,7 +260,7 @@ class ApplicationModuleBase(QObject):
         menubar = QMenuBar(self.toolbar)
         menubar.setObjectName("VeriSOModule.LoadTopicsTablesMenuBar")
         menubar.setSizePolicy(
-                QSizePolicy(QSizePolicy.Minimum, QSizePolicy.Minimum))
+            QSizePolicy(QSizePolicy.Minimum, QSizePolicy.Minimum))
         menu = QMenu(menubar)
         menu.setTitle(_translate(self.module, "Tables", None))
 
@@ -277,9 +268,10 @@ class ApplicationModuleBase(QObject):
         if not topics:
             message = "Something went wrong catching the topics/tables list " \
                       "from the database."
-            self.message_bar.pushMessage(self.module_name,
-                                         _translate(self.module, message, None),
-                                         QgsMessageBar.CRITICAL, duration=0)
+            self.message_bar.pushMessage(
+                self.module_name,
+                _translate(self.module, message, None),
+                Qgis.Critical, duration=0)
             return
 
         for topic in topics:
@@ -290,15 +282,15 @@ class ApplicationModuleBase(QObject):
             topic_menu.addAction(action)
             topic_menu.addSeparator()
             action.triggered.connect(
-                    lambda checked, topic=topic: self.do_show_topic(topic))
+                lambda checked, topic=topic: self.do_show_topic(topic))
 
             layers = get_layers_from_topic(topic)
             for my_layer in layers:
                 action = QAction(my_layer["title"], self.iface.mainWindow())
                 topic_menu.addAction(action)
                 action.triggered.connect(
-                        lambda checked, layer=my_layer:
-                        self.do_show_single_topic_layer(layer))
+                    lambda checked, layer=my_layer:
+                    self.do_show_single_topic_layer(layer))
 
         menubar.addMenu(menu)
         self.toolbar.insertWidget(self.beforeAction, menubar)
@@ -335,7 +327,7 @@ class ApplicationModuleBase(QObject):
         xlsxwriter, openpyxl
         """
         menubar = self.toolbar.findChild(
-                QMenuBar, 'VeriSO.Main.LoadDefectsMenuBar')
+            QMenuBar, 'VeriSO.Main.LoadDefectsMenuBar')
 
         menu = menubar.findChild(QMenu, 'VeriSO.Main.LoadDefectsMenu')
         menu.setTitle(_translate(self.module, "Defects", None))
@@ -347,25 +339,25 @@ class ApplicationModuleBase(QObject):
         menu.addAction(action)
 
         action = QAction(
-                QCoreApplication.translate(
-                        self.module, "Import defects layer"),
-                self.iface.mainWindow())
+            QCoreApplication.translate(
+                self.module, "Import defects layer"),
+            self.iface.mainWindow())
         action.setObjectName("VeriSOModule.ImportDefectsAction")
         action.triggered.connect(self.do_import_defects)
         menu.addAction(action)
 
         action = QAction(
-                QCoreApplication.translate(
-                        self.module, "Export defects layer .xlsx"),
-                self.iface.mainWindow())
+            QCoreApplication.translate(
+                self.module, "Export defects layer .xlsx"),
+            self.iface.mainWindow())
         action.setObjectName("VeriSOModule.ExportDefectsAction")
         action.triggered.connect(self.do_export_defects)
         menu.addAction(action)
 
         action = QAction(
-                QCoreApplication.translate(
-                        self.module, "Export defects layer .shp"),
-                self.iface.mainWindow())
+            QCoreApplication.translate(
+                self.module, "Export defects layer .shp"),
+            self.iface.mainWindow())
         action.setObjectName("VeriSOModule.ExportDefectsShpAction")
         action.triggered.connect(self.do_export_defects_shp)
         menu.addAction(action)
@@ -385,7 +377,8 @@ class ApplicationModuleBase(QObject):
 
     def do_import_defects(self):
         from veriso.modules.tools.importdefects import ImportDefectsDialog
-        self.import_defects_dlg = ImportDefectsDialog(self, self.iface, self.defects_list_dock)
+        self.import_defects_dlg = ImportDefectsDialog(
+            self, self.iface, self.defects_list_dock)
         if self.import_defects_dlg.init_gui():
             self.import_defects_dlg.show()
 
@@ -400,7 +393,7 @@ class ApplicationModuleBase(QObject):
         defects_module = 'veriso.modules.tools.exportdefectsshp'
         defects_module = dynamic_import(defects_module)
         d = defects_module.ExportDefectsShp(self.iface, self.module,
-                                         self.module_name)
+                                            self.module_name)
         d.run()
 
     def clean_gui(self):
@@ -412,7 +405,7 @@ class ApplicationModuleBase(QObject):
                 # Delete existing module menus.
                 if object_name[0:12] == "VeriSOModule":
                     self.toolbar.removeAction(action)
-                # Remember the action where we want to insert our new menu 
+                # Remember the action where we want to insert our new menu
                 # (e.g. settings menu bar).
                 if object_name == "VeriSO.Main.SettingsMenuBar":
                     self.beforeAction = action
@@ -449,8 +442,8 @@ class ApplicationModuleBase(QObject):
 
     def get_extended_module_name(self):
         """
-        # Read into module.yml to see if the module extends another module        
-        :return: the name of the extended module 
+        # Read into module.yml to see if the module extends another module
+        :return: the name of the extended module
         """
         modules_dir = os.path.join(get_modules_dir())
         module_file = os.path.join(
@@ -459,7 +452,7 @@ class ApplicationModuleBase(QObject):
         if os.path.isfile(module_file):
             module_yaml = yaml_load_file(module_file)
 
-            if module_yaml.has_key('extends'):
+            if 'extends' in module_yaml:
                 return module_yaml['extends']
 
         return None

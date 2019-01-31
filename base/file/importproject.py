@@ -1,19 +1,18 @@
 # coding=utf-8
-from __future__ import absolute_import, print_function
 
-import os, sys
+import os
+import sys
 import shutil
-from builtins import next, range, str
 from qgis.PyQt.QtCore import QDateTime, QDir, QFileInfo, \
-    QProcess, QRegExp, QSettings, Qt, pyqtSignal, pyqtSignature, pyqtSlot, \
-    QTextCodec, QPyNullVariant
+    QProcess, QRegExp, QSettings, Qt, pyqtSignal, \
+    QTextCodec
 from qgis.PyQt.QtGui import QRegExpValidator
 from qgis.PyQt.QtSql import QSqlQuery
 from qgis.PyQt.QtWidgets import QApplication, QDialog, QDialogButtonBox, \
     QFileDialog
-from qgis.core import QgsApplication, QgsMessageLog
+from qgis.core import QgsMessageLog
 
-from qgis.gui import QgsMessageBar
+from qgis.core import Qgis
 
 from veriso.base.utils.utils import (open_psql_db, open_sqlite_db,
                                      get_projects_db, get_modules_dir,
@@ -41,8 +40,8 @@ class ImportProjectDialog(QDialog, FORM_CLASS):
 
         self.settings = QSettings("CatAIS", "VeriSO")
         self.input_itf_path = QFileInfo(
-                self.settings.value(
-                        "file/import/input_itf_path")).absolutePath()
+            self.settings.value(
+                "file/import/input_itf_path")).absolutePath()
 
         # members
         self.modules = None
@@ -68,6 +67,17 @@ class ImportProjectDialog(QDialog, FORM_CLASS):
         self.ignore_postprocessing_errors = False
         self.ignore_ili2pg_errors = False
 
+        self.btnProjectName.clicked.connect(
+            self.btnProjectName_clicked)
+        self.cmbBoxAppModule.currentIndexChanged.connect(
+            self.cmbBoxAppModule_currentIndexChanged)
+        self.cmbBoxIliModelName.currentIndexChanged.connect(
+            self.cmbBoxIliModelName_currentIndexChanged)
+        self.btnBrowseInputFile.clicked.connect(
+            self.btnBrowseInputFile_clicked)
+        self.max_scale_check.toggled.connect(
+            self.max_scale_check_toggled)
+
     def init_gui(self):
         """Initialize the dialog:
         Set the current date.
@@ -81,8 +91,8 @@ class ImportProjectDialog(QDialog, FORM_CLASS):
         # You are only allowed to use lower case characters as project name (
         # = database schema).
         self.lineEditDbSchema.setValidator(
-                QRegExpValidator(QRegExp("^[a-z][a-z0-9_]+"),
-                                 self.lineEditDbSchema))
+            QRegExpValidator(QRegExp("^[a-z][a-z0-9_]+"),
+                             self.lineEditDbSchema))
 
         # Fill out the modules combobox.
         try:
@@ -91,7 +101,7 @@ class ImportProjectDialog(QDialog, FORM_CLASS):
 
             for module_name in get_subdirs(modules_dir):
                 module_file = os.path.join(
-                        modules_dir, module_name, 'module.yml')
+                    modules_dir, module_name, 'module.yml')
                 if os.path.isfile(module_file):
                     module = yaml_load_file(module_file)
                     module['dirname'] = module_name
@@ -103,14 +113,14 @@ class ImportProjectDialog(QDialog, FORM_CLASS):
                 self.cmbBoxAppModule.clear()
                 for module in sorted_modules_list:
                     self.cmbBoxAppModule.addItem(
-                            str(module["displayname"]), module)
+                        str(module["displayname"]), module)
                 self.cmbBoxAppModule.insertItem(0, "", None)
                 self.cmbBoxAppModule.setCurrentIndex(0)
         except Exception as e:
             message = "Error while parsing the available modules."
             self.message_bar.pushMessage("VeriSO", tr(message),
-                                         QgsMessageBar.CRITICAL, duration=0)
-            QgsMessageLog.logMessage(str(e), "VeriSO", QgsMessageLog.CRITICAL)
+                                         Qgis.Critical, duration=0)
+            QgsMessageLog.logMessage(str(e), "VeriSO", Qgis.Critical)
             return
 
         self.cmbBoxIliModelName.insertItem(0, "", None)
@@ -118,22 +128,21 @@ class ImportProjectDialog(QDialog, FORM_CLASS):
         return True
 
     # noinspection PyPep8Naming
-    @pyqtSignature("on_btnProjectName_clicked()")
-    def on_btnProjectName_clicked(self):
+    def btnProjectName_clicked(self):
         """Check wether the project (=database schema) already exists.
         """
         project_name = self.lineEditDbSchema.text().strip()
 
         if len(project_name) <= 0:
             self.lineEditDbSchema.setPlaceholderText(
-                    tr('Enter a valid name'))
+                tr('Enter a valid name'))
         else:
             project_found = self.check_project_name(project_name)
 
             if project_found == -1:
                 message = "An error occured while connecting the database."
                 self.message_bar.pushMessage("VeriSO", tr(message),
-                                             QgsMessageBar.CRITICAL, duration=0)
+                                             Qgis.Critical, duration=0)
                 return
 
             elif project_found == 1:
@@ -149,7 +158,7 @@ class ImportProjectDialog(QDialog, FORM_CLASS):
     def check_project_name(self, project_name):
         """Makes a database request and checks if the given schema already
         exists.
-        
+
         Returns:
             -1 if an error occured. 0 if schema was not found. 1 if schema
             already exists.
@@ -171,8 +180,8 @@ class ImportProjectDialog(QDialog, FORM_CLASS):
             db = open_psql_db(self.db_host, self.db_name, self.db_port,
                               self.db_admin, self.db_admin_pwd)
 
-            sql = "SELECT schema_name FROM information_schema.schemata WHERE " \
-                  "schema_name = '%s';" % self.lineEditDbSchema.text().strip()
+            sql = """SELECT schema_name FROM information_schema.schemata WHERE
+                  schema_name = '%s';""" % self.lineEditDbSchema.text().strip()
             query = db.exec_(sql)
 
             if query.isActive():
@@ -186,12 +195,11 @@ class ImportProjectDialog(QDialog, FORM_CLASS):
                     return 0
 
         except Exception as e:
-            QgsMessageLog.logMessage(str(e), "VeriSO", QgsMessageLog.CRITICAL)
+            QgsMessageLog.logMessage(str(e), "VeriSO", Qgis.Critical)
             return -1
 
     # noinspection PyPep8Naming
-    @pyqtSignature("on_cmbBoxAppModule_currentIndexChanged(int)")
-    def on_cmbBoxAppModule_currentIndexChanged(self, idx):
+    def cmbBoxAppModule_currentIndexChanged(self, idx):
         """Fill out the model name combobox with all interlis models you can
         use with a specific module.
         """
@@ -208,8 +216,8 @@ class ImportProjectDialog(QDialog, FORM_CLASS):
                 model_name = ilimodels[i]["ilimodel"]
                 reference_frame = ilimodels[i]["referenceframe"]
                 self.cmbBoxIliModelName.insertItem(
-                        self.cmbBoxIliModelName.count(), str(model_name),
-                        ilimodels[i])
+                    self.cmbBoxIliModelName.count(), str(model_name),
+                    ilimodels[i])
             self.cmbBoxIliModelName.insertItem(0, "", None)
 
             if len(ilimodels) == 1:
@@ -223,12 +231,11 @@ class ImportProjectDialog(QDialog, FORM_CLASS):
             self.app_module = ""
             self.app_module_name = ""
 
-        self.on_max_scale_check_toggled(self.max_scale_check.isChecked())
+        self.max_scale_check_toggled(self.max_scale_check.isChecked())
 
     # noinspection PyPep8Naming,PyPep8Naming
-    @pyqtSignature("on_cmbBoxIliModelName_currentIndexChanged(int)")
-    def on_cmbBoxIliModelName_currentIndexChanged(self, idx):
-        """Fill out the reference frame lineedit (read only). 
+    def cmbBoxIliModelName_currentIndexChanged(self, idx):
+        """Fill out the reference frame lineedit (read only).
         """
         module_data = self.cmbBoxIliModelName.itemData(idx)
 
@@ -237,26 +244,24 @@ class ImportProjectDialog(QDialog, FORM_CLASS):
             self.epsg = module_data["epsg"]
             reference_frame = module_data["referenceframe"]
             self.lineEditRefFrame.setText(
-                    str(reference_frame) + " (EPSG:" + str(self.epsg) + ")")
+                str(reference_frame) + " (EPSG:" + str(self.epsg) + ")")
         else:
             self.ili = ""
             self.epsg = ""
             self.lineEditRefFrame.clear()
 
     # noinspection PyPep8Naming,PyPep8Naming
-    @pyqtSignature("on_btnBrowseInputFile_clicked()")
-    def on_btnBrowseInputFile_clicked(self):
+    def btnBrowseInputFile_clicked(self):
         file_path = QFileDialog.getOpenFileName(
-                self,
-                tr("Choose interlis transfer file"),
-                self.input_itf_path,
-                "ITF (*.itf *.ITF)")
+            self,
+            tr("Choose interlis transfer file"),
+            self.input_itf_path,
+            "ITF (*.itf *.ITF)")[0]
         file_info = QFileInfo(file_path)
         self.lineEditInputFile.setText(file_info.absoluteFilePath())
 
     # noinspection PyPep8Naming,PyPep8Naming
-    @pyqtSlot(bool)
-    def on_max_scale_check_toggled(self, enable):
+    def max_scale_check_toggled(self, enable):
         """Fill out the reference frame lineedit (read only).
         """
         db_user = self.settings.value("options/db/user")
@@ -281,7 +286,7 @@ class ImportProjectDialog(QDialog, FORM_CLASS):
         :return:
         """
         data = self.cmbBoxAppModule.itemData(
-                self.cmbBoxAppModule.currentIndex())
+            self.cmbBoxAppModule.currentIndex())
         try:
             return data['can_configure_max_scale_role']
         except (KeyError, TypeError):
@@ -303,14 +308,14 @@ class ImportProjectDialog(QDialog, FORM_CLASS):
             if project_found == -1:
                 message = "An error occured while connecting the database."
                 self.message_bar.pushMessage("VeriSO", tr(message),
-                                             QgsMessageBar.CRITICAL, duration=0)
+                                             Qgis.Critical, duration=0)
                 return
 
             elif project_found == 1:
                 message = "Project name already exists."
                 self.message_bar.pushWarning("VeriSO", tr(message))
                 QgsMessageLog.logMessage(tr(message), "VeriSO",
-                                         QgsMessageLog.WARNING)
+                                         Qgis.Warning)
                 return
 
         # Gather all data/information for ili2pg arguments.
@@ -324,18 +329,18 @@ class ImportProjectDialog(QDialog, FORM_CLASS):
             message = "Notes are to big (allowed 10000 characters): "
             self.message_bar.pushMessage("VeriSO",
                                          tr(message) + str(
-                                                 len(self.notes)),
-                                         QgsMessageBar.CRITICAL, duration=0)
+                                             len(self.notes)),
+                                         Qgis.Critical, duration=0)
             QgsMessageLog.logMessage(str(message) + str(len(self.notes)),
-                                     "VeriSO", QgsMessageLog.WARNING)
+                                     "VeriSO", Qgis.Warning)
             return
 
         self.projects_database = self.settings.value(
-                "options/general/projects_database", "")
-        if type(self.projects_database) == QPyNullVariant:
+            "options/general/projects_database", "")
+        if self.projects_database is None:
             self.projects_database = ""
         self.projects_root_directory = self.settings.value(
-                "options/general/projects_root_directory", "")
+            "options/general/projects_root_directory", "")
 
         import_jar = self.settings.value("options/import/jar", "")
 
@@ -347,29 +352,27 @@ class ImportProjectDialog(QDialog, FORM_CLASS):
 
         self.ignore_postprocessing_errors = self.settings.value(
             "options/import/ignore_postprocessing_errors", False, type=bool)
-        
-        import_vm_arguments = self.settings.value("options/import/vm_arguments",
-                                                  "")
+
+        import_vm_arguments = self.settings.value(
+            "options/import/vm_arguments", "")
         # Check if we have everything we need.
         if not os.path.isfile(
                 self.projects_database) and self.projects_database != "":
             self.message_bar.pushWarning("VeriSO",
-                                         tr(
-                                                 "Projects database not "
-                                                 "found: ")
-                                         + str(
-                                                 self.projects_database))
+                                         tr("Projects database not "
+                                            "found: ")
+                                         + str(self.projects_database))
             return
 
         if self.itf == "":
 
             # in veriti, if no itf file is set, use a "empty" default itf file
             if self.app_module == 'veriti':
-                self.itf = os.path.dirname(__file__)+"/../../modules/veriti/varia/default.itf"
+                self.itf = os.path.dirname(
+                    __file__) + "/../../modules/veriti/varia/default.itf"
             else:
                 self.message_bar.pushWarning("VeriSO",
-                                         tr(
-                                                 "No Interlis transfer file "
+                                             tr("No Interlis transfer file "
                                                  "set."))
                 return
 
@@ -385,68 +388,59 @@ class ImportProjectDialog(QDialog, FORM_CLASS):
 
         if self.cmbBoxAppModule.currentIndex() == 0:
             self.message_bar.pushWarning("VeriSO",
-                                         tr(
-                                                 "No application module "
-                                                 "chosen."))
+                                         tr("No application module chosen."))
             return
 
         if not self.db_host:
             self.message_bar.pushWarning("VeriSO",
-                                         tr(
-                                                 "Missing database host "
-                                                 "parameter."))
+                                         tr("Missing database host "
+                                            "parameter."))
             return
 
         if not self.db_name:
             self.message_bar.pushWarning("VeriSO",
-                                         tr(
-                                                 "Missing database name "
-                                                 "parameter."))
+                                         tr("Missing database name "
+                                            "parameter."))
             return
 
         if not self.db_port:
             self.message_bar.pushWarning("VeriSO",
-                                         tr(
-                                                 "Missing database port "
-                                                 "parameter."))
+                                         tr("Missing database port "
+                                            "parameter."))
             return
 
         if not self.db_user:
             self.message_bar.pushWarning("VeriSO",
-                                         tr(
-                                                 "Missing database user "
-                                                 "parameter."))
+                                         tr("Missing database user "
+                                            "parameter."))
             return
 
         if not self.db_pwd:
             self.message_bar.pushWarning("VeriSO",
-                                         tr(
-                                                 "Missing database password "
-                                                 "parameter."))
+                                         tr("Missing database password "
+                                            "parameter."))
             return
 
         if not self.db_admin:
             self.message_bar.pushWarning("VeriSO", tr(
-                    "Missing database administrator parameter."))
+                "Missing database administrator parameter."))
             return
 
         if not self.db_admin_pwd:
             self.message_bar.pushWarning("VeriSO", tr(
-                    "Missing database administrator password parameter."))
+                "Missing database administrator password parameter."))
             return
 
         if self.projects_root_directory == "":
             self.message_bar.pushWarning("VeriSO",
-                                         tr(
-                                                 "No root directory for "
-                                                 "projects "
-                                                 "set."))
+                                         tr("No root directory for "
+                                            "projects set."))
             return
 
         if self.projects_database == "":
             self.message_bar.pushInfo("VeriSO", tr(
-                    "No projects database found. Will create one in the "
-                    "project root directory."))
+                "No projects database found. Will create one in the "
+                "project root directory."))
 
         if jre_version() is None:
             self.message_bar.pushWarning("VeriSO",
@@ -495,7 +489,7 @@ class ImportProjectDialog(QDialog, FORM_CLASS):
         arguments.append(self.db_admin_pwd)
         arguments.append("--modeldir")
         model_dir = ';'.join(self.settings.value(
-                "options/model_repositories/repositories"))
+            "options/model_repositories/repositories"))
         arguments.append(model_dir)
         arguments.append("--models")
         arguments.append(self.ili)
@@ -530,7 +524,7 @@ class ImportProjectDialog(QDialog, FORM_CLASS):
         self.report_progress("Info: java %s" % ' '.join(arguments))
 
         try:
-            if(sys.platform =='win32'):
+            if(sys.platform == 'win32'):
                 j = win_which('java.exe')
                 self.process.start(j, arguments)
             else:
@@ -539,8 +533,8 @@ class ImportProjectDialog(QDialog, FORM_CLASS):
             self.restore_cursor()
             message = "Could not start import process."
             self.message_bar.pushMessage("VeriSO", tr(message),
-                                         QgsMessageBar.CRITICAL, duration=0)
-            QgsMessageLog.logMessage(str(e), "VeriSO", QgsMessageLog.CRITICAL)
+                                         Qgis.Critical, duration=0)
+            QgsMessageLog.logMessage(str(e), "VeriSO", Qgis.Critical)
 
     def restore_cursor(self):
         QApplication.restoreOverrideCursor()
@@ -587,7 +581,7 @@ class ImportProjectDialog(QDialog, FORM_CLASS):
 
         except VerisoError as e:
             self.message_bar.pushMessage("VeriSO", tr(str(e)),
-                                         QgsMessageBar.CRITICAL, duration=0)
+                                         Qgis.Critical, duration=0)
             return
         finally:
             self.restore_cursor()
@@ -642,7 +636,8 @@ class ImportProjectDialog(QDialog, FORM_CLASS):
                          "manually.")
 
         try:
-            # Create a new projects database (schema and table on pg) if there is none
+            # Create a new projects database (schema and table on pg) if
+            # there is none
 
             table_exists = False
             schema_exists = False
@@ -656,8 +651,9 @@ class ImportProjectDialog(QDialog, FORM_CLASS):
             if query.size() > 0:
                 schema_exists = True
 
-                sql = "SELECT 1 FROM   pg_tables " \
-                      "WHERE  schemaname = 'veriso_conf' AND tablename = 'project'"
+                sql = """SELECT 1 FROM pg_tables
+                      WHERE  schemaname = 'veriso_conf'
+                      AND tablename = 'project'"""
                 query = db.exec_(sql)
                 if query.size() > 0:
                     table_exists = True
@@ -693,8 +689,7 @@ class ImportProjectDialog(QDialog, FORM_CLASS):
                 self.data_date,
                 self.notes,
                 self.itf,
-                self.max_scale
-            )
+                self.max_scale)
             values = "VALUES ( "\
                      "'%s', '%s', 'postgres', '%s', '%s', '%s', '%s', '%s', " \
                      "'%s', '%s', '%s')" % values
@@ -709,7 +704,7 @@ class ImportProjectDialog(QDialog, FORM_CLASS):
             if not query.isActive():
                 message = "Error while updating projects database."
                 raise VerisoError(message, long_message=QSqlQuery.lastError(
-                        query).text())
+                    query).text())
 
             db.close()
 
@@ -722,7 +717,7 @@ class ImportProjectDialog(QDialog, FORM_CLASS):
 
     def update_projects_database_sqlite(self):
         """Updates the sqlite projects database.
-        
+
         Returns:
           False: When there an error occured. Otherswise True.
         """
@@ -735,17 +730,17 @@ class ImportProjectDialog(QDialog, FORM_CLASS):
             # the templates).
             if self.projects_database == "":
                 template = get_absolute_path(
-                        "templates/template_projects.db")
-                self.projects_database = QDir.convertSeparators(QDir.cleanPath(
-                        self.projects_root_directory + "/projects.db"))
+                    "templates/template_projects.db")
+                self.projects_database = QDir.toNativeSeparators(QDir.cleanPath(
+                    self.projects_root_directory + "/projects.db"))
                 shutil.copyfile(template, self.projects_database)
                 self.settings.setValue("options/general/projects_database",
                                        self.projects_database)
 
             db = get_projects_db()
 
-            project_root_directory = QDir.convertSeparators(QDir.cleanPath(
-                    self.projects_root_directory + "/" + str(self.db_schema)))
+            project_root_directory = QDir.toNativeSeparators(QDir.cleanPath(
+                self.projects_root_directory + "/" + str(self.db_schema)))
 
             values = (
                 self.db_schema,
@@ -767,11 +762,10 @@ class ImportProjectDialog(QDialog, FORM_CLASS):
                 self.data_date,
                 self.notes,
                 self.itf,
-                self.max_scale
-            )
-            values = "VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s'," \
-                     "'%s', '%s', 'postgres', '%s', '%s', '%s', '%s', '%s', " \
-                     "'%s', '%s', '%s', '%s', '%s')" % values
+                self.max_scale)
+            values = """VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s',
+                     '%s', '%s', 'postgres', '%s', '%s', '%s', '%s', '%s',
+                     '%s', '%s', '%s', '%s', '%s')""" % values
 
             sql = "INSERT INTO projects (id, displayname, dbhost, dbname, " \
                   "dbport, dbschema, dbuser, dbpwd, dbadmin, dbadminpwd, " \
@@ -784,7 +778,7 @@ class ImportProjectDialog(QDialog, FORM_CLASS):
             if not query.isActive():
                 message = "Error while updating projects database."
                 raise VerisoError(message, long_message=QSqlQuery.lastError(
-                        query).text())
+                    query).text())
 
             db.close()
 
@@ -815,17 +809,16 @@ class ImportProjectDialog(QDialog, FORM_CLASS):
                     errors += 1
                     message = "Error while postprocessing data:"
                     QgsMessageLog.logMessage(tr(message), "VeriSO",
-                                             QgsMessageLog.CRITICAL)
+                                             Qgis.Critical)
                     QgsMessageLog.logMessage(
-                            str(QSqlQuery.lastError(query).text()) + str(sql), "VeriSO",
-                            QgsMessageLog.CRITICAL)
+                        str(QSqlQuery.lastError(query).text()) + str(sql),
+                        "VeriSO", Qgis.Critical)
                     self.report_progress("--> error, see log", 'orange')
 
             if errors > 0:
                 self.report_progress(
-                        "Error: ...postprocessing completed with errors",
-                        "red"
-                )
+                    "Error: ...postprocessing completed with errors",
+                    "red")
                 if not self.ignore_postprocessing_errors:
                     raise Exception()
             self.report_progress("Info: ...postprocessing completed")
@@ -841,10 +834,10 @@ class ImportProjectDialog(QDialog, FORM_CLASS):
     def get_postprocessing_queries(self):
         """Gets the SQL queries that are stored in the sqlite database for
         the postprocessing process which is done in postgis.
-        
+
         Language support: Everything that is not french or italian will be
         german.
-        
+
         Returns:
           False: If the queries could not be fetched from the sqlite
           database. Otherwise a list with the SQL queries.
@@ -877,11 +870,11 @@ class ImportProjectDialog(QDialog, FORM_CLASS):
             if not query.isActive():
                 message = "Database query not active."
                 raise VerisoError(message, long_message=QSqlQuery.lastError(
-                        query).text())
+                    query).text())
 
             queries = []
             record = query.record()
-            while next(query):
+            while query.next():
                 sql_query = str(query.value(record.indexOf("sql_query")))
 
                 sql_query = sql_query.replace("$$DBSCHEMA", self.db_schema)
@@ -919,8 +912,8 @@ class ImportProjectDialog(QDialog, FORM_CLASS):
 
         if color is not None:
             self.textEditImportOutput.appendHtml(
-                    "<span style='color:%s'>%s</span>" % (color, text))
+                "<span style='color:%s'>%s</span>" % (color, text))
         else:
             self.textEditImportOutput.appendPlainText(
-                    "%s\n" % text.rstrip("\n "))
+                "%s\n" % text.rstrip("\n "))
         self.textEditImportOutput.ensureCursorVisible()

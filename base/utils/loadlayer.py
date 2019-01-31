@@ -1,10 +1,7 @@
 # coding=utf-8
-from builtins import str
 from qgis.PyQt.QtCore import QObject, QSettings, Qt
-from qgis.core import QgsDataSourceURI, QgsMapLayerRegistry, \
-    QgsMessageLog, QgsProject, QgsRasterLayer, QgsVectorLayer
-
-from qgis.gui import QgsMessageBar
+from qgis.core import QgsDataSourceUri, \
+    QgsMessageLog, QgsProject, QgsRasterLayer, QgsVectorLayer, Qgis
 
 from veriso.base.utils.utils import tr, get_absolute_path
 
@@ -33,7 +30,6 @@ class LoadLayer(QObject):
         try:
             loaded_layer = self._load(epsg, layer_definition)
 
-
             if not loaded_layer.isValid():
                 # str(layer['title']) throws some ascii out of range error...
                 error = layer_definition['title'] + tr(" is not valid layer.")
@@ -43,18 +39,18 @@ class LoadLayer(QObject):
                     group = str(layer_definition["group"])
                 except KeyError:
                     group = None
-                # QgsMapLayerRegistry.instance().addMapLayer(loaded_layer)
+                # QgsProject.instance().addMapLayer(loaded_layer)
                 if group:  # Layer soll in eine bestimmte Gruppe hinzugefügt
                     # werden.
-                    QgsMapLayerRegistry.instance().addMapLayer(loaded_layer,
-                                                               False)
+                    QgsProject.instance().addMapLayer(loaded_layer,
+                                                      False)
                     my_group_node = self.root.findGroup(group)
                     if not my_group_node:  # Gruppe noch nicht vorhanden.
                         my_group_node = self.root.addGroup(group)
                         """
                         Achtung: Das ist eher ein Workaround. Meines
                         # Erachtens hats noch einen Bug.
-                        # Mit QgsMapLayerRegistry.instance().addMapLayer(
+                        # Mit QgsProject.instance().addMapLayer(
                         # loaded_layer, False)  wird
                         # ein Layer noch nicht in die Legende gehängt.
                         # Anschliessend kann man ihn
@@ -97,14 +93,14 @@ class LoadLayer(QObject):
                     """
                     my_layer_node = my_group_node.insertLayer(0, loaded_layer)
                 else:
-                    QgsMapLayerRegistry.instance().addMapLayer(loaded_layer,
-                                                               False)
+                    QgsProject.instance().addMapLayer(loaded_layer,
+                                                      False)
                     my_layer_node = self.root.addLayer(loaded_layer)
 
-                my_layer_node.setVisible(Qt.Unchecked)
+                my_layer_node.setItemVisibilityChecked(Qt.Unchecked)
 
                 if visible:
-                    my_layer_node.setVisible(Qt.Checked)
+                    my_layer_node.setItemVisibilityChecked(Qt.Checked)
 
                 if collapsed_legend:
                     my_layer_node.setExpanded(False)
@@ -143,9 +139,9 @@ class LoadLayer(QObject):
                 message = tr('Ignoring invalid transparency value. 0 is full '
                              'opaque, 100 is full transparent. Found %s for '
                              'layer %s') % (transparency,
-                                          layer_definition['title'])
+                                            layer_definition['title'])
                 self.message_bar.pushMessage("Invalid transparency", message,
-                                             QgsMessageBar.WARNING, duration=5)
+                                             Qgis.Warning, duration=5)
                 opacity = 1
             loaded_layer.renderer().setOpacity(opacity)
         except KeyError:
@@ -164,7 +160,7 @@ class LoadLayer(QObject):
 
         else:
             error = tr("Data provider not yet supported: ") + str(
-                    layer_definition["type"])
+                layer_definition["type"])
             raise VerisoErrorWithBar(self.message_bar, error)
 
         return loaded_layer
@@ -173,9 +169,9 @@ class LoadLayer(QObject):
         for name in parameters_dict:
             self.check_parameter(name, parameters_dict[name])
             QgsMessageLog.logMessage(
-                    'All parameters checks passed',
-                    "VeriSO",
-                    QgsMessageLog.INFO)
+                'All parameters checks passed',
+                "VeriSO",
+                Qgis.Info)
 
     def check_parameter(self, parameter_name, parameter):
 
@@ -247,7 +243,7 @@ class LoadLayer(QObject):
             uri = "crs=" + crs + layer_string + style_string + \
                   "&format=" + format + "&tileMatrixSet=" + \
                   tilematrixset + "&url=" + url
-        loaded_layer = QgsRasterLayer(uri, title, "wms", False)
+        loaded_layer = QgsRasterLayer(uri, title, "wms")
         return loaded_layer
 
     def _load_pg_layer(self, layer_definition):
@@ -278,8 +274,7 @@ class LoadLayer(QObject):
             'database password': db_pwd,
             'database admin': db_admin,
             'database admin password': db_admin_pwd,
-            'provider': provider
-        })
+            'provider': provider})
 
         featuretype = str(layer_definition["featuretype"])
         title = layer_definition["title"]
@@ -314,7 +309,7 @@ class LoadLayer(QObject):
             db_admin_pwd = params["dbadminpwd"]
         except:
             pass
-        uri = QgsDataSourceURI()
+        uri = QgsDataSourceUri()
         if readonly:
             uri.setConnection(db_host, db_port, db_name, db_user,
                               db_pwd)

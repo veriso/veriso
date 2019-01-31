@@ -22,23 +22,16 @@
  *                                                                         *
  ***************************************************************************/
 """
-from __future__ import absolute_import
-from future.utils import native
 
 import os.path
 
-try:
-    from builtins import object, str
-except ImportError:
-    raise ImportError('Please install the python future package')
-
 import sys
-from qgis.PyQt.QtCore import (QCoreApplication, Qt, QSettings, QTranslator,
-                              qVersion)
-from qgis.PyQt.QtGui import QApplication, QPalette
-from qgis.PyQt.QtWidgets import QAction, QMenu, QMenuBar, QSizePolicy
+from qgis.PyQt.QtCore import QCoreApplication, Qt, QSettings, QTranslator
+from qgis.PyQt.QtGui import QPalette
+from qgis.PyQt.QtWidgets import (QApplication, QAction, QMenu, QMenuBar,
+                                 QSizePolicy)
 
-from qgis.gui import QgsMessageBar
+from qgis.core import Qgis
 
 from veriso.modules.tools.defects_list import DefectsListDock
 from veriso.modules.tools.check_results import CheckResultsDock
@@ -55,16 +48,14 @@ class VeriSO(object):
 
         locale = QSettings().value('locale/userLocale')[0:2]
         self.locale_path = os.path.join(
-                self.plugin_dir,
-                'i18n',
-                'veriso_{}.qm'.format(locale))
+            self.plugin_dir,
+            'i18n',
+            'veriso_{}.qm'.format(locale))
 
         if os.path.exists(self.locale_path):
             self.translator = QTranslator()
             self.translator.load(self.locale_path)
-
-            if qVersion() > '4.3.3':
-                QCoreApplication.installTranslator(self.translator)
+            QCoreApplication.installTranslator(self.translator)
 
         # members
         self.toolbar = None
@@ -89,12 +80,11 @@ class VeriSO(object):
 
     # noinspection PyPep8Naming
     def initGui(self):
-        icon_path = ':/plugins/veriso/icon.png'
 
         # Prepare defects list dock
         self._create_defects_list_dock()
 
-        #Prepare check results dock
+        # Prepare check results dock
         self._create_check_results_dock()
 
         # Qt offers some themes which you also can change in QGIS settings.
@@ -111,17 +101,17 @@ class VeriSO(object):
         # other quirks.
         # Strange: QToolBar stylesheet seems to need an border.
         background_color = self.iface.mainWindow().menuBar().palette().color(
-                QPalette.Window).name()
+            QPalette.Window).name()
 
         # main toolbar
         self.toolbar = self.iface.addToolBar("VeriSO")
         self.toolbar.setStyleSheet(
-                "QToolBar {background-color: " + background_color +
-                "; border: 0px solid " + background_color + ";}")
+            "QToolBar {background-color: " + background_color +
+            "; border: 0px solid " + background_color + ";}")
 
         self.toolbar.setObjectName("VeriSO.Main.ToolBar")
         self.toolbar.setSizePolicy(
-                QSizePolicy(QSizePolicy.Minimum, QSizePolicy.Minimum))
+            QSizePolicy(QSizePolicy.Minimum, QSizePolicy.Minimum))
 
         # trick for OSX compatibility
         if(sys.platform == 'darwin'):
@@ -131,7 +121,7 @@ class VeriSO(object):
         self.menubar_projects = QMenuBar()
         self.menubar_projects.setObjectName("VeriSO.Main.ProjectsMenuBar")
         self.menubar_projects.setSizePolicy(
-                QSizePolicy(QSizePolicy.Minimum, QSizePolicy.Preferred))
+            QSizePolicy(QSizePolicy.Minimum, QSizePolicy.Preferred))
         self.menu_projects = QMenu()
         self.menu_projects.setTitle(tr("Projects"))
         self.menubar_projects.addMenu(self.menu_projects)
@@ -140,7 +130,7 @@ class VeriSO(object):
         self.menubar_file = QMenuBar()
         self.menubar_file.setObjectName("VeriSO.Main.FileMenuBar")
         self.menubar_file.setSizePolicy(
-                QSizePolicy(QSizePolicy.Minimum, QSizePolicy.Minimum))
+            QSizePolicy(QSizePolicy.Minimum, QSizePolicy.Minimum))
         self.menu_file = QMenu()
         self.menu_file.setTitle(tr("File"))
         self.import_project = QAction(tr("Import project"),
@@ -152,7 +142,8 @@ class VeriSO(object):
         self.delete_project = QAction(tr("Delete project"),
                                       self.iface.mainWindow())
         self.delete_project.triggered.connect(self.do_delete_project)
-        self.menu_file.addActions([self.import_project, self.export_project, self.delete_project])
+        self.menu_file.addActions([self.import_project, self.export_project,
+                                   self.delete_project])
         self.menubar_file.addMenu(self.menu_file)
 
         # defects
@@ -160,17 +151,17 @@ class VeriSO(object):
         self.menubar_defects.setObjectName("VeriSO.Main.LoadDefectsMenuBar")
 
         self.menubar_defects.setSizePolicy(
-                QSizePolicy(QSizePolicy.Minimum, QSizePolicy.Minimum))
+            QSizePolicy(QSizePolicy.Minimum, QSizePolicy.Minimum))
         self.menu_defects = QMenu(self.menubar_defects)
         self.menu_defects.setObjectName("VeriSO.Main.LoadDefectsMenu")
         self.menu_defects.setTitle(tr("Defects"))
 
         self.defects_list_action = QAction(tr("Show defects list dock"),
-                                          self.iface.mainWindow())
+                                           self.iface.mainWindow())
         self.defects_list_action.setCheckable(True)
         self.defects_list_action.setChecked(True)
         self.defects_list_action.triggered.connect(
-                self.toggle_defects_list_dock_visibility)
+            self.toggle_defects_list_dock_visibility)
         self.menu_defects.addAction(self.defects_list_action)
         self.menubar_defects.addMenu(self.menu_defects)
 
@@ -178,7 +169,7 @@ class VeriSO(object):
         self.menubar_settings = QMenuBar()
         self.menubar_settings.setObjectName("VeriSO.Main.SettingsMenuBar")
         self.menubar_settings.setSizePolicy(
-                QSizePolicy(QSizePolicy.Minimum, QSizePolicy.Minimum))
+            QSizePolicy(QSizePolicy.Minimum, QSizePolicy.Minimum))
         self.menu_settings = QMenu()
         self.menu_settings.setTitle(tr("Settings"))
 
@@ -195,8 +186,8 @@ class VeriSO(object):
         self.toolbar.addWidget(self.menubar_defects)
         self.toolbar.addWidget(self.menubar_settings)
 
-        # for OSX compatibility. Without setNativeMenuBar(False) the veriso menu
-        # will not appear
+        # for OSX compatibility. Without setNativeMenuBar(False) the veriso
+        # menu will not appear
         if(sys.platform == 'darwin'):
             self.menubar_projects.setNativeMenuBar(False)
             self.menubar_file.setNativeMenuBar(False)
@@ -216,7 +207,7 @@ class VeriSO(object):
         if self.import_dlg.init_gui():
             self.import_dlg.show()
             self.import_dlg.projectsDatabaseHasChanged.connect(
-                    self.do_load_projects_database)
+                self.do_load_projects_database)
 
     def do_export_project(self):
         from .base.file.exportproject import ExportProjectDialog
@@ -224,7 +215,7 @@ class VeriSO(object):
         if self.export_dlg.init_gui():
             self.export_dlg.show()
             self.export_dlg.projectsDatabaseHasChanged.connect(
-                    self.do_load_projects_database)
+                self.do_load_projects_database)
 
     def do_delete_project(self):
         from .base.file.deleteproject import DeleteProjectDialog
@@ -232,7 +223,7 @@ class VeriSO(object):
         if self.delete_dlg.init_gui():
             self.delete_dlg.show()
             self.delete_dlg.projectsDatabaseHasChanged.connect(
-                    self.do_load_projects_database)
+                self.do_load_projects_database)
 
     def do_options(self):
         from .base.settings.options import OptionsDialog
@@ -240,7 +231,7 @@ class VeriSO(object):
         self.options_dlg.init_gui()
         self.options_dlg.show()
         self.options_dlg.projectsDatabaseHasChanged.connect(
-                self.do_load_projects_database)
+            self.do_load_projects_database)
 
     def do_load_projects_database(self):
         projects = get_projects()
@@ -268,7 +259,7 @@ class VeriSO(object):
                                      self.iface.mainWindow())
                     group_menu.addAction(action)
                     action.triggered.connect(
-                            lambda checked, active_project=project:
+                        lambda checked, active_project=project:
                             self.do_load_project(active_project))
 
     def do_load_project(self, project):
@@ -276,34 +267,36 @@ class VeriSO(object):
         # QSettings doesn't use it correctly. With native, use of standard
         # python string is forced.
 
-        self.settings.setValue("project/id", native(str(project["id"])))
+        self.settings.setValue("project/id", str(project["id"]))
         self.settings.setValue("project/displayname",
-                               native(str(project["displayname"])))
-        self.settings.setValue("project/appmodule", native(str(project["appmodule"])))
+                               str(project["displayname"]))
+        self.settings.setValue("project/appmodule", str(project["appmodule"]))
         self.settings.setValue("project/appmodulename",
-                               native(str(project["appmodulename"])))
+                               str(project["appmodulename"]))
         self.settings.setValue("project/ilimodelname",
-                               native(str(project["ilimodelname"])))
-        self.settings.setValue("project/epsg", native(str(project["epsg"])))
-        self.settings.setValue("project/provider", native(str(project["provider"])))
+                               str(project["ilimodelname"]))
+        self.settings.setValue("project/epsg", str(project["epsg"]))
+        self.settings.setValue("project/provider", str(project["provider"]))
         if 'dbhost' in project:
-            self.settings.setValue("project/dbhost", native(str(project["dbhost"])))
+            self.settings.setValue("project/dbhost", str(project["dbhost"]))
         if 'dbport' in project:
-            self.settings.setValue("project/dbport", native(str(project["dbport"])))
+            self.settings.setValue("project/dbport", str(project["dbport"]))
         if 'dbname' in project:
-            self.settings.setValue("project/dbname", native(str(project["dbname"])))
-        self.settings.setValue("project/dbschema", native(str(project["dbschema"])))
+            self.settings.setValue("project/dbname", str(project["dbname"]))
+        self.settings.setValue("project/dbschema", str(project["dbschema"]))
         if 'dbuser' in project:
-            self.settings.setValue("project/dbuser", native(str(project["dbuser"])))
+            self.settings.setValue("project/dbuser", str(project["dbuser"]))
         if 'dbpwd' in project:
-            self.settings.setValue("project/dbpwd", native(str(project["dbpwd"])))
+            self.settings.setValue("project/dbpwd", str(project["dbpwd"]))
         if 'dbadmin' in project:
-            self.settings.setValue("project/dbadmin", native(str(project["dbadmin"])))
+            self.settings.setValue("project/dbadmin", str(project["dbadmin"]))
         if 'dbadminpwd' in project:
-            self.settings.setValue("project/dbadminpwd", native(str(project["dbadminpwd"])))
+            self.settings.setValue("project/dbadminpwd",
+                                   str(project["dbadminpwd"]))
         if 'projectdir' in project:
-            self.settings.setValue("project/projectdir", native(str(project["projectdir"])))
-        self.settings.setValue("project/max_scale", native(str(project["max_scale"])))
+            self.settings.setValue("project/projectdir",
+                                   str(project["projectdir"]))
+        self.settings.setValue("project/max_scale", str(project["max_scale"]))
 
         module_name = project["appmodule"].lower()
         try:
@@ -319,12 +312,12 @@ class VeriSO(object):
 
         except Exception as e:
             self.message_bar.pushMessage("VeriSO", str(e),
-                                         QgsMessageBar.CRITICAL, duration=0)
+                                         level=Qgis.Critical, duration=0)
 
     def set_max_scale(self, scale):
         self.max_scale = scale
         self.iface.mapCanvas().scaleChanged.connect(
-                self.zoom_to_max_scale)
+            self.zoom_to_max_scale)
 
     def unset_max_scale(self):
         self.max_scale = 0.0
@@ -357,7 +350,8 @@ class VeriSO(object):
 
         self.defects_list_dock = DefectsListDock(self.iface)
         self.defects_list_dock.setObjectName('DefectsListDock')
-        self.iface.addDockWidget(Qt.RightDockWidgetArea, self.defects_list_dock)
+        self.iface.addDockWidget(Qt.RightDockWidgetArea,
+                                 self.defects_list_dock)
         legend_tab = self.iface.mainWindow().findChild(QApplication, 'Legend')
         if legend_tab:
             self.iface.mainWindow().tabifyDockWidget(
@@ -374,4 +368,3 @@ class VeriSO(object):
         self.CheckResultsDock.clear_results()
         self.CheckResultsDock.setVisible(True)
         self.CheckResultsDock.raise_()
-

@@ -1,15 +1,15 @@
 # coding=utf-8
 import importlib
-import os, sys
+import os
+import sys
 import yaml
 import subprocess
-from builtins import next
 from collections import OrderedDict
 from qgis.PyQt.uic import loadUiType
 from qgis.PyQt.QtCore import QSettings, QCoreApplication, QDir
 from qgis.PyQt.QtSql import QSqlDatabase, QSqlQuery
 
-from qgis.core import QgsMessageLog, QgsApplication
+from qgis.core import QgsMessageLog, QgsApplication, Qgis
 from veriso.base.utils.exceptions import VerisoError
 
 
@@ -23,7 +23,7 @@ def dynamic_import(module_name):
         module = importlib.import_module(module_name)
         QgsMessageLog.logMessage('Successfully loaded: %s ' % module_name,
                                  "VeriSO",
-                                 QgsMessageLog.INFO)
+                                 Qgis.Info)
         return module
     except Exception as e:
         message = tr("Error while loading application module: %s") % module_name
@@ -45,9 +45,9 @@ def get_root_dir():
     :return: str
     """
     path = os.path.join(os.path.dirname(
-            os.path.realpath(__file__)),
-            os.pardir,
-            os.pardir)
+        os.path.realpath(__file__)),
+        os.pardir,
+        os.pardir)
     return path
 
 
@@ -71,7 +71,8 @@ def yaml_load_file(file_path):
             parsed_dict = yaml_ordered_load(f, Loader=yaml.SafeLoader)
         return parsed_dict
     except Exception as e:
-        raise VerisoError("Something went wrong when parsing %s" % file_path, e)
+        raise VerisoError("Something went wrong when parsing %s" % file_path,
+                          str(e))
 
 
 def yaml_ordered_load(
@@ -95,17 +96,22 @@ def yaml_ordered_load(
         return object_pairs_hook(loader.construct_pairs(node))
 
     OrderedLoader.add_constructor(
-            yaml.resolver.BaseResolver.DEFAULT_MAPPING_TAG,
-            construct_mapping)
+        yaml.resolver.BaseResolver.DEFAULT_MAPPING_TAG,
+        construct_mapping)
     return yaml.load(stream, OrderedLoader)
+
 
 def get_projects():
     settings = QSettings("CatAIS", "VeriSO")
-    if settings.value("options/general/use_pg_projects_database", False, type=bool):
-        QgsMessageLog.logMessage('Using Postgres projects database', 'VeriSO', QgsMessageLog.INFO)
+    if settings.value("options/general/use_pg_projects_database", False,
+                      type=bool):
+        QgsMessageLog.logMessage('Using Postgres projects database', 'VeriSO',
+                                 Qgis.Info)
         return get_projects_from_pg()
-    QgsMessageLog.logMessage('Using Sqlite projects database', 'VeriSO', QgsMessageLog.INFO)
+    QgsMessageLog.logMessage('Using Sqlite projects database', 'VeriSO',
+                             Qgis.Info)
     return get_projects_from_sqlite()
+
 
 def get_projects_from_pg():
     projects = []
@@ -121,13 +127,13 @@ def get_projects_from_pg():
 
         if not query.isActive():
             QgsMessageLog.logMessage(tr(error_message), "VeriSO",
-                                     QgsMessageLog.CRITICAL)
+                                     Qgis.Critical)
             QgsMessageLog.logMessage(str(QSqlQuery.lastError(query).text()),
-                                     "VeriSO", QgsMessageLog.CRITICAL)
+                                     "VeriSO", Qgis.Critical)
             return
 
         record = query.record()
-        while next(query):
+        while query.next():
             project = {
                 "id": str(query.value(record.indexOf("id"))),
                 "displayname": str(
@@ -154,9 +160,7 @@ def get_projects_from_pg():
                 "dbuser": str(settings.value("options/db/user")),
                 "dbpwd": str(settings.value("options/db/pwd")),
                 "dbadmin": str(settings.value("options/db/admin")),
-                "dbadminpwd": str(settings.value("options/db/adminpwd"))
-                
-            }
+                "dbadminpwd": str(settings.value("options/db/adminpwd"))}
             projects.append(project)
 
         db.close()
@@ -166,11 +170,12 @@ def get_projects_from_pg():
         QgsMessageLog.logMessage(
             tr("Error while reading from projects database."),
             "VeriSO",
-            QgsMessageLog.CRITICAL)
-        QgsMessageLog.logMessage(str(e), "VeriSO", QgsMessageLog.CRITICAL)
+            Qgis.Critical)
+        QgsMessageLog.logMessage(str(e), "VeriSO", Qgis.Critical)
         return
 
     return projects
+
 
 def get_projects_from_sqlite():
     projects = []
@@ -185,47 +190,46 @@ def get_projects_from_sqlite():
 
         if not query.isActive():
             QgsMessageLog.logMessage(tr(error_message), "VeriSO",
-                                     QgsMessageLog.CRITICAL)
+                                     Qgis.Critical)
             QgsMessageLog.logMessage(str(QSqlQuery.lastError(query).text()),
-                                     "VeriSO", QgsMessageLog.CRITICAL)
+                                     "VeriSO", Qgis.Critical)
             return
 
         record = query.record()
-        while next(query):
+        while query.next():
             project = {
                 "id": str(query.value(record.indexOf("id"))),
                 "displayname": str(
-                        query.value(record.indexOf("displayname"))),
+                    query.value(record.indexOf("displayname"))),
                 "dbhost": str(query.value(record.indexOf("dbhost"))),
                 "dbname": str(query.value(record.indexOf("dbname"))),
                 "dbport": str(query.value(record.indexOf("dbport"))),
                 "dbschema": str(
-                        query.value(record.indexOf("dbschema"))),
+                    query.value(record.indexOf("dbschema"))),
                 "dbuser": str(query.value(record.indexOf("dbuser"))),
                 "dbpwd": str(query.value(record.indexOf("dbpwd"))),
                 "dbadmin": str(
-                        query.value(record.indexOf("dbadmin"))),
+                    query.value(record.indexOf("dbadmin"))),
                 "dbadminpwd": str(
-                        query.value(record.indexOf("dbadminpwd"))),
+                    query.value(record.indexOf("dbadminpwd"))),
                 "provider": str(
-                        query.value(record.indexOf("provider"))),
+                    query.value(record.indexOf("provider"))),
                 "epsg": str(query.value(record.indexOf("epsg"))),
                 "max_scale": int(query.value(record.indexOf("max_scale"))),
                 "ilimodelname": str(
-                        query.value(record.indexOf("ilimodelname"))),
+                    query.value(record.indexOf("ilimodelname"))),
                 "appmodule": str(
-                        query.value(record.indexOf("appmodule"))),
+                    query.value(record.indexOf("appmodule"))),
                 "appmodulename": str(
-                        query.value(record.indexOf("appmodulename"))),
+                    query.value(record.indexOf("appmodulename"))),
                 "projectrootdir": str(
-                        query.value(record.indexOf("projectrootdir"))),
+                    query.value(record.indexOf("projectrootdir"))),
                 "projectdir": str(
-                        query.value(record.indexOf("projectdir"))),
+                    query.value(record.indexOf("projectdir"))),
                 "datadate": str(
-                        query.value(record.indexOf("datadate"))),
+                    query.value(record.indexOf("datadate"))),
                 "importdate": str(
-                        query.value(record.indexOf("importdate")))
-            }
+                    query.value(record.indexOf("importdate")))}
             projects.append(project)
 
         db.close()
@@ -233,13 +237,14 @@ def get_projects_from_sqlite():
 
     except Exception as e:
         QgsMessageLog.logMessage(
-                tr("Error while reading from projects database."),
-                "VeriSO",
-                QgsMessageLog.CRITICAL)
-        QgsMessageLog.logMessage(str(e), "VeriSO", QgsMessageLog.CRITICAL)
+            tr("Error while reading from projects database."),
+            "VeriSO",
+            Qgis.Critical)
+        QgsMessageLog.logMessage(str(e), "VeriSO", Qgis.Critical)
         return
 
     return projects
+
 
 def get_projects_db(force_filepath=None):
     """
@@ -249,7 +254,8 @@ def get_projects_db(force_filepath=None):
     """
     settings = QSettings("CatAIS", "VeriSO")
 
-    if settings.value("options/general/use_pg_projects_database", False, type=bool):
+    if settings.value("options/general/use_pg_projects_database", False,
+                      type=bool):
         return get_default_db()
 
     if force_filepath is not None:
@@ -348,21 +354,17 @@ def get_ui_class(ui_file):
     """
     os.path.sep.join(ui_file.split('/'))
     ui_file_path = os.path.abspath(
-            os.path.join(
-                    os.path.dirname(__file__),
-                    os.pardir,
-                    os.pardir,
-                    'ui',
-                    ui_file
-            )
-    )
+        os.path.join(
+            os.path.dirname(__file__),
+            os.pardir,
+            os.pardir,
+            'ui',
+            ui_file))
     return loadUiType(ui_file_path)[0]
 
 
 def tr(message, context='VeriSO', disambig=None, encoding=None):
-    if encoding is None:
-        return QCoreApplication.translate(context, message, disambig)
-    return QCoreApplication.translate(context, message, disambig, encoding)
+    return QCoreApplication.translate(context, message, disambig)
 
 
 def jre_version():
@@ -370,10 +372,11 @@ def jre_version():
         if(sys.platform == 'win32'):
             j = win_which('java.exe')
             version = subprocess.check_output(
-                [j, '-version'], shell=True, stdin=subprocess.PIPE, stderr=subprocess.STDOUT)
+                [j, '-version'], shell=True, stdin=subprocess.PIPE,
+                stderr=subprocess.STDOUT)
         else:
-             version = subprocess.check_output(
-                 ['java', '-version'], stderr=subprocess.STDOUT)
+            version = subprocess.check_output(
+                ['java', '-version'], stderr=subprocess.STDOUT)
         return version
     except:
         return None
@@ -425,11 +428,11 @@ def db_user_has_role(username, rolenames, require_all_roles=False):
 
 def get_absolute_path(path):
     path = "/python/plugins/veriso/%s" % path
-    filename = QDir.convertSeparators(QDir.cleanPath(
-            QgsApplication.qgisSettingsDirPath() + path))
+    filename = QDir.toNativeSeparators(QDir.cleanPath(
+        QgsApplication.qgisSettingsDirPath() + path))
     if not os.path.isfile(filename):
-        filename = QDir.convertSeparators(QDir.cleanPath(
-                QgsApplication.pkgDataPath() + path))
+        filename = QDir.toNativeSeparators(QDir.cleanPath(
+            QgsApplication.pkgDataPath() + path))
 
     # the plugin is not in the .qgis2 folder
     # lets try in the qgis installation folder (for central installation
@@ -437,6 +440,7 @@ def get_absolute_path(path):
     if not os.path.isfile(filename):
         raise VerisoError('File not found at %s' % filename)
     return filename
+
 
 # This function is like the linux which command for windows
 # http://gis.stackexchange.com/questions/107204/system-variable-path-overwritten-in-qgis/156510#156510
@@ -455,16 +459,21 @@ def win_which(program):
                 return exe_file
     return None
 
+
 # This function gets a system variable
-# it was necessary to use this instead of os.environ["PATH"] because QGIS overwrites the path variable
-# the win32 libraries appear not to be part of the standard python install, but they are included in the 
+# it was necessary to use this instead of os.environ["PATH"] because QGIS
+# overwrites the path variable
+# the win32 libraries appear not to be part of the standard python install,
+# but they are included in the
 # python version that comes with QGIS
 def win_getenv_system(varname, default=''):
     import win32api
     import win32con
     v = default
     try:
-        rkey = win32api.RegOpenKey(win32con.HKEY_LOCAL_MACHINE, 'SYSTEM\\CurrentControlSet\\Control\\Session Manager\\Environment')
+        rkey = win32api.RegOpenKey(
+            win32con.HKEY_LOCAL_MACHINE,
+            'SYSTEM\\CurrentControlSet\\Control\\Session Manager\\Environment')
         try:
             v = str(win32api.RegQueryValueEx(rkey, varname)[0])
             v = win32api.ExpandEnvironmentStrings(v)

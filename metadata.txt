@@ -1,37 +1,18 @@
-# This file contains metadata for your plugin. Since 
-# version 2.0 of QGIS this is the proper way to supply 
-# information about a plugin. The old method of 
-# embedding metadata in __init__.py will 
-# is no longer supported since version 2.0.
-
-# This file should be included when you package your plugin.# Mandatory items:
-
 [general]
 name=VeriSO
-qgisMinimumVersion=2.8
+qgisMinimumVersion=3.0
 qgisMaximumVersion=3.99
 description=Verification application module for Interlis data.
-version=0.7
-author=Stefan Ziegler and OPENGIS.ch
-email=info@opengis.ch
+version=0.8
+author=Stefan Ziegler, OPENGIS.ch and Sourcepole
+email=qgis@sourcepole.ch
 
-# End of mandatory metadata
-
-# Optional items:
-
-# Uncomment the following line and add your changelog:
-# changelog=
-
-# Tags are comma separated with spaces allowed
 tags=
 
-homepage=https://github.com/opengisch/veriso/
-tracker=https://github.com/opengisch/veriso/issues
-repository=https://github.com/opengisch/veriso/
+homepage=https://github.com/veriso/veriso/
+tracker=https://github.com/veriso/veriso/issues
+repository=https://github.com/veriso/veriso/
 icon=icon.png
-# experimental flag
 experimental=False
 
-# deprecated flag (applies to the whole plugin, not just a single version)
 deprecated=False
-

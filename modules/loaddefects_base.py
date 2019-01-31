@@ -2,11 +2,9 @@
 
 import sys
 import traceback
-from builtins import str
 from qgis.PyQt.QtCore import QObject, QSettings
 from qgis.PyQt.QtWidgets import QApplication
-from qgis.core import QgsProject, QgsVectorLayer, QgsEditFormConfig
-from qgis.gui import QgsMessageBar
+from qgis.core import QgsProject, QgsEditFormConfig, Qgis
 
 from veriso.base.utils.loadlayer import LoadLayer
 from veriso.base.utils.utils import tr, db_user_has_role
@@ -52,15 +50,15 @@ class LoadDefectsBase(QObject):
                     'topic': {
                         'widget': 'Enumeration',
                         'alias': 'Topic:'
-                    },
+                        },
                     'bemerkung': {
                         'widget': 'TextEdit',
                         'alias': 'Bemekung:',
                         'config': {"IsMultiline": True}
-                    },
+                        },
                     'datum': {'widget': 'Hidden'}
-                }
-            },
+                    }
+                },
             'line': {
                 "type": "postgres",
                 "title": tr(u"Mängelliste (Linien)", self.tr_tag, None),
@@ -76,15 +74,15 @@ class LoadDefectsBase(QObject):
                     'topic': {
                         'widget': 'Enumeration',
                         'alias': 'Topic:'
-                    },
+                        },
                     'bemerkung': {
                         'widget': 'TextEdit',
                         'alias': 'Bemekung:',
                         'config': {"IsMultiline": True}
-                    },
+                        },
                     'datum': {'widget': 'Hidden'}
-                }
-            },
+                    }
+                },
             'polygon': {
                 "type": "postgres",
                 "title": tr(u"Mängelliste (Polygone)", self.tr_tag, None),
@@ -100,16 +98,16 @@ class LoadDefectsBase(QObject):
                     'topic': {
                         'widget': 'Enumeration',
                         'alias': 'Topic:'
-                    },
+                        },
                     'bemerkung': {
                         'widget': 'TextEdit',
                         'alias': 'Bemekung:',
                         'config': {"IsMultiline": True}
-                    },
+                        },
                     'datum': {'widget': 'Hidden'}
+                    }
                 }
             }
-        }
 
     def run(self):
         loaded_layers = {}
@@ -122,9 +120,9 @@ class LoadDefectsBase(QObject):
                 QApplication.restoreOverrideCursor()
                 exc_type, exc_value, exc_traceback = sys.exc_info()
                 self.message_bar.pushMessage("Error", str(
-                        traceback.format_exc(exc_traceback)),
-                                             level=QgsMessageBar.CRITICAL,
-                                             duration=0)
+                    traceback.format_exc(exc_traceback)),
+                    level=Qgis.Critical,
+                    duration=0)
         QApplication.restoreOverrideCursor()
         return loaded_layers
 
@@ -146,23 +144,24 @@ class LoadDefectsBase(QObject):
 
         loaded_layer = self.layer_loader.load(layer)
         if loaded_layer:
-            loaded_layer.setEditorLayout(QgsVectorLayer.GeneratedLayout)
+            loaded_layer.editFormConfig().setLayout(
+                QgsEditFormConfig.GeneratedLayout)
             edit_form_config = loaded_layer.editFormConfig()
             for field_name in layer['fields']:
                 field = layer['fields'][field_name]
-                idx = loaded_layer.fieldNameIndex(field_name)
+                idx = loaded_layer.fields().indexFromName(field_name)
                 if 'alias' in field:
-                    loaded_layer.addAttributeAlias(
-                            idx, tr(field['alias'], self.tr_tag, None))
+                    loaded_layer.setFieldAlias(
+                        idx, tr(field['alias'], self.tr_tag, None))
 
                 if 'widget' in field:
-                    loaded_layer.setEditorWidgetV2(
-                            idx, field['widget'])
+                    widget = loaded_layer.editorWidgetSetup(idx)
+                    loaded_layer.setEditorWidgetSetup(idx, widget)
                 if 'default' in field:
 
                     try:
                         loaded_layer.setDefaultValueExpression(
-                                idx, "'%s'" % field['default'])
+                            field_name, "'%s'" % field['default'])
                     except AttributeError:
 
                         if field['widget'] in widget_type_map:
@@ -180,20 +179,23 @@ class LoadDefectsBase(QObject):
 
                             widget_name = 'widget_{}'.format(field_name)
                             default_value = field['default']
-                            code = ("    {0} = dialog.findChild({1}, '{2}')\n".format(widget_name,
-                                                      widget_type,
-                                                      field_name))
+                            code = (
+                                "{0} = dialog.findChild({1}, '{2}')\n".format(
+                                    widget_name,
+                                    widget_type,
+                                    field_name))
 
                             code += widget_code.format(
-                                    widget_name, default_value)
+                                widget_name, default_value)
                             generated_code += code
 
                 if 'readonly' in field:
                     edit_form_config.setReadOnly(
-                            idx, field['readonly'])
+                        idx, field['readonly'])
                 if 'config' in field:
                     # See gui/editorwidgets/ for all the parameters.
-                    loaded_layer.setEditorWidgetSetup(idx, field['config'])
+                    widget = loaded_layer.editorWidgetSetup(idx)
+                    loaded_layer.setEditorWidgetSetup(idx, widget)
                 if 'writable_only_by' in field:
                     if not db_user_has_role(
                             self.dbuser, field['writable_only_by']):
@@ -203,11 +205,11 @@ class LoadDefectsBase(QObject):
                 code = ("# -*- coding: utf-8 -*-\n"
                         "from PyQt4.QtGui import %s\n"
                         "def form_open(dialog, layer, feature):\n")\
-                       % ', '.join(code_imports)
+                    % ', '.join(code_imports)
                 code += generated_code
                 edit_form_config.setInitFunction('form_open')
                 edit_form_config.setInitCode(code)
                 edit_form_config.setInitCodeSource(
-                        QgsEditFormConfig.CodeSourceDialog)
+                    QgsEditFormConfig.CodeSourceDialog)
 
             return loaded_layer

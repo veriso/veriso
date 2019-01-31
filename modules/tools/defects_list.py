@@ -1,14 +1,9 @@
 # coding=utf-8
 
-from __future__ import absolute_import, print_function
-
 import unicodedata
 
-from builtins import next, range, str
-
-from qgis.PyQt.QtCore import pyqtSlot, Qt
-from qgis.PyQt.QtGui import QTableWidgetItem, QDockWidget
-from PyQt4.QtCore import QDateTime, QSettings
+from qgis.PyQt.QtCore import Qt, QDateTime, QSettings
+from qgis.PyQt.QtWidgets import QTableWidgetItem, QDockWidget
 
 from qgis.core import QgsFeatureRequest
 
@@ -38,12 +33,24 @@ class DefectsListDock(QDockWidget, FORM_CLASS):
             self.previous_button,
             self.next_button,
             self.defects_list,
-            self.columns_choice_button
-        ]
+            self.columns_choice_button]
 
         self._toggle_gui_elements(False)
 
         self.settings = QSettings("CatAIS", "VeriSO")
+
+        self.next_button.clicked.connect(self.next_button_clicked)
+        self.previous_button.clicked.connect(self.previous_button_clicked)
+        self.defects_list.currentItemChanged.connect(
+            self.defects_list_currentItemChanged)
+        self.layers_combo.currentIndexChanged.connect(
+            self.layers_combo_currentIndexChanged)
+        self.unfinished_fields_combo.currentIndexChanged.connect(
+            self.unfinished_fields_combo_currentIndexChanged)
+        self.unfinished_only_check.toggled.connect(
+            self.unfinished_only_check_toggled)
+        self.columns_choice_button.clicked.connect(
+            self.columns_choice_button_clicked)
 
     def clear(self):
         self.layer = None
@@ -78,7 +85,7 @@ class DefectsListDock(QDockWidget, FORM_CLASS):
         excluded_fields = self._get_excluded_columns_list()
 
         fields = []
-        for f in self.layer.pendingFields():
+        for f in self.layer.fields():
             if not f.name() in excluded_fields:
                 fields.append(f.name())
 
@@ -127,12 +134,12 @@ class DefectsListDock(QDockWidget, FORM_CLASS):
         for element in self._gui_elements:
             element.setEnabled(enable)
         self.unfinished_fields_combo.setEnabled(
-                self.unfinished_only_check.isChecked())
+            self.unfinished_only_check.isChecked())
 
     def _refresh_unfinished_only_gui(self):
         # get al boolean fields
         fields = [f.name() for f
-                  in self.layer.pendingFields()
+                  in self.layer.fields()
                   if f.typeName() == 'bool']
 
         fields_available = len(fields) > 0
@@ -166,15 +173,13 @@ class DefectsListDock(QDockWidget, FORM_CLASS):
                                    updateFeatureOnly=False,
                                    showModal=True)
 
-    @pyqtSlot()
-    def on_next_button_clicked(self):
+    def next_button_clicked(self):
         row = self.defects_list.currentRow() + 1
         if row == self.defects_list.rowCount():
             row = 0
         self.defects_list.setCurrentCell(row, 0)
 
-    @pyqtSlot()
-    def on_previous_button_clicked(self):
+    def previous_button_clicked(self):
         row = self.defects_list.currentRow()
         if row > 0:
             row -= 1
@@ -182,33 +187,28 @@ class DefectsListDock(QDockWidget, FORM_CLASS):
             row = self.defects_list.rowCount() - 1
         self.defects_list.setCurrentCell(row, 0)
 
-    @pyqtSlot(QTableWidgetItem, QTableWidgetItem)
-    def on_defects_list_currentItemChanged(self, current_item, previous_item):
+    def defects_list_currentItemChanged(self, current_item, previous_item):
         if self.layer is None or current_item is None:
             return
         if previous_item is None or current_item.row() != previous_item.row():
             fid = current_item.data(Qt.UserRole)
             self._zoom_to_feature(fid)
 
-    @pyqtSlot(int)
-    def on_layers_combo_currentIndexChanged(self, index):
+    def layers_combo_currentIndexChanged(self, index):
         self.layer = self.layers_combo.itemData(index)
         self._layer_changed()
 
-    @pyqtSlot(int)
-    def on_unfinished_fields_combo_currentIndexChanged(self, _):
+    def unfinished_fields_combo_currentIndexChanged(self, _):
         self._refresh_defects_list()
 
-    @pyqtSlot(bool)
-    def on_unfinished_only_check_toggled(self, state):
+    def unfinished_only_check_toggled(self, state):
         self.unfinished_fields_combo.setEnabled(state)
         self._refresh_defects_list()
 
-    @pyqtSlot()
-    def on_columns_choice_button_clicked(self):
+    def columns_choice_button_clicked(self):
         """Open the dialog to set the visibility of the fields in the table
         """
-        
+
         self.defects_list_columns_choice_dialog = DefectsListColumnsChoice(
             self.layer, self)
         self.defects_list_columns_choice_dialog.setVisible(True)

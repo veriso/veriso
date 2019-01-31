@@ -1,6 +1,5 @@
 # coding=utf-8
-from qgis.core import QgsMessageLog
-from qgis.gui import QgsMessageBar
+from qgis.core import QgsMessageLog, Qgis
 import traceback
 
 
@@ -29,9 +28,9 @@ class VerisoError(Exception):
 
         if self.exception is not None:
             log_message += "\n\n %s" % str(traceback.format_exc())
-            #traceback.print_exc()
+            # traceback.print_exc()
 
-        QgsMessageLog.logMessage(log_message, tag, QgsMessageLog.CRITICAL)
+        QgsMessageLog.logMessage(log_message, tag, Qgis.Critical)
 
 
 class VerisoErrorWithBar(VerisoError):
@@ -50,7 +49,6 @@ class VerisoErrorWithBar(VerisoError):
 
         # Call the base class constructor with the parameters it needs
         super(VerisoError, self).__init__(
-                message, exception, long_message, tag)
+            message, exception, long_message, tag)
 
-        bar.pushMessage("Error", message, QgsMessageBar.CRITICAL, duration=0)
-
+        bar.pushMessage("Error", message, Qgis.Critical, duration=0)

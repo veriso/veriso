@@ -1,12 +1,11 @@
+import json
+import yaml
+import os
 import shutil
 
 old_module_dir = '/home/marco/dev/QGIS/plugins/veriso/modules/veriso_dm01'
 
 # end config
-
-import simplejson as json
-import yaml
-import os
 
 
 checks_dir = os.path.join(old_module_dir, 'checks')
@@ -65,5 +64,5 @@ for topic in checks_file['checks']:
         except KeyError:
             if check['name'] == 'separator':
                 dest = os.path.join(
-                        dest_dir_path, last_file_name + '_separator')
+                    dest_dir_path, last_file_name + '_separator')
                 create_empty_file(dest)

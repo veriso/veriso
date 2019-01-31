@@ -1,7 +1,6 @@
 # coding=utf-8
 
 from qgis.PyQt.QtCore import QObject, QSettings
-from qgis.PyQt.QtWidgets import QApplication
 from qgis.core import QgsProject
 
 from veriso.base.utils.loadlayer import LoadLayer
@@ -79,8 +78,4 @@ class ComplexCheckBase(QObject):
         raise NotImplementedError()
 
     def tr(self, context, text, disambig):
-        try:
-            _encoding = QApplication.UnicodeUTF8
-            return tr(context, text, disambig, _encoding)
-        except AttributeError:
-            return tr(context, text, disambig)
+        return tr(context, text, disambig)

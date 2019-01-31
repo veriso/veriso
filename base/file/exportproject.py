@@ -1,19 +1,15 @@
 # coding=utf-8
-from __future__ import absolute_import
 
-import os, sys
-import shutil
-from builtins import str
-from qgis.PyQt.QtCore import Qt, pyqtSignal, QSettings, pyqtSignature, QFileInfo, \
-    QProcess
-from qgis.PyQt.QtSql import QSqlQuery
+import os
+import sys
+from qgis.PyQt.QtCore import Qt, pyqtSignal, QSettings,\
+    QFileInfo, QProcess
 from qgis.PyQt.QtWidgets import QApplication, QDialog, QDialogButtonBox, \
     QFileDialog
-from qgis.gui import QgsMessageBar
-from qgis.core import QgsApplication, QgsMessageLog
+from qgis.core import QgsMessageLog, Qgis
 
-from veriso.base.utils.utils import open_psql_db, get_projects_db, \
-    get_projects, tr, get_ui_class, jre_version, win_which
+from veriso.base.utils.utils import get_projects, tr, get_ui_class, \
+    jre_version, win_which
 from veriso.base.utils.exceptions import VerisoError
 
 FORM_CLASS = get_ui_class('exportproject.ui')
@@ -51,6 +47,9 @@ class ExportProjectDialog(QDialog, FORM_CLASS):
         self.db_user = None
         self.db_pwd = None
 
+        self.btnBrowseOutputFile.clicked.connect(
+            self.btnBrowseOutputFile_clicked)
+
     def init_gui(self):
         projects = get_projects()
 
@@ -72,14 +71,13 @@ class ExportProjectDialog(QDialog, FORM_CLASS):
         return True
 
     # noinspection PyPep8Naming,PyPep8Naming
-    @pyqtSignature("on_btnBrowseOutputFile_clicked()")
-    def on_btnBrowseInputFile_clicked(self):
+    def btnBrowseOutputFile_clicked(self):
         file_path = QFileDialog.getSaveFileName(
             self,
             tr("Choose interlis transfer file"),
             "",
-            #self.input_itf_path,
-            "ITF (*.itf *.ITF)")
+            # self.input_itf_path,
+            "ITF (*.itf *.ITF)")[0]
         file_info = QFileInfo(file_path)
         self.lineEditOutputFile.setText(file_info.absoluteFilePath())
 
@@ -89,7 +87,7 @@ class ExportProjectDialog(QDialog, FORM_CLASS):
         """
         # Save the settings.
         self.settings.value("file/export/output_itf_path",
-                               self.lineEditOutputFile.text())
+                            self.lineEditOutputFile.text())
 
         # Gather all data/information for ili2pg arguments.
         self.itf = self.lineEditOutputFile.text().strip()
@@ -120,14 +118,14 @@ class ExportProjectDialog(QDialog, FORM_CLASS):
                 break
             i += 1
 
-        import_vm_arguments = self.settings.value("options/import/vm_arguments", "")
+        import_vm_arguments = self.settings.value(
+            "options/import/vm_arguments", "")
 
         # Check if we have everything we need.
         if self.itf == "":
             self.message_bar.pushWarning("VeriSO",
-                                         tr(
-                                                 "No Interlis transfer file "
-                                                 "set."))
+                                         tr("No Interlis transfer file "
+                                            "set."))
             return
 
         if self.ili == "":
@@ -143,54 +141,48 @@ class ExportProjectDialog(QDialog, FORM_CLASS):
 
         if self.app_module == "":
             self.message_bar.pushWarning("VeriSO",
-                                         tr(
-                                                 "No application module "
-                                                 "set."))
+                                         tr("No application module "
+                                            "set."))
             return
 
         if not self.db_host:
             self.message_bar.pushWarning("VeriSO",
-                                         tr(
-                                                 "Missing database host "
-                                                 "parameter."))
+                                         tr("Missing database host "
+                                            "parameter."))
             return
 
         if not self.db_name:
             self.message_bar.pushWarning("VeriSO",
-                                         tr(
-                                                 "Missing database name "
-                                                 "parameter."))
+                                         tr("Missing database name "
+                                            "parameter."))
             return
 
         if not self.db_port:
             self.message_bar.pushWarning("VeriSO",
-                                         tr(
-                                                 "Missing database port "
-                                                 "parameter."))
+                                         tr("Missing database port "
+                                            "parameter."))
             return
 
         if not self.db_user:
             self.message_bar.pushWarning("VeriSO",
-                                         tr(
-                                                 "Missing database user "
-                                                 "parameter."))
+                                         tr("Missing database user "
+                                            "parameter."))
             return
 
         if not self.db_pwd:
             self.message_bar.pushWarning("VeriSO",
-                                         tr(
-                                                 "Missing database password "
-                                                 "parameter."))
+                                         tr("Missing database password "
+                                            "parameter."))
             return
 
         if not self.db_admin:
             self.message_bar.pushWarning("VeriSO", tr(
-                    "Missing database administrator parameter."))
+                "Missing database administrator parameter."))
             return
 
         if not self.db_admin_pwd:
             self.message_bar.pushWarning("VeriSO", tr(
-                    "Missing database administrator password parameter."))
+                "Missing database administrator password parameter."))
             return
 
         if jre_version() is None:
@@ -229,7 +221,7 @@ class ExportProjectDialog(QDialog, FORM_CLASS):
         arguments.append(self.db_admin_pwd)
         arguments.append("--modeldir")
         model_dir = ';'.join(self.settings.value(
-                "options/model_repositories/repositories"))
+            "options/model_repositories/repositories"))
         arguments.append(model_dir)
         arguments.append("--models")
         arguments.append(self.ili)
@@ -250,7 +242,7 @@ class ExportProjectDialog(QDialog, FORM_CLASS):
         self.report_progress("Info: java %s" % ' '.join(arguments))
 
         try:
-            if(sys.platform =='win32'):
+            if(sys.platform == 'win32'):
                 j = win_which('java.exe')
                 self.process.start(j, arguments)
             else:
@@ -259,8 +251,9 @@ class ExportProjectDialog(QDialog, FORM_CLASS):
             self.restore_cursor()
             message = "Could not start export process."
             self.message_bar.pushMessage("VeriSO", tr(message),
-                                         QgsMessageBar.CRITICAL, duration=0)
-            QgsMessageLog.logMessage(str(e), "VeriSO", QgsMessageLog.CRITICAL)
+                                         Qgis.Critical, duration=0)
+            QgsMessageLog.logMessage(str(e), tag="VeriSO",
+                                     level=Qgis.Critical)
 
     def read_output(self):
         output = self.process.readAllStandardOutput()
@@ -289,7 +282,7 @@ class ExportProjectDialog(QDialog, FORM_CLASS):
 
         except VerisoError as e:
             self.message_bar.pushMessage("VeriSO", tr(str(e)),
-                                         QgsMessageBar.CRITICAL, duration=0)
+                                         Qgis.Critical, duration=0)
             return
         finally:
             self.restore_cursor()
@@ -327,10 +320,10 @@ class ExportProjectDialog(QDialog, FORM_CLASS):
 
         if color is not None:
             self.textEditExportOutput.appendHtml(
-                    "<span style='color:%s'>%s</span>" % (color, text))
+                "<span style='color:%s'>%s</span>" % (color, text))
         else:
             self.textEditExportOutput.appendPlainText(
-                    "%s\n" % text.rstrip("\n "))
+                "%s\n" % text.rstrip("\n "))
         self.textEditExportOutput.ensureCursorVisible()
 
     def restore_cursor(self):

@@ -1,13 +1,11 @@
 # -*- coding: utf-8 -*-
 
-from __future__ import absolute_import
-
 import os
 
 from qgis.PyQt.QtCore import (
-    QFileInfo, QRegExp, QSettings, pyqtSignal, pyqtSignature, QPyNullVariant)
-from qgis.PyQt.QtGui import QRegExpValidator, QInputDialog, QLineEdit
-from qgis.PyQt.QtWidgets import QDialog, QDialogButtonBox, QFileDialog, QWidget
+    QFileInfo, QRegExp, QSettings, pyqtSignal)
+from qgis.PyQt.QtGui import QRegExpValidator
+from qgis.PyQt.QtWidgets import QDialog, QDialogButtonBox, QFileDialog, QWidget, QInputDialog, QLineEdit
 
 from veriso.base.utils.utils import open_psql_db, get_projects_db, tr, \
     get_ui_class
@@ -31,25 +29,41 @@ class OptionsDialog(QDialog, FORM_CLASS):
 
         self.settings = QSettings("CatAIS", "VeriSO")
         self.projects_database = self.settings.value(
-                "options/general/projects_database")
-        if type(self.projects_database) != QPyNullVariant:
+            "options/general/projects_database")
+        if self.projects_database is not None:
             self.projects_database_path = QFileInfo(
                 self.projects_database).absolutePath()
         self.projects_root_directory = self.settings.value(
-                "options/general/projects_root_directory")
+            "options/general/projects_root_directory")
         self.import_jar = self.settings.value("options/import/jar")
         self.import_jar_path = QFileInfo(self.import_jar).absolutePath()
+
+        self.btnBrowseImportJar.clicked.connect(self.btnBrowseImportJar_clicked)
+        self.btnBrowseProjectsDatabase.clicked.connect(
+            self.btnBrowseProjectsDatabase_clicked)
+        self.btnBrowseProjectsRootDir.clicked.connect(
+            self.btnBrowseProjectsRootDir_clicked)
+        self.btnTestProjectDB.clicked.connect(self.btnTestProjectDB_clicked)
+        self.btnTestConnection.clicked.connect(self.btnTestConnection_clicked)
+        self.listWidgetModelRepos.itemSelectionChanged.connect(
+            self.listWidgetModelRepos_itemSelectionChanged)
+        self.btnDeleteModelRepo.clicked.connect(
+            self.btnDeleteModelRepo_clicked)
+        self.btnAddModelRepo.clicked.connect(self.btnAddModelRepo_clicked)
+        self.btnAddLocalModelRepo.clicked.connect(
+            self.btnAddLocalModelRepo_clicked)
+        self.btnEditModelRepo.clicked.connect(self.btnEditModelRepo_clicked)
 
     # noinspection PyPep8Naming
     def init_gui(self):
         self.lineEditDbPort.setValidator(
-                QRegExpValidator(QRegExp("[0-9]+"), self.lineEditDbPort))
+            QRegExpValidator(QRegExp("[0-9]+"), self.lineEditDbPort))
 
-        if type(self.projects_database) != QPyNullVariant:
+        if self.projects_database is not None:
             self.lineEditProjectsDatabase.setText(
                 self.settings.value("options/general/projects_database"))
         self.lineEditProjectsRootDir.setText(
-                self.settings.value("options/general/projects_root_directory"))
+            self.settings.value("options/general/projects_root_directory"))
 
         self.lineEditImportJar.setText(
             self.settings.value("options/import/jar"))
@@ -58,18 +72,18 @@ class OptionsDialog(QDialog, FORM_CLASS):
             "options/general/use_pg_projects_database", False, type=bool))
 
         self.chkTopicsTablesMenu.setChecked(self.settings.value(
-                "options/general/topics_tables_menu", False, type=bool))
+            "options/general/topics_tables_menu", False, type=bool))
 
         self.chkIgnoreIli2pgErrors.setChecked(self.settings.value(
             "options/import/ignore_ili2pg_errors", False, type=bool))
 
         self.chkIgnorePostprocessingErrors.setChecked(self.settings.value(
-                "options/import/ignore_postprocessing_errors", False, type=bool))
+            "options/import/ignore_postprocessing_errors", False, type=bool))
 
         vm_arguments = self.settings.value("options/import/vm_arguments")
         if vm_arguments == "" or not vm_arguments or vm_arguments is None:
             self.plainTextEditImportVMArguments.insertPlainText(
-                    "-Xms128m -Xmx1024m")
+                "-Xms128m -Xmx1024m")
         else:
             self.plainTextEditImportVMArguments.insertPlainText(vm_arguments)
 
@@ -81,22 +95,22 @@ class OptionsDialog(QDialog, FORM_CLASS):
         self.lineEditDbAdmin.setText("")
         self.lineEditDbAdminPwd.setText("")
 
-        if self.settings.value("options/db/host") != QPyNullVariant:
+        if self.settings.value("options/db/host") is not None:
             self.lineEditDbHost.setText(self.settings.value("options/db/host"))
-        if self.settings.value("options/db/name") != QPyNullVariant:
+        if self.settings.value("options/db/name") is not None:
             self.lineEditDbDatabase.setText(
                 self.settings.value("options/db/name"))
-        if self.settings.value("options/db/port") != QPyNullVariant:
+        if self.settings.value("options/db/port") is not None:
             self.lineEditDbPort.setText(self.settings.value("options/db/port"))
-        if self.settings.value("options/db/user") != QPyNullVariant:
+        if self.settings.value("options/db/user") is not None:
             self.lineEditDbUser.setText(self.settings.value("options/db/user"))
-        if self.settings.value("options/db/pwd") != QPyNullVariant:
+        if self.settings.value("options/db/pwd") is not None:
             self.lineEditDbUserPwd.setText(
                 self.settings.value("options/db/pwd"))
-        if self.settings.value("options/db/admin") != QPyNullVariant:
+        if self.settings.value("options/db/admin") is not None:
             self.lineEditDbAdmin.setText(
                 self.settings.value("options/db/admin"))
-        if self.settings.value("options/db/adminpwd") != QPyNullVariant:
+        if self.settings.value("options/db/adminpwd") is not None:
             self.lineEditDbAdminPwd.setText(
                 self.settings.value("options/db/adminpwd"))
 
@@ -105,7 +119,7 @@ class OptionsDialog(QDialog, FORM_CLASS):
                         'http://models.geo.ti.ch/']
 
         self.listWidgetModelRepos.insertItems(0, self.settings.value(
-                "options/model_repositories/repositories", default_repo))
+            "options/model_repositories/repositories", default_repo))
 
         QWidget.setTabOrder(self.lineEditDbHost, self.lineEditDbDatabase)
         QWidget.setTabOrder(self.lineEditDbDatabase, self.lineEditDbPort)
@@ -114,52 +128,46 @@ class OptionsDialog(QDialog, FORM_CLASS):
         QWidget.setTabOrder(self.lineEditDbUserPwd, self.lineEditDbAdmin)
         QWidget.setTabOrder(self.lineEditDbAdmin, self.lineEditDbAdminPwd)
 
-    @pyqtSignature("on_btnBrowseImportJar_clicked()")
-    def on_btnBrowseImportJar_clicked(self):
+    def btnBrowseImportJar_clicked(self):
         file_path = QFileDialog.getOpenFileName(
             self, tr("Open import jar file"), self.import_jar_path,
-            "jar (*.jar *.JAR)")
+            "jar (*.jar *.JAR)")[0]
         file_info = QFileInfo(file_path)
 
         self.lineEditImportJar.setText(file_info.absoluteFilePath())
 
-    @pyqtSignature("on_btnBrowseProjectsDatabase_clicked()")
-    def on_btnBrowseProjectsDatabase_clicked(self):
+    def btnBrowseProjectsDatabase_clicked(self):
         file_path = QFileDialog.getOpenFileName(self, tr(
-                "Choose projects definitions database"),
-                                                self.projects_database_path,
-                                                "SQLite (*.sqlite *.db *.DB)")
+            "Choose projects definitions database"),
+            self.projects_database_path,
+            "SQLite (*.sqlite *.db *.DB)")[0]
         file_info = QFileInfo(file_path)
         self.lineEditProjectsDatabase.setText(file_info.absoluteFilePath())
 
-    @pyqtSignature("on_btnBrowseProjectsRootDir_clicked()")
-    def on_btnBrowseProjectsRootDir_clicked(self):
+    def btnBrowseProjectsRootDir_clicked(self):
         dir_path = QFileDialog.getExistingDirectory(self, tr(
-                "Choose projects root directory"), self.projects_root_directory)
+            "Choose projects root directory"), self.projects_root_directory)
         dir_info = QFileInfo(dir_path)
         self.lineEditProjectsRootDir.setText(dir_info.absoluteFilePath())
 
     def test_connection_succes(self):
         self.message_bar.pushSuccess(
-                "Success", "Test connection successful")
+            "Success", "Test connection successful")
 
     def test_connection_failed(self, e):
         self.message_bar.pushCritical(
-                "Error", "Test connection failed: " + str(e))
+            "Error", "Test connection failed: " + str(e))
 
-    @pyqtSignature("on_btnTestProjectDB_clicked()")
-    def on_btnTestProjectDB_clicked(self):
+    def btnTestProjectDB_clicked(self):
         try:
             current_path = self.lineEditProjectsDatabase.text()
             db = get_projects_db(current_path)
             db.close()
+            self.test_connection_succes()
         except Exception as e:
             self.test_connection_failed(e)
-        else:
-            self.test_connection_succes()
 
-    @pyqtSignature("on_btnTestConnection_clicked()")
-    def on_btnTestConnection_clicked(self):
+    def btnTestConnection_clicked(self):
         try:
             db = open_psql_db(self.lineEditDbHost.text(),
                               self.lineEditDbDatabase.text(),
@@ -178,57 +186,52 @@ class OptionsDialog(QDialog, FORM_CLASS):
         else:
             self.test_connection_succes()
 
-    @pyqtSignature("on_listWidgetModelRepos_itemSelectionChanged()")
-    def on_listWidgetModelRepos_itemSelectionChanged(self):
+    def listWidgetModelRepos_itemSelectionChanged(self):
         has_selected = bool(self.listWidgetModelRepos.selectedItems())
         self.btnDeleteModelRepo.setEnabled(has_selected)
         self.btnEditModelRepo.setEnabled(has_selected)
 
-    @pyqtSignature("on_btnDeleteModelRepo_clicked()")
-    def on_btnDeleteModelRepo_clicked(self):
+    def btnDeleteModelRepo_clicked(self):
         for item in self.listWidgetModelRepos.selectedItems():
             self.listWidgetModelRepos.takeItem(
-                    self.listWidgetModelRepos.row(item))
+                self.listWidgetModelRepos.row(item))
 
     def ask_url(self, default_text=None):
         text, ok = QInputDialog.getText(
-                self,
-                tr("Add new model repository"),
-                tr("Repository URL:"),
-                QLineEdit.Normal,
-                default_text
-        )
+            self,
+            tr("Add new model repository"),
+            tr("Repository URL:"),
+            QLineEdit.Normal,
+            default_text)
         return text, ok
 
-    @pyqtSignature("on_btnAddModelRepo_clicked()")
-    def on_btnAddModelRepo_clicked(self):
+    def btnAddModelRepo_clicked(self):
         text, ok = self.ask_url()
         if ok and text:
             self.listWidgetModelRepos.addItem(text)
 
-    @pyqtSignature("on_btnAddLocalModelRepo_clicked()")
-    def on_btnAddLocalModelRepo_clicked(self):
+    def btnAddLocalModelRepo_clicked(self):
         path = QFileDialog.getExistingDirectory(
-                self, tr("Open Directory"),
-                os.path.expanduser("~"),
-                QFileDialog.ShowDirsOnly | QFileDialog.DontResolveSymlinks)
+            self, tr("Open Directory"),
+            os.path.expanduser("~"),
+            QFileDialog.ShowDirsOnly | QFileDialog.DontResolveSymlinks)
 
         if path:
             self.listWidgetModelRepos.addItem(path)
 
-    @pyqtSignature("on_btnEditModelRepo_clicked()")
-    def on_btnEditModelRepo_clicked(self):
+    def btnEditModelRepo_clicked(self):
         item = self.listWidgetModelRepos.currentItem()
         text, ok = self.ask_url(item.text())
         if ok and text:
             item.setText(text)
 
     def accept(self):
-        if type(self.projects_database) != QPyNullVariant:
-            self.settings.setValue("options/general/projects_database",
-                               self.lineEditProjectsDatabase.text().strip())
+        if self.projects_database is not None:
+            self.settings.setValue(
+                "options/general/projects_database",
+                self.lineEditProjectsDatabase.text().strip())
         else:
-            self.settings.setValue("options/general/projects_database","")
+            self.settings.setValue("options/general/projects_database", "")
 
         self.settings.setValue("options/general/projects_root_directory",
                                self.lineEditProjectsRootDir.text().strip())
@@ -249,10 +252,10 @@ class OptionsDialog(QDialog, FORM_CLASS):
 
         self.settings.setValue(
             "options/import/jar", self.lineEditImportJar.text().strip())
-        
+
         self.settings.setValue(
-                "options/import/vm_arguments",
-                self.plainTextEditImportVMArguments.toPlainText().strip())
+            "options/import/vm_arguments",
+            self.plainTextEditImportVMArguments.toPlainText().strip())
 
         self.settings.setValue("options/db/host", self.lineEditDbHost.text())
         self.settings.setValue("options/db/name",
@@ -265,8 +268,8 @@ class OptionsDialog(QDialog, FORM_CLASS):
                                self.lineEditDbAdminPwd.text())
 
         repos = []
-        for index in xrange(self.listWidgetModelRepos.count()):
+        for index in range(self.listWidgetModelRepos.count()):
             repos.append(self.listWidgetModelRepos.item(index).text())
-        self.settings.setValue("options/model_repositories/repositories", repos)
-
+        self.settings.setValue("options/model_repositories/repositories",
+                               repos)
         self.close()

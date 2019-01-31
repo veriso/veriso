@@ -1,12 +1,11 @@
 # coding=utf-8
 import os
-from builtins import range, str
 
 from qgis.PyQt.QtCore import QDir, QObject, QSettings
-from qgis.core import QgsDataSourceURI, QgsMessageLog, QgsVectorLayer
-from qgis.gui import QgsMessageBar
+from qgis.core import QgsDataSourceUri, QgsMessageLog, QgsVectorLayer
+from qgis.core import Qgis
 
-from qgis.PyQt.QtCore import QDateTime, QPyNullVariant
+from qgis.PyQt.QtCore import QDateTime
 from veriso.base.utils.utils import tr
 
 
@@ -23,7 +22,7 @@ class ExportDefects(QObject):
             import xlsxwriter
         except Exception as e:
             self.message_bar.pushMessage("Error", str(e),
-                                         level=QgsMessageBar.CRITICAL,
+                                         level=Qgis.Critical,
                                          duration=0)
             return
 
@@ -44,70 +43,69 @@ class ExportDefects(QObject):
 
             if not db_schema:
                 self.message_bar.pushCritical(
-                        "Error",
-                        self.tr("Missing database schema parameter."))
+                    "Error",
+                    self.tr("Missing database schema parameter."))
                 return
 
             if not db_host:
                 self.message_bar.pushCritical(
-                        "Error",
-                        self.tr("Missing database host parameter."))
+                    "Error",
+                    self.tr("Missing database host parameter."))
                 return
 
             if not db_name:
                 self.message_bar.pushCritical(
-                        "Error", self.tr("Missing database name parameter."))
+                    "Error", self.tr("Missing database name parameter."))
                 return
 
             if not db_port:
                 self.message_bar.pushCritical(
-                        "Error",
-                        self.tr("Missing database port parameter."))
+                    "Error",
+                    self.tr("Missing database port parameter."))
                 return
 
             if not db_user:
                 self.message_bar.pushCritical(
-                        "Error",
-                        self.tr("Missing database user parameter."))
+                    "Error",
+                    self.tr("Missing database user parameter."))
                 return
 
             if not db_pwd:
                 self.message_bar.pushCritical(
-                        "Error",
-                        self.tr("Missing database user password parameter."))
+                    "Error",
+                    self.tr("Missing database user password parameter."))
                 return
 
             if not provider:
                 self.message_bar.pushCritical(
-                        "Error",
-                        self.tr(
-                                "Missing provider parameter. Cannot load "
-                                "layer."))
+                    "Error",
+                    self.tr(
+                        "Missing provider parameter. Cannot load "
+                        "layer."))
                 return
 
             if not module_name:
                 self.message_bar.pushCritical(
-                        "Error",
-                        self.tr(
-                                "Missing module name parameter. Cannot load "
-                                "layer."))
+                    "Error",
+                    self.tr("Missing module name parameter. Cannot load "
+                            "layer."))
                 return
 
-            uri = QgsDataSourceURI()
+            uri = QgsDataSourceUri()
             uri.setConnection(db_host, db_port, db_name, db_user, db_pwd)
             uri.setDataSource(db_schema, "t_maengel_punkt", "the_geom", "",
                               "ogc_fid")
             vlayer_points = QgsVectorLayer(uri.uri(), "Maengel (Punkte)",
                                            "postgres")
 
-            uri = QgsDataSourceURI()
+            uri = QgsDataSourceUri()
             uri.setConnection(db_host, db_port, db_name, db_user, db_pwd)
             uri.setDataSource(db_schema, "t_maengel_linie", "the_geom", "",
                               "ogc_fid")
             vlayer_lines = QgsVectorLayer(uri.uri(), "Maengel (Linien)",
                                           "postgres")
 
-            uri = QgsDataSourceURI()
+            uri = QgsDataSourceUri()
             uri.setConnection(db_host, db_port, db_name, db_user, db_pwd)
             uri.setDataSource(db_schema, "t_maengel_polygon", "the_geom", "",
                               "ogc_fid")
@@ -119,7 +117,7 @@ class ExportDefects(QObject):
                                              tr("Could not load defects layer.",
                                                 self.tr_tag,
                                                 None),
-                                             level=QgsMessageBar.CRITICAL,
+                                             level=Qgis.Critical,
                                              duration=0)
                 return
 
@@ -128,7 +126,7 @@ class ExportDefects(QObject):
                                              tr("Could not load defects layer.",
                                                 self.tr_tag,
                                                 None),
-                                             level=QgsMessageBar.CRITICAL,
+                                             level=Qgis.Critical,
                                              duration=0)
                 return
 
@@ -137,7 +135,7 @@ class ExportDefects(QObject):
                                              tr("Could not load defects layer.",
                                                 self.tr_tag,
                                                 None),
-                                             level=QgsMessageBar.CRITICAL,
+                                             level=Qgis.Critical,
                                              duration=0)
                 return
 
@@ -145,15 +143,14 @@ class ExportDefects(QObject):
                     vlayer_lines.featureCount() == 0 and
                     vlayer_polygons.featureCount() == 0):
                 self.message_bar.pushInfo(
-                        "Information",
-                        tr(
-                                "Defects layer are empty.", self.tr_tag,
-                                None))
+                    "Information",
+                    tr("Defects layer are empty.", self.tr_tag,
+                        None))
                 return
 
             # Create excel file.
-            filename = QDir.convertSeparators(
-                    QDir.cleanPath(os.path.join(project_dir, "maengel.xlsx")))
+            filename = QDir.toNativeSeparators(
+                QDir.cleanPath(os.path.join(project_dir, "maengel.xlsx")))
 
             workbook = xlsxwriter.Workbook(filename)
             fmt_bold = workbook.add_format({'bold': True})
@@ -165,8 +162,8 @@ class ExportDefects(QObject):
 
             # Create the worksheet for the points defects.
             worksheet_points = workbook.add_worksheet(
-                    tr(u'Mängelliste (Punkte)', self.tr_tag,
-                       None))
+                tr(u'Mängelliste (Punkte)', self.tr_tag,
+                   None))
             worksheet_points.set_paper(9)
             worksheet_points.set_portrait()
 
@@ -215,8 +212,6 @@ class ExportDefects(QObject):
                         # <class 'PyQt4.QtCore.QDateTime'> in write()
                         fmt = fmt_date
                         attr = attr.toPyDateTime()
-                    elif type(attr) == QPyNullVariant:
-                        attr = None
                     worksheet_points.write(5 + j, k, attr, fmt)
                     k += 1
 
@@ -227,8 +222,8 @@ class ExportDefects(QObject):
 
             # Create the worksheet for the line defects.
             worksheet_lines = workbook.add_worksheet(
-                    tr(u'Mängelliste (Linien)', self.tr_tag,
-                       None))
+                tr(u'Mängelliste (Linien)', self.tr_tag,
+                   None))
             worksheet_lines.set_paper(9)
             worksheet_lines.set_portrait()
 
@@ -278,8 +273,6 @@ class ExportDefects(QObject):
                         # <class 'PyQt4.QtCore.QDateTime'> in write()
                         fmt = fmt_date
                         attr = attr.toPyDateTime()
-                    elif type(attr) == QPyNullVariant:
-                        attr = None
                     worksheet_lines.write(5 + j, k, attr, fmt)
                     k += 1
 
@@ -291,8 +284,8 @@ class ExportDefects(QObject):
 
             # Create the worksheet for the polygon defects.
             worksheet_polygons = workbook.add_worksheet(
-                    tr(u'Mängelliste (Polygone)', self.tr_tag,
-                       None))
+                tr(u'Mängelliste (Polygone)', self.tr_tag,
+                   None))
             worksheet_polygons.set_paper(9)
             worksheet_polygons.set_portrait()
 
@@ -346,8 +339,6 @@ class ExportDefects(QObject):
                         # <class 'PyQt4.QtCore.QDateTime'> in write()
                         fmt = fmt_date
                         attr = attr.toPyDateTime()
-                    elif type(attr) == QPyNullVariant:
-                        attr = None
                     worksheet_polygons.write(5 + j, k, attr, fmt)
                     k += 1
 
@@ -364,17 +355,15 @@ class ExportDefects(QObject):
             workbook.close()
 
             self.message_bar.pushInfo("Information",
-                                      tr(
-                                              "Defect(s) written: ",
-                                              self.tr_tag,
-                                              None) + str(
-                                              filename))
+                                      tr("Defect(s) written: ",
+                                         self.tr_tag,
+                                          None) + str(
+                                          filename))
         except Exception as e:
             message = "Error while writing defects file."
             self.message_bar.pushMessage("Error",
-                                         tr(
-                                                 self.tr_tag, message, None),
-                                         level=QgsMessageBar.CRITICAL,
+                                         tr(self.tr_tag, message, None),
+                                         level=Qgis.Critical,
                                          duration=0)
-            QgsMessageLog.logMessage(str(e), "VeriSO", QgsMessageLog.CRITICAL)
+            QgsMessageLog.logMessage(str(e), "VeriSO", Qgis.Critical)
             return

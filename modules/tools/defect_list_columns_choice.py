@@ -1,14 +1,9 @@
 # coding=utf-8
 
-from __future__ import absolute_import, print_function
-
 import unicodedata
 
-from builtins import next, range, str
-
-from qgis.PyQt.QtCore import Qt
-from qgis.PyQt.QtGui import QTableWidgetItem, QDialog, QCheckBox
-from PyQt4.QtCore import QSettings
+from qgis.PyQt.QtCore import Qt, QSettings
+from qgis.PyQt.QtWidgets import QTableWidgetItem, QDialog, QCheckBox
 
 from veriso.base.utils.utils import (get_ui_class)
 
@@ -33,7 +28,7 @@ class DefectsListColumnsChoice(QDialog, FORM_CLASS):
 
         self.layer = defects_layer
         self.defects_list_dock = defects_list_dock
-        
+
         self.setWindowTitle(self.layer.name())
 
         # Normalize the layer name to ascii, to be used as part of the
@@ -58,7 +53,7 @@ class DefectsListColumnsChoice(QDialog, FORM_CLASS):
         excluded_fields = self._get_excluded_columns_list()
 
         row = 0
-        for field in self.layer.pendingFields():
+        for field in self.layer.fields():
             self.columns_table.insertRow(row)
 
             cb = QCheckBox()
@@ -82,7 +77,8 @@ class DefectsListColumnsChoice(QDialog, FORM_CLASS):
         :return list: a list with the excluded field names"""
 
         excluded_fields = self.settings.value(
-            'defect_list/excluded_fields_{}'.format(self.layer_name_normalized))
+            'defect_list/excluded_fields_{}'.format(
+                self.layer_name_normalized))
 
         if not excluded_fields:
             excluded_fields = []
@@ -101,7 +97,8 @@ class DefectsListColumnsChoice(QDialog, FORM_CLASS):
                 excluded_fields.append(self.columns_table.item(i, 1).text())
 
         self.settings.setValue(
-            'defect_list/excluded_fields_{}'.format(self.layer_name_normalized),
+            'defect_list/excluded_fields_{}'.format(
+                self.layer_name_normalized),
             excluded_fields)
 
         self.defects_list_dock._refresh_defects_list()
