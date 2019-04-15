@@ -161,7 +161,7 @@ class DefectsListDock(QDockWidget, FORM_CLASS):
 
     def _zoom_to_feature(self, fid):
         request = QgsFeatureRequest(fid)
-        feature = self.layer.getFeatures(request).next()
+        feature = next(self.layer.getFeatures(request))
 
         self.layer.setSelectedFeatures([fid])
 
