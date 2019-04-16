@@ -180,12 +180,11 @@ def get_check_topics(module_name):
     try:
         locale = QSettings().value('locale/userLocale')[0:2]
     except TypeError:
-        locale = 'en'
+        locale = 'de'
     try:
         topics = OrderedDict()
-        # In Python3 OrderedDict can't be compared with another OrderedDict
-        # checks = sorted(checks,
-        #                 key=lambda k: k['topic'])
+        checks = sorted(checks,
+                        key=lambda k: k['topic'][locale])
         for check in checks:
             topic = check["topic"]
             topic_dir = check["topic_dir"]
