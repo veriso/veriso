@@ -249,6 +249,11 @@ def get_checks_from_files(module_name, topic_dir, modules_dir=None):
     # files = sorted(files, key=lambda item: (
     #    int(item.partition(' ')[0]) if item[0].isdigit() else float('inf'),
     #    item))
+    try:
+        locale = QSettings().value('locale/userLocale')[0:2]
+    except TypeError:
+        locale = 'de'
+
     for f in files:
         check = {}
         if f.endswith(".py") and f != '__init__.py':
@@ -266,7 +271,7 @@ def get_checks_from_files(module_name, topic_dir, modules_dir=None):
                     # let's see if there is a yaml file as our last resort
                     yaml_path = os.path.join(path, filename + '.yml')
                     check['name'], check['shortcut'] = get_info_from_yaml(
-                            yaml_path)
+                        yaml_path)
 
                 # if we made it to here, it's all good
                 checks.append(check)
@@ -275,9 +280,7 @@ def get_checks_from_files(module_name, topic_dir, modules_dir=None):
         elif f.endswith('_separator'):
             check['name'] = 'separator'
             # checks.append(check)
-
-    # In Python3 OrderedDict can't be compared with another OrderedDict
-    # checks = sorted(checks, key=lambda k: k['name'])
+    checks = sorted(checks, key=lambda k: k["name"][locale])
     return checks
 
 
