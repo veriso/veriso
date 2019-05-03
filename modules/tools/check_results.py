@@ -60,7 +60,7 @@ class CheckResultsDock(QDockWidget, FORM_CLASS):
                     u'"ogc_fid" in ({})'.format(
                         ', '.join(id_list))))
             # select the wrong features
-            layer.setSelectedFeatures([f.id() for f in features_it])
+            layer.selectByIds([f.id() for f in features_it])
 
             # set visible only the layers with wrong features
             if layer.selectedFeatureCount():

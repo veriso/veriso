@@ -163,7 +163,7 @@ class DefectsListDock(QDockWidget, FORM_CLASS):
         request = QgsFeatureRequest(fid)
         feature = next(self.layer.getFeatures(request))
 
-        self.layer.setSelectedFeatures([fid])
+        self.layer.selectByIds([fid])
 
         self.iface.mapCanvas().zoomToSelected(self.layer)
         self.iface.mapCanvas().refresh()
