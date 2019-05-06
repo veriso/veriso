@@ -76,6 +76,7 @@ class ImportDefectsDialog(QDialog, FORM_CLASS):
     def import_shp(self, shp):
         shp = self.lineEditDefectsFile.text().strip()
         lr = QgsProject.instance()
+        error = False
 
         tmp_layer = self.iface.addVectorLayer(shp, 'tmp_imported_shp', 'ogr')
         self.application_module.do_load_defects_wrapper()
@@ -86,11 +87,19 @@ class ImportDefectsDialog(QDialog, FORM_CLASS):
 
         for feat in tmp_layer.getFeatures():
             feat.setAttribute('ogc_fid', None)
-
-            with edit(defect_layers[tmp_layer.geometryType()]):
-                defect_layers[tmp_layer.geometryType()].addFeature(feat)
+            try:
+                with edit(defect_layers[tmp_layer.geometryType()]):
+                    defect_layers[tmp_layer.geometryType()].addFeature(feat)
+            except:
+                error = True
+                continue
 
         QgsProject.instance().removeMapLayers([tmp_layer.id()])
+
+        if error:
+            self.iface.messageBar().pushCritical(
+                "VeriSo", "Not all features could be imported from Shapefile")
+            return
 
         self.iface.messageBar().pushInfo(
             "VeriSo", "Defects imported from Shapefile")
