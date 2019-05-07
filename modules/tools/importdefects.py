@@ -178,7 +178,7 @@ class ImportDefectsDialog(QDialog, FORM_CLASS):
         for i in rows_list:
             query += '('
             for j in range(1, 12):
-                if not i[j]:
+                if not i[j] or i[j] == 'NULL':
                     query += 'NULL,'
                 else:
                     query += '\''
