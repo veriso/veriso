@@ -154,8 +154,9 @@ class ExportDefectsShp(QObject):
             QDir.cleanPath(os.path.join(project_dir, shp_filename)))
 
         error = QgsVectorFileWriter.writeAsVectorFormat(
-            layer, filename, None, None, "ESRI Shapefile")
-        if error == QgsVectorFileWriter.NoError:
+            layer, filename, layer.dataProvider().encoding(),
+            driverName="ESRI Shapefile")
+        if error[0] == QgsVectorFileWriter.NoError:
             self.message_bar.pushInfo("Information",
                                       tr(
                                           "Defect(s) written: ",
