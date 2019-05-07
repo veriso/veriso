@@ -212,12 +212,12 @@ class ExportDefects(QObject):
                         # <class 'PyQt4.QtCore.QDateTime'> in write()
                         fmt = fmt_date
                         attr = attr.toPyDateTime()
-                    worksheet_points.write(5 + j, k, attr, fmt)
+                    worksheet_points.write(5 + j, k, str(attr), fmt)
                     k += 1
 
                 worksheet_points.write(5 + j, k, point.x(), fmt_3dec)
                 worksheet_points.write(5 + j, k + 1, point.y(), fmt_3dec)
-                worksheet_points.write(5 + j, k + 2, geom.exportToWkt())
+                worksheet_points.write(5 + j, k + 2, geom.asWkt())
                 j += 1
 
             # Create the worksheet for the line defects.
@@ -279,7 +279,7 @@ class ExportDefects(QObject):
                 worksheet_lines.write(5 + j, k, point.x(), fmt_3dec)
                 worksheet_lines.write(5 + j, k + 1, point.y(), fmt_3dec)
                 worksheet_lines.write(5 + j, k + 2, geom.length(), fmt_2dec)
-                worksheet_lines.write(5 + j, k + 3, geom.exportToWkt())
+                worksheet_lines.write(5 + j, k + 3, geom.asWkt())
                 j += 1
 
             # Create the worksheet for the polygon defects.
@@ -348,7 +348,7 @@ class ExportDefects(QObject):
                                          fmt_2dec)
                 worksheet_polygons.write(5 + j, k + 3, geom.length(),
                                          fmt_2dec)
-                worksheet_polygons.write(5 + j, k + 4, geom.exportToWkt())
+                worksheet_polygons.write(5 + j, k + 4, geom.asWkt())
                 j += 1
 
             # Close excel file.
