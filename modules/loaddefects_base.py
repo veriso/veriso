@@ -154,57 +154,15 @@ class LoadDefectsBase(QObject):
                     loaded_layer.setFieldAlias(
                         idx, tr(field['alias'], self.tr_tag, None))
                 if 'default' in field:
-                    try:
-                        default = QgsDefaultValue(field['default'])
-                        loaded_layer.setDefaultValueDefinition(
-                            idx, default)
-                    except AttributeError:
-                        if field['widget'] in widget_type_map:
-                            widget = field['widget']
-                            try:
-                                multiline = field['config']['IsMultiline']
-                            except KeyError:
-                                multiline = False
-                            if multiline:
-                                widget = 'PlainTextEdit'
-                            widget_type = widget_type_map[widget][0]
-                            widget_code = widget_type_map[widget][1]
-                            if widget_type not in code_imports:
-                                code_imports.append(widget_type)
-
-                            widget_name = 'widget_{}'.format(field_name)
-                            default_value = field['default']
-                            code = (
-                                "{0} = dialog.findChild({1}, '{2}')\n".format(
-                                    widget_name,
-                                    widget_type,
-                                    field_name))
-
-                            code += widget_code.format(
-                                widget_name, default_value)
-                            generated_code += code
-
+                    default = QgsDefaultValue(field['default'])
+                    loaded_layer.setDefaultValueDefinition(
+                        idx, default)
                 if 'readonly' in field:
                     edit_form_config.setReadOnly(
                         idx, field['readonly'])
-                if 'config' in field:
-                    # See gui/editorwidgets/ for all the parameters.
-                    widget = loaded_layer.editorWidgetSetup(idx)
-                    loaded_layer.setEditorWidgetSetup(idx, widget)
                 if 'writable_only_by' in field:
                     if not db_user_has_role(
                             self.dbuser, field['writable_only_by']):
                         edit_form_config.setReadOnly(idx, True)
-
-            if code_imports:
-                code = ("# -*- coding: utf-8 -*-\n"
-                        "from qgis.PyQt.QtGui import %s\n"
-                        "def form_open(dialog, layer, feature):\n")\
-                    % ', '.join(code_imports)
-                code += generated_code
-                edit_form_config.setInitFunction('form_open')
-                edit_form_config.setInitCode(code)
-                edit_form_config.setInitCodeSource(
-                    QgsEditFormConfig.CodeSourceDialog)
 
             return loaded_layer
