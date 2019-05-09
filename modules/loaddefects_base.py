@@ -4,7 +4,7 @@ import sys
 import traceback
 from qgis.PyQt.QtCore import QObject, QSettings
 from qgis.PyQt.QtWidgets import QApplication
-from qgis.core import QgsProject, QgsEditFormConfig, Qgis
+from qgis.core import QgsProject, QgsEditFormConfig, Qgis, QgsDefaultValue
 
 from veriso.base.utils.loadlayer import LoadLayer
 from veriso.base.utils.utils import tr, db_user_has_role
@@ -153,17 +153,12 @@ class LoadDefectsBase(QObject):
                 if 'alias' in field:
                     loaded_layer.setFieldAlias(
                         idx, tr(field['alias'], self.tr_tag, None))
-
-                if 'widget' in field:
-                    widget = loaded_layer.editorWidgetSetup(idx)
-                    loaded_layer.setEditorWidgetSetup(idx, widget)
                 if 'default' in field:
-
                     try:
-                        loaded_layer.setDefaultValueExpression(
-                            field_name, "'%s'" % field['default'])
+                        default = QgsDefaultValue(field['default'])
+                        loaded_layer.setDefaultValueDefinition(
+                            idx, default)
                     except AttributeError:
-
                         if field['widget'] in widget_type_map:
                             widget = field['widget']
                             try:
@@ -203,7 +198,7 @@ class LoadDefectsBase(QObject):
 
             if code_imports:
                 code = ("# -*- coding: utf-8 -*-\n"
-                        "from PyQt4.QtGui import %s\n"
+                        "from qgis.PyQt.QtGui import %s\n"
                         "def form_open(dialog, layer, feature):\n")\
                     % ', '.join(code_imports)
                 code += generated_code
