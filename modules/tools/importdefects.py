@@ -88,7 +88,8 @@ class ImportDefectsDialog(QDialog, FORM_CLASS):
         for feat in tmp_layer.getFeatures():
             feat.setAttribute('ogc_fid', None)
 
-            if feat.attribute('erledigt') == 1:
+            if feat.attribute('erledigt') == 1 or feat.attribute(
+                    'erledigt') is True:
                 feat.setAttribute('erledigt', True)
             else:
                 feat.setAttribute('erledigt', False)
