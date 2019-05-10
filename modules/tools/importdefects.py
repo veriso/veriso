@@ -87,6 +87,17 @@ class ImportDefectsDialog(QDialog, FORM_CLASS):
 
         for feat in tmp_layer.getFeatures():
             feat.setAttribute('ogc_fid', None)
+
+            if feat.attribute('erledigt') == 1:
+                feat.setAttribute('erledigt', True)
+            else:
+                feat.setAttribute('erledigt', False)
+
+            if str(feat.attribute('verifikati')).lower() == 'ja':
+                feat.setAttribute('verifikati', 'Ja')
+            else:
+                feat.setAttribute('verifikati', 'Nein')
+
             try:
                 with edit(defect_layers[tmp_layer.geometryType()]):
                     defect_layers[tmp_layer.geometryType()].addFeature(feat)
