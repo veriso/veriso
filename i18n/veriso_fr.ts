@@ -1051,4 +1051,47 @@
         <translation type="unfinished"></translation>
     </message>
 </context>
+<context>
+    <name>VeriBE (EE/EN)</name>
+    <message>
+        <source>Topic:</source>
+        <translation>Topic:</translation>
+    </message>
+    <message>
+        <source>Bezeichnung:</source>
+        <translation>Désignation:</translation>
+    </message>
+    <message>
+        <source>Abrechnung:</source>
+        <translation>Décompte:</translation>
+    </message>
+    <message>
+        <source>Bemerkung AVOR:</source>
+        <translation>Remarque Tprèp:</translation>
+    </message>
+    <message>
+        <source>Bemerkung NFG:</source>
+        <translation>Remarque GC:</translation>
+    </message>
+    <message>
+        <source>Forstorgan:</source>
+        <translation>Organe forestier:</translation>
+    </message>
+    <message>
+        <source>Bemerkung Forst:</source>
+        <translation>Remarque forestier:</translation>
+    </message>
+    <message>
+        <source>Verifikation:</source>
+        <translation>Vérification:</translation>
+    </message>
+    <message>
+        <source>Bemerkung Verifikation:</source>
+        <translation>Remarque vérification:</translation>
+    </message>
+    <message>
+        <source>Erledigt:</source>
+        <translation>Terminé:</translation>
+    </message>
+</context>
 </TS>
