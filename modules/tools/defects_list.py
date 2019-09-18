@@ -67,8 +67,9 @@ class DefectsListDock(QDockWidget, FORM_CLASS):
             return
         self._clear_defects_list()
         fields = [f.name() for f in self.layer.pendingFields()]
+        labels = [self.layer.attributeAlias(i) for i in range(len(fields))]
         self.defects_list.setColumnCount(len(fields))
-        self.defects_list.setHorizontalHeaderLabels(fields)
+        self.defects_list.setHorizontalHeaderLabels(labels)
 
         row = 0
         for feature in self._get_features():
