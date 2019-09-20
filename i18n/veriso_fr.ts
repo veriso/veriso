@@ -1093,5 +1093,109 @@
         <source>Erledigt:</source>
         <translation>Terminé:</translation>
     </message>
+    <message>
+        <source>topic</source>
+        <translation>Topic</translation>
+    </message>
+    <message>
+        <source>bezeichnun</source>
+        <translation>Désignation</translation>
+    </message>
+    <message>
+        <source>abrechnung</source>
+        <translation>Décompte</translation>
+    </message>
+    <message>
+        <source>bem_avor</source>
+        <translation>Remarque Tprèp</translation>
+    </message>
+    <message>
+        <source>datum</source>
+        <translation>Date</translation>
+    </message>
+    <message>
+        <source>bem_nfg</source>
+        <translation>Remarque GC</translation>
+    </message>
+    <message>
+        <source>forstorgan</source>
+        <translation>Organe forestier</translation>
+    </message>
+    <message>
+        <source>bem_forst</source>
+        <translation>Remarque forestier</translation>
+    </message>
+    <message>
+        <source>verifikati</source>
+        <translation>Vérification</translation>
+    </message>
+    <message>
+        <source>maengel</source>
+        <translation>defects</translation>
+    </message>
+    <message>
+        <source>maengel_punkt</source>
+        <translation>defects_point</translation>
+    </message>
+    <message>
+        <source>maengel_linie</source>
+        <translation>defects_ligne</translation>
+    </message>
+    <message>
+        <source>maengel_polygon</source>
+        <translation>defects_polygone</translation>
+    </message>
+    <message>
+        <source>Mängel</source>
+        <translation>Defects</translation>
+    </message>
+    <message>
+        <source>Mängelliste (Polygone)</source>
+        <translation>Defects (Polygones)</translation>
+    </message>
+    <message>
+        <source>Mängelliste (Punkte)</source>
+        <translation>Defects (Points)</translation>
+    </message>
+    <message>
+        <source>Mängelliste (Linien)</source>
+        <translation>Defects (Lignes)</translation>
+    </message>
+    <message>
+        <source>Operat: </source>
+        <translation>Operat: </translation>
+    </message>
+    <message>
+        <source>bem_verifi</source>
+        <translation>Remarque vérification</translation>
+    </message>
+    <message>
+        <source>erledigt</source>
+        <translation>Terminé</translation>
+    </message>
+    <message>
+        <source>Y-Koordinate</source>
+        <translation>Y</translation>
+    </message>
+    <message>
+        <source>X-Koordinate</source>
+        <translation>X</translation>
+    </message>
+    <message>
+        <source>Länge [hm]</source>
+        <translation>Longueur [hm]</translation>
+    </message>
+    <message>
+        <source>Fläche [m2]</source>
+        <translation>Surface [m2]</translation>
+    </message>
+    <message>
+        <source>Umfang [hm]</source>
+        <translation>Circonférence [hm]</translation>
+    </message>
+    <message>
+        <source>WKT</source>
+        <translation>WKT</translation>
+    </message>
 </context>
 </TS>
