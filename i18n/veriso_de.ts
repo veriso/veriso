@@ -1089,5 +1089,9 @@
         <source>verifikati</source>
         <translation>Verifikation</translation>
     </message>
+    <message>
+        <source>bem_verifi</source>
+        <translation>Bemerkung Verifikation</translation>
+    </message>
 </context>
 </TS>
