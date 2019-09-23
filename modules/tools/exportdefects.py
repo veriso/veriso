@@ -1,7 +1,7 @@
 # coding=utf-8
 import os
 
-from qgis.PyQt.QtCore import QDir, QObject, QSettings
+from qgis.PyQt.QtCore import QDir, QObject, QSettings, QVariant
 from qgis.core import QgsDataSourceUri, QgsMessageLog, QgsVectorLayer
 from qgis.core import Qgis
 
@@ -214,7 +214,9 @@ class ExportDefects(QObject):
                         # <class 'PyQt4.QtCore.QDateTime'> in write()
                         fmt = fmt_date
                         attr = attr.toPyDateTime()
-                    worksheet_points.write(5 + j, k, str(attr), fmt)
+                    if type(attr) == QVariant and attr.isNull():
+                        attr = None
+                    worksheet_points.write(5 + j, k, attr, fmt)
                     k += 1
 
                 worksheet_points.write(5 + j, k, point.x(), fmt_3dec)
@@ -275,6 +277,8 @@ class ExportDefects(QObject):
                         # <class 'PyQt4.QtCore.QDateTime'> in write()
                         fmt = fmt_date
                         attr = attr.toPyDateTime()
+                    if type(attr) == QVariant and attr.isNull():
+                        attr = None
                     worksheet_lines.write(5 + j, k, attr, fmt)
                     k += 1
 
@@ -340,6 +344,8 @@ class ExportDefects(QObject):
                         # <class 'PyQt4.QtCore.QDateTime'> in write()
                         fmt = fmt_date
                         attr = attr.toPyDateTime()
+                    if type(attr) == QVariant and attr.isNull():
+                        attr = None
                     worksheet_polygons.write(5 + j, k, attr, fmt)
                     k += 1
 
