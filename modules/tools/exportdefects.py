@@ -150,8 +150,8 @@ class ExportDefects(QObject):
 
             # Create excel file.
             filename = QDir.toNativeSeparators(
-                QDir.cleanPath(os.path.join(project_dir, "maengel.xlsx")))
-
+                QDir.cleanPath(os.path.join(project_dir,
+                               tr('maengel', self.tr_tag) + '.xlsx')))
             workbook = xlsxwriter.Workbook(filename)
             fmt_bold = workbook.add_format({'bold': True})
             fmt_italic = workbook.add_format({'italic': True})
@@ -178,11 +178,13 @@ class ExportDefects(QObject):
             provider = vlayer_points.dataProvider()
             attrs = provider.fields()
 
+            labels = [tr(attrs.at(i).name(), self.tr_tag)
+                      for i in range(len(attrs))]
+
             #            types = []
             i = 0
             for i in range(len(attrs)):
-                worksheet_points.write(4, i, str(attrs.at(i).name()),
-                                       fmt_italic)
+                worksheet_points.write(4, i, labels[i], fmt_italic)
             # types.append(attrs.at(i).type())
 
             worksheet_points.write(4, i + 1,
@@ -240,7 +242,7 @@ class ExportDefects(QObject):
 
             #            types = []
             for i in range(len(attrs)):
-                worksheet_lines.write(4, i, str(attrs.at(i).name()), fmt_italic)
+                worksheet_lines.write(4, i, labels[i], fmt_italic)
             # types.append(attrs.at(i).type())
 
             worksheet_lines.write(4, i + 1,
@@ -302,8 +304,7 @@ class ExportDefects(QObject):
 
             #            types = []
             for i in range(len(attrs)):
-                worksheet_polygons.write(4, i, str(attrs.at(i).name()),
-                                         fmt_italic)
+                worksheet_polygons.write(4, i, labels[i], fmt_italic)
             # types.append(attrs.at(i).type())
 
             worksheet_polygons.write(4, i + 1,

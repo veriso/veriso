@@ -135,9 +135,14 @@ class ExportDefectsShp(QObject):
                         None))
                 return
 
-            self.write_file(project_dir, "maengel_punkt.shp", vlayer_points)
-            self.write_file(project_dir, "maengel_linie.shp", vlayer_lines)
-            self.write_file(project_dir, "maengel_polygon.shp",
+            self.write_file(project_dir,
+                            tr('maengel_punkt', self.tr_tag) + '.shp',
+                            vlayer_points)
+            self.write_file(project_dir,
+                            tr('maengel_linie', self.tr_tag) + '.shp',
+                            vlayer_lines)
+            self.write_file(project_dir,
+                            tr('maengel_polygon', self.tr_tag) + '.shp',
                             vlayer_polygons)
 
         except Exception as e:
