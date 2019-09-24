@@ -81,9 +81,12 @@ class ImportDefectsDialog(QDialog, FORM_CLASS):
         tmp_layer = self.iface.addVectorLayer(shp, 'tmp_imported_shp', 'ogr')
         self.application_module.do_load_defects_wrapper()
 
-        defect_layers = [lr.mapLayersByName(u'Mängelliste (Punkte)')[0],
-                         lr.mapLayersByName(u'Mängelliste (Linien)')[0],
-                         lr.mapLayersByName(u'Mängelliste (Polygone)')[0]]
+        tr_tag = 'VeriBE (EE/EN)'  # TODO: translate in global context as well
+        defect_layers = [
+            lr.mapLayersByName(tr(u"Mängelliste (Punkte)", tr_tag))[0],
+            lr.mapLayersByName(tr(u'Mängelliste (Linien)', tr_tag))[0],
+            lr.mapLayersByName(tr(u'Mängelliste (Polygone)', tr_tag))[0]
+        ]
 
         for feat in tmp_layer.getFeatures():
             feat.setAttribute('ogc_fid', None)
@@ -116,7 +119,7 @@ class ImportDefectsDialog(QDialog, FORM_CLASS):
         self.iface.messageBar().pushInfo(
             "VeriSo", "Defects imported from Shapefile")
 
-    def import_xlsx(self, xlsx):
+    def import_xlsx(self, xlsx):  # NOTICE: does not work for translated files!
 
         self.wb = load_workbook(filename=xlsx, read_only=True)
 
@@ -234,6 +237,6 @@ class ImportDefectsDialog(QDialog, FORM_CLASS):
             self,
             tr("Choose defects file"),
             self.input_xlsx_path,
-            "Defects layer (*.xlsx *.shp)")[0]
+            "Defects layer (*.shp)")[0]
         file_info = QFileInfo(file_path)
         self.lineEditDefectsFile.setText(file_info.absoluteFilePath())
