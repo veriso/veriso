@@ -48,7 +48,7 @@ then
     echo "i18n/veriso_"${LOCALE}".ts"
     # Note we don't use pylupdate with qt .pro file approach as it is flakey
     # about what is made available.
-    pylupdate4 -noobsolete ${PYTHON_FILES} -ts i18n/veriso_${LOCALE}.ts
+    pylupdate5 -noobsolete ${PYTHON_FILES} -ts i18n/veriso_${LOCALE}.ts
     sed -i 's|<name>@default</name>|<name>VeriSO</name>|' i18n/veriso_${LOCALE}.ts
   done
 else
