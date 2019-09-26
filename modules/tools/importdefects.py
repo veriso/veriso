@@ -97,9 +97,10 @@ class ImportDefectsDialog(QDialog, FORM_CLASS):
             else:
                 feat.setAttribute('erledigt', False)
 
+            # Workaround for old exports with lowercase ja/nein
             if str(feat.attribute('verifikati')).lower() == 'ja':
                 feat.setAttribute('verifikati', 'Ja')
-            else:
+            if str(feat.attribute('verifikati')).lower() == 'nein':
                 feat.setAttribute('verifikati', 'Nein')
 
             try:
