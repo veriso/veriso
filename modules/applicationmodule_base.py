@@ -77,7 +77,7 @@ class ApplicationModuleBase(QObject):
 
             check_topics.update(get_check_topics(self.module))
         except:
-            message = "Something went wrong reading check topics from" \
+            message = "Something went wrong reading check topics from " \
                       "yaml file"
             self.message_bar.pushMessage("Error",
                                          _translate(self.module, message,
@@ -103,7 +103,7 @@ class ApplicationModuleBase(QObject):
         for check_topic in check_topics:
             checks = check_topics[check_topic]["checks"]
             if not checks:
-                message = "The topic %s has no valid checks: skiping." % (
+                message = "The topic %s has no valid checks: skipping." % (
                     check_topic)
                 self.message_bar.pushWarning(
                     "Warning",
