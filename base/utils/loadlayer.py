@@ -110,6 +110,10 @@ class LoadLayer(QObject):
                 self.set_style(module_name, loaded_layer, layer_definition)
                 self.set_transparency(loaded_layer, layer_definition)
 
+                # Workaround for wrong raster layer legends
+                self.iface.layerTreeView().refreshLayerSymbology(
+                    loaded_layer.id())
+
             return loaded_layer
         except VerisoErrorWithBar:
             return
