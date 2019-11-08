@@ -1,0 +1,44 @@
+<OGRVRTDataSource>
+    <OGRVRTLayer name="t_maengel_punkt">
+        <SrcDataSource>20191105_Stand_mangel_Punkte.xlsx</SrcDataSource>
+        <SrcSQL dialect="sqlite">SELECT *, datetime('now') AS datumnow, 0 AS erledigt0 from Tabelle1</SrcSQL>
+        <GeometryField encoding="WKT" field="wkt_geom">
+            <GeometryType>wkbPoint</GeometryType>
+            <SRS>EPSG:2056</SRS>
+        </GeometryField>
+        <Field name="ogc_fid" type="Integer" />
+        <Field name="topic" />
+        <Field name="bezeichnun" />
+        <Field name="abrechnung" />
+        <Field name="bem_avor" />
+        <Field name="datum" src="datumnow" />
+        <Field name="bem_nfg" />
+        <Field name="forstorgan" />
+        <Field name="bem_forst" />
+        <Field name="verifikati" />
+        <Field name="bem_verifi" />
+        <Field name="erledigt" type="Integer" src="erledigt0" /> <!-- Value 'false' of field defects.erledigt parsed incompletely to integer 0. -->
+integer 0. -->
+    </OGRVRTLayer>
+
+    <OGRVRTLayer name="t_maengel_linie">
+        <SrcDataSource>20191105_Stand_mangel_Linie.xlsx</SrcDataSource>
+        <SrcSQL dialect="sqlite">SELECT *, datetime('now') AS datumnow, 0 AS erledigt0 from Tabelle1</SrcSQL>
+        <GeometryField encoding="WKT" field="wkt_geom">
+            <GeometryType>wkbLineString</GeometryType>
+            <SRS>EPSG:2056</SRS>
+        </GeometryField>
+        <Field name="ogc_fid" type="Integer" />
+        <Field name="topic" />
+        <Field name="bezeichnun" />
+        <Field name="abrechnung" />
+        <Field name="bem_avor" />
+        <Field name="datum" src="datumnow" />
+        <Field name="bem_nfg" />
+        <Field name="forstorgan" />
+        <Field name="bem_forst" />
+        <Field name="verifikati" />
+        <Field name="bem_verifi" />
+        <Field name="erledigt" type="Integer" src="erledigt0" /> <!-- Value 'false' of field defects.erledigt parsed incompletely to integer 0. -->
+    </OGRVRTLayer>
+</OGRVRTDataSource>
