@@ -331,70 +331,96 @@ class ApplicationModuleBase(QObject):
 
         menu = menubar.findChild(QMenu, 'VeriSO.Main.LoadDefectsMenu')
         menu.setTitle(_translate(self.module, "Defects", None))
+        self.add_defects_actions(menu)
+        menubar.addMenu(menu)
+
+        self.toolbar.insertWidget(self.beforeAction, menubar)
+
+    def add_defects_actions(self, defects_menu, defects_type="default"):
+        """Add defects actions to the corresponding defects menu
+
+        Args:
+            defects_menu (QMenu): Menu object that will contain the actions
+            defects_type (str, optional): Type of the defects menu.
+                It is needed to choose the correct DB tables for the defects actions.
+                Defaults to "default".
+        """
 
         action = QAction(_translate(self.module, "Load defects layer", None),
                          self.iface.mainWindow())
         action.setObjectName("VeriSOModule.LoadDefectsAction")
-        action.triggered.connect(self.do_load_defects_wrapper)
-        menu.addAction(action)
+        action.triggered.connect(lambda: self.do_load_defects_wrapper(defects_type))
+        defects_menu.addAction(action)
 
         action = QAction(
             QCoreApplication.translate(
                 self.module, "Import defects layer"),
             self.iface.mainWindow())
         action.setObjectName("VeriSOModule.ImportDefectsAction")
-        action.triggered.connect(self.do_import_defects)
-        menu.addAction(action)
+        action.triggered.connect(lambda: self.do_import_defects(defects_type))
+        defects_menu.addAction(action)
 
         action = QAction(
             QCoreApplication.translate(
                 self.module, "Export defects layer .xlsx"),
             self.iface.mainWindow())
         action.setObjectName("VeriSOModule.ExportDefectsAction")
-        action.triggered.connect(self.do_export_defects)
-        menu.addAction(action)
+        action.triggered.connect(lambda: self.do_export_defects(defects_type))
+        defects_menu.addAction(action)
 
         action = QAction(
             QCoreApplication.translate(
                 self.module, "Export defects layer .shp"),
             self.iface.mainWindow())
         action.setObjectName("VeriSOModule.ExportDefectsShpAction")
-        action.triggered.connect(self.do_export_defects_shp)
-        menu.addAction(action)
+        action.triggered.connect(lambda: self.do_export_defects_shp(defects_type))
+        defects_menu.addAction(action)
 
-        menubar.addMenu(menu)
-        self.toolbar.insertWidget(self.beforeAction, menubar)
-
-    def do_load_defects_wrapper(self):
-        self.defects_layers = self.do_load_defects()
+    def do_load_defects_wrapper(self, defects_type):
+        self.defects_layers = self.do_load_defects(defects_type)
         self.defects_list_dock.load_layers(self.defects_layers)
 
-    def do_load_defects(self):
+    def do_load_defects(self, defects_type):
         defects_module = 'veriso.modules.loaddefects_base'
         defects_module = dynamic_import(defects_module)
-        d = defects_module.LoadDefectsBase(self.iface, self.module_name)
+        d = defects_module.LoadDefectsBase(self.iface, self.module_name, defects_type, self.get_defects_table_names())
         return d.run()
 
-    def do_import_defects(self):
+    def do_import_defects(self, defects_type):
         from veriso.modules.tools.importdefects import ImportDefectsDialog
         self.import_defects_dlg = ImportDefectsDialog(
-            self, self.iface, self.defects_list_dock)
-        if self.import_defects_dlg.init_gui():
-            self.import_defects_dlg.show()
+            self, self.iface, self.defects_list_dock, defects_type, self.get_defects_table_names())
+        self.import_defects_dlg.show()
 
-    def do_export_defects(self):
+    def do_export_defects(self, defects_type):
         defects_module = 'veriso.modules.tools.exportdefects'
         defects_module = dynamic_import(defects_module)
         d = defects_module.ExportDefects(self.iface, self.module,
-                                         self.module_name)
+                                         self.module_name, defects_type,
+                                         self.get_defects_table_names())
         d.run()
 
-    def do_export_defects_shp(self):
+    def do_export_defects_shp(self, defects_type):
         defects_module = 'veriso.modules.tools.exportdefectsshp'
         defects_module = dynamic_import(defects_module)
         d = defects_module.ExportDefectsShp(self.iface, self.module,
-                                            self.module_name)
+                                            self.module_name, defects_type,
+                                            self.get_defects_table_names())
         d.run()
+
+    def get_defects_table_names(self):
+        """Return the table names of the defects tables
+
+        Returns:
+            dict: dict containing the default table names
+        """
+        return {
+            'default': {
+                "point": "t_maengel_punkt",
+                "line": "t_maengel_linie",
+                "polygon": "t_maengel_polygon"
+            }
+        }
 
     def clean_gui(self):
         # Remove all the applications module specific menus.
