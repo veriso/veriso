@@ -158,6 +158,7 @@ class VeriSO(object):
 
         self.defects_list_action = QAction(tr("Show defects list dock"),
                                            self.iface.mainWindow())
+        self.defects_list_action.setObjectName("VeriSO.Main.LoadDefectsMenuBar.ShowDock")
         self.defects_list_action.setCheckable(True)
         self.defects_list_action.setChecked(True)
         self.defects_list_action.triggered.connect(

@@ -17,13 +17,15 @@ FORM_CLASS = get_ui_class('importdefects.ui')
 
 
 class ImportDefectsDialog(QDialog, FORM_CLASS):
-    def __init__(self, application_module, iface, defects_list_dock):
+    def __init__(self, application_module, iface, defects_list_dock, defects_type, defects_table_names):
         QDialog.__init__(self, None)
         self.setupUi(self)
         self.application_module = application_module
         self.iface = iface
         self.message_bar = self.iface.messageBar()
         self.defects_list_dock = defects_list_dock
+        self.defects_type = defects_type
+        self.defects_table_names = defects_table_names
 
         self.okButton = self.buttonBox.button(QDialogButtonBox.Ok)
         self.okButton.setText('Import')
@@ -44,9 +46,6 @@ class ImportDefectsDialog(QDialog, FORM_CLASS):
 
         self.btnBrowseDefectsFile.clicked.connect(
             self.btnBrowseDefectsFile_clicked)
-
-    def init_gui(self):
-        return True
 
     def accept(self):
         QApplication.setOverrideCursor(Qt.WaitCursor)
@@ -79,29 +78,40 @@ class ImportDefectsDialog(QDialog, FORM_CLASS):
         error = False
 
         tmp_layer = self.iface.addVectorLayer(shp, 'tmp_imported_shp', 'ogr')
-        self.application_module.do_load_defects_wrapper()
+        self.application_module.do_load_defects_wrapper(self.defects_type)
 
         tr_tag = 'VeriBE (EE/EN)'  # TODO: translate in global context as well
-        defect_layers = [
-            lr.mapLayersByName(tr(u"Mängelliste (Punkte)", tr_tag))[0],
-            lr.mapLayersByName(tr(u'Mängelliste (Linien)', tr_tag))[0],
-            lr.mapLayersByName(tr(u'Mängelliste (Polygone)', tr_tag))[0]
-        ]
+        defect_layers = []
+
+        if self.defects_table_names.get(self.defects_type, {}).get("point", None) is not None:
+            defect_layers.append(lr.mapLayersByName(self.tr("Mängelliste (Punkte)"))[0])
+        if self.defects_table_names.get(self.defects_type, {}).get("line", None) is not None:
+            defect_layers.append(lr.mapLayersByName(self.tr("Mängelliste (Linien)"))[0])
+        if self.defects_table_names.get(self.defects_type, {}).get("polygon", None) is not None:
+            defect_layers.append(lr.mapLayersByName(self.tr("Mängelliste (Polygone)"))[0])
 
         for feat in tmp_layer.getFeatures():
             feat.setAttribute('ogc_fid', None)
 
-            if feat.attribute('erledigt') == 1 or feat.attribute(
-                    'erledigt') is True:
-                feat.setAttribute('erledigt', True)
-            else:
-                feat.setAttribute('erledigt', False)
+            # If the attribute does not exist, then we don't need to set anything
+            try:
+                if feat.attribute('erledigt') == 1 or feat.attribute(
+                        'erledigt') is True:
+                    feat.setAttribute('erledigt', True)
+                else:
+                    feat.setAttribute('erledigt', False)
+            except KeyError:
+                pass
 
-            # Workaround for old exports with lowercase ja/nein
-            if str(feat.attribute('verifikati')).lower() == 'ja':
-                feat.setAttribute('verifikati', 'Ja')
-            if str(feat.attribute('verifikati')).lower() == 'nein':
-                feat.setAttribute('verifikati', 'Nein')
+            # If the attribute does not exist, then we don't need to set anything
+            try:
+                # Workaround for old exports with lowercase ja/nein
+                if str(feat.attribute('verifikati')).lower() == 'ja':
+                    feat.setAttribute('verifikati', 'Ja')
+                if str(feat.attribute('verifikati')).lower() == 'nein':
+                    feat.setAttribute('verifikati', 'Nein')
+            except KeyError:
+                pass
 
             try:
                 with edit(defect_layers[tmp_layer.geometryType()]):
@@ -124,33 +134,42 @@ class ImportDefectsDialog(QDialog, FORM_CLASS):
 
         self.wb = load_workbook(filename=xlsx, read_only=True)
 
-        header_list_points, rows_list_points = self.read_sheet(
-            u'Mängelliste (Punkte)')
-        header_list_lines, rows_list_lines = self.read_sheet(
-            u'Mängelliste (Linien)')
-        header_list_polygons, rows_list_polygons = self.read_sheet(
-            u'Mängelliste (Polygone)')
+        # Initialize rows lists
+        rows_list_points = []
+        rows_list_lines = []
+        rows_list_polygons = []
+
+        point_layer_name = self.defects_table_names.get(self.defects_type, None).get("point", None)
+        line_layer_name = self.defects_table_names.get(self.defects_type, None).get("line", None)
+        polygon_layer_name = self.defects_table_names.get(self.defects_type, None).get("polygon", None)
+
+        if point_layer_name is not None:
+            header_list_points, rows_list_points = self.read_sheet(
+                u'Mängelliste (Punkte)')
+        if line_layer_name is not None:
+            header_list_lines, rows_list_lines = self.read_sheet(
+                u'Mängelliste (Linien)')
+        if polygon_layer_name is not None:
+            header_list_polygons, rows_list_polygons = self.read_sheet(
+                u'Mängelliste (Polygone)')
 
         self.open_db()
 
         if len(rows_list_points) > 0:
-            query_points = self.create_query(
-                't_maengel_punkt', header_list_points, rows_list_points)
+            query_points = self.create_query(point_layer_name, header_list_points, rows_list_points)
             self.execute_query(query_points)
         if len(rows_list_lines) > 0:
-            query_lines = self.create_query('t_maengel_linie',
-                                            header_list_lines, rows_list_lines)
+            query_lines = self.create_query(line_layer_name, header_list_lines, rows_list_lines)
             self.execute_query(query_lines)
         if len(rows_list_polygons) > 0:
-            query_polygons = self.create_query(
-                't_maengel_polygon', header_list_polygons, rows_list_polygons)
+            query_polygons = self.create_query(polygon_layer_name, header_list_polygons, rows_list_polygons)
             self.execute_query(query_polygons)
 
         self.db.close()
         self.iface.messageBar().pushInfo("VeriSo",
                                          "Defects imported from Excel file")
 
-        self.application_module.do_load_defects_wrapper()
+        self.application_module.do_load_defects_wrapper(self.defects_type)
 
     def read_sheet(self, sheet_name):
         from builtins import str

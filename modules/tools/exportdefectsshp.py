@@ -9,12 +9,14 @@ from veriso.base.utils.utils import tr
 
 
 class ExportDefectsShp(QObject):
-    def __init__(self, iface, module, tr_tag):
+    def __init__(self, iface, module, tr_tag, defects_type, defects_table_names):
         QObject.__init__(self)
         self.iface = iface
         self.message_bar = self.iface.messageBar()
 
         self.tr_tag = tr_tag  # "VeriSO_V+D_Defects" or "VeriSO_EE_Defects"
+        self.defects_type = defects_type
+        self.defects_table_names = defects_table_names
 
     def run(self):
         try:
@@ -83,24 +85,28 @@ class ExportDefectsShp(QObject):
                         "layer."))
                 return
 
+            point_layer_name = self.defects_table_names.get(self.defects_type, {}).get("point", None)
+            line_layer_name = self.defects_table_names.get(self.defects_type, {}).get("line", None)
+            polygon_layer_name = self.defects_table_names.get(self.defects_type, {}).get("polygon", None)
+
             uri = QgsDataSourceUri()
             uri.setConnection(db_host, db_port, db_name, db_user, db_pwd)
-            uri.setDataSource(db_schema, "t_maengel_punkt", "the_geom", "",
+            uri.setDataSource(db_schema, point_layer_name, "the_geom", "",
                               "ogc_fid")
             vlayer_points = QgsVectorLayer(uri.uri(), "Maengel (Punkte)",
                                            "postgres")
 
-            uri.setDataSource(db_schema, "t_maengel_linie", "the_geom", "",
+            uri.setDataSource(db_schema, line_layer_name, "the_geom", "",
                               "ogc_fid")
             vlayer_lines = QgsVectorLayer(uri.uri(), "Maengel (Linien)",
                                           "postgres")
 
-            uri.setDataSource(db_schema, "t_maengel_polygon", "the_geom", "",
+            uri.setDataSource(db_schema, polygon_layer_name, "the_geom", "",
                               "ogc_fid")
-            vlayer_polygons = QgsVectorLayer(uri.uri(), "Maengel (Linien)",
+            vlayer_polygons = QgsVectorLayer(uri.uri(), "Maengel (Polygon)",
                                              "postgres")
 
-            if not vlayer_points.isValid():
+            if point_layer_name is not None and not vlayer_points.isValid():
                 self.message_bar.pushMessage("Error",
                                              tr("Could not load defects layer.",
                                                 self.tr_tag,
@@ -109,7 +115,7 @@ class ExportDefectsShp(QObject):
                                              duration=0)
                 return
 
-            if not vlayer_lines.isValid():
+            if line_layer_name is not None and not vlayer_lines.isValid():
                 self.message_bar.pushMessage("Error",
                                              tr("Could not load defects layer.",
                                                 self.tr_tag,
@@ -118,16 +124,16 @@ class ExportDefectsShp(QObject):
                                              duration=0)
                 return
 
-            if not vlayer_polygons.isValid():
+            if polygon_layer_name is not None and not vlayer_polygons.isValid():
                 self.message_bar.pushMessage(
                     "Error", tr("Could not load defects layer.",
                                 self.tr_tag, None), level=Qgis.Critical,
                     duration=0)
                 return
 
-            if (vlayer_points.featureCount() == 0 and
-                    vlayer_lines.featureCount() == 0 and
-                    vlayer_polygons.featureCount() == 0):
+            if (point_layer_name is not None and vlayer_points.featureCount() == 0 and
+                    (line_layer_name is not None and vlayer_lines.featureCount() == 0) and
+                    (polygon_layer_name is not None and vlayer_polygons.featureCount() == 0)):
                 self.message_bar.pushInfo(
                     "Information",
                     tr(
@@ -135,15 +141,18 @@ class ExportDefectsShp(QObject):
                         None))
                 return
 
-            self.write_file(project_dir,
+            if point_layer_name is not None:
+                self.write_file(project_dir,
                             tr('maengel_punkt', self.tr_tag) + '.shp',
                             vlayer_points)
-            self.write_file(project_dir,
-                            tr('maengel_linie', self.tr_tag) + '.shp',
-                            vlayer_lines)
-            self.write_file(project_dir,
-                            tr('maengel_polygon', self.tr_tag) + '.shp',
-                            vlayer_polygons)
+            if line_layer_name is not None:
+                self.write_file(project_dir,
+                                tr('maengel_linie', self.tr_tag) + '.shp',
+                                vlayer_lines)
+            if polygon_layer_name is not None:
+                self.write_file(project_dir,
+                                tr('maengel_polygon', self.tr_tag) + '.shp',
+                                vlayer_polygons)
 
         except Exception as e:
             message = "Error while writing defects file."
