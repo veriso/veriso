@@ -46,51 +46,51 @@ class ExportDefects(QObject):
             if not db_schema:
                 self.message_bar.pushCritical(
                     "Error",
-                    self.tr("Missing database schema parameter."))
+                    tr("Missing database schema parameter.", self.tr_tag))
                 return
 
             if not db_host:
                 self.message_bar.pushCritical(
                     "Error",
-                    self.tr("Missing database host parameter."))
+                    tr("Missing database host parameter.", self.tr_tag))
                 return
 
             if not db_name:
                 self.message_bar.pushCritical(
-                    "Error", self.tr("Missing database name parameter."))
+                    "Error", tr("Missing database name parameter.", self.tr_tag))
                 return
 
             if not db_port:
                 self.message_bar.pushCritical(
                     "Error",
-                    self.tr("Missing database port parameter."))
+                    tr("Missing database port parameter.", self.tr_tag))
                 return
 
             if not db_user:
                 self.message_bar.pushCritical(
                     "Error",
-                    self.tr("Missing database user parameter."))
+                    tr("Missing database user parameter.", self.tr_tag))
                 return
 
             if not db_pwd:
                 self.message_bar.pushCritical(
                     "Error",
-                    self.tr("Missing database user password parameter."))
+                    tr("Missing database user password parameter.", self.tr_tag))
                 return
 
             if not provider:
                 self.message_bar.pushCritical(
                     "Error",
-                    self.tr(
+                    tr(
                         "Missing provider parameter. Cannot load "
-                        "layer."))
+                        "layer.", self.tr_tag))
                 return
 
             if not module_name:
                 self.message_bar.pushCritical(
                     "Error",
-                    self.tr("Missing module name parameter. Cannot load "
-                            "layer."))
+                    tr("Missing module name parameter. Cannot load "
+                            "layer.", self.tr_tag))
                 return
 
             point_layer_name = self.defects_table_names.get(self.defects_type, {}).get("point", None)
@@ -102,7 +102,7 @@ class ExportDefects(QObject):
                 uri.setConnection(db_host, db_port, db_name, db_user, db_pwd)
                 uri.setDataSource(db_schema, point_layer_name, "the_geom", "",
                                 "ogc_fid")
-                vlayer_points = QgsVectorLayer(uri.uri(), "Maengel (Punkte)",
+                vlayer_points = QgsVectorLayer(uri.uri(), tr("Maengel (Punkte)", self.tr_tag),
                                             "postgres")
 
             if line_layer_name is not None:
@@ -110,7 +110,7 @@ class ExportDefects(QObject):
                 uri.setConnection(db_host, db_port, db_name, db_user, db_pwd)
                 uri.setDataSource(db_schema, line_layer_name, "the_geom", "",
                                 "ogc_fid")
-                vlayer_lines = QgsVectorLayer(uri.uri(), "Maengel (Linien)",
+                vlayer_lines = QgsVectorLayer(uri.uri(), tr("Maengel (Linien)", self.tr_tag),
                                             "postgres")
 
             if polygon_layer_name is not None:
@@ -118,7 +118,7 @@ class ExportDefects(QObject):
                 uri.setConnection(db_host, db_port, db_name, db_user, db_pwd)
                 uri.setDataSource(db_schema, polygon_layer_name, "the_geom", "",
                                 "ogc_fid")
-                vlayer_polygons = QgsVectorLayer(uri.uri(), "Maengel (Polygon)",
+                vlayer_polygons = QgsVectorLayer(uri.uri(), tr("Maengel (Polygon)", self.tr_tag),
                                                 "postgres")
 
             if point_layer_name is not None and not vlayer_points.isValid():
@@ -172,7 +172,7 @@ class ExportDefects(QObject):
             # Create the worksheet for the points defects.
             if point_layer_name is not None:
                 worksheet_points = workbook.add_worksheet(
-                    self.tr('Mängelliste (Punkte)'))
+                    tr('Mängelliste (Punkte)', self.tr_tag))
                 worksheet_points.set_paper(9)
                 worksheet_points.set_portrait()
 
@@ -236,7 +236,7 @@ class ExportDefects(QObject):
             # Create the worksheet for the line defects.
             if line_layer_name is not None:
                 worksheet_lines = workbook.add_worksheet(
-                    self.tr('Mängelliste (Linien)'))
+                    tr('Mängelliste (Linien)', self.tr_tag))
                 worksheet_lines.set_paper(9)
                 worksheet_lines.set_portrait()
 
@@ -300,7 +300,7 @@ class ExportDefects(QObject):
             # Create the worksheet for the polygon defects.
             if polygon_layer_name is not None:
                 worksheet_polygons = workbook.add_worksheet(
-                    self.tr('Mängelliste (Polygone)'))
+                    tr('Mängelliste (Polygone)', self.tr_tag))
                 worksheet_polygons.set_paper(9)
                 worksheet_polygons.set_portrait()
 

@@ -26,6 +26,7 @@ class ImportDefectsDialog(QDialog, FORM_CLASS):
         self.defects_list_dock = defects_list_dock
         self.defects_type = defects_type
         self.defects_table_names = defects_table_names
+        self.tr_tag = 'VeriBE (EE/EN)'  # TODO: translate in global context as well
 
         self.okButton = self.buttonBox.button(QDialogButtonBox.Ok)
         self.okButton.setText('Import')
@@ -80,15 +81,14 @@ class ImportDefectsDialog(QDialog, FORM_CLASS):
         tmp_layer = self.iface.addVectorLayer(shp, 'tmp_imported_shp', 'ogr')
         self.application_module.do_load_defects_wrapper(self.defects_type)
 
-        tr_tag = 'VeriBE (EE/EN)'  # TODO: translate in global context as well
         defect_layers = []
 
         if self.defects_table_names.get(self.defects_type, {}).get("point", None) is not None:
-            defect_layers.append(lr.mapLayersByName(self.tr("Mängelliste (Punkte)"))[0])
+            defect_layers.append(lr.mapLayersByName(tr("Mängelliste (Punkte)", self.tr_tag))[0])
         if self.defects_table_names.get(self.defects_type, {}).get("line", None) is not None:
-            defect_layers.append(lr.mapLayersByName(self.tr("Mängelliste (Linien)"))[0])
+            defect_layers.append(lr.mapLayersByName(tr("Mängelliste (Linien)", self.tr_tag))[0])
         if self.defects_table_names.get(self.defects_type, {}).get("polygon", None) is not None:
-            defect_layers.append(lr.mapLayersByName(self.tr("Mängelliste (Polygone)"))[0])
+            defect_layers.append(lr.mapLayersByName(tr("Mängelliste (Polygone)", self.tr_tag))[0])
 
         for feat in tmp_layer.getFeatures():
             feat.setAttribute('ogc_fid', None)
@@ -145,13 +145,13 @@ class ImportDefectsDialog(QDialog, FORM_CLASS):
 
         if point_layer_name is not None:
             header_list_points, rows_list_points = self.read_sheet(
-                u'Mängelliste (Punkte)')
+                tr('Mängelliste (Punkte)', self.tr_tag))
         if line_layer_name is not None:
             header_list_lines, rows_list_lines = self.read_sheet(
-                u'Mängelliste (Linien)')
+                tr('Mängelliste (Linien)', self.tr_tag))
         if polygon_layer_name is not None:
             header_list_polygons, rows_list_polygons = self.read_sheet(
-                u'Mängelliste (Polygone)')
+                tr('Mängelliste (Polygone)', self.tr_tag))
 
         self.open_db()
 
