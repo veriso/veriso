@@ -90,6 +90,14 @@ class ImportDefectsDialog(QDialog, FORM_CLASS):
         if self.defects_table_names.get(self.defects_type, {}).get("polygon", None) is not None:
             defect_layers.append(lr.mapLayersByName(tr("Mängelliste (Polygone)", self.tr_tag))[0])
 
+        # Because shapefile column names are limited in the number of characters that can be used
+        # the column `bezeichnung` will always be cut to `bezeichnun`
+        # Here we check wether our layer uses `bezeichnung` or `bezeichnun` and change the name accordingly
+        with edit(tmp_layer):
+            if "bezeichnung" in defect_layers[tmp_layer.geometryType()].fields().names():
+                idx = tmp_layer.fields().indexFromName("bezeichnun")
+                tmp_layer.renameAttribute(idx, "bezeichnung")
+
         for feat in tmp_layer.getFeatures():
             feat.setAttribute('ogc_fid', None)
 
