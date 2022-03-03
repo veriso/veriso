@@ -1054,11 +1054,19 @@
 <context>
     <name>VeriBE (EE/EN)</name>
     <message>
+        <source>Forest Defects</source>
+        <translation>Mängel Wald</translation>
+    </message>
+    <message>
         <source>topic</source>
         <translation>Topic</translation>
     </message>
     <message>
         <source>bezeichnun</source>
+        <translation>Bezeichnung</translation>
+    </message>
+    <message>
+        <source>bezeichnung</source>
         <translation>Bezeichnung</translation>
     </message>
     <message>
@@ -1068,6 +1076,10 @@
     <message>
         <source>bem_avor</source>
         <translation>Bemerkung AVOR</translation>
+    </message>
+    <message>
+        <source>bem_av</source>
+        <translation>Bemerkung AV</translation>
     </message>
     <message>
         <source>datum</source>

@@ -1070,6 +1070,10 @@
         <translation>Remarque Tprèp:</translation>
     </message>
     <message>
+        <source>Bemerkung AV:</source>
+        <translation>Remarque MO:</translation>
+    </message>
+    <message>
         <source>Bemerkung NFG:</source>
         <translation>Remarque GC:</translation>
     </message>
@@ -1102,12 +1106,20 @@
         <translation>Désignation</translation>
     </message>
     <message>
+        <source>bezeichnung</source>
+        <translation>Désignation</translation>
+    </message>
+    <message>
         <source>abrechnung</source>
         <translation>Décompte</translation>
     </message>
     <message>
         <source>bem_avor</source>
         <translation>Remarque Tprèp</translation>
+    </message>
+    <message>
+        <source>bem_av</source>
+        <translation>Remarque MO</translation>
     </message>
     <message>
         <source>datum</source>
@@ -1131,35 +1143,55 @@
     </message>
     <message>
         <source>maengel</source>
-        <translation>defects</translation>
+        <translation>défauts</translation>
     </message>
     <message>
         <source>maengel_punkt</source>
-        <translation>defects_point</translation>
+        <translation>défauts_point</translation>
     </message>
     <message>
         <source>maengel_linie</source>
-        <translation>defects_ligne</translation>
+        <translation>défauts_ligne</translation>
     </message>
     <message>
         <source>maengel_polygon</source>
-        <translation>defects_polygone</translation>
+        <translation>défauts_polygone</translation>
     </message>
     <message>
         <source>Mängel</source>
-        <translation>Defects</translation>
+        <translation>Défauts</translation>
+    </message>
+    <message>
+        <source>Forest Defects</source>
+        <translation>Défauts forêt</translation>
+    </message>
+    <message>
+        <source>Mängel Wald</source>
+        <translation>Défauts forêt</translation>
     </message>
     <message>
         <source>Mängelliste (Polygone)</source>
-        <translation>Defects (Polygones)</translation>
+        <translation>Liste de défauts (Polygone)</translation>
+    </message>
+    <message>
+        <source>Mängelliste (Polygone) Beschreibung</source>
+        <translation>Liste de défauts (Polygone) description</translation>
     </message>
     <message>
         <source>Mängelliste (Punkte)</source>
-        <translation>Defects (Points)</translation>
+        <translation>Liste de défauts (Points)</translation>
+    </message>
+    <message>
+        <source>Mängelliste (Punkte) Beschreibung</source>
+        <translation>Liste de défauts (Points) description</translation>
     </message>
     <message>
         <source>Mängelliste (Linien)</source>
-        <translation>Defects (Lignes)</translation>
+        <translation>Liste de défauts (Lignes)</translation>
+    </message>
+    <message>
+        <source>Mängelliste (Linien) Beschreibung</source>
+        <translation>Liste de défauts (Lignes) description</translation>
     </message>
     <message>
         <source>Operat: </source>
