@@ -48,7 +48,7 @@ class TestUtils(TestCase):
 
         lst_items = [i.text() for i in self.dialog.listWidgetModelRepos.findItems("", Qt.MatchContains)]
         self.assertEquals(lst_items[0], 'http://www.catais.org/models/')
-        self.assertEquals(lst_items[1], 'http://models.geo.admin.ch/')
+        self.assertEquals(lst_items[1], 'https://models.geo.admin.ch/')
 
     @patch('qgis.PyQt.QtWidgets.QFileDialog.getOpenFileName')
     def test_on_btnBrowseProjectsDatabase_clicked(self, mock_getOpenFileName):
