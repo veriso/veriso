@@ -330,7 +330,7 @@ class ApplicationModuleBase(QObject):
             QMenuBar, 'VeriSO.Main.LoadDefectsMenuBar')
 
         menu = menubar.findChild(QMenu, 'VeriSO.Main.LoadDefectsMenu')
-        menu.setTitle(_translate(self.module, "Defects", None))
+        menu.setTitle(_translate(self.module_name, "Defects", None))
         self.add_defects_actions(menu)
         menubar.addMenu(menu)
 
@@ -346,7 +346,7 @@ class ApplicationModuleBase(QObject):
                 Defaults to "default".
         """
 
-        action = QAction(_translate(self.module, "Load defects layer", None),
+        action = QAction(_translate(self.module_name, "Load defects layer", None),
                          self.iface.mainWindow())
         action.setObjectName("VeriSOModule.LoadDefectsAction")
         action.triggered.connect(lambda: self.do_load_defects_wrapper(defects_type))
@@ -354,7 +354,7 @@ class ApplicationModuleBase(QObject):
 
         action = QAction(
             QCoreApplication.translate(
-                self.module, "Import defects layer"),
+                self.module_name, "Import defects layer"),
             self.iface.mainWindow())
         action.setObjectName("VeriSOModule.ImportDefectsAction")
         action.triggered.connect(lambda: self.do_import_defects(defects_type))
@@ -362,7 +362,7 @@ class ApplicationModuleBase(QObject):
 
         action = QAction(
             QCoreApplication.translate(
-                self.module, "Export defects layer .xlsx"),
+                self.module_name, "Export defects layer .xlsx"),
             self.iface.mainWindow())
         action.setObjectName("VeriSOModule.ExportDefectsAction")
         action.triggered.connect(lambda: self.do_export_defects(defects_type))
@@ -370,7 +370,7 @@ class ApplicationModuleBase(QObject):
 
         action = QAction(
             QCoreApplication.translate(
-                self.module, "Export defects layer .shp"),
+                self.module_name, "Export defects layer .shp"),
             self.iface.mainWindow())
         action.setObjectName("VeriSOModule.ExportDefectsShpAction")
         action.triggered.connect(lambda: self.do_export_defects_shp(defects_type))

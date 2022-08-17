@@ -36,7 +36,7 @@ class ImportProjectDialog(QDialog, FORM_CLASS):
         self.message_bar = self.iface.messageBar()
 
         self.okButton = self.buttonBox.button(QDialogButtonBox.Ok)
-        self.okButton.setText("Import")
+        self.okButton.setText(tr("Import", context="ImportProject"))
 
         self.settings = QSettings("CatAIS", "VeriSO")
         self.input_itf_path = QFileInfo(
