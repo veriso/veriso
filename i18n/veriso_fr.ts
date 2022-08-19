@@ -755,8 +755,13 @@
     </message>
     <message>
         <location/>
-        <source>GebÃ¤ude &gt; 12m2 ohne Eingang</source>
+        <source>Gebäude &gt; 12m2 ohne Eingang</source>
         <translation>Bâtiment &gt; 10m2 sans entrée</translation>
+    </message>
+    <message>
+        <location/>
+        <source>LokalisationsName</source>
+        <translation>Nom_localisation</translation>
     </message>
 </context>
 <context>
@@ -1307,7 +1312,7 @@
     </message>
     <message>
         <location line="+5"/>
-        <source>schmale bestockte FlÃ¤che &gt; 800 qm</source>
+        <source>schmale bestockte Flaeche &gt; 800 qm</source>
         <translation>Cordon boisé &gt; 800m2</translation>
     </message>
 </context>
@@ -1817,6 +1822,31 @@
         <source>Proj. Gebaeude</source>
         <translation>Bâtiment proj</translation>
     </message>
+    <message>
+        <location/>
+        <source>Bodenbedeckung Umriss</source>
+        <translation>Contour de la couverture du sol</translation>
+    </message>
+    <message>
+        <location/>
+        <source>Grenzpunkt - Stein</source>
+        <translation>Point limite - borne</translation>
+    </message>
+    <message>
+        <location/>
+        <source>Grenzpunkt - Bolzen,Rohr</source>
+        <translation>Point limite - cheville, tuyau</translation>
+    </message>
+    <message>
+        <location/>
+        <source>Hoheitsgrenzpunkt - Stein</source>
+        <translation>Point limite_ter - borne</translation>
+    </message>
+    <message>
+        <location/>
+        <source>Hoheitsgrenzpunkt - Bolzen,Rohr</source>
+        <translation>Point limite_ter - cheville, tuyau</translation>
+    </message>
 </context>
 <context>
     <name>VeriSO_EE_gebaeudeadressen_basislayer</name>
@@ -1894,7 +1924,7 @@
     <message>
         <location line="+4"/>
         <source>GP unversichert</source>
-        <translation>Grenzpunkte</translation>
+        <translation>PL non materialisé</translation>
     </message>
     <message>
         <location line="+14"/>
