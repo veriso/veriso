@@ -6,6 +6,7 @@ from qgis.core import QgsDataSourceUri, \
 from veriso.base.utils.utils import tr, get_absolute_path
 
 from veriso.base.utils.exceptions import VerisoErrorWithBar
+import os
 
 
 class LoadLayer(QObject):
@@ -15,6 +16,7 @@ class LoadLayer(QObject):
         self.message_bar = self.iface.messageBar()
         self.canvas = self.iface.mapCanvas()
         self.root = QgsProject.instance().layerTreeRoot()
+        self.locale = QSettings().value('locale/userLocale')[0:2]
 
     def load(self, layer_definition, visible=True, collapsed_legend=False,
              collapsed_group=False):
@@ -120,8 +122,7 @@ class LoadLayer(QObject):
         except Exception as e:
             raise VerisoErrorWithBar(self.message_bar, str(e), e)
 
-    @staticmethod
-    def set_style(module_name, loaded_layer, layer_definition):
+    def set_style(self, module_name, loaded_layer, layer_definition):
         try:
             style = str(layer_definition["style"])
             if style.startswith('global_qml'):
@@ -129,10 +130,25 @@ class LoadLayer(QObject):
             else:
                 qml_path = "modules/%s/qml/%s" % (module_name, style)
 
-            loaded_layer.loadNamedStyle(get_absolute_path(qml_path))
-        except KeyError:
-            # layer["style"] doesn't exist
-            pass
+            loaded_layer.loadNamedStyle(
+                self.get_localized_qml_path(
+                    get_absolute_path(qml_path)
+                )
+            )
+
+        except KeyError as e:
+            raise VerisoErrorWithBar(self.message_bar, str(e), e)
+
+    def get_localized_qml_path(self, qml_path):
+
+        if self.locale == "fr":
+            relative_style_path, extension = os.path.splitext(qml_path)
+            french_style = relative_style_path + "_fr" + extension
+            # Check whether the QML has a french translation
+            if os.path.exists(french_style):
+                qml_path = french_style
+
+        return qml_path
 
     def set_transparency(self, loaded_layer, layer_definition):
         try:
