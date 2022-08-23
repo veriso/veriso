@@ -11,7 +11,7 @@ from veriso.base.utils.utils import (get_modules_dir, yaml_load_file,
                                      get_subdirs, get_default_db)
 
 
-def get_layers_from_topic(topic):
+def get_layers_from_topic(topic, module_name):
     """Converts the layer information into a dictionary from
     a topic list.
 
@@ -31,14 +31,14 @@ def get_layers_from_topic(topic):
             "type": "postgres", "featuretype": table,
             "key": topic["primary_keys"][i],
             "geom": topic["geometry_columns"][i], "group": topic["topic"],
-            "title": topic["class_names"][i]}
+            "title": tr(topic["class_names"][i], context=module_name)}
         i += 1
         # If there is more than one geometry column in the table
         # the name of the geometry columns is written in brackets
         # following the name of the table.
         if dd[table] > 1:
-            my_layer["title"] = my_layer["title"] + " (" + my_layer[
-                "geom"] + ")"
+            my_layer["title"] = my_layer["title"] + " (" + tr(
+                my_layer["geom"], context=module_name) + ")"
 
         layers.append(my_layer)
 

@@ -1070,6 +1070,1016 @@
         <source>Isolierte Uebrigen Gebaeudeteile Punkte</source>
         <translation>Parties isolées des bâtiments - points</translation>
     </message>
+    <message>
+        <location/>
+        <source>FixpunkteKategorie1</source>
+        <translation>Points fixesCategorie1</translation>
+    </message>
+    <message>
+        <location/>
+        <source>FixpunkteKategorie2</source>
+        <translation>Points fixesCategorie2</translation>
+    </message>
+    <message>
+        <location/>
+        <source>FixpunkteKategorie3</source>
+        <translation>Points fixesCategorie3</translation>
+    </message>
+    <message>
+        <location/>
+        <source>Bodenbedeckung</source>
+        <translation>Couverture du sol</translation>
+    </message>
+    <message>
+        <location/>
+        <source>Einzelobjekte</source>
+        <translation>Objets divers</translation>
+    </message>
+    <message>
+        <location/>
+        <source>Hoehen</source>
+        <translation>Altimetrie</translation>
+    </message>
+    <message>
+        <location/>
+        <source>Nomenklatur</source>
+        <translation>Nomenclature</translation>
+    </message>
+    <message>
+        <location/>
+        <source>Liegenschaften</source>
+        <translation>Biens fonds</translation>
+    </message>
+    <message>
+        <location/>
+        <source>Rohrleitungen</source>
+        <translation>Conduites</translation>
+    </message>
+    <message>
+        <location/>
+        <source>Nummerierungsbereiche</source>
+        <translation>Domaines numerotation</translation>
+    </message>
+    <message>
+        <location/>
+        <source>Gemeindegrenzen</source>
+        <translation>Limites commune</translation>
+    </message>
+    <message>
+        <location/>
+        <source>Bezirksgrenzen</source>
+        <translation>Limites district</translation>
+    </message>
+    <message>
+        <location/>
+        <source>Kantonsgrenzen</source>
+        <translation>Limites canton</translation>
+    </message>
+    <message>
+        <location/>
+        <source>Landesgrenzen</source>
+        <translation>Limites nationales</translation>
+    </message>
+    <message>
+        <location/>
+        <source>Planeinteilungen</source>
+        <translation>Repartitions plans</translation>
+    </message>
+    <message>
+        <location/>
+        <source>TSEinteilung</source>
+        <translation>RepartitionNT</translation>
+    </message>
+    <message>
+        <location/>
+        <source>Rutschgebiete</source>
+        <translation>Zones glissement</translation>
+    </message>
+    <message>
+        <location/>
+        <source>PLZOrtschaft</source>
+        <translation>NPA Localite</translation>
+    </message>
+    <message>
+        <location/>
+        <source>Gebaeudeadressen</source>
+        <translation>Adresses des batiments</translation>
+    </message>
+    <message>
+        <location/>
+        <source>Planrahmen</source>
+        <translation>Bords de plan</translation>
+    </message>
+    <message>
+        <location/>
+        <source>Hoehenkurven</source>
+        <translation>CourbesNiveaux</translation>
+    </message>
+    <message>
+        <location/>
+        <source>LFP1Nachfuehrung</source>
+        <translation>Mise a jourPFP1</translation>
+    </message>
+    <message>
+        <location/>
+        <source>LFP1</source>
+        <translation>PFP1</translation>
+    </message>
+    <message>
+        <location/>
+        <source>LFP1Pos</source>
+        <translation>PosPFP1</translation>
+    </message>
+    <message>
+        <location/>
+        <source>LFP1Symbol</source>
+        <translation>SymbolePFP1</translation>
+    </message>
+    <message>
+        <location/>
+        <source>HFP1Nachfuehrung</source>
+        <translation>Mise a jourPFA1</translation>
+    </message>
+    <message>
+        <location/>
+        <source>HFP1</source>
+        <translation>PFA1</translation>
+    </message>
+    <message>
+        <location/>
+        <source>HFP1Pos</source>
+        <translation>PosPFA1</translation>
+    </message>
+    <message>
+        <location/>
+        <source>LFP2Nachfuehrung</source>
+        <translation>Mise a jourPFP2</translation>
+    </message>
+    <message>
+        <location/>
+        <source>LFP2</source>
+        <translation>PFP2</translation>
+    </message>
+    <message>
+        <location/>
+        <source>LFP2Pos</source>
+        <translation>PosPFP2</translation>
+    </message>
+    <message>
+        <location/>
+        <source>LFP2Symbol</source>
+        <translation>SymbolePFP2</translation>
+    </message>
+    <message>
+        <location/>
+        <source>HFP2Nachfuehrung</source>
+        <translation>Mise a jourPFA2</translation>
+    </message>
+    <message>
+        <location/>
+        <source>HFP2</source>
+        <translation>PFA2</translation>
+    </message>
+    <message>
+        <location/>
+        <source>HFP2Pos</source>
+        <translation>PosPFA2</translation>
+    </message>
+    <message>
+        <location/>
+        <source>LFP3Nachfuehrung</source>
+        <translation>Mise a jourPFP3</translation>
+    </message>
+    <message>
+        <location/>
+        <source>LFP3</source>
+        <translation>PFP3</translation>
+    </message>
+    <message>
+        <location/>
+        <source>LFP3Pos</source>
+        <translation>PosPFP3</translation>
+    </message>
+    <message>
+        <location/>
+        <source>LFP3Symbol</source>
+        <translation>SymbolePFP3</translation>
+    </message>
+    <message>
+        <location/>
+        <source>Hilfsfixpunkt</source>
+        <translation>Point fixe auxiliaire</translation>
+    </message>
+    <message>
+        <location/>
+        <source>HilfsfixpunktPos</source>
+        <translation>PosPoint fixe auxiliaire</translation>
+    </message>
+    <message>
+        <location/>
+        <source>HilfsfixpunktSymbol</source>
+        <translation>SymbolePoint fixe auxil</translation>
+    </message>
+    <message>
+        <location/>
+        <source>HFP3Nachfuehrung</source>
+        <translation>Mise a jourPFA3</translation>
+    </message>
+    <message>
+        <location/>
+        <source>HFP3</source>
+        <translation>PFA3</translation>
+    </message>
+    <message>
+        <location/>
+        <source>HFP3Pos</source>
+        <translation>PosPFA3</translation>
+    </message>
+    <message>
+        <location/>
+        <source>BBNachfuehrung</source>
+        <translation>Mise a jourCS</translation>
+    </message>
+    <message>
+        <location/>
+        <source>ProjBoFlaeche</source>
+        <translation>SurfaceCSProj</translation>
+    </message>
+    <message>
+        <location/>
+        <source>ProjGebaeudenummer</source>
+        <translation>NumeroBatimentProj</translation>
+    </message>
+    <message>
+        <location/>
+        <source>ProjGebaeudenummerPos</source>
+        <translation>PosNumeroBatimentProj</translation>
+    </message>
+    <message>
+        <location/>
+        <source>ProjObjektname</source>
+        <translation>NomObjetProj</translation>
+    </message>
+    <message>
+        <location/>
+        <source>ProjObjektnamePos</source>
+        <translation>PosNomObjetProj</translation>
+    </message>
+    <message>
+        <location/>
+        <source>ProjObjektnamePosUP2</source>
+        <translation>PosNomObjetProjUP2</translation>
+    </message>
+    <message>
+        <location/>
+        <source>ProjObjektnamePosUP5</source>
+        <translation>PosNomObjetProjUP5</translation>
+    </message>
+    <message>
+        <location/>
+        <source>ProjBoFlaecheSymbol</source>
+        <translation>SymboleSurfaceCSProj</translation>
+    </message>
+    <message>
+        <location/>
+        <source>BoFlaeche</source>
+        <translation>SurfaceCS</translation>
+    </message>
+    <message>
+        <location/>
+        <source>Gebaeudenummer</source>
+        <translation>Numero de batiment</translation>
+    </message>
+    <message>
+        <location/>
+        <source>GebaeudenummerPos</source>
+        <translation>PosNumero de batiment</translation>
+    </message>
+    <message>
+        <location/>
+        <source>Objektname</source>
+        <translation>Nom objet</translation>
+    </message>
+    <message>
+        <location/>
+        <source>ObjektnamePos</source>
+        <translation>PosNom objet</translation>
+    </message>
+    <message>
+        <location/>
+        <source>ObjektnamePosUP2</source>
+        <translation>PosNom objetUP2</translation>
+    </message>
+    <message>
+        <location/>
+        <source>ObjektnamePosUP5</source>
+        <translation>PosNom objetUP5</translation>
+    </message>
+    <message>
+        <location/>
+        <source>BoFlaecheSymbol</source>
+        <translation>SymboleSurfaceCS</translation>
+    </message>
+    <message>
+        <location/>
+        <source>BoFlaecheSymbolUP2</source>
+        <translation>SymboleSurfaceCSUP2</translation>
+    </message>
+    <message>
+        <location/>
+        <source>BoFlaecheSymbolUP5</source>
+        <translation>SymboleSurfaceCSUP5</translation>
+    </message>
+    <message>
+        <location/>
+        <source>Einzelpunkt</source>
+        <translation>Point particulier</translation>
+    </message>
+    <message>
+        <location/>
+        <source>EinzelpunktPos</source>
+        <translation>PosPoint particulier</translation>
+    </message>
+    <message>
+        <location/>
+        <source>EONachfuehrung</source>
+        <translation>Mise a jourOD</translation>
+    </message>
+    <message>
+        <location/>
+        <source>Einzelobjekt</source>
+        <translation>Objet divers</translation>
+    </message>
+    <message>
+        <location/>
+        <source>Flaechenelement</source>
+        <translation>Element surfacique</translation>
+    </message>
+    <message>
+        <location/>
+        <source>FlaechenelementSymbol</source>
+        <translation>SymboleElement surf</translation>
+    </message>
+    <message>
+        <location/>
+        <source>FlaechenelementSymbolUP2</source>
+        <translation>SymboleElement surfUP2</translation>
+    </message>
+    <message>
+        <location/>
+        <source>FlaechenelementSymbolUP5</source>
+        <translation>SymboleElement surfUP5</translation>
+    </message>
+    <message>
+        <location/>
+        <source>Linienelement</source>
+        <translation>Element lineaire</translation>
+    </message>
+    <message>
+        <location/>
+        <source>LinienelementSymbol</source>
+        <translation>SymboleElement lineaire</translation>
+    </message>
+    <message>
+        <location/>
+        <source>LinienelementSymbolUP2</source>
+        <translation>SymboleElement linUP2</translation>
+    </message>
+    <message>
+        <location/>
+        <source>LinienelementSymbolUP5</source>
+        <translation>SymboleElement linUP5</translation>
+    </message>
+    <message>
+        <location/>
+        <source>Punktelement</source>
+        <translation>Element ponctuel</translation>
+    </message>
+    <message>
+        <location/>
+        <source>Objektnummer</source>
+        <translation>Numero Objet</translation>
+    </message>
+    <message>
+        <location/>
+        <source>ObjektnummerPos</source>
+        <translation>PosNumero Objet</translation>
+    </message>
+    <message>
+        <location/>
+        <source>HONachfuehrung</source>
+        <translation>Mise a jourAL</translation>
+    </message>
+    <message>
+        <location/>
+        <source>Hoehenpunkt</source>
+        <translation>Point cote</translation>
+    </message>
+    <message>
+        <location/>
+        <source>HoehenpunktPos</source>
+        <translation>PosPoint cote</translation>
+    </message>
+    <message>
+        <location/>
+        <source>HoehenpunktPosUP2</source>
+        <translation>PosPoint coteUP2</translation>
+    </message>
+    <message>
+        <location/>
+        <source>HoehenpunktPosUP5</source>
+        <translation>PosPoint coteUP5</translation>
+    </message>
+    <message>
+        <location/>
+        <source>Gelaendekante</source>
+        <translation>Arete</translation>
+    </message>
+    <message>
+        <location/>
+        <source>Aussparung</source>
+        <translation>Surface vide</translation>
+    </message>
+    <message>
+        <location/>
+        <source>NKNachfuehrung</source>
+        <translation>Mise a jourNO</translation>
+    </message>
+    <message>
+        <location/>
+        <source>Flurname</source>
+        <translation>Nom local</translation>
+    </message>
+    <message>
+        <location/>
+        <source>FlurnamePos</source>
+        <translation>PosNom local</translation>
+    </message>
+    <message>
+        <location/>
+        <source>FlurnamePosUP2</source>
+        <translation>PosNom localUP2</translation>
+    </message>
+    <message>
+        <location/>
+        <source>FlurnamePosUP5</source>
+        <translation>PosNom localUP5</translation>
+    </message>
+    <message>
+        <location/>
+        <source>Ortsname</source>
+        <translation>Nom de lieu</translation>
+    </message>
+    <message>
+        <location/>
+        <source>OrtsnamePos</source>
+        <translation>PosNom de lieu</translation>
+    </message>
+    <message>
+        <location/>
+        <source>OrtsnamePosUP2</source>
+        <translation>PosNom de lieuUP2</translation>
+    </message>
+    <message>
+        <location/>
+        <source>OrtsnamePosUP5</source>
+        <translation>PosNom de lieuUP5</translation>
+    </message>
+    <message>
+        <location/>
+        <source>Gelaendename</source>
+        <translation>Lieudit</translation>
+    </message>
+    <message>
+        <location/>
+        <source>GelaendenamePos</source>
+        <translation>PosLieudit</translation>
+    </message>
+    <message>
+        <location/>
+        <source>GelaendenamePosUP2</source>
+        <translation>PosLieuditUP2</translation>
+    </message>
+    <message>
+        <location/>
+        <source>GelaendenamePosUP5</source>
+        <translation>PosLieuditUP5</translation>
+    </message>
+    <message>
+        <location/>
+        <source>LSNachfuehrung</source>
+        <translation>Mise a jourBF</translation>
+    </message>
+    <message>
+        <location/>
+        <source>Grenzpunkt</source>
+        <translation>Point limite</translation>
+    </message>
+    <message>
+        <location/>
+        <source>GrenzpunktPos</source>
+        <translation>PosPoint limite</translation>
+    </message>
+    <message>
+        <location/>
+        <source>GrenzpunktSymbol</source>
+        <translation>SymbolePoint limite</translation>
+    </message>
+    <message>
+        <location/>
+        <source>ProjGrundstueck</source>
+        <translation>ImmeubleProj</translation>
+    </message>
+    <message>
+        <location/>
+        <source>ProjGrundstueckPos</source>
+        <translation>PosImmeubleProj</translation>
+    </message>
+    <message>
+        <location/>
+        <source>ProjGrundstueckPosUP2</source>
+        <translation>PosImmeubleProjUP2</translation>
+    </message>
+    <message>
+        <location/>
+        <source>ProjGrundstueckPosUP5</source>
+        <translation>PosImmeubleProjUP5</translation>
+    </message>
+    <message>
+        <location/>
+        <source>ProjLiegenschaft</source>
+        <translation>Bien fondsProj</translation>
+    </message>
+    <message>
+        <location/>
+        <source>TeilProjLSPos</source>
+        <translation>PosPartieBFProj</translation>
+    </message>
+    <message>
+        <location/>
+        <source>TeilProjLSPosUP2</source>
+        <translation>PosPartieBFProjUP2</translation>
+    </message>
+    <message>
+        <location/>
+        <source>TeilProjLSPosUP5</source>
+        <translation>PosPartieBFProjUP5</translation>
+    </message>
+    <message>
+        <location/>
+        <source>ProjSelbstRecht</source>
+        <translation>DDPProj</translation>
+    </message>
+    <message>
+        <location/>
+        <source>TeilProjSRPos</source>
+        <translation>PosPartieDDPProj</translation>
+    </message>
+    <message>
+        <location/>
+        <source>TeilProjSRPosUP2</source>
+        <translation>PosPartieDDPProjUP2</translation>
+    </message>
+    <message>
+        <location/>
+        <source>TeilProjSRPosUP5</source>
+        <translation>PosPartieDDPProjUP5</translation>
+    </message>
+    <message>
+        <location/>
+        <source>ProjBergwerk</source>
+        <translation>MineProj</translation>
+    </message>
+    <message>
+        <location/>
+        <source>Grundstueck</source>
+        <translation>Immeuble</translation>
+    </message>
+    <message>
+        <location/>
+        <source>GrundstueckPos</source>
+        <translation>PosImmeuble</translation>
+    </message>
+    <message>
+        <location/>
+        <source>GrundstueckPosUP2</source>
+        <translation>PosImmeubleUP2</translation>
+    </message>
+    <message>
+        <location/>
+        <source>GrundstueckPosUP5</source>
+        <translation>PosImmeubleUP5</translation>
+    </message>
+    <message>
+        <location/>
+        <source>Liegenschaft</source>
+        <translation>Bien fonds</translation>
+    </message>
+    <message>
+        <location/>
+        <source>TeilLSPos</source>
+        <translation>PosPartieBF</translation>
+    </message>
+    <message>
+        <location/>
+        <source>TeilLSPosUP2</source>
+        <translation>PosPartieBFUP2</translation>
+    </message>
+    <message>
+        <location/>
+        <source>TeilLSPosUP5</source>
+        <translation>PosPartieBFUP5</translation>
+    </message>
+    <message>
+        <location/>
+        <source>SelbstRecht</source>
+        <translation>DDP</translation>
+    </message>
+    <message>
+        <location/>
+        <source>TeilSRPos</source>
+        <translation>PosPartieDDP</translation>
+    </message>
+    <message>
+        <location/>
+        <source>TeilSRPosUP2</source>
+        <translation>PosPartieDDPUP2</translation>
+    </message>
+    <message>
+        <location/>
+        <source>TeilSRPosUP5</source>
+        <translation>PosPartieDDPUP5</translation>
+    </message>
+    <message>
+        <location/>
+        <source>Bergwerk</source>
+        <translation>Mine</translation>
+    </message>
+    <message>
+        <location/>
+        <source>RLNachfuehrung</source>
+        <translation>Mise a jourCO</translation>
+    </message>
+    <message>
+        <location/>
+        <source>Leitungsobjekt</source>
+        <translation>Element conduite</translation>
+    </message>
+    <message>
+        <location/>
+        <source>LeitungsobjektPos</source>
+        <translation>PosElement conduite</translation>
+    </message>
+    <message>
+        <location/>
+        <source>LeitungsobjektPosUP2</source>
+        <translation>PosElement conduiteUP2</translation>
+    </message>
+    <message>
+        <location/>
+        <source>LeitungsobjektPosUP5</source>
+        <translation>PosElement conduiteUP5</translation>
+    </message>
+    <message>
+        <location/>
+        <source>Signalpunkt</source>
+        <translation>Signal</translation>
+    </message>
+    <message>
+        <location/>
+        <source>SignalpunktPos</source>
+        <translation>PosSignal</translation>
+    </message>
+    <message>
+        <location/>
+        <source>Nummerierungsbereich</source>
+        <translation>Domaine numerotation</translation>
+    </message>
+    <message>
+        <location/>
+        <source>NBGeometrie</source>
+        <translation>GeometrieDN</translation>
+    </message>
+    <message>
+        <location/>
+        <source>NummerierungsbereichPos</source>
+        <translation>PosDomaine numerotation</translation>
+    </message>
+    <message>
+        <location/>
+        <source>GEMNachfuehrung</source>
+        <translation>Mise a jourCOM</translation>
+    </message>
+    <message>
+        <location/>
+        <source>Hoheitsgrenzpunkt</source>
+        <translation>Point limite ter</translation>
+    </message>
+    <message>
+        <location/>
+        <source>HoheitsgrenzpunktPos</source>
+        <translation>PosPoint limite ter</translation>
+    </message>
+    <message>
+        <location/>
+        <source>HoheitsgrenzpunktSymbol</source>
+        <translation>SymbolePoint limite ter</translation>
+    </message>
+    <message>
+        <location/>
+        <source>Gemeinde</source>
+        <translation>Commune</translation>
+    </message>
+    <message>
+        <location/>
+        <source>ProjGemeindegrenze</source>
+        <translation>Limite communeProj</translation>
+    </message>
+    <message>
+        <location/>
+        <source>Gemeindegrenze</source>
+        <translation>Limite commune</translation>
+    </message>
+    <message>
+        <location/>
+        <source>Bezirksgrenzabschnitt</source>
+        <translation>Partie limite district</translation>
+    </message>
+    <message>
+        <location/>
+        <source>Kantonsgrenzabschnitt</source>
+        <translation>Partie limite canton</translation>
+    </message>
+    <message>
+        <location/>
+        <source>Landesgrenzabschnitt</source>
+        <translation>Partie limite nationale</translation>
+    </message>
+    <message>
+        <location/>
+        <source>Plan</source>
+        <translation>Plan</translation>
+    </message>
+    <message>
+        <location/>
+        <source>Plangeometrie</source>
+        <translation>Geometrie plan</translation>
+    </message>
+    <message>
+        <location/>
+        <source>PlanPos</source>
+        <translation>Posplan</translation>
+    </message>
+    <message>
+        <location/>
+        <source>Toleranzstufe</source>
+        <translation>Niveau tolerance</translation>
+    </message>
+    <message>
+        <location/>
+        <source>ToleranzstufePos</source>
+        <translation>PosNiveau tolerance</translation>
+    </message>
+    <message>
+        <location/>
+        <source>Rutschung</source>
+        <translation>Glissement</translation>
+    </message>
+    <message>
+        <location/>
+        <source>RutschungPos</source>
+        <translation>PosGlissement</translation>
+    </message>
+    <message>
+        <location/>
+        <source>OSNachfuehrung</source>
+        <translation>Mise a jourLoc</translation>
+    </message>
+    <message>
+        <location/>
+        <source>OrtschaftsVerbund</source>
+        <translation>Groupement de Localite</translation>
+    </message>
+    <message>
+        <location/>
+        <source>OrtschaftsVerbundText</source>
+        <translation>Texte Groupement de Localite</translation>
+    </message>
+    <message>
+        <location/>
+        <source>Ortschaft</source>
+        <translation>Localite</translation>
+    </message>
+    <message>
+        <location/>
+        <source>OrtschaftsName</source>
+        <translation>Nom localite</translation>
+    </message>
+    <message>
+        <location/>
+        <source>OrtschaftsName_Pos</source>
+        <translation>PosNom localite</translation>
+    </message>
+    <message>
+        <location/>
+        <source>OrtschaftsName_PosUP2</source>
+        <translation>PosNom localiteUP2</translation>
+    </message>
+    <message>
+        <location/>
+        <source>OrtschaftsName_PosUP5</source>
+        <translation>PosNom localiteUP5</translation>
+    </message>
+    <message>
+        <location/>
+        <source>PLZ6Nachfuehrung</source>
+        <translation>Mise a jourNPA6</translation>
+    </message>
+    <message>
+        <location/>
+        <source>PLZ6</source>
+        <translation>NPA6</translation>
+    </message>
+    <message>
+        <location/>
+        <source>GEBNachfuehrung</source>
+        <translation>Mise a jourBAT</translation>
+    </message>
+    <message>
+        <location/>
+        <source>Lokalisation</source>
+        <translation>Localisation</translation>
+    </message>
+    <message>
+        <location/>
+        <source>LokalisationsName</source>
+        <translation>Nom localisation</translation>
+    </message>
+    <message>
+        <location/>
+        <source>LokalisationsNamePos</source>
+        <translation>PosNom localisation</translation>
+    </message>
+    <message>
+        <location/>
+        <source>LokalisationsNamePosUP2</source>
+        <translation>PosNom localisationUP2</translation>
+    </message>
+    <message>
+        <location/>
+        <source>LokalisationsNamePosUP5</source>
+        <translation>PosNom localisationUP5</translation>
+    </message>
+    <message>
+        <location/>
+        <source>BenanntesGebiet</source>
+        <translation>Lieu denomme</translation>
+    </message>
+    <message>
+        <location/>
+        <source>Strassenstueck</source>
+        <translation>Troncon rue</translation>
+    </message>
+    <message>
+        <location/>
+        <source>Gebaeudeeingang</source>
+        <translation>Entree batiment</translation>
+    </message>
+    <message>
+        <location/>
+        <source>HausnummerPos</source>
+        <translation>PosNumero maison</translation>
+    </message>
+    <message>
+        <location/>
+        <source>HausnummerPosUP2</source>
+        <translation>PosNumero maisonUP2</translation>
+    </message>
+    <message>
+        <location/>
+        <source>HausnummerPosUP5</source>
+        <translation>PosNumero maisonUP5</translation>
+    </message>
+    <message>
+        <location/>
+        <source>GebaeudeName</source>
+        <translation>Nom batiment</translation>
+    </message>
+    <message>
+        <location/>
+        <source>GebaeudeNamePos</source>
+        <translation>PosNom batiment</translation>
+    </message>
+    <message>
+        <location/>
+        <source>GebaeudeNamePosUP2</source>
+        <translation>PosNom batimentUP2</translation>
+    </message>
+    <message>
+        <location/>
+        <source>GebaeudeNamePosUP5</source>
+        <translation>PosNom batimentUP5</translation>
+    </message>
+    <message>
+        <location/>
+        <source>GebaeudeBeschreibung</source>
+        <translation>Description batiment</translation>
+    </message>
+    <message>
+        <location/>
+        <source>PlanLayout</source>
+        <translation>Bord de plan</translation>
+    </message>
+    <message>
+        <location/>
+        <source>Planbeschriftung</source>
+        <translation>Description plan</translation>
+    </message>
+    <message>
+        <location/>
+        <source>PlanbeschriftungPos</source>
+        <translation>PosDescription plan</translation>
+    </message>
+    <message>
+        <location/>
+        <source>Koordinatenanschrift</source>
+        <translation>Indication coordonnees</translation>
+    </message>
+    <message>
+        <location/>
+        <source>KoordinatenanschriftPos</source>
+        <translation>PosIndication coord</translation>
+    </message>
+    <message>
+        <location/>
+        <source>Linienobjekt</source>
+        <translation>Element lineaire</translation>
+    </message>
+    <message>
+        <location/>
+        <source>KoordinatenLinie</source>
+        <translation>Ligne coordonnees</translation>
+    </message>
+    <message>
+        <location/>
+        <source>Darstellungsflaeche</source>
+        <translation>Surface representation</translation>
+    </message>
+    <message>
+        <location/>
+        <source>PlanLayoutSymbol</source>
+        <translation>SymboleBord de plan</translation>
+    </message>
+    <message>
+        <location/>
+        <source>Netzkreuz</source>
+        <translation>Croix filet</translation>
+    </message>
+    <message>
+        <location/>
+        <source>HKNachfuehrung</source>
+        <translation>Mise a jourCN</translation>
+    </message>
+    <message>
+        <location/>
+        <source>Hoehenkurve</source>
+        <translation>CourbeNiveau</translation>
+    </message>
+    <message>
+        <location/>
+        <source>HoehenkurvePos</source>
+        <translation>PosCourbeNiveau</translation>
+    </message>
+    <message>
+        <location/>
+        <source>HoehenkurvePosUP2</source>
+        <translation>PosCourbeNiveauUP2</translation>
+    </message>
+    <message>
+        <location/>
+        <source>HoehenkurvePosUP5</source>
+        <translation>PosCourbeNiveauUP5</translation>
+    </message>
+    <message>
+        <location/>
+        <source>hilfslinie</source>
+        <translation>ligne auxiliaire</translation>
+    </message>
+    <message>
+        <location/>
+        <source>plannullpunkt</source>
+        <translation>origine plan</translation>
+    </message>
+    <message>
+        <location/>
+        <source>uebersichtplannullpunkt</source>
+        <translation>origine plan synoptique</translation>
+    </message>
+    <message>
+        <location/>
+        <source>anfangspunkt</source>
+        <translation>point depart</translation>
+    </message>
 </context>
 <context>
     <name>VeriSO_EE_AV allgemein</name>

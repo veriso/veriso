@@ -275,7 +275,7 @@ class ApplicationModuleBase(QObject):
             return
 
         for topic in topics:
-            topic_menu = menu.addMenu(str(topic["topic"]))
+            topic_menu = menu.addMenu(_translate(self.module_name, topic["topic"], None))
 
             action = QAction(_translate(self.module, "Load Topic", None),
                              self.iface.mainWindow())
@@ -284,7 +284,7 @@ class ApplicationModuleBase(QObject):
             action.triggered.connect(
                 lambda checked, topic=topic: self.do_show_topic(topic))
 
-            layers = get_layers_from_topic(topic)
+            layers = get_layers_from_topic(topic, self.module_name)
             for my_layer in layers:
                 action = QAction(my_layer["title"], self.iface.mainWindow())
                 topic_menu.addAction(action)
@@ -313,7 +313,7 @@ class ApplicationModuleBase(QObject):
 
         Uses an universal 'load layer' method.
         """
-        layers = get_layers_from_topic(topic)
+        layers = get_layers_from_topic(topic, self.module_name)
         for layer in layers:
             self.do_show_single_topic_layer(layer)
 
