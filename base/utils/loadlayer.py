@@ -136,8 +136,8 @@ class LoadLayer(QObject):
                 )
             )
 
-        except KeyError as e:
-            raise VerisoErrorWithBar(self.message_bar, str(e), e)
+        except KeyError:
+            pass
 
     def get_localized_qml_path(self, qml_path):
 

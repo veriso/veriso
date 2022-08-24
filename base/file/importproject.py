@@ -3,6 +3,8 @@
 import os
 import sys
 import shutil
+import csv
+import tempfile
 from qgis.PyQt.QtCore import QDateTime, QDir, QFileInfo, \
     QProcess, QRegExp, QSettings, Qt, pyqtSignal, \
     QTextCodec
@@ -213,8 +215,10 @@ class ImportProjectDialog(QDialog, FORM_CLASS):
             self.app_module_name = self.cmbBoxAppModule.currentText()
 
             for i in range(len(ilimodels)):
-                model_name = ilimodels[i]["ilimodel"]
-                reference_frame = ilimodels[i]["referenceframe"]
+                model_name = ilimodels[i].get("displayname")
+                if model_name is None:
+                    model_name = ilimodels[i].get("ilimodel")
+
                 self.cmbBoxIliModelName.insertItem(
                     self.cmbBoxIliModelName.count(), str(model_name),
                     ilimodels[i])
@@ -456,6 +460,7 @@ class ImportProjectDialog(QDialog, FORM_CLASS):
                 self.max_scale = 1000
 
         self.textEditImportOutput.clear()
+        QApplication.setOverrideCursor(Qt.WaitCursor)
 
         # Set all the arguments for ili2pg.
         arguments = []
@@ -511,14 +516,17 @@ class ImportProjectDialog(QDialog, FORM_CLASS):
             arguments.append("--createEnumTxtCol")
         arguments.append("--nameByTopic")
         arguments.append("--strokeArcs")
-        arguments.append(self.itf)
+        # Support french data import for veribe_ee module
+        if self.app_module == "veribe_ee":
+            arguments.append(self.translate_itf_to_german())
+        else:
+            arguments.append(self.itf)
 
         self.process = QProcess()
         self.process.readyReadStandardOutput.connect(self.read_output)
         self.process.readyReadStandardError.connect(self.read_error)
         self.process.finished.connect(self.finish_import)
 
-        QApplication.setOverrideCursor(Qt.WaitCursor)
         self.buttonBox.setEnabled(False)
         self.report_progress("Info: Starting ili2pg")
         self.report_progress("Info: java %s" % ' '.join(arguments))
@@ -535,6 +543,55 @@ class ImportProjectDialog(QDialog, FORM_CLASS):
             self.message_bar.pushMessage("VeriSO", tr(message),
                                          Qgis.Critical, duration=0)
             QgsMessageLog.logMessage(str(e), "VeriSO", Qgis.Critical)
+
+    def translate_itf_to_german(self):
+        # Dictionary filled with the translation from the CSV
+        # key   = french translation
+        # value = german translation
+        translations = {}
+        translated_content = ""
+        translation_csv = os.path.join(
+            os.path.dirname(__file__),
+            "../../modules/{}/varia/itf_translations.csv".format(self.app_module)
+        )
+        with open(translation_csv, newline='') as csvfile:
+            reader = csv.reader(csvfile, delimiter=';')
+            for row in reader:
+                translations[row[1]] = row[0]
+
+        with open(self.itf, 'rb') as itf:
+            # The french tranlsation for Linienelement and Linienobjekt is Element_lineaire
+            # Therefore it is not clear when Element_lineaire means Linienelement (or Linienobjekt)
+            # We translate the first two Element_lineaire tables to Linienelement
+            # and the last one to Linienobjekt.
+            # According to the models (fr and de ili models) this should be correct.
+            linien_element_counter = 2
+            for line in itf:
+
+                try:
+                    # Try decoding line to unicode,
+                    # if it fails, then we don't really care
+                    # because no topics / tables have special characters
+                    # in their name.
+                    # Ergo, skipping line is safe
+                    line = line.decode("UTF8")
+                except UnicodeDecodeError:
+                    continue
+
+                if translations.get(line.strip()) is not None:
+                    if translations.get(line.strip()) == "TABL Linienobjekt" and linien_element_counter != 0:
+                        translated_content += "TABL Linienelement\n"
+                        linien_element_counter -= 1
+                        continue
+
+                    translated_content += f"{translations.get(line.strip())}\n"
+                    continue
+
+                translated_content += f"{line.strip()}\n"
+
+        fd, temp_itf_file = tempfile.mkstemp(suffix=".itf")
+        open(temp_itf_file, "w").write(translated_content)
+        return temp_itf_file
 
     def restore_cursor(self):
         QApplication.restoreOverrideCursor()
