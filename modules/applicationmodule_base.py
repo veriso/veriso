@@ -7,6 +7,8 @@ from collections import OrderedDict
 from qgis.PyQt.QtCore import QCoreApplication, QObject, QSettings, Qt
 from qgis.PyQt.QtWidgets import QAction, QApplication, QMenu, QMenuBar, \
     QSizePolicy
+from qgis.PyQt.QtGui import QKeySequence
+from qgis.gui import QgsGui
 from qgis.core import QgsMessageLog, Qgis
 
 from veriso.base.utils.module import (get_topics_tables, get_baselayers,
@@ -135,7 +137,12 @@ class ApplicationModuleBase(QObject):
                     action = QAction(check_name, self.iface.mainWindow())
 
                     try:
-                        shortcut = check["shortcut"]
+                        shortcut = QKeySequence(check["shortcut"])
+                        # First unregister shortcut if already set in QGIS
+                        shortcut_set_by_qgis = QgsGui.shortcutsManager().shortcutForSequence(shortcut)
+                        if shortcut_set_by_qgis is not None:
+                            QgsGui.shortcutsManager().unregisterShortcut(shortcut_set_by_qgis)
+
                         action.setShortcut(shortcut)
                     except:
                         pass
