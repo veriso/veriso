@@ -568,15 +568,9 @@ class ImportProjectDialog(QDialog, FORM_CLASS):
             linien_element_counter = 2
             for line in itf:
 
-                try:
-                    # Try decoding line to unicode,
-                    # if it fails, then we don't really care
-                    # because no topics / tables have special characters
-                    # in their name.
-                    # Ergo, skipping line is safe
-                    line = line.decode("UTF8")
-                except UnicodeDecodeError:
-                    continue
+                # Accoding to https://www.interlis.ch/download/interlis1/ili1_ref_d.pdf
+                # iso-8859-1 is the default encoding
+                line = line.decode("iso-8859-1")
 
                 if translations.get(line.strip()) is not None:
                     if translations.get(line.strip()) == "TABL Linienobjekt" and linien_element_counter != 0:
