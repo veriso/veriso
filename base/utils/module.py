@@ -30,7 +30,8 @@ def get_layers_from_topic(topic, module_name):
         my_layer = {
             "type": "postgres", "featuretype": table,
             "key": topic["primary_keys"][i],
-            "geom": topic["geometry_columns"][i], "group": topic["topic"],
+            "geom": topic["geometry_columns"][i],
+            "group": tr(topic["topic"], context=module_name),
             "title": tr(topic["class_names"][i], context=module_name)}
         i += 1
         # If there is more than one geometry column in the table
