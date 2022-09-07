@@ -265,6 +265,11 @@
         <translation>Importer projet</translation>
     </message>
     <message>
+        <location line="+1"/>
+        <source>Export project</source>
+        <translation>Exporter projet</translation>
+    </message>
+    <message>
         <location line="+3"/>
         <source>Delete project</source>
         <translation>Effacer projet</translation>
@@ -755,7 +760,7 @@
     </message>
     <message>
         <location/>
-        <source>Gebäude &gt; 12m2 ohne Eingang</source>
+        <source>Gebäude &gt; 10m2 ohne Eingang</source>
         <translation>Bâtiment &gt; 10m2 sans entrée</translation>
     </message>
     <message>
@@ -1073,27 +1078,27 @@
     <message>
         <location/>
         <source>FixpunkteKategorie1</source>
-        <translation>Points fixesCategorie1</translation>
+        <translation>Points_fixesCategorie1</translation>
     </message>
     <message>
         <location/>
         <source>FixpunkteKategorie2</source>
-        <translation>Points fixesCategorie2</translation>
+        <translation>Points_fixesCategorie2</translation>
     </message>
     <message>
         <location/>
         <source>FixpunkteKategorie3</source>
-        <translation>Points fixesCategorie3</translation>
+        <translation>Points_fixesCategorie3</translation>
     </message>
     <message>
         <location/>
         <source>Bodenbedeckung</source>
-        <translation>Couverture du sol</translation>
+        <translation>Couverture_du_sol</translation>
     </message>
     <message>
         <location/>
         <source>Einzelobjekte</source>
-        <translation>Objets divers</translation>
+        <translation>Objets_divers</translation>
     </message>
     <message>
         <location/>
@@ -1108,7 +1113,7 @@
     <message>
         <location/>
         <source>Liegenschaften</source>
-        <translation>Biens fonds</translation>
+        <translation>Biens_fonds</translation>
     </message>
     <message>
         <location/>
@@ -1118,32 +1123,32 @@
     <message>
         <location/>
         <source>Nummerierungsbereiche</source>
-        <translation>Domaines numerotation</translation>
+        <translation>Domaines_numerotation</translation>
     </message>
     <message>
         <location/>
         <source>Gemeindegrenzen</source>
-        <translation>Limites commune</translation>
+        <translation>Limites_commune</translation>
     </message>
     <message>
         <location/>
         <source>Bezirksgrenzen</source>
-        <translation>Limites district</translation>
+        <translation>Limites_district</translation>
     </message>
     <message>
         <location/>
         <source>Kantonsgrenzen</source>
-        <translation>Limites canton</translation>
+        <translation>Limites_canton</translation>
     </message>
     <message>
         <location/>
         <source>Landesgrenzen</source>
-        <translation>Limites nationales</translation>
+        <translation>Limites_nationales</translation>
     </message>
     <message>
         <location/>
         <source>Planeinteilungen</source>
-        <translation>Repartitions plans</translation>
+        <translation>Repartitions_plans</translation>
     </message>
     <message>
         <location/>
@@ -1153,22 +1158,22 @@
     <message>
         <location/>
         <source>Rutschgebiete</source>
-        <translation>Zones glissement</translation>
+        <translation>Zones_glissement</translation>
     </message>
     <message>
         <location/>
         <source>PLZOrtschaft</source>
-        <translation>NPA Localite</translation>
+        <translation>NPA_Localite</translation>
     </message>
     <message>
         <location/>
         <source>Gebaeudeadressen</source>
-        <translation>Adresses des batiments</translation>
+        <translation>Adresses_des_batiments</translation>
     </message>
     <message>
         <location/>
         <source>Planrahmen</source>
-        <translation>Bords de plan</translation>
+        <translation>Bords_de_plan</translation>
     </message>
     <message>
         <location/>
@@ -1178,7 +1183,7 @@
     <message>
         <location/>
         <source>LFP1Nachfuehrung</source>
-        <translation>Mise a jourPFP1</translation>
+        <translation>Mise_a_jourPFP1</translation>
     </message>
     <message>
         <location/>
@@ -1198,7 +1203,7 @@
     <message>
         <location/>
         <source>HFP1Nachfuehrung</source>
-        <translation>Mise a jourPFA1</translation>
+        <translation>Mise_a_jourPFA1</translation>
     </message>
     <message>
         <location/>
@@ -1213,7 +1218,7 @@
     <message>
         <location/>
         <source>LFP2Nachfuehrung</source>
-        <translation>Mise a jourPFP2</translation>
+        <translation>Mise_a_jourPFP2</translation>
     </message>
     <message>
         <location/>
@@ -1233,7 +1238,7 @@
     <message>
         <location/>
         <source>HFP2Nachfuehrung</source>
-        <translation>Mise a jourPFA2</translation>
+        <translation>Mise_a_jourPFA2</translation>
     </message>
     <message>
         <location/>
@@ -1248,7 +1253,7 @@
     <message>
         <location/>
         <source>LFP3Nachfuehrung</source>
-        <translation>Mise a jourPFP3</translation>
+        <translation>Mise_a_jourPFP3</translation>
     </message>
     <message>
         <location/>
@@ -1268,22 +1273,22 @@
     <message>
         <location/>
         <source>Hilfsfixpunkt</source>
-        <translation>Point fixe auxiliaire</translation>
+        <translation>Point_fixe_auxiliaire</translation>
     </message>
     <message>
         <location/>
         <source>HilfsfixpunktPos</source>
-        <translation>PosPoint fixe auxiliaire</translation>
+        <translation>PosPoint_fixe_auxiliaire</translation>
     </message>
     <message>
         <location/>
         <source>HilfsfixpunktSymbol</source>
-        <translation>SymbolePoint fixe auxil</translation>
+        <translation>SymbolePoint_fixe_auxil</translation>
     </message>
     <message>
         <location/>
         <source>HFP3Nachfuehrung</source>
-        <translation>Mise a jourPFA3</translation>
+        <translation>Mise_a_jourPFA3</translation>
     </message>
     <message>
         <location/>
@@ -1298,7 +1303,7 @@
     <message>
         <location/>
         <source>BBNachfuehrung</source>
-        <translation>Mise a jourCS</translation>
+        <translation>Mise_a_jourCS</translation>
     </message>
     <message>
         <location/>
@@ -1348,32 +1353,32 @@
     <message>
         <location/>
         <source>Gebaeudenummer</source>
-        <translation>Numero de batiment</translation>
+        <translation>Numero_de_batiment</translation>
     </message>
     <message>
         <location/>
         <source>GebaeudenummerPos</source>
-        <translation>PosNumero de batiment</translation>
+        <translation>PosNumero_de_batiment</translation>
     </message>
     <message>
         <location/>
         <source>Objektname</source>
-        <translation>Nom objet</translation>
+        <translation>Nom_objet</translation>
     </message>
     <message>
         <location/>
         <source>ObjektnamePos</source>
-        <translation>PosNom objet</translation>
+        <translation>PosNom_objet</translation>
     </message>
     <message>
         <location/>
         <source>ObjektnamePosUP2</source>
-        <translation>PosNom objetUP2</translation>
+        <translation>PosNom_objetUP2</translation>
     </message>
     <message>
         <location/>
         <source>ObjektnamePosUP5</source>
-        <translation>PosNom objetUP5</translation>
+        <translation>PosNom_objetUP5</translation>
     </message>
     <message>
         <location/>
@@ -1393,102 +1398,102 @@
     <message>
         <location/>
         <source>Einzelpunkt</source>
-        <translation>Point particulier</translation>
+        <translation>Point_particulier</translation>
     </message>
     <message>
         <location/>
         <source>EinzelpunktPos</source>
-        <translation>PosPoint particulier</translation>
+        <translation>PosPoint_particulier</translation>
     </message>
     <message>
         <location/>
         <source>EONachfuehrung</source>
-        <translation>Mise a jourOD</translation>
+        <translation>Mise_a_jourOD</translation>
     </message>
     <message>
         <location/>
         <source>Einzelobjekt</source>
-        <translation>Objet divers</translation>
+        <translation>Objet_divers</translation>
     </message>
     <message>
         <location/>
         <source>Flaechenelement</source>
-        <translation>Element surfacique</translation>
+        <translation>Element_surfacique</translation>
     </message>
     <message>
         <location/>
         <source>FlaechenelementSymbol</source>
-        <translation>SymboleElement surf</translation>
+        <translation>SymboleElement_surf</translation>
     </message>
     <message>
         <location/>
         <source>FlaechenelementSymbolUP2</source>
-        <translation>SymboleElement surfUP2</translation>
+        <translation>SymboleElement_surfUP2</translation>
     </message>
     <message>
         <location/>
         <source>FlaechenelementSymbolUP5</source>
-        <translation>SymboleElement surfUP5</translation>
+        <translation>SymboleElement_surfUP5</translation>
     </message>
     <message>
         <location/>
         <source>Linienelement</source>
-        <translation>Element lineaire</translation>
+        <translation>Element_lineaire</translation>
     </message>
     <message>
         <location/>
         <source>LinienelementSymbol</source>
-        <translation>SymboleElement lineaire</translation>
+        <translation>SymboleElement_lineaire</translation>
     </message>
     <message>
         <location/>
         <source>LinienelementSymbolUP2</source>
-        <translation>SymboleElement linUP2</translation>
+        <translation>SymboleElement_linUP2</translation>
     </message>
     <message>
         <location/>
         <source>LinienelementSymbolUP5</source>
-        <translation>SymboleElement linUP5</translation>
+        <translation>SymboleElement_linUP5</translation>
     </message>
     <message>
         <location/>
         <source>Punktelement</source>
-        <translation>Element ponctuel</translation>
+        <translation>Element_ponctuel</translation>
     </message>
     <message>
         <location/>
         <source>Objektnummer</source>
-        <translation>Numero Objet</translation>
+        <translation>Numero_Objet</translation>
     </message>
     <message>
         <location/>
         <source>ObjektnummerPos</source>
-        <translation>PosNumero Objet</translation>
+        <translation>PosNumero_Objet</translation>
     </message>
     <message>
         <location/>
         <source>HONachfuehrung</source>
-        <translation>Mise a jourAL</translation>
+        <translation>Mise_a_jourAL</translation>
     </message>
     <message>
         <location/>
         <source>Hoehenpunkt</source>
-        <translation>Point cote</translation>
+        <translation>Point_cote</translation>
     </message>
     <message>
         <location/>
         <source>HoehenpunktPos</source>
-        <translation>PosPoint cote</translation>
+        <translation>PosPoint_cote</translation>
     </message>
     <message>
         <location/>
         <source>HoehenpunktPosUP2</source>
-        <translation>PosPoint coteUP2</translation>
+        <translation>PosPoint_coteUP2</translation>
     </message>
     <message>
         <location/>
         <source>HoehenpunktPosUP5</source>
-        <translation>PosPoint coteUP5</translation>
+        <translation>PosPoint_coteUP5</translation>
     </message>
     <message>
         <location/>
@@ -1498,52 +1503,52 @@
     <message>
         <location/>
         <source>Aussparung</source>
-        <translation>Surface vide</translation>
+        <translation>Surface_vide</translation>
     </message>
     <message>
         <location/>
         <source>NKNachfuehrung</source>
-        <translation>Mise a jourNO</translation>
+        <translation>Mise_a_jourNO</translation>
     </message>
     <message>
         <location/>
         <source>Flurname</source>
-        <translation>Nom local</translation>
+        <translation>Nom_local</translation>
     </message>
     <message>
         <location/>
         <source>FlurnamePos</source>
-        <translation>PosNom local</translation>
+        <translation>PosNom_local</translation>
     </message>
     <message>
         <location/>
         <source>FlurnamePosUP2</source>
-        <translation>PosNom localUP2</translation>
+        <translation>PosNom_localUP2</translation>
     </message>
     <message>
         <location/>
         <source>FlurnamePosUP5</source>
-        <translation>PosNom localUP5</translation>
+        <translation>PosNom_localUP5</translation>
     </message>
     <message>
         <location/>
         <source>Ortsname</source>
-        <translation>Nom de lieu</translation>
+        <translation>Nom_de_lieu</translation>
     </message>
     <message>
         <location/>
         <source>OrtsnamePos</source>
-        <translation>PosNom de lieu</translation>
+        <translation>PosNom_de_lieu</translation>
     </message>
     <message>
         <location/>
         <source>OrtsnamePosUP2</source>
-        <translation>PosNom de lieuUP2</translation>
+        <translation>PosNom_de_lieuUP2</translation>
     </message>
     <message>
         <location/>
         <source>OrtsnamePosUP5</source>
-        <translation>PosNom de lieuUP5</translation>
+        <translation>PosNom_de_lieuUP5</translation>
     </message>
     <message>
         <location/>
@@ -1568,22 +1573,22 @@
     <message>
         <location/>
         <source>LSNachfuehrung</source>
-        <translation>Mise a jourBF</translation>
+        <translation>Mise_a_jourBF</translation>
     </message>
     <message>
         <location/>
         <source>Grenzpunkt</source>
-        <translation>Point limite</translation>
+        <translation>Point_limite</translation>
     </message>
     <message>
         <location/>
         <source>GrenzpunktPos</source>
-        <translation>PosPoint limite</translation>
+        <translation>PosPoint_limite</translation>
     </message>
     <message>
         <location/>
         <source>GrenzpunktSymbol</source>
-        <translation>SymbolePoint limite</translation>
+        <translation>SymbolePoint_limite</translation>
     </message>
     <message>
         <location/>
@@ -1608,7 +1613,7 @@
     <message>
         <location/>
         <source>ProjLiegenschaft</source>
-        <translation>Bien fondsProj</translation>
+        <translation>Bien_fondsProj</translation>
     </message>
     <message>
         <location/>
@@ -1673,7 +1678,7 @@
     <message>
         <location/>
         <source>Liegenschaft</source>
-        <translation>Bien fonds</translation>
+        <translation>Bien_fonds</translation>
     </message>
     <message>
         <location/>
@@ -1718,27 +1723,27 @@
     <message>
         <location/>
         <source>RLNachfuehrung</source>
-        <translation>Mise a jourCO</translation>
+        <translation>Mise_a_jourCO</translation>
     </message>
     <message>
         <location/>
         <source>Leitungsobjekt</source>
-        <translation>Element conduite</translation>
+        <translation>Element_conduite</translation>
     </message>
     <message>
         <location/>
         <source>LeitungsobjektPos</source>
-        <translation>PosElement conduite</translation>
+        <translation>PosElement_conduite</translation>
     </message>
     <message>
         <location/>
         <source>LeitungsobjektPosUP2</source>
-        <translation>PosElement conduiteUP2</translation>
+        <translation>PosElement_conduiteUP2</translation>
     </message>
     <message>
         <location/>
         <source>LeitungsobjektPosUP5</source>
-        <translation>PosElement conduiteUP5</translation>
+        <translation>PosElement_conduiteUP5</translation>
     </message>
     <message>
         <location/>
@@ -1753,7 +1758,7 @@
     <message>
         <location/>
         <source>Nummerierungsbereich</source>
-        <translation>Domaine numerotation</translation>
+        <translation>Domaine_numerotation</translation>
     </message>
     <message>
         <location/>
@@ -1763,27 +1768,27 @@
     <message>
         <location/>
         <source>NummerierungsbereichPos</source>
-        <translation>PosDomaine numerotation</translation>
+        <translation>PosDomaine_numerotation</translation>
     </message>
     <message>
         <location/>
         <source>GEMNachfuehrung</source>
-        <translation>Mise a jourCOM</translation>
+        <translation>Mise_a_jourCOM</translation>
     </message>
     <message>
         <location/>
         <source>Hoheitsgrenzpunkt</source>
-        <translation>Point limite ter</translation>
+        <translation>Point_limite_ter</translation>
     </message>
     <message>
         <location/>
         <source>HoheitsgrenzpunktPos</source>
-        <translation>PosPoint limite ter</translation>
+        <translation>PosPoint_limite_ter</translation>
     </message>
     <message>
         <location/>
         <source>HoheitsgrenzpunktSymbol</source>
-        <translation>SymbolePoint limite ter</translation>
+        <translation>SymbolePoint_limite_ter</translation>
     </message>
     <message>
         <location/>
@@ -1793,27 +1798,27 @@
     <message>
         <location/>
         <source>ProjGemeindegrenze</source>
-        <translation>Limite communeProj</translation>
+        <translation>Limite_communeProj</translation>
     </message>
     <message>
         <location/>
         <source>Gemeindegrenze</source>
-        <translation>Limite commune</translation>
+        <translation>Limite_commune</translation>
     </message>
     <message>
         <location/>
         <source>Bezirksgrenzabschnitt</source>
-        <translation>Partie limite district</translation>
+        <translation>Partie_limite_district</translation>
     </message>
     <message>
         <location/>
         <source>Kantonsgrenzabschnitt</source>
-        <translation>Partie limite canton</translation>
+        <translation>Partie_limite_canton</translation>
     </message>
     <message>
         <location/>
         <source>Landesgrenzabschnitt</source>
-        <translation>Partie limite nationale</translation>
+        <translation>Partie_limite_nationale</translation>
     </message>
     <message>
         <location/>
@@ -1823,7 +1828,7 @@
     <message>
         <location/>
         <source>Plangeometrie</source>
-        <translation>Geometrie plan</translation>
+        <translation>Geometrie_plan</translation>
     </message>
     <message>
         <location/>
@@ -1833,12 +1838,12 @@
     <message>
         <location/>
         <source>Toleranzstufe</source>
-        <translation>Niveau tolerance</translation>
+        <translation>Niveau_tolerance</translation>
     </message>
     <message>
         <location/>
         <source>ToleranzstufePos</source>
-        <translation>PosNiveau tolerance</translation>
+        <translation>PosNiveau_tolerance</translation>
     </message>
     <message>
         <location/>
@@ -1853,17 +1858,17 @@
     <message>
         <location/>
         <source>OSNachfuehrung</source>
-        <translation>Mise a jourLoc</translation>
+        <translation>Mise_a_jourLoc</translation>
     </message>
     <message>
         <location/>
         <source>OrtschaftsVerbund</source>
-        <translation>Groupement de Localite</translation>
+        <translation>Groupement_de_Localite</translation>
     </message>
     <message>
         <location/>
         <source>OrtschaftsVerbundText</source>
-        <translation>Texte Groupement de Localite</translation>
+        <translation>Texte_Groupement_de_Localite</translation>
     </message>
     <message>
         <location/>
@@ -1873,27 +1878,27 @@
     <message>
         <location/>
         <source>OrtschaftsName</source>
-        <translation>Nom localite</translation>
+        <translation>Nom_localite</translation>
     </message>
     <message>
         <location/>
         <source>OrtschaftsName_Pos</source>
-        <translation>PosNom localite</translation>
+        <translation>PosNom_localite</translation>
     </message>
     <message>
         <location/>
         <source>OrtschaftsName_PosUP2</source>
-        <translation>PosNom localiteUP2</translation>
+        <translation>PosNom_localiteUP2</translation>
     </message>
     <message>
         <location/>
         <source>OrtschaftsName_PosUP5</source>
-        <translation>PosNom localiteUP5</translation>
+        <translation>PosNom_localiteUP5</translation>
     </message>
     <message>
         <location/>
         <source>PLZ6Nachfuehrung</source>
-        <translation>Mise a jourNPA6</translation>
+        <translation>Mise_a_jourNPA6</translation>
     </message>
     <message>
         <location/>
@@ -1903,7 +1908,7 @@
     <message>
         <location/>
         <source>GEBNachfuehrung</source>
-        <translation>Mise a jourBAT</translation>
+        <translation>Mise_a_jourBAT</translation>
     </message>
     <message>
         <location/>
@@ -1913,132 +1918,132 @@
     <message>
         <location/>
         <source>LokalisationsName</source>
-        <translation>Nom localisation</translation>
+        <translation>Nom_localisation</translation>
     </message>
     <message>
         <location/>
         <source>LokalisationsNamePos</source>
-        <translation>PosNom localisation</translation>
+        <translation>PosNom_localisation</translation>
     </message>
     <message>
         <location/>
         <source>LokalisationsNamePosUP2</source>
-        <translation>PosNom localisationUP2</translation>
+        <translation>PosNom_localisationUP2</translation>
     </message>
     <message>
         <location/>
         <source>LokalisationsNamePosUP5</source>
-        <translation>PosNom localisationUP5</translation>
+        <translation>PosNom_localisationUP5</translation>
     </message>
     <message>
         <location/>
         <source>BenanntesGebiet</source>
-        <translation>Lieu denomme</translation>
+        <translation>Lieu_denomme</translation>
     </message>
     <message>
         <location/>
         <source>Strassenstueck</source>
-        <translation>Troncon rue</translation>
+        <translation>Troncon_rue</translation>
     </message>
     <message>
         <location/>
         <source>Gebaeudeeingang</source>
-        <translation>Entree batiment</translation>
+        <translation>Entree_batiment</translation>
     </message>
     <message>
         <location/>
         <source>HausnummerPos</source>
-        <translation>PosNumero maison</translation>
+        <translation>PosNumero_maison</translation>
     </message>
     <message>
         <location/>
         <source>HausnummerPosUP2</source>
-        <translation>PosNumero maisonUP2</translation>
+        <translation>PosNumero_maisonUP2</translation>
     </message>
     <message>
         <location/>
         <source>HausnummerPosUP5</source>
-        <translation>PosNumero maisonUP5</translation>
+        <translation>PosNumero_maisonUP5</translation>
     </message>
     <message>
         <location/>
         <source>GebaeudeName</source>
-        <translation>Nom batiment</translation>
+        <translation>Nom_batiment</translation>
     </message>
     <message>
         <location/>
         <source>GebaeudeNamePos</source>
-        <translation>PosNom batiment</translation>
+        <translation>PosNom_batiment</translation>
     </message>
     <message>
         <location/>
         <source>GebaeudeNamePosUP2</source>
-        <translation>PosNom batimentUP2</translation>
+        <translation>PosNom_batimentUP2</translation>
     </message>
     <message>
         <location/>
         <source>GebaeudeNamePosUP5</source>
-        <translation>PosNom batimentUP5</translation>
+        <translation>PosNom_batimentUP5</translation>
     </message>
     <message>
         <location/>
         <source>GebaeudeBeschreibung</source>
-        <translation>Description batiment</translation>
+        <translation>Description_batiment</translation>
     </message>
     <message>
         <location/>
         <source>PlanLayout</source>
-        <translation>Bord de plan</translation>
+        <translation>Bord_de_plan</translation>
     </message>
     <message>
         <location/>
         <source>Planbeschriftung</source>
-        <translation>Description plan</translation>
+        <translation>Description_plan</translation>
     </message>
     <message>
         <location/>
         <source>PlanbeschriftungPos</source>
-        <translation>PosDescription plan</translation>
+        <translation>PosDescription_plan</translation>
     </message>
     <message>
         <location/>
         <source>Koordinatenanschrift</source>
-        <translation>Indication coordonnees</translation>
+        <translation>Indication_coordonnees</translation>
     </message>
     <message>
         <location/>
         <source>KoordinatenanschriftPos</source>
-        <translation>PosIndication coord</translation>
+        <translation>PosIndication_coord</translation>
     </message>
     <message>
         <location/>
         <source>Linienobjekt</source>
-        <translation>Element lineaire</translation>
+        <translation>Element_lineaire</translation>
     </message>
     <message>
         <location/>
         <source>KoordinatenLinie</source>
-        <translation>Ligne coordonnees</translation>
+        <translation>Ligne_coordonnees</translation>
     </message>
     <message>
         <location/>
         <source>Darstellungsflaeche</source>
-        <translation>Surface representation</translation>
+        <translation>Surface_representation</translation>
     </message>
     <message>
         <location/>
         <source>PlanLayoutSymbol</source>
-        <translation>SymboleBord de plan</translation>
+        <translation>SymboleBord_de_plan</translation>
     </message>
     <message>
         <location/>
         <source>Netzkreuz</source>
-        <translation>Croix filet</translation>
+        <translation>Croix_filet</translation>
     </message>
     <message>
         <location/>
         <source>HKNachfuehrung</source>
-        <translation>Mise a jourCN</translation>
+        <translation>Mise_a_jourCN</translation>
     </message>
     <message>
         <location/>

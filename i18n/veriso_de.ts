@@ -265,6 +265,11 @@
         <translation>Projekt importieren</translation>
     </message>
     <message>
+        <location filename="veriso.py" line="139"/>
+        <source>Export project</source>
+        <translation>Projekt exportieren</translation>
+    </message>
+    <message>
         <location filename="veriso.py" line="126"/>
         <source>Delete project</source>
         <translation>Projekt löschen</translation>
@@ -725,7 +730,7 @@
     </message>
     <message>
         <location filename="checks/gebaeudeadressen/gebaeudeadressen_checklayer.py"/>
-        <source>GebÃ¤ude &gt; 12m2 ohne Eingang</source>
+        <source>GebÃ¤ude &gt; 10m2 ohne Eingang</source>
         <translation>Gebäude &gt; 10m2 ohne Eingang</translation>
     </message>
 </context>
@@ -1133,7 +1138,7 @@
     </message>
     <message>
         <location filename="checks/bb_eo/EO_Minimalflaechen.py" line="48"/>
-        <source>schmale bestockte FlÃ¤che &gt; 800 qm</source>
+        <source>schmale bestockte Flaeche &gt; 800 qm</source>
         <translation>schmale bestockte Fläche &gt; 800m2</translation>
     </message>
 </context>
@@ -2256,6 +2261,11 @@
         <location filename="checks/bb_eo/wmsBBEO.py" line="60"/>
         <source>Lawinienverb.</source>
         <translation>Lawinenverbauungen</translation>
+    </message>
+    <message>
+        <location filename="checks/bb_eo/wmsBBEO.py" line="73"/>
+        <source>GBO (geschuetzte botanische...)</source>
+        <translation>gesch. bot. Objekte</translation>
     </message>
     <message>
         <location filename="checks/bb_eo/wmsBBEO.py" line="85"/>
