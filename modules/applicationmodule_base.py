@@ -214,18 +214,23 @@ class ApplicationModuleBase(QObject):
 
         for baselayer in baselayers["baselayer"]:
             baselayer_title = baselayer["title"]
+            baselayer_url = baselayer["url"]
             try:
                 keys = list(baselayer_title.keys())
                 try:
                     baselayer_title = str(baselayer_title[locale])
+                    baselayer_url = str(baselayer_url[locale])
                     # language found
                 except:
                     # language *not* found
                     baselayer_title = str(list(baselayer_title.values())[0])
+                    baselayer_url = str(list(baselayer_url.values())[0])
             except:
                 baselayer_title = str(baselayer_title)
+                baselayer_url = str(baselayer_url)
 
             baselayer["title"] = baselayer_title
+            baselayer["url"] = baselayer_url
 
             action = QAction(baselayer_title, self.iface.mainWindow())
             menu.addAction(action)
