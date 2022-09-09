@@ -605,12 +605,12 @@
     <message>
         <location filename="fp3.py" line="+66"/>
         <source>FixpunkteKategorie3</source>
-        <translation>PointsfixesCategorie3</translation>
+        <translation>Points fixes categorie 3</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Toleranzstufen</source>
-        <translation>Niveau tolerance</translation>
+        <translation>Niveaux de tolérance</translation>
     </message>
     <message>
         <location line="+28"/>
@@ -620,12 +620,12 @@
     <message>
         <location line="+9"/>
         <source>LFP3 ausserhalb Gemeinde</source>
-        <translation>PFP3 au dehors de cummune</translation>
+        <translation>PFP3 au dehors de la commune</translation>
     </message>
     <message>
         <location line="+28"/>
         <source>Gemeindegrenze</source>
-        <translation>Limite commune</translation>
+        <translation>Limite communale</translation>
     </message>
     <message>
         <location line="-78"/>
@@ -650,7 +650,7 @@
     <message>
         <location filename="checks/fp/fp3.py" line="+68"/>
         <source>LFP3 Nachführung</source>
-        <translation>Mise à jjour PFP3</translation>
+        <translation>Mise à jour PFP3</translation>
     </message>
     <message>
         <location line="+67"/>
@@ -2101,7 +2101,7 @@
     <message>
         <location line="+4"/>
         <source>Toleranzstufen</source>
-        <translation>Niveau tolerance</translation>
+        <translation>Niveaux de tolérance</translation>
     </message>
     <message>
         <location line="+13"/>
@@ -2184,7 +2184,7 @@
     <message>
         <location line="+9"/>
         <source>BB Minimalflächen</source>
-        <translation>Surfaces CS minimales</translation>
+        <translation>Surfaces minimales CS</translation>
     </message>
     <message>
         <location line="+5"/>
@@ -2341,7 +2341,7 @@
     <message>
         <location line="+8"/>
         <source>EO Allgemein</source>
-        <translation>OD généralités</translation>
+        <translation>OD Généralités</translation>
     </message>
     <message>
         <location line="+5"/>
@@ -2365,8 +2365,8 @@
     </message>
     <message>
         <location line="+12"/>
-        <source>BEGID (EO)</source>
-        <translation>BEGID (EO)</translation>
+        <source>BEGID (OD)</source>
+        <translation>BEGID (OD)</translation>
     </message>
 </context>
 <context>
@@ -2886,7 +2886,7 @@
     <message>
         <location line="+8"/>
         <source>Gebaeudeadressen - Lokalisationstest</source>
-        <translation>Entrée de bâtiment test localisation</translation>
+        <translation>Adr. de bâtiments - test de localisation</translation>
     </message>
     <message>
         <location line="+32"/>
@@ -3021,7 +3021,7 @@
     </message>
     <message>
         <location line="+13"/>
-        <source>BEGID (EO)</source>
+        <source>BEGID (OD)</source>
         <translation>BEGID (OD)</translation>
     </message>
     <message>
@@ -3172,7 +3172,7 @@
     <message>
         <location line="+13"/>
         <source>LFP1</source>
-        <translation>LFP2</translation>
+        <translation>PFP1</translation>
     </message>
 </context>
 <context>
@@ -3475,6 +3475,11 @@
         <location line="+12"/>
         <source>Lawinienverb.</source>
         <translation>Constructions paravalanches</translation>
+    </message>
+    <message>
+        <location filename="checks/bb_eo/wmsBBEO.py" line="73"/>
+        <source>GBO (geschuetzte botanische...)</source>
+        <translation>Objets botaniques protégés</translation>
     </message>
     <message>
         <location line="+13"/>

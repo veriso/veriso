@@ -879,7 +879,7 @@
     <message>
         <location filename="checks/bb_eo/isolierte_uebrigen_gebaeudeteile.py"/>
         <source>Isolierte_Uebrigen_Gebaeudeteile</source>
-        <translation>Isolierte uebrige Gebaeudeteile</translation>
+        <translation>Isolierte übrige Gebäudeteile</translation>
     </message>
     <message>
         <location filename="checks/bb_eo/isolierte_uebrigen_gebaeudeteile.py"/>
@@ -1176,8 +1176,8 @@
     </message>
     <message>
         <location filename="checks/bb_eo/EO_allgemein.py" line="95"/>
-        <source>BEGID (EO)</source>
-        <translation>BEGID (EO)</translation>
+        <source>BEGID (OD)</source>
+        <translation>BEGID (OD)</translation>
     </message>
 </context>
 <context>
@@ -1807,8 +1807,8 @@
     </message>
     <message>
         <location filename="checks/gruda/gruda.py" line="86"/>
-        <source>BEGID (EO)</source>
-        <translation>BEGID (EO)</translation>
+        <source>BEGID (OD)</source>
+        <translation>BEGID (OD)</translation>
     </message>
     <message>
         <location filename="checks/gruda/gruda.py" line="99"/>
