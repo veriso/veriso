@@ -749,12 +749,12 @@
     <message>
         <location filename="checks/gebaeudeadressen/gebaeudeadressen_lokalisation.py"/>
         <source>Strassenstueck (geometrie) Lokalisationstest</source>
-        <translation>Strassenstueck (geometrie) Lokalisationstest</translation>
+        <translation>Strassenstueck (Geometrie) Lokalisationstest</translation>
     </message>
     <message>
         <location filename="checks/gebaeudeadressen/gebaeudeadressen_lokalisation.py"/>
         <source>Strassenstueck (anfangspunkt) Lokalisationstest</source>
-        <translation>Strassenstueck (anfangspunkt) Lokalisationstest</translation>
+        <translation>Strassenstueck (Anfangspunkt) Lokalisationstest</translation>
     </message>
     <message>
         <location filename="checks/gebaeudeadressen/gebaeudeadressen_lokalisation.py"/>
