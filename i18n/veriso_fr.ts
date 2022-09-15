@@ -814,7 +814,7 @@
     <message>
         <location/>
         <source>LokalisationsName</source>
-        <translation>Nom de localisation</translation>
+        <translation>Nom_localisation</translation>
     </message>
     <message>
         <location/>
