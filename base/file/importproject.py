@@ -549,7 +549,6 @@ class ImportProjectDialog(QDialog, FORM_CLASS):
         # key   = french translation
         # value = german translation
         translations = {}
-        translated_content = ""
         translation_csv = os.path.join(
             os.path.dirname(__file__),
             "../../modules/{}/varia/itf_translations.csv".format(self.app_module)
@@ -559,32 +558,36 @@ class ImportProjectDialog(QDialog, FORM_CLASS):
             for row in reader:
                 translations[row[1]] = row[0]
 
-        with open(self.itf, 'rb') as itf:
-            # The french tranlsation for Linienelement and Linienobjekt is Element_lineaire
-            # Therefore it is not clear when Element_lineaire means Linienelement (or Linienobjekt)
-            # We translate the first two Element_lineaire tables to Linienelement
-            # and the last one to Linienobjekt.
-            # According to the models (fr and de ili models) this should be correct.
-            linien_element_counter = 2
-            for line in itf:
+        fd, temp_itf_file = tempfile.mkstemp(suffix=f"_{os.path.basename(self.itf)}")
+        # Apparently we have to write the itf_file with iso-8859-1 (and not UTF8)
+        # or else ili2pg give back wierd error:
+        # Length restricted attribute error, even though the value does not violate the restriction
+        with open(temp_itf_file, "w", encoding="iso-8859-1") as itf_write:
+            with open(self.itf, 'rb') as itf:
+                # The french tranlsation for Linienelement and Linienobjekt is Element_lineaire
+                # Therefore it is not clear when Element_lineaire means Linienelement (or Linienobjekt)
+                # We translate the first two Element_lineaire tables to Linienelement
+                # and the last one to Linienobjekt.
+                # According to the models (fr and de ili models) this should be correct.
+                linien_element_counter = 2
+                for line in itf:
 
-                # Accoding to https://www.interlis.ch/download/interlis1/ili1_ref_d.pdf
-                # iso-8859-1 is the default encoding
-                line = line.decode("iso-8859-1")
+                    try:
+                        line = line.decode("iso-8859-1")
+                    except:
+                        line = line.decode("utf-8")
 
-                if translations.get(line.strip()) is not None:
-                    if translations.get(line.strip()) == "TABL Linienobjekt" and linien_element_counter != 0:
-                        translated_content += "TABL Linienelement\n"
-                        linien_element_counter -= 1
+                    if translations.get(line.strip()) is not None:
+                        if translations.get(line.strip()) == "TABL Linienobjekt" and linien_element_counter != 0:
+                            itf_write.write("TABL Linienelement\n")
+                            linien_element_counter -= 1
+                            continue
+
+                        itf_write.write(f"{translations.get(line.strip())}\n")
                         continue
 
-                    translated_content += f"{translations.get(line.strip())}\n"
-                    continue
+                    itf_write.write(f"{line.strip()}\n")
 
-                translated_content += f"{line.strip()}\n"
-
-        fd, temp_itf_file = tempfile.mkstemp(suffix=".itf")
-        open(temp_itf_file, "w").write(translated_content)
         return temp_itf_file
 
     def restore_cursor(self):
