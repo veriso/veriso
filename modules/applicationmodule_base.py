@@ -139,9 +139,15 @@ class ApplicationModuleBase(QObject):
                     try:
                         shortcut = QKeySequence(check["shortcut"])
                         # First unregister shortcut if already set in QGIS
+                        # Small correction:
+                        # Doing QgsGui.shortcutsManager().unregisterShortcut() does not do anything.
+                        # The shortcut is simply removed from the shortcuts manager UI,
+                        # but the "F12" key is still bound.
+                        # To correctly assign our own action to the F12 key, we have to set
+                        # the existing shortcut to an empty string.
                         shortcut_set_by_qgis = QgsGui.shortcutsManager().shortcutForSequence(shortcut)
                         if shortcut_set_by_qgis is not None:
-                            QgsGui.shortcutsManager().unregisterShortcut(shortcut_set_by_qgis)
+                            QgsGui.shortcutsManager().setKeySequence(shortcut_set_by_qgis, "")
 
                         action.setShortcut(shortcut)
                     except:
