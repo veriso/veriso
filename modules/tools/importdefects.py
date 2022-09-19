@@ -93,10 +93,10 @@ class ImportDefectsDialog(QDialog, FORM_CLASS):
         # Because shapefile column names are limited in the number of characters that can be used
         # the column `bezeichnung` will always be cut to `bezeichnun`
         # Here we check wether our layer uses `bezeichnung` or `bezeichnun` and change the name accordingly
-        with edit(tmp_layer):
-            if "bezeichnung" in defect_layers[tmp_layer.geometryType()].fields().names():
-                idx = tmp_layer.fields().indexFromName("bezeichnun")
-                tmp_layer.renameAttribute(idx, "bezeichnung")
+        if "bezeichnung" in defect_layers[tmp_layer.geometryType()].fields().names():
+            tmp_layer.startEditing()
+            idx = tmp_layer.fields().indexFromName("bezeichnun")
+            tmp_layer.renameAttribute(idx, "bezeichnung")
 
         for feat in tmp_layer.getFeatures():
             feat.setAttribute('ogc_fid', None)
@@ -127,7 +127,14 @@ class ImportDefectsDialog(QDialog, FORM_CLASS):
             except:
                 error = True
                 continue
-
+        # We rollback our changes to the tmp_layer here, because we can't commit / rollback
+        # the attribute name changes (for bezeichnung) before this line
+        # or else QGIS will just ignore our changes without any error message.
+        # This change was needed after upgrading from QGIS 3.4 to QGIS 3.22.
+        # Also if we don't rollback before we remove the layer
+        # then QGIS will ask the user if he wants to save his changes to the layer,
+        # which we also don't want.
+        tmp_layer.rollBack()
         QgsProject.instance().removeMapLayers([tmp_layer.id()])
 
         if error:

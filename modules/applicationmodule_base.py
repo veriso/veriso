@@ -7,6 +7,8 @@ from collections import OrderedDict
 from qgis.PyQt.QtCore import QCoreApplication, QObject, QSettings, Qt
 from qgis.PyQt.QtWidgets import QAction, QApplication, QMenu, QMenuBar, \
     QSizePolicy
+from qgis.PyQt.QtGui import QKeySequence
+from qgis.gui import QgsGui
 from qgis.core import QgsMessageLog, Qgis
 
 from veriso.base.utils.module import (get_topics_tables, get_baselayers,
@@ -135,7 +137,12 @@ class ApplicationModuleBase(QObject):
                     action = QAction(check_name, self.iface.mainWindow())
 
                     try:
-                        shortcut = check["shortcut"]
+                        shortcut = QKeySequence(check["shortcut"])
+                        # First unregister shortcut if already set in QGIS
+                        shortcut_set_by_qgis = QgsGui.shortcutsManager().shortcutForSequence(shortcut)
+                        if shortcut_set_by_qgis is not None:
+                            QgsGui.shortcutsManager().unregisterShortcut(shortcut_set_by_qgis)
+
                         action.setShortcut(shortcut)
                     except:
                         pass
@@ -207,18 +214,23 @@ class ApplicationModuleBase(QObject):
 
         for baselayer in baselayers["baselayer"]:
             baselayer_title = baselayer["title"]
+            baselayer_url = baselayer["url"]
             try:
                 keys = list(baselayer_title.keys())
                 try:
                     baselayer_title = str(baselayer_title[locale])
+                    baselayer_url = str(baselayer_url[locale])
                     # language found
                 except:
                     # language *not* found
                     baselayer_title = str(list(baselayer_title.values())[0])
+                    baselayer_url = str(list(baselayer_url.values())[0])
             except:
                 baselayer_title = str(baselayer_title)
+                baselayer_url = str(baselayer_url)
 
             baselayer["title"] = baselayer_title
+            baselayer["url"] = baselayer_url
 
             action = QAction(baselayer_title, self.iface.mainWindow())
             menu.addAction(action)
@@ -275,7 +287,7 @@ class ApplicationModuleBase(QObject):
             return
 
         for topic in topics:
-            topic_menu = menu.addMenu(str(topic["topic"]))
+            topic_menu = menu.addMenu(_translate(self.module_name, topic["topic"], None))
 
             action = QAction(_translate(self.module, "Load Topic", None),
                              self.iface.mainWindow())
@@ -284,7 +296,7 @@ class ApplicationModuleBase(QObject):
             action.triggered.connect(
                 lambda checked, topic=topic: self.do_show_topic(topic))
 
-            layers = get_layers_from_topic(topic)
+            layers = get_layers_from_topic(topic, self.module_name)
             for my_layer in layers:
                 action = QAction(my_layer["title"], self.iface.mainWindow())
                 topic_menu.addAction(action)
@@ -313,7 +325,7 @@ class ApplicationModuleBase(QObject):
 
         Uses an universal 'load layer' method.
         """
-        layers = get_layers_from_topic(topic)
+        layers = get_layers_from_topic(topic, self.module_name)
         for layer in layers:
             self.do_show_single_topic_layer(layer)
 
@@ -330,7 +342,7 @@ class ApplicationModuleBase(QObject):
             QMenuBar, 'VeriSO.Main.LoadDefectsMenuBar')
 
         menu = menubar.findChild(QMenu, 'VeriSO.Main.LoadDefectsMenu')
-        menu.setTitle(_translate(self.module, "Defects", None))
+        menu.setTitle(_translate(self.module_name, "Defects", None))
         self.add_defects_actions(menu)
         menubar.addMenu(menu)
 
@@ -346,7 +358,7 @@ class ApplicationModuleBase(QObject):
                 Defaults to "default".
         """
 
-        action = QAction(_translate(self.module, "Load defects layer", None),
+        action = QAction(_translate(self.module_name, "Load defects layer", None),
                          self.iface.mainWindow())
         action.setObjectName("VeriSOModule.LoadDefectsAction")
         action.triggered.connect(lambda: self.do_load_defects_wrapper(defects_type))
@@ -354,7 +366,7 @@ class ApplicationModuleBase(QObject):
 
         action = QAction(
             QCoreApplication.translate(
-                self.module, "Import defects layer"),
+                self.module_name, "Import defects layer"),
             self.iface.mainWindow())
         action.setObjectName("VeriSOModule.ImportDefectsAction")
         action.triggered.connect(lambda: self.do_import_defects(defects_type))
@@ -362,7 +374,7 @@ class ApplicationModuleBase(QObject):
 
         action = QAction(
             QCoreApplication.translate(
-                self.module, "Export defects layer .xlsx"),
+                self.module_name, "Export defects layer .xlsx"),
             self.iface.mainWindow())
         action.setObjectName("VeriSOModule.ExportDefectsAction")
         action.triggered.connect(lambda: self.do_export_defects(defects_type))
@@ -370,7 +382,7 @@ class ApplicationModuleBase(QObject):
 
         action = QAction(
             QCoreApplication.translate(
-                self.module, "Export defects layer .shp"),
+                self.module_name, "Export defects layer .shp"),
             self.iface.mainWindow())
         action.setObjectName("VeriSOModule.ExportDefectsShpAction")
         action.triggered.connect(lambda: self.do_export_defects_shp(defects_type))

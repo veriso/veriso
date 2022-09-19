@@ -240,7 +240,7 @@ class VeriSO(object):
         if projects is not None:
             grouped_projects = {}
             for project in projects:
-                module_name = project["appmodulename"]
+                module_name = tr(project["appmodulename"])
                 try:
                     module_list = grouped_projects[module_name]
                 except KeyError:

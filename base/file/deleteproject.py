@@ -24,7 +24,7 @@ class DeleteProjectDialog(QDialog, FORM_CLASS):
         self.iface = iface
         self.message_bar = self.iface.messageBar()
         self.okButton = self.buttonBox.button(QDialogButtonBox.Ok)
-        self.okButton.setText("Delete")
+        self.okButton.setText(tr("Delete", context="DeleteProject"))
 
         self.db_host = None
         self.db_name = None
