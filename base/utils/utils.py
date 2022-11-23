@@ -324,7 +324,7 @@ def open_psql_db(db_host, db_name, db_port, db_admin, db_admin_pwd):
         else:
             if not QSqlDatabase.isDriverAvailable("QPSQL"):
                 raise VerisoError('Please install the PSQL Qt driver\n'
-                                  '(libqt4-sql-psql in ubuntu).\n')
+                                  '(libqt5sql5-psql in ubuntu).\n')
 
             db = QSqlDatabase.addDatabase("QPSQL", connection_name)
             db.setHostName(db_host)
